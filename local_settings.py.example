@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+# encoding=utf-8
+
+# ROOT_DIR contains path of this folder.
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+ADMINS = (
+    # ('Your Name', 'your_email@example.com'),
+)
+
+DATABASES = {'default': {
+	'ENGINE': 'django.db.backends.sqlite3',
+	'NAME': 'pnlp2011.db'}}
+
+TIME_ZONE = 'Africa/Bamako'
+
+LANGUAGE_CODE = 'fr-fr'
+
+MEDIA_ROOT = ''
+MEDIA_URL = ''
+
+STATIC_ROOT = ''
+STATIC_URL = '/static/'
+
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+# change that one!
+SECRET_KEY = 'hsaidy8923782wkdjaskdsdas89'
+
+TEMPLATE_DIRS = ()
