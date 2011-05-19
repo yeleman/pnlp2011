@@ -1,2 +1,5 @@
 Django==1.3
-
+django-extensions
+#django-mptt
+django-reversion
+http://github.com/django-mptt/django-mptt/tarball/master#egg=django-mptt0.5

@@ -10,6 +10,6 @@ from pnlp_web import urls as pnlp_urls
 admin.autodiscover()
 
 urlpatterns = patterns('',
-	url(r'', include(pnlp_urls)),
+    url(r'', include(pnlp_urls)),
     url(r'^admin/', include(admin.site.urls)),
 )
