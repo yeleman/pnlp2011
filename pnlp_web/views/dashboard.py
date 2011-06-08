@@ -3,12 +3,13 @@
 # maintainer: rgaudin
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, RequestContext, redirect
+from django.shortcuts import render, RequestContext, redirect
 
 from pnlp_web.utils import get_level_for
+from pnlp_web.views import validation
+from pnlp_web.decorators import provider_required
 
-
-@login_required
+@provider_required
 def index(request):
     provider = request.user.get_profile()
 
@@ -22,6 +23,7 @@ def index(request):
         return index_region(request)
 
     if level == 'district':
+        return validation.validation_list(request)
         return index_district(request)
 
     return index_norole(request)
@@ -30,25 +32,22 @@ def index(request):
 @login_required
 def index_national(request):
     context = {}
-    return render_to_response('index_national.html', \
-                              context, RequestContext(request))
+    return render(request, 'index_national.html', context)
 
 
 @login_required
 def index_region(request):
     context = {}
-    return render_to_response('index_region.html', \
-                              context, RequestContext(request))
+    return render(request, 'index_region.html', context)
 
 
 @login_required
 def index_district(request):
     context = {}
-    return render_to_response('index_district.html', \
-                              context, RequestContext(request))
+    return render(request, 'index_district.html', context)
 
 
 @login_required
 def index_norole(request):
     #raise Http404
-    return render_to_response('index.html', {}, RequestContext(request))
+    return render(request, 'index.html', {})

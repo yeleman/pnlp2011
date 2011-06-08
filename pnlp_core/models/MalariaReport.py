@@ -16,8 +16,8 @@ class MalariaReport(Report):
 
     """ Complies with bolibana_reporting.DataBrowser """
 
-    YES = 1
-    NO = 0
+    YES = 'Y'
+    NO = 'N'
     YESNO = ((YES, _(u"Yes")), (NO, _(u"No")))
 
     class Meta:

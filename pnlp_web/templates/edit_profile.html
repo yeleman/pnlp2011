@@ -9,6 +9,7 @@
 <form method="POST" action="{% url profile %}" name="profile">
 {% csrf_token %}
 <table>
+<tr><th>Identifiant</th><td><input type="text" disabled="disabled" value="{{ provider.username }}" /></td></tr>
 {{ form.as_table }}
 </table>
 <input type="submit" />

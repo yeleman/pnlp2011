@@ -3,12 +3,17 @@
 # maintainer: rgaudin
 
 import smtplib
+from datetime import datetime, date, timedelta
 
 from django.core import mail
 from django.conf import settings
 from django.template import Template, loader, Context
 from django.utils.translation import ugettext as _
 from django.contrib.sites.models import Site, get_current_site
+
+from bolibana_auth.models import Access, Provider
+from bolibana_reporting.models import MonthPeriod
+from pnlp_core.models import MalariaReport
 
 
 def send_email(recipients, message=None, template=None, context={}, \
@@ -83,3 +88,81 @@ def send_email(recipients, message=None, template=None, context={}, \
 
 def full_url(request=None):
     return 'http://%(domain)s/' % {'domain': get_current_site(request).domain}
+
+
+def current_period():
+    """ Period of current date """
+    return MonthPeriod.find_create_by_date(date.today())
+
+
+def current_reporting_period():
+    """ Period of reporting period applicable (last month) """
+    return current_period().previous()
+
+
+def provider_entity(provider):
+    """ Entity a Provider is attached to """
+    return provider.default_access().target
+
+
+def get_reports_to_validate(entity, period=current_reporting_period()):
+    """ List of Entity which have sent report but are not validated """
+    return [(report.entity, report) \
+            for report \
+            in MalariaReport.unvalidated.filter(entity__in=entity.get_children(), period=period)]
+
+
+def get_validated_reports(entity, period=current_reporting_period()):
+    """ List of all Entity which report have been validated """
+    return [(report.entity, report) \
+            for report \
+            in MalariaReport.validated.filter(entity__in=entity.get_children(), period=period)]
+
+
+def get_not_received_reports(entity, period=current_reporting_period()):
+    """ List of all Entity which have not send in a report """
+    units = list(entity.get_children().all())
+    reports = MalariaReport.objects.filter(entity__in=entity.get_children(), \
+                                           period=period)
+    for report in reports:
+        units.remove(report.entity)
+    return units
+
+
+def time_over_by_delta(delta):
+    period = current_reporting_period().next()
+    today = date.today()
+    return date.fromtimestamp(float(period.start_on.strftime('%s'))) + delta <= today
+
+
+def time_cscom_over():
+    return time_over_by_delta(timedelta(days=5))
+
+
+def time_district_over():
+    return time_over_by_delta(timedelta(days=15))
+
+
+def time_region_over():
+    return time_over_by_delta(timedelta(days=25))
+
+
+def time_can_validate(entity):
+    level = entity.type.slug
+    if level == 'district':
+        return not time_district_over()
+    if level == 'region':
+        return not time_region_over()
+    return False
+
+
+def contact_for(entity):
+    ct, oi = Access.target_data(entity)
+    providers = Provider.objects.filter(access__in=Access.objects.filter(content_type=ct, object_id=oi))
+    if providers.count() == 1:
+            return providers.all()[0]
+    if providers.count() > 0:
+        return providers.all()[0]
+    if entity.parent:
+        return contact_for(entity.parent)
+    return None

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load babel %}
+
+{% block title %}Validation du rapport {{ report.receipt }}{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
+{% block page-name %}context{% endblock %}
+
+{% block content %}
+
+<div id="context">
+
+<form method="POST" action="{% url report_validation report.receipt %}">
+{% csrf_token %}
+
+<table>
+<tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Consultation</th></tr>
+<tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
+<tr><th>{{ form.u5_total_consultation_all_causes.label_tag }}</th><td>{{ form.u5_total_consultation_all_causes }}</td><td>{{ form.o5_total_consultation_all_causes }}</td><td>{{ form.pw_total_consultation_all_causes }}</td></tr>
+<tr><th>{{ form.u5_total_suspected_malaria_cases.label_tag }}</th><td>{{ form.u5_total_suspected_malaria_cases }}</td><td>{{ form.o5_total_suspected_malaria_cases }}</td><td>{{ form.pw_total_suspected_malaria_cases }}</td></tr>
+<tr><th>{{ form.u5_total_simple_malaria_cases.label_tag }}</th><td>{{ form.u5_total_simple_malaria_cases }}</td><td>{{ form.o5_total_simple_malaria_cases }}</td><td class="nodata"></td></tr>
+<tr><th>{{ form.u5_total_severe_malaria_cases.label_tag }}</th><td>{{ form.u5_total_severe_malaria_cases }}</td><td>{{ form.o5_total_severe_malaria_cases }}</td><td>{{ form.pw_total_severe_malaria_cases }}</td></tr>
+<tr><th>{{ form.u5_total_tested_malaria_cases.label_tag }}</th><td>{{ form.u5_total_tested_malaria_cases }}</td><td>{{ form.o5_total_tested_malaria_cases }}</td><td>{{ form.pw_total_tested_malaria_cases }}</td></tr>
+<tr><th>{{ form.u5_total_confirmed_malaria_cases.label_tag }}</th><td>{{ form.u5_total_confirmed_malaria_cases }}</td><td>{{ form.o5_total_confirmed_malaria_cases }}</td><td>{{ form.pw_total_confirmed_malaria_cases }}</td></tr>
+<tr><th>{{ form.u5_total_treated_malaria_cases.label_tag }}</th><td>{{ form.u5_total_treated_malaria_cases }}</td><td>{{ form.o5_total_treated_malaria_cases }}</td><td>{{ form.pw_total_treated_malaria_cases }}</td></tr>
+
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+
+<tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Hospitalisations</th></tr>
+<tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
+<tr><th>{{ form.u5_total_inpatient_all_causes.label_tag }}</th><td>{{ form.u5_total_inpatient_all_causes }}</td><td>{{ form.o5_total_inpatient_all_causes }}</td><td>{{ form.pw_total_inpatient_all_causes }}</td></tr>
+<tr><th>{{ form.u5_total_malaria_inpatient.label_tag }}</th><td>{{ form.u5_total_malaria_inpatient }}</td><td>{{ form.o5_total_malaria_inpatient }}</td><td>{{ form.pw_total_malaria_inpatient }}</td></tr>
+
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+
+<tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Décès</th></tr>
+<tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
+<tr><th>{{ form.u5_total_death_all_causes.label_tag }}</th><td>{{ form.u5_total_death_all_causes }}</td><td>{{ form.o5_total_death_all_causes }}</td><td>{{ form.pw_total_death_all_causes }}</td></tr>
+<tr><th>{{ form.u5_total_malaria_death.label_tag }}</th><td>{{ form.u5_total_malaria_death }}</td><td>{{ form.o5_total_malaria_death }}</td><td>{{ form.pw_total_malaria_death }}</td></tr>
+
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+
+<tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">MILD distribués</th></tr>
+<tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
+<tr><th>{{ form.u5_total_distributed_bednets.label_tag }}</th><td>{{ form.u5_total_distributed_bednets }}</td><td class="nodata"></td><td>{{ form.pw_total_distributed_bednets }}</td></tr>
+</table>
+
+<table>
+<tr><th>CTA</th><th>{{ form.stockout_act_children.label_tag }}</th><th>{{ form.stockout_act_youth.label_tag }}</th><th>{{ form.stockout_act_adult.label_tag }}</th></tr>
+<tr><th>Rupture de stocks pendant le mois</th><td>{{ form.stockout_act_children }}</td><td>{{ form.stockout_act_youth }}</td><td>{{ form.stockout_act_adult }}</td></tr>
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+<tr><th>PEC de Paludisme grave</th><th>{{ form.stockout_artemether.label_tag }}</th><th>{{ form.stockout_quinine.label_tag }}</th><th>{{ form.stockout_serum.label_tag }}</th></tr>
+<tr><th>Rupture de stocks pendant le mois</th><td>{{ form.stockout_artemether }}</td><td>{{ form.stockout_quinine }}</td><td>{{ form.stockout_serum }}</td></tr>
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+<tr><th></th><th>{{ form.stockout_bednet.label_tag }}</th><th>{{ form.stockout_rdt.label_tag }}</th><th>{{ form.stockout_sp.label_tag }}</th></tr>
+<tr><th>Rupture de stocks pendant le mois</th><td>{{ form.stockout_bednet }}</td><td>{{ form.stockout_rdt }}</td><td>{{ form.stockout_sp }}</td></tr>
+</table>
+
+<input type="submit" />
+</form>
+</div>
+
+{% endblock %}

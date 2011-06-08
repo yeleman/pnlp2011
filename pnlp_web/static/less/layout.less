@@ -161,7 +161,7 @@ h1.pagetitle {
     margin-bottom: 2em;
 }
 
-#content p, #content h2, #content h3, #content form, #content ul, #content li {
+#content p, #content h2, #content h3, #content form, #content ul, #content li, #content table.background {
     margin-left: 30px;
 }
 
@@ -218,6 +218,8 @@ ul#messages.hidden {
 table {
     border-collapse: collapse;
     width: 100%;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 th {
@@ -274,6 +276,7 @@ tr:hover td {
     background-color: @green;
     //opacity: .6;
 }
+
 
 em {
     font-style: italic;
@@ -392,4 +395,65 @@ h3 {
     font-weight: bold;
     margin-bottom: 1em;
     margin-top: 1em;
+}
+
+sup {vertical-align: super; }
+sub { vertical-align: sub; }
+
+table.background {
+    max-width: 622px;
+    width: auto;
+    font-size: .8em;
+}
+
+#content #sidebar {
+    position: absolute;
+    top: 24px;
+    right: 36px;
+    width: 192px;
+    padding-top: 2em;
+    padding-bottom: 1em;
+    margin-bottom: 2em;
+    background-color: @green;
+}
+
+#sidebar * {
+    color: @text-background;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+#sidebar h2 {
+    font-size: 93%;
+    background: 0;
+    margin-bottom: 2em;
+    margin-top: 0;
+}
+
+#sidebar p, li {
+    font-size: 85%;
+}
+
+#sidebar li {
+    margin-left: 0;
+}
+
+#content.withsidebar {
+    padding-right: 270px;
+}
+
+#content tr:hover td a:active, #content tr:hover td a:link, #content tr:hover td a:visited, #content tr:hover td a {
+    color: @text-background;
+}
+
+.center {
+    text-align: center;
+}
+
+html * td.nodata {
+    background-color: @background-dark;
+}
+
+tr.spacer, tr.spacer td {
+    background-color: transparent;
 }

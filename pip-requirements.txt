@@ -5,3 +5,4 @@ django-reversion
 http://github.com/django-mptt/django-mptt/tarball/master#egg=django-mptt0.5
 xlrd
 xlwt
+djangobabel

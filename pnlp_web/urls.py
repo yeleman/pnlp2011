@@ -31,6 +31,10 @@ urlpatterns = patterns('',
     # district
     url(r'^upload/$', views.excel_upload.upload_form, name='upload'),
 
+    # district, region
+    url(r'^validation/$', views.validation.validation_list, name='validation'),
+    url(r'^validation/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.validation.report_validation, name='report_validation'),
+
     # ANTIM
     url(r'^users/?$', views.providers.ProvidersListView.as_view(), \
                       name='list_users'),

@@ -105,6 +105,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'babeldjango.middleware.LocaleMiddleware',
     'pnlp_web.middleware.Http403Middleware',
 )
 
@@ -125,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.humanize',
+    'babeldjango',
     # pnlp2011 specific apps
     'nosms',
     'bolibana_reporting',

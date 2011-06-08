@@ -5,7 +5,7 @@
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, RequestContext, redirect
+from django.shortcuts import render, RequestContext, redirect
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 from pnlp_web.views.dashboard import index
@@ -74,7 +74,7 @@ def edit_profile(request):
         form = ProviderForm(provider.to_dict())
         passwd_form = ProviderPasswordForm()
 
-    context.update({'form': form, 'passwd_form': passwd_form})
+    context.update({'form': form, 'passwd_form': passwd_form, \
+                    'provider': provider})
 
-    return render_to_response('edit_profile.html', \
-                              context, RequestContext(request))
+    return render(request, 'edit_profile.html', context)
