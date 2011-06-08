@@ -15,10 +15,9 @@
 {% endif %}
 {{ form.as_table }}
 </table>
-<input type="submit" value="Enregistrer les modifications" />
+<button class="formbutt default">Enregistrer les modifications</button>
 </form>
 <p><strong>Note:</strong> Les roles nationaux (ANTIM, PNLP) ne sont pas lié à une entité.</p>
-
 {% if user_id %}
 <h2>Changer le mot de passe</h2>
 <p>Dans le cas ou {{ provider.name }} aurait perdu son mot de passe, vous pouvez en créer un nouveau pour lui.</p>
@@ -27,12 +26,11 @@
 {% else %}
 <p>{{ provider.name }} n'ayant pas enregistré son adresse e-mail, vous seul pourrez lui communiquer son nouveau mot de passe.</p>
 {% endif %}
-
-<p><a href="{% url password_user provider.id %}"><input type="button" value="Générer un nouveau mot de passe" /></a></p>
+<p><a href="{% url password_user provider.id %}"><button class="formbutt default">Générer un nouveau mot de passe</button></a></p>
 
 <h2>{% if provider.is_active %}Désactiver le compte{% else %}Activer le compte{% endif %} <em class="lower">{{ provider.username }}</em></h2>
 <p>Les comptes utilisateurs ne sont pas supprimables pour assurer l'intégrité des données.</p>
 <p>Pour supprimer l'accès d'un utilisateur au système, il faut <em>désactiver</em> son compte.</p>
-<p><a href="{% if provider.is_active %}{% url disable_user provider.id %}{% else %}{% url enable_user provider.id %}{% endif %}"><input type="button" value="{% if provider.is_active %}Désactiver le compte{% else %}Activer le compte{% endif %}" /></a></p>
+<p><a href="{% if provider.is_active %}{% url disable_user provider.id %}{% else %}{% url enable_user provider.id %}{% endif %}"><button class="formbutt default">{% if provider.is_active %}Désactiver le compte{% else %}Activer le compte{% endif %}</button></a></p>
 {% endif %}
 {% endblock %}

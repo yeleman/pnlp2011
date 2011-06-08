@@ -15,13 +15,10 @@ $("tr").each(function () {
     if ($(this).children("td").children("a").attr('href'))
         $(this).addClass('click');
 });
-$("button.linkbutt").click(function (event) {
-    location.href = $(this).attr('href');
-});
 {% endblock %}
 
 {% block content %}
-<button class="linkbutt" href="{% url add_user %}">Créer un compte utilisateur</button>
+<a href="{% url add_user %}"><button class="linkbutt">Créer un compte utilisateur</button></a>
 <table>
 <tr><th>Identifiant</th><th>Prénom</th><th>Nom</th><th>Téléphone</th><th>Accès</th></tr>
 {% for provider in users_list %}

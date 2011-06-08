@@ -474,6 +474,7 @@ button.formbutt {
     border-radius: 1.5em;
     border: 0;
     padding: 6px 30px 6px 10px;
+    margin: .5em 0 .5em 0;
     font-size: 85%;
     cursor: pointer;
     font-weight: 600;
@@ -495,6 +496,10 @@ button.formbutt.important {
 
 button.formbutt.important:hover {
     box-shadow: inset 1px 1px #96989a;
+}
+
+button.formbutt.default {
+    background-color: darken(@background-context, 10%);
 }
 
 #validate_form {

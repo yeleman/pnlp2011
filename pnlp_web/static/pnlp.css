@@ -94,9 +94,10 @@ html * td.nodata{background-color:#2d3339;}
 tr.spacer,tr.spacer td{background-color:transparent;}
 html * td.changed{background-color:orange;}
 html * td.error{background-color:#990000;}
-button.formbutt{background-color:white;color:#2c3238;text-transform:uppercase;border-radius:1.5em;border:0;padding:6px 30px 6px 10px;font-size:85%;cursor:pointer;font-weight:600;background-image:url("/static/images/button_bubble.png");background-position:98% 40%;background-repeat:no-repeat;box-shadow:inset -1px -1px #888888;}
+button.formbutt{background-color:white;color:#2c3238;text-transform:uppercase;border-radius:1.5em;border:0;padding:6px 30px 6px 10px;margin:.5em 0 .5em 0;font-size:85%;cursor:pointer;font-weight:600;background-image:url("/static/images/button_bubble.png");background-position:98% 40%;background-repeat:no-repeat;box-shadow:inset -1px -1px #888888;}
 button.formbutt:hover{box-shadow:inset 1px 1px #888;}
 button.formbutt.important{background-color:#2d3339;color:#f8f8f8;box-shadow:inset -1px -1px #96989a;}
 button.formbutt.important:hover{box-shadow:inset 1px 1px #96989a;}
+button.formbutt.default{background-color:#d2d2d2;}
 #validate_form{position:absolute;right:36px;}
 button.linkbutt{background-color:#ebebeb;color:#2c3238;text-transform:uppercase;border-radius:1.5em;border:0;padding:6px;font-size:85%;cursor:pointer;font-weight:600;box-shadow:inset -1px -1px #888888;}
