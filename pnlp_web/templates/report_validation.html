@@ -6,17 +6,29 @@
 {% block pagetitle %}<h1 class="pagetitle">rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 
+
+{% block jqueryonload %}
+$("form#report_form input, form#report_form select").change(function (event) {
+    $(this).parent().addClass('changed');
+});
+$("#reset_button").click(function (event) {
+    $("form#report_form input, form#report_form select").parent().removeClass('changed');
+    $("form#report_form")[0].reset();
+});
+{% endblock %}
+
+
 {% block content %}
 
 <div id="context">
 
-<form method="POST" action="{% url report_validation report.receipt %}">
+<form method="POST" action="{% url report_validation report.receipt %}" id="report_form">
 {% csrf_token %}
-
+<input type="button" id="reset_button" value="RESET">
 <table>
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Consultation</th></tr>
 <tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
-<tr><th>{{ form.u5_total_consultation_all_causes.label_tag }}</th><td>{{ form.u5_total_consultation_all_causes }}</td><td>{{ form.o5_total_consultation_all_causes }}</td><td>{{ form.pw_total_consultation_all_causes }}</td></tr>
+<tr><th>{{ form.u5_total_consultation_all_causes.label_tag }}</th><td{%if form.u5_total_consultation_all_causes.errors %} class="error" title="{% for error in form.u5_total_consultation_all_causes.errors %}{{ error }}{% endfor %}"{% endif %}>{{ form.u5_total_consultation_all_causes }}</td><td>{{ form.o5_total_consultation_all_causes }}</td><td>{{ form.pw_total_consultation_all_causes }}</td></tr>
 <tr><th>{{ form.u5_total_suspected_malaria_cases.label_tag }}</th><td>{{ form.u5_total_suspected_malaria_cases }}</td><td>{{ form.o5_total_suspected_malaria_cases }}</td><td>{{ form.pw_total_suspected_malaria_cases }}</td></tr>
 <tr><th>{{ form.u5_total_simple_malaria_cases.label_tag }}</th><td>{{ form.u5_total_simple_malaria_cases }}</td><td>{{ form.o5_total_simple_malaria_cases }}</td><td class="nodata"></td></tr>
 <tr><th>{{ form.u5_total_severe_malaria_cases.label_tag }}</th><td>{{ form.u5_total_severe_malaria_cases }}</td><td>{{ form.o5_total_severe_malaria_cases }}</td><td>{{ form.pw_total_severe_malaria_cases }}</td></tr>
@@ -43,6 +55,13 @@
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">MILD distribués</th></tr>
 <tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
 <tr><th>{{ form.u5_total_distributed_bednets.label_tag }}</th><td>{{ form.u5_total_distributed_bednets }}</td><td class="nodata"></td><td>{{ form.pw_total_distributed_bednets }}</td></tr>
+
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+
+<tr><th rowspan="1" class="center">Classification</th><th colspan="3" class="center">CPN/SP des femmes enceintes</th></tr>
+<tr><th>{{ form.pw_total_anc1.label_tag }}</th><td class="nodata"></td><td class="nodata"></td><td>{{ form.pw_total_anc1 }}</td></tr>
+<tr><th>{{ form.pw_total_sp1.label_tag }}</th><td class="nodata"></td><td class="nodata"></td><td>{{ form.pw_total_sp1 }}</td></tr>
+<tr><th>{{ form.pw_total_sp2.label_tag }}</th><td class="nodata"></td><td class="nodata"></td><td>{{ form.pw_total_sp2 }}</td></tr>
 </table>
 
 <table>

@@ -92,3 +92,5 @@ table.background{max-width:622px;width:auto;font-size:.8em;}
 .center{text-align:center;}
 html * td.nodata{background-color:#2d3339;}
 tr.spacer,tr.spacer td{background-color:transparent;}
+html * td.changed{background-color:orange;}
+html * td.error{background-color:red;}

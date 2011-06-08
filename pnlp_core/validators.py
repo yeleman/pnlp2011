@@ -152,12 +152,13 @@ class MalariaReportValidator(DataValidator):
                                                   self.get('hc')}, 'period')
 
         # NO DUPLICATE
-        period = MonthPeriod.find_create_from(year=self.get('year'), \
-                                              month=self.get('month'))
-        if entity and MalariaReport.objects.filter(entity=entity, \
-                                                   period=period).count() > 0:
-            self.errors.add(_(u"There is already a report for " \
-                              "that HC (%(entity)s) and that " \
-                              "period (%(period)s)") % \
-                              {'entity': entity.display_full_name(), \
-                               'period': period.name()}, 'period')
+        if not self.options.data_only:
+            period = MonthPeriod.find_create_from(year=self.get('year'), \
+                                                  month=self.get('month'))
+            if entity and MalariaReport.objects.filter(entity=entity, \
+                                                       period=period).count() > 0:
+                self.errors.add(_(u"There is already a report for " \
+                                  "that HC (%(entity)s) and that " \
+                                  "period (%(period)s)") % \
+                                  {'entity': entity.display_full_name(), \
+                                   'period': period.name()}, 'period')
