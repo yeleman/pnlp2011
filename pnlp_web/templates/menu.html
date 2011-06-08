@@ -1,7 +1,9 @@
 {% if web_provider.is_authenticated %}
     <ul>
+    {% if level = 'district' or level = 'region' %}
     <li {% if category = 'upload' %}class="hover"{% endif %}><a href="{% url upload %}">Saisie</a></li>
     <li {% if category = 'validation' %}class="hover"{% endif %}><a href="{% url validation %}">Validation</a></li>
+    {% endif %}
     <li><a href="#vs">Données brutes</a></li>
     <li><a href="#vs">Données analysées</a></li>
     {% if web_provider.main_role.slug == 'antim' %}

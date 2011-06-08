@@ -99,4 +99,4 @@ button.formbutt:hover{box-shadow:inset 1px 1px #888;}
 button.formbutt.important{background-color:#2d3339;color:#f8f8f8;box-shadow:inset -1px -1px #96989a;}
 button.formbutt.important:hover{box-shadow:inset 1px 1px #96989a;}
 #validate_form{position:absolute;right:36px;}
-a.linkbutt{background-color:#ebebeb;color:#2c3238;text-transform:uppercase;border-radius:1.5em;border:0;padding:6px;font-size:85%;cursor:pointer;font-weight:600;box-shadow:inset -1px -1px #888888;}
+button.linkbutt{background-color:#ebebeb;color:#2c3238;text-transform:uppercase;border-radius:1.5em;border:0;padding:6px;font-size:85%;cursor:pointer;font-weight:600;box-shadow:inset -1px -1px #888888;}
