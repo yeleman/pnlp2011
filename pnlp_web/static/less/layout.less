@@ -48,7 +48,7 @@ ul#user-menu {
     right: 0;
     top: 0;
     position: absolute;
-    max-width: 210px;
+    //max-width: 210px;
     list-style-type: none;
     padding-left: 20px;
     padding-right: 20px;
@@ -80,7 +80,6 @@ ul#user-menu li:hover a {
 }
 
 #menu {
-    background-color: red;
     background-image: url("@{STATIC_IMAGES}/menu_bg.png");
     height: 64px;
     position: absolute;
@@ -163,6 +162,7 @@ h1.pagetitle {
 
 #content p, #content h2, #content h3, #content form, #content ul, #content li, #content table.background {
     margin-left: 30px;
+    margin-right: 30px;
 }
 
 #content.fulltext > p:first-child:first-line,
@@ -204,6 +204,7 @@ ul#messages {
     color: @text-background;
     max-width: 30em;
     cursor: pointer;
+    z-index: 99;
 }
 
 ul#messages li {
@@ -255,6 +256,7 @@ td a, td a:visited, td a:hover, td a:link {
 }
 
 #content.context #context {
+    position: relative;
     background-color: @background-context;
     padding: 1em 0em 1em 0em;
 }
@@ -358,7 +360,6 @@ input.file.hidden {
 	position: relative;
 	opacity: 0;
 	z-index: 2;
-    background-color: red;
 }
 
 div.fakefile {
@@ -463,5 +464,55 @@ html * td.changed {
 }
 
 html * td.error {
-    background-color: red;
+    background-color: @red;
 }
+
+button.formbutt {
+    background-color: white;
+    color: @text-button;
+    text-transform: uppercase;
+    border-radius: 1.5em;
+    border: 0;
+    padding: 6px 30px 6px 10px;
+    font-size: 85%;
+    cursor: pointer;
+    font-weight: 600;
+    background-image: url("@{STATIC_IMAGES}/button_bubble.png");
+    background-position: 98% 40%;
+    background-repeat: no-repeat;
+    box-shadow: inset -1px -1px #888;
+}
+
+button.formbutt:hover {
+    box-shadow: inset 1px 1px #888;
+}
+
+button.formbutt.important {
+    background-color: @background-dark;
+    color: @text-background;
+    box-shadow: inset -1px -1px #96989a;
+}
+
+button.formbutt.important:hover {
+    box-shadow: inset 1px 1px #96989a;
+}
+
+#validate_form {
+    position: absolute;
+    right: 36px;
+}
+
+a.linkbutt {
+    background-color: @background-context;
+    color: @text-button;
+    text-transform: uppercase;
+    border-radius: 1.5em;
+    border: 0;
+    //padding: 6px 30px 6px 10px;
+    padding: 6px;
+    font-size: 85%;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: inset -1px -1px #888;
+}
+

@@ -33,6 +33,7 @@ urlpatterns = patterns('',
 
     # district, region
     url(r'^validation/$', views.validation.validation_list, name='validation'),
+    url(r'^validation/do/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.validation.report_do_validation, name='report_do_validation'),
     url(r'^validation/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.validation.report_validation, name='report_validation'),
 
     # ANTIM

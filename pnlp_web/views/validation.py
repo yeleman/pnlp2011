@@ -5,8 +5,9 @@
 from datetime import datetime
 
 from django import forms
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, RequestContext, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 
 from pnlp_core.utils import (provider_entity, current_reporting_period, \
                              get_reports_to_validate, \
@@ -111,6 +112,7 @@ def validation_list(request):
 @provider_required
 def report_validation(request, report_receipt):
     context = {'category': 'validation'}
+    web_provider = request.user.get_profile()
 
     report = get_object_or_404(MalariaReport, receipt=report_receipt)
     context.update({'report': report})
@@ -138,25 +140,47 @@ def report_validation(request, report_receipt):
 
             # create validator and fire
             validator = MalariaReportValidator(data_browser, data_only=True)
+            validator.errors.reset()
             try:
                 validator.validate()
-            except AttributeError as e:
-                message.respond(error_start + e.__str__())
-                return True
-            errors = validator.errors
-            print(data_browser)
-            print(data_browser.u5_total_simple_malaria_cases)
-            if errors.count() > 0:
-                print("VALIDATION ERROR")
-                print(errors.all(True))
+            except Exception as e:
+                logger.error(u"Exception on form validation. " \
+                             "Report %(id)d with %(e)r" \
+                             % {'id': report.id, 'e': e})
+            if validator.errors.count() > 0:
+                # validation errors
+                context.update({'all_errors': validator.errors.all(True)})
             else:
-                print("NO ERRORS! YAY")
+                # no validation error neither
+                # save report
+                new_report = form.save(commit=False)
+                new_report.modified_by = web_provider
+                new_report.modified_on = datetime.now()
+                new_report.save()
+                context.update({'saved': True, 'report': new_report})
         else:
-            print("DJANGO NOT VALID")
-            print(form.errors)
+            # django form validation errors
+            pass
     else:
         form = MalariaReportForm(instance=report)
 
     context.update({'form': form})
 
     return render(request, 'report_validation.html', context)
+
+@provider_required
+def report_do_validation(request, report_receipt):
+    context = {'category': 'validation'}
+    web_provider = request.user.get_profile()
+
+    report = get_object_or_404(MalariaReport, receipt=report_receipt)
+    report._status = MalariaReport.STATUS_VALIDATED
+    report.modified_by = web_provider
+    report.modified_on = datetime.now()
+    report.save()
+    context.update({'report': report})
+
+    messages.info(request, u"Le rapport %(receipt)s de %(entity)s " \
+                           u"a été validé." % {'receipt': report.receipt, \
+                                              'entity': report.entity})
+    return redirect('validation')

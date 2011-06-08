@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load babel %}
+{% load pnlp %}
 
 {% block title %}Validation du rapport {{ report.receipt }}{% endblock %}
 {% block pagetitle %}<h1 class="pagetitle">rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
@@ -12,8 +13,16 @@ $("form#report_form input, form#report_form select").change(function (event) {
     $(this).parent().addClass('changed');
 });
 $("#reset_button").click(function (event) {
+    event.preventDefault();
     $("form#report_form input, form#report_form select").parent().removeClass('changed');
     $("form#report_form")[0].reset();
+});
+$("form").submit(function (event) {});
+$("#validate_form").click(function (event) {
+    event.preventDefault();
+    if (confirm("Êtes vous sûr de vouloir valider le rapport ?\nUne fois validé, il ne sera plus modifiable.")) {
+        location.href = '{% url report_do_validation report.receipt %}';
+    }
 });
 {% endblock %}
 
@@ -21,61 +30,77 @@ $("#reset_button").click(function (event) {
 {% block content %}
 
 <div id="context">
-
+{% if saved %}
+<h2>Rapport sauvegardé</h2>
+<p>Vos modifications ont bien été enregistrés. Si vous êtes satisfait des données, validez le rapport.</p>
+{% endif %}
+{% if form.errors %}
+<h2>Impossible d'enregistrer les modifications. Elles contiennent {{ form.errors|length }} erreur{{ form.errors|length|pluralize }}.</h2>
+<p>Vos modifications contiennent {{ form.errors|length }} erreur{{ form.errors|length|pluralize }} de saisie.</p>
+<p>Ce sont généralement des champs laissés vide ou une erreur de frappe. Notez que les chiffres ne doivent contenir aucune séparation.</p>
+<p>Le{{ form.errors|length|pluralize }} champ{{ form.errors|length|pluralize }} concerné{{ form.errors|length|pluralize }} s'affiche{{ form.errors|length|pluralize:"nt" }} en rouge.</p>
+{% else %}
+    {% if all_errors %}
+    <h2>Impossible d'enregistrer les modifications. Elles contiennent {{ all_errors|length }} erreur{{ all_errors|length|pluralize }}.</h2>
+    <p>Les erreurs de logique suivantes ont été détectés. Ces erreurs empêchent l'enregistrement de vos modifications.</p>
+    <p>Veuillez vérifier les valeurs et les corriger avant d'enregistrer le rapport.</p>
+    <p>En cas de problème concernant les données, vous pouvez contacter {{ report.created_by.name_access }} au numéro {{ report.created_by.phone_number|phone|default:"n/a" }}.</p>
+    {% for section, errors in all_errors.items %}
+    <h3>Section {{ section|pnlpcat }}</h3>
+    <ul>
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    {% endif %}
+{% endif %}
 <form method="POST" action="{% url report_validation report.receipt %}" id="report_form">
 {% csrf_token %}
-<input type="button" id="reset_button" value="RESET">
+<button class="formbutt" id="reset_button" title="Ré-initialise les valeurs du formulaire à celles de départ.">Annuler modifications</button>
+<button class="formbutt important confirm" id="validate_form" title="Valide le rapport tel qu'enregistré.">Valider le rapport</button>
 <table>
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Consultation</th></tr>
 <tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
-<tr><th>{{ form.u5_total_consultation_all_causes.label_tag }}</th><td{%if form.u5_total_consultation_all_causes.errors %} class="error" title="{% for error in form.u5_total_consultation_all_causes.errors %}{{ error }}{% endfor %}"{% endif %}>{{ form.u5_total_consultation_all_causes }}</td><td>{{ form.o5_total_consultation_all_causes }}</td><td>{{ form.pw_total_consultation_all_causes }}</td></tr>
-<tr><th>{{ form.u5_total_suspected_malaria_cases.label_tag }}</th><td>{{ form.u5_total_suspected_malaria_cases }}</td><td>{{ form.o5_total_suspected_malaria_cases }}</td><td>{{ form.pw_total_suspected_malaria_cases }}</td></tr>
-<tr><th>{{ form.u5_total_simple_malaria_cases.label_tag }}</th><td>{{ form.u5_total_simple_malaria_cases }}</td><td>{{ form.o5_total_simple_malaria_cases }}</td><td class="nodata"></td></tr>
-<tr><th>{{ form.u5_total_severe_malaria_cases.label_tag }}</th><td>{{ form.u5_total_severe_malaria_cases }}</td><td>{{ form.o5_total_severe_malaria_cases }}</td><td>{{ form.pw_total_severe_malaria_cases }}</td></tr>
-<tr><th>{{ form.u5_total_tested_malaria_cases.label_tag }}</th><td>{{ form.u5_total_tested_malaria_cases }}</td><td>{{ form.o5_total_tested_malaria_cases }}</td><td>{{ form.pw_total_tested_malaria_cases }}</td></tr>
-<tr><th>{{ form.u5_total_confirmed_malaria_cases.label_tag }}</th><td>{{ form.u5_total_confirmed_malaria_cases }}</td><td>{{ form.o5_total_confirmed_malaria_cases }}</td><td>{{ form.pw_total_confirmed_malaria_cases }}</td></tr>
-<tr><th>{{ form.u5_total_treated_malaria_cases.label_tag }}</th><td>{{ form.u5_total_treated_malaria_cases }}</td><td>{{ form.o5_total_treated_malaria_cases }}</td><td>{{ form.pw_total_treated_malaria_cases }}</td></tr>
-
+{% include "report_form_row.html" with f1=form.u5_total_consultation_all_causes f2=form.o5_total_consultation_all_causes f3=form.pw_total_consultation_all_causes %}
+{% include "report_form_row.html" with f1=form.u5_total_suspected_malaria_cases f2=form.o5_total_suspected_malaria_cases f3=form.pw_total_suspected_malaria_cases %}
+{% include "report_form_row.html" with f1=form.u5_total_simple_malaria_cases f2=form.o5_total_simple_malaria_cases f3=form.pw_total_simple_malaria_cases %}
+{% include "report_form_row.html" with f1=form.u5_total_severe_malaria_cases f2=form.o5_total_severe_malaria_cases f3=form.pw_total_severe_malaria_cases %}
+{% include "report_form_row.html" with f1=form.u5_total_tested_malaria_cases f2=form.o5_total_tested_malaria_cases f3=form.pw_total_tested_malaria_cases %}
+{% include "report_form_row.html" with f1=form.u5_total_confirmed_malaria_cases f2=form.o5_total_confirmed_malaria_cases f3=form.pw_total_confirmed_malaria_cases %}
+{% include "report_form_row.html" with f1=form.u5_total_treated_malaria_cases f2=form.o5_total_treated_malaria_cases f3=form.pw_total_treated_malaria_cases %}
 <tr class="spacer"><td colspan="4">&nbsp;</td></tr>
-
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Hospitalisations</th></tr>
 <tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
-<tr><th>{{ form.u5_total_inpatient_all_causes.label_tag }}</th><td>{{ form.u5_total_inpatient_all_causes }}</td><td>{{ form.o5_total_inpatient_all_causes }}</td><td>{{ form.pw_total_inpatient_all_causes }}</td></tr>
-<tr><th>{{ form.u5_total_malaria_inpatient.label_tag }}</th><td>{{ form.u5_total_malaria_inpatient }}</td><td>{{ form.o5_total_malaria_inpatient }}</td><td>{{ form.pw_total_malaria_inpatient }}</td></tr>
-
+{% include "report_form_row.html" with f1=form.u5_total_inpatient_all_causes f2=form.o5_total_inpatient_all_causes f3=form.pw_total_inpatient_all_causes %}
+{% include "report_form_row.html" with f1=form.u5_total_malaria_inpatient f2=form.o5_total_malaria_inpatient f3=form.pw_total_malaria_inpatient %}
 <tr class="spacer"><td colspan="4">&nbsp;</td></tr>
-
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Décès</th></tr>
 <tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
-<tr><th>{{ form.u5_total_death_all_causes.label_tag }}</th><td>{{ form.u5_total_death_all_causes }}</td><td>{{ form.o5_total_death_all_causes }}</td><td>{{ form.pw_total_death_all_causes }}</td></tr>
-<tr><th>{{ form.u5_total_malaria_death.label_tag }}</th><td>{{ form.u5_total_malaria_death }}</td><td>{{ form.o5_total_malaria_death }}</td><td>{{ form.pw_total_malaria_death }}</td></tr>
-
+{% include "report_form_row.html" with f1=form.u5_total_death_all_causes f2=form.o5_total_death_all_causes f3=form.pw_total_death_all_causes %}
+{% include "report_form_row.html" with f1=form.u5_total_malaria_death f2=form.o5_total_malaria_death f3=form.pw_total_malaria_death %}
 <tr class="spacer"><td colspan="4">&nbsp;</td></tr>
-
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">MILD distribués</th></tr>
 <tr><th class="center">&lt; 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
-<tr><th>{{ form.u5_total_distributed_bednets.label_tag }}</th><td>{{ form.u5_total_distributed_bednets }}</td><td class="nodata"></td><td>{{ form.pw_total_distributed_bednets }}</td></tr>
-
+{% include "report_form_row.html" with f1=form.u5_total_distributed_bednets f3=form.pw_total_distributed_bednets %}
 <tr class="spacer"><td colspan="4">&nbsp;</td></tr>
-
 <tr><th rowspan="1" class="center">Classification</th><th colspan="3" class="center">CPN/SP des femmes enceintes</th></tr>
-<tr><th>{{ form.pw_total_anc1.label_tag }}</th><td class="nodata"></td><td class="nodata"></td><td>{{ form.pw_total_anc1 }}</td></tr>
-<tr><th>{{ form.pw_total_sp1.label_tag }}</th><td class="nodata"></td><td class="nodata"></td><td>{{ form.pw_total_sp1 }}</td></tr>
-<tr><th>{{ form.pw_total_sp2.label_tag }}</th><td class="nodata"></td><td class="nodata"></td><td>{{ form.pw_total_sp2 }}</td></tr>
+{% include "report_form_row.html" with f3=form.pw_total_anc1 %}
+{% include "report_form_row.html" with f3=form.pw_total_sp1 %}
+{% include "report_form_row.html" with f3=form.pw_total_sp2 %}
 </table>
 
 <table>
 <tr><th>CTA</th><th>{{ form.stockout_act_children.label_tag }}</th><th>{{ form.stockout_act_youth.label_tag }}</th><th>{{ form.stockout_act_adult.label_tag }}</th></tr>
-<tr><th>Rupture de stocks pendant le mois</th><td>{{ form.stockout_act_children }}</td><td>{{ form.stockout_act_youth }}</td><td>{{ form.stockout_act_adult }}</td></tr>
+{% include "report_form_row.html" with so=1 f1=form.stockout_act_children f2=form.stockout_act_youth f3=form.stockout_act_adult %}
 <tr class="spacer"><td colspan="4">&nbsp;</td></tr>
 <tr><th>PEC de Paludisme grave</th><th>{{ form.stockout_artemether.label_tag }}</th><th>{{ form.stockout_quinine.label_tag }}</th><th>{{ form.stockout_serum.label_tag }}</th></tr>
-<tr><th>Rupture de stocks pendant le mois</th><td>{{ form.stockout_artemether }}</td><td>{{ form.stockout_quinine }}</td><td>{{ form.stockout_serum }}</td></tr>
+{% include "report_form_row.html" with so=1 f1=form.stockout_artemether f2=form.stockout_quinine f3=form.stockout_serum %}
 <tr class="spacer"><td colspan="4">&nbsp;</td></tr>
 <tr><th></th><th>{{ form.stockout_bednet.label_tag }}</th><th>{{ form.stockout_rdt.label_tag }}</th><th>{{ form.stockout_sp.label_tag }}</th></tr>
-<tr><th>Rupture de stocks pendant le mois</th><td>{{ form.stockout_bednet }}</td><td>{{ form.stockout_rdt }}</td><td>{{ form.stockout_sp }}</td></tr>
+{% include "report_form_row.html" with so=1 f1=form.stockout_bednet f2=form.stockout_rdt f3=form.stockout_sp %}
 </table>
-
-<input type="submit" />
+<button class="formbutt" id="submit_form" title="Enregistre vos modifications.">Enregistrer les modifications</button>
 </form>
 </div>
 

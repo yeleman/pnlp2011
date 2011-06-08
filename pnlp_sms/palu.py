@@ -282,6 +282,7 @@ def palu(message):
 
     # create validator and fire
     validator = MalariaReportValidator(data_browser)
+    validator.errors.reset()
     try:
         validator.validate()
     except AttributeError as e:

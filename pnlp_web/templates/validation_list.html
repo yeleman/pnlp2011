@@ -65,7 +65,7 @@ $("#not_validated tr").each(function () {
         <h2>Rapports validés</h2>
         <ul>
         {% for entity, report in validated %}
-        <li>{{ entity.name }}</li>
+        <li>{{ entity.name }}<br />{{ report.modified_on|datefmt:"dd MMMM YYYY" }}</li>
         {% endfor %}
         </ul>
     </div>

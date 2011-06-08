@@ -67,3 +67,23 @@ def phone_number_formatter(number):
         h, indicator, clean_number = clean_number.partition(get_indicator(clean_number))
         return _(u"(%(ind)s) %(num)s") % {'ind': indicator, 'num': format(clean_number)}
     return format(clean_number)
+
+
+@register.filter(name='pnlpcat')
+@stringfilter
+def formcategories(value):
+    """ categorie name from category slug """
+    value = value.lower()
+    if value == 'u5':
+        return _(u"Children Under 5yo.")
+    if value == 'o5':
+        return _(u"Children Over 5yo.")
+    if value == 'pw':
+        return _(u"Pregnant Women")
+    if value == 'period':
+        return _(u"Reporting")
+    if value == 'fillin':
+        return _(u"Collect / Data Entry")
+    if value == 'stockout':
+        return _(u"Stock outs")
+    return _(u"Default")
