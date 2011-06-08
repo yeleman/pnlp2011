@@ -28,9 +28,9 @@ def import_locations(csv_file):
 
         # retrieve parent object if address is provided
         try:
-            parent_id = int(parent_address[3:])
+            parent_id = int(parent_address[4:])
             parent = Entity.objects.get(id=parent_id)
-        except:
+        except ValueError:
             parent = None
 
         # retrieve type from code
