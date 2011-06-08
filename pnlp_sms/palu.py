@@ -236,7 +236,7 @@ def palu(message):
             if key.split('_')[0] in ('u5', 'o5', 'pw', 'month', 'year'):
                 arguments[key] = int(value)
             if key.split('_')[0] == 'stockout':
-                arguments[key] = MalariaReport.YES if bool(value) \
+                arguments[key] = MalariaReport.YES if bool(int(value)) \
                                                    else MalariaReport.NO
     except:
         raise
