@@ -182,10 +182,6 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler',
             'formatter': 'verbose',
         },
-        'request_handler': {
-                'level':'DEBUG',
-                'class':'logging.NullHandler',
-        },
     },
     'loggers': {
         '': {
