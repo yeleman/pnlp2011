@@ -4,8 +4,8 @@
     <li {% if category = 'upload' %}class="hover"{% endif %}><a href="{% url upload %}">Saisie</a></li>
     <li {% if category = 'validation' %}class="hover"{% endif %}><a href="{% url validation %}">Validation</a></li>
     {% endif %}
-    <li><a href="#vs">Données brutes</a></li>
-    <li><a href="#vs">Données analysées</a></li>
+    <li {% if category = 'raw_data' %}class="hover"{% endif %}><a href="{% url raw_data %}">Données brutes</a></li>
+    <li {% if category = 'indicator_data' %}class="hover"{% endif %}><a href="#vs">Données analysées</a></li>
     {% if web_provider.main_role.slug == 'antim' %}
     <li {% if category = 'users' %}class="hover"{% endif %}><a href="{% url list_users %}">Utilisateurs</a></li>
     <li><a href="##">Établissements</a></li>

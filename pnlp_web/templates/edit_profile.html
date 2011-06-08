@@ -12,7 +12,7 @@
 <tr><th>Identifiant</th><td><input type="text" disabled="disabled" value="{{ provider.username }}" /></td></tr>
 {{ form.as_table }}
 </table>
-<input type="submit" />
+<button class="formbutt default">Enregistrer les modifications</button>
 </form>
 
 <h2>{% trans "Change password" %}</h2>
@@ -22,6 +22,6 @@
 <table>
 {{ passwd_form.as_table }}
 </table>
-<input type="submit" />
+<button class="formbutt default">{% trans "Change password" %}</button>
 </form>
 {% endblock %}

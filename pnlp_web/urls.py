@@ -36,6 +36,10 @@ urlpatterns = patterns('',
     url(r'^validation/do/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.validation.report_do_validation, name='report_do_validation'),
     url(r'^validation/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.validation.report_validation, name='report_validation'),
 
+    # ALL
+    url(r'^raw_data/$', views.raw_data.data_browser, name='raw_data'),
+    #url(r'^raw_data/excel/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.raw_data.excel_export, name='raw_data_excel'),
+
     # ANTIM
     url(r'^users/?$', views.providers.ProvidersListView.as_view(), \
                       name='list_users'),

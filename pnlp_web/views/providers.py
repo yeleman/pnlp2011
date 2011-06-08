@@ -133,7 +133,7 @@ def add_edit_user(request, user_id=None):
                                    % {'email': provider.email, \
                                       'e': sent_message})
             # display password if user has no email address
-            elif not provider.email:
+            elif not user_id and not provider.email:
                 messages.info(request, _(u"Please record and forward the " \
                                          "generated password: %(pass)s") \
                                        % {'pass': password})

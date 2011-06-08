@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load babel %}
+{% load pnlp %}
+
+{% block title %}Données brutes du rapport {{ report.receipt }}{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
+{% block page-name %}context{% endblock %}
+
+{% block jqueryonload %}
+{% endblock %}
+
+
+{% block content %}
+
+<div id="context">
+<p>Rapport de {{ report.entity.display_name }} pour la période de {{ report.period.middle|datefmt:"MMMM yyyy" }}</p>
+<p><strong>Type de rapport</strong>: {{ report.type|reporttype }}</p>
+<p><strong>Nº de reçu</strong>: {{ report.receipt }}</p>
+<p><strong>Auteur</strong>: {{ report.created_by.name_access }}</p>
+<p><strong>Créé le</strong>: {{ report.created_on|datetimefmt }}</p>
+<p><strong>Modifié par</strong>: {{ report.created_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
+<div class="rightbuttons"><a href=""><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
+<table class="center">
+<tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Consultation</th></tr>
+<tr><th class="center">Moins de 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
+{% include "report_form_row.html" with f1=form.u5_total_consultation_all_causes f2=form.o5_total_consultation_all_causes f3=form.pw_total_consultation_all_causes dataonly=1 %}
+{% include "report_form_row.html" with f1=form.u5_total_suspected_malaria_cases f2=form.o5_total_suspected_malaria_cases f3=form.pw_total_suspected_malaria_cases dataonly=1 %}
+{% include "report_form_row.html" with f1=form.u5_total_simple_malaria_cases f2=form.o5_total_simple_malaria_cases f3=form.pw_total_simple_malaria_cases dataonly=1 %}
+{% include "report_form_row.html" with f1=form.u5_total_severe_malaria_cases f2=form.o5_total_severe_malaria_cases f3=form.pw_total_severe_malaria_cases dataonly=1 %}
+{% include "report_form_row.html" with f1=form.u5_total_tested_malaria_cases f2=form.o5_total_tested_malaria_cases f3=form.pw_total_tested_malaria_cases dataonly=1 %}
+{% include "report_form_row.html" with f1=form.u5_total_confirmed_malaria_cases f2=form.o5_total_confirmed_malaria_cases f3=form.pw_total_confirmed_malaria_cases dataonly=1 %}
+{% include "report_form_row.html" with f1=form.u5_total_treated_malaria_cases f2=form.o5_total_treated_malaria_cases f3=form.pw_total_treated_malaria_cases dataonly=1 %}
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+<tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Hospitalisations</th></tr>
+<tr><th class="center">Moins de 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
+{% include "report_form_row.html" with f1=form.u5_total_inpatient_all_causes f2=form.o5_total_inpatient_all_causes f3=form.pw_total_inpatient_all_causes dataonly=1 %}
+{% include "report_form_row.html" with f1=form.u5_total_malaria_inpatient f2=form.o5_total_malaria_inpatient f3=form.pw_total_malaria_inpatient dataonly=1 %}
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+<tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Décès</th></tr>
+<tr><th class="center">Moins de 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
+{% include "report_form_row.html" with f1=form.u5_total_death_all_causes f2=form.o5_total_death_all_causes f3=form.pw_total_death_all_causes dataonly=1 %}
+{% include "report_form_row.html" with f1=form.u5_total_malaria_death f2=form.o5_total_malaria_death f3=form.pw_total_malaria_death dataonly=1 %}
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+<tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">MILD distribués</th></tr>
+<tr><th class="center">Moins de 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
+{% include "report_form_row.html" with f1=form.u5_total_distributed_bednets f3=form.pw_total_distributed_bednets dataonly=1 %}
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+<tr><th rowspan="1" class="center">Classification</th><th colspan="3" class="center">CPN/SP des femmes enceintes</th></tr>
+{% include "report_form_row.html" with f3=form.pw_total_anc1 dataonly=1 %}
+{% include "report_form_row.html" with f3=form.pw_total_sp1 dataonly=1 %}
+{% include "report_form_row.html" with f3=form.pw_total_sp2 dataonly=1 %}
+</table>
+
+<table class="center">
+<tr><th>CTA</th><th>{{ form.stockout_act_children.label_tag }}</th><th>{{ form.stockout_act_youth.label_tag }}</th><th>{{ form.stockout_act_adult.label_tag }}</th></tr>
+{% include "report_form_row.html" with so=1 f1=form.stockout_act_children f2=form.stockout_act_youth f3=form.stockout_act_adult dataonly=1 %}
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+<tr><th>PEC de Paludisme grave</th><th>{{ form.stockout_artemether.label_tag }}</th><th>{{ form.stockout_quinine.label_tag }}</th><th>{{ form.stockout_serum.label_tag }}</th></tr>
+{% include "report_form_row.html" with so=1 f1=form.stockout_artemether f2=form.stockout_quinine f3=form.stockout_serum dataonly=1 %}
+<tr class="spacer"><td colspan="4">&nbsp;</td></tr>
+<tr><th></th><th>{{ form.stockout_bednet.label_tag }}</th><th>{{ form.stockout_rdt.label_tag }}</th><th>{{ form.stockout_sp.label_tag }}</th></tr>
+{% include "report_form_row.html" with so=1 f1=form.stockout_bednet f2=form.stockout_rdt f3=form.stockout_sp dataonly=1 %}
+</table>
+</div>
+
+{% endblock %}

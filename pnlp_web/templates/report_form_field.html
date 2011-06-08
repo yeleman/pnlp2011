@@ -1,1 +1,2 @@
-<td{%if field.errors %} class="error" title="{% for error in field.errors %}{{ error }}{% endfor %}"{% endif %}{% if field %}{% else %} class="nodata"{% endif %}>{% if field %}{{ field }}{% endif %}</td>
+{% load pnlp %}
+<td{%if field.errors %} class="error" title="{% for error in field.errors %}{{ error }}{% endfor %}"{% endif %}{% if field %}{% else %} class="nodata"{% endif %}>{% if field %}{% if dataonly %}{{ field.value|reportvalue }}{% else %}&nbsp;{{ field }}{% endif %}{% endif %}</td>

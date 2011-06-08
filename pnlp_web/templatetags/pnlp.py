@@ -3,10 +3,18 @@
 # maintainer: rgaudin
 
 import re
+import locale
 
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.translation import ugettext as _
+
+from django.contrib.humanize.templatetags.humanize import intcomma
+
+from bolibana_reporting.models import Report
+from pnlp_core.models import MalariaReport
+
+locale.setlocale(locale.LC_ALL, '')
 
 register = template.Library()
 
@@ -87,3 +95,53 @@ def formcategories(value):
     if value == 'stockout':
         return _(u"Stock outs")
     return _(u"Default")
+
+
+@register.filter(name='reporttype')
+@stringfilter
+def report_type_verbose(value):
+    for v, name in Report.TYPES:
+        if v.__str__() == value:
+            return name
+    return value
+
+
+@register.filter(name='reportvalue')
+@stringfilter
+def report_type_verbose(value):
+    try:
+        float(value)
+        return number_format(value)
+    except:
+        return report_type_verbose(value)
+
+
+@register.filter(name='reportstockouts')
+@stringfilter
+def report_type_verbose(value):
+    for v, name in MalariaReport.YESNO:
+        if v.__str__() == value:
+            return name
+    return value
+
+
+def strnum_french(numstr):
+    return numstr.replace(',', ' ').replace('.', ',')
+
+@register.filter(name='numberformat')
+@stringfilter
+def number_format(value):
+    try:
+        format = '%d'
+        value = int(value)
+    except:
+        try:
+            format = '%f'
+            value = float(value)
+        except:
+            format = '%s'
+    try:
+        return strnum_french(locale.format(format, value, grouping=True))
+    except Exception as e:
+        pass
+    return value

@@ -160,7 +160,10 @@ h1.pagetitle {
     margin-bottom: 2em;
 }
 
-#content p, #content h2, #content h3, #content form, #content ul, #content li, #content table.background {
+#content p, #content h2, #content h3, #content form, 
+#content ul, #content li, #content table.background, 
+#content #context > table, #content #context > button,
+#content #context div {
     margin-left: 30px;
     margin-right: 30px;
 }
@@ -221,6 +224,10 @@ table {
     width: 100%;
     margin-top: 1em;
     margin-bottom: 1em;
+}
+
+#content #context > table {
+    width: 823px;
 }
 
 th {
@@ -447,7 +454,7 @@ table.background {
     color: @text-background;
 }
 
-.center {
+html * .center {
     text-align: center;
 }
 
@@ -521,3 +528,11 @@ button.linkbutt {
     box-shadow: inset -1px -1px #888;
 }
 
+.rightbuttons {
+    width: 823px;
+    text-align:right;
+}
+
+button.download {
+    background-image: url("@{STATIC_IMAGES}/button_bubble_download.png");
+}

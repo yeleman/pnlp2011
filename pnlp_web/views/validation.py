@@ -4,83 +4,25 @@
 
 from datetime import datetime
 
-from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from pnlp_core.utils import (provider_entity, current_reporting_period, \
+from pnlp_core.data import (provider_entity, current_reporting_period, \
                              get_reports_to_validate, \
                              get_validated_reports, \
                              get_not_received_reports, \
                              time_can_validate, current_period, \
                              contact_for, \
-                             time_cscom_over, time_district_over, time_region_over)
+                             MalariaDataHolder, \
+                             MalariaReportForm, \
+                             time_cscom_over, time_district_over, \
+                             time_region_over)
 
 from pnlp_web.decorators import provider_required
 from pnlp_core.models import MalariaReport
 from pnlp_core.validators import MalariaReportValidator
 
-
-class MalariaReportForm(forms.ModelForm):
-    class Meta:
-        model = MalariaReport
-        exclude = ('_status', 'type', 'receipt', 'period', \
-                   'entity', 'created_by', 'created_on', 'modified_by')
-
-class MalariaDataHolder(object):
-
-    def get(self, slug):
-        return getattr(self, slug)
-
-    def field_name(self, slug):
-        return MalariaReport._meta.get_field(slug).verbose_name
-
-    def set(self, slug, data):
-        try:
-            setattr(self, slug, data)
-        except AttributeError:
-            exec 'self.%s = None' % slug
-            setattr(self, slug, data)
-
-    def fields_for(self, cat):
-        u5fields = ['u5_total_consultation_all_causes', \
-                    'u5_total_suspected_malaria_cases', \
-                    'u5_total_simple_malaria_cases', \
-                    'u5_total_severe_malaria_cases', \
-                    'u5_total_tested_malaria_cases', \
-                    'u5_total_confirmed_malaria_cases', \
-                    'u5_total_treated_malaria_cases', \
-                    'u5_total_inpatient_all_causes', \
-                    'u5_total_malaria_inpatient', \
-                    'u5_total_death_all_causes', \
-                    'u5_total_malaria_death', \
-                    'u5_total_distributed_bednets']
-        if cat == 'u5':
-            return u5fields
-        if cat == 'o5':
-            return [f.replace('u5', 'o5') for f in u5fields][:-1]
-        if cat == 'pw':
-            fields = [f.replace('u5', 'pw') for f in u5fields]
-            fields.remove('pw_total_simple_malaria_cases')
-            fields.extend(['pw_total_anc1', 'pw_total_sp1', 'pw_total_sp2'])
-            return fields
-        if cat == 'so':
-            return ['stockout_act_children', \
-                    'stockout_act_youth', \
-                    'stockout_act_adult', \
-                    'stockout_artemether', \
-                    'stockout_quinine', \
-                    'stockout_serum', \
-                    'stockout_bednet', \
-                    'stockout_rdt', \
-                    'stockout_sp']
-
-    def data_for_cat(self, cat, as_dict=False):
-        data = []
-        for field in self.fields_for(cat):
-            data.append(self.get(field))
-        return data
 
 @provider_required
 def validation_list(request):
