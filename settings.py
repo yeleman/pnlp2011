@@ -49,9 +49,7 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
-
-
+MEDIA_ROOT = ''
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -62,7 +60,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(ROOT_DIR, os.path.join('pnlp_web','static'))
+STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -104,6 +102,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'pnlp_web.middleware.Http403Middleware',
 )
 
 ROOT_URLCONF = 'pnlp2011.urls'
@@ -156,12 +155,19 @@ LOGGING = {
 }
 
 LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-# Authentication using own model
-#AUTHENTICATION_BACKENDS = (
-#    'bolibana_auth.auth_backends.ProviderBackend',
-#)
-CUSTOM_USER_MODEL = 'bolibana_auth.Provider'
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.contrib.messages.context_processors.messages",
+    "pnlp_web.context_processors.add_provider",
+    "pnlp_web.context_processors.add_level")
+
+AUTH_PROFILE_MODULE = 'bolibana_auth.Provider'
 
 # loads custom settings from a separate file
 try:
