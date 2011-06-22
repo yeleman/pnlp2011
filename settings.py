@@ -154,6 +154,10 @@ LOGGING = {
     }
 }
 
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_SENDER = 'root@localhost'
+
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
