@@ -1,8 +1,11 @@
 # Django settings for pnlp2011 project.
 
 import os
-abs_path = os.path.abspath(__file__)
-ROOT_DIR = os.path.dirname(abs_path)
+import tempfile
+
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+LOGS_DIR = os.path.join(ROOT_DIR, 'logs')
+TEMP_DIR = tempfile.gettempdir()
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -131,25 +134,59 @@ INSTALLED_APPS = (
     'django_extensions',
 )
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
+# Logging policy:
+# debug on /tmp
+# warning+ in ./logs/
+# error+ triggers email to admin
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[%(levelname)s] %(asctime)s %(name)s/L%(lineno)d: %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'handlers': {
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'debug':{
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'formatter': 'verbose',
+            'filename': os.path.join(TEMP_DIR, 'pnlp_debug.log'),
+            'maxBytes': 1024*1024*2, # 2MB
+            'backupCount': 1
+        },
+        'file':{
+            'level':'WARNING',
+            'class':'logging.handlers.TimedRotatingFileHandler',
+            'when': 'W0',
+            'interval': 1,
+            'backupCount': 8, 
+            'formatter': 'verbose',
+            'filename': os.path.join(LOGS_DIR, 'activity.log'),
+        },
         'mail_admins': {
             'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose',
+        },
+        'request_handler': {
+                'level':'DEBUG',
+                'class':'logging.NullHandler',
+        },
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
+        '': {
+            'handlers': ['console', 'debug', 'file', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': True
         },
     }
 }
