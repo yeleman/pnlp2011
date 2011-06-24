@@ -5,6 +5,7 @@
 from django.utils.translation import ugettext_lazy as _, ugettext
 from bolibana_reporting.excel import (ExcelForm, ExcelFormField, \
                                       ExcelTypeConverter)
+from bolibana_reporting.errors import MissingData, IncorrectReportData
 from bolibana_reporting.models import Period, MonthPeriod, Entity
 from pnlp_core.models import MalariaReport
 from pnlp_core.validators import MalariaReportValidator
@@ -217,7 +218,7 @@ class MalariaExcelForm(ExcelForm):
         if variable in ('month', 'year'):
             return 'period'
         if variable in ('region', 'district', 'hc'):
-            return 'location'
+            return 'period'
         if variable.startswith('fillin_') or variable in ('author',):
             return 'fillin'
         return None
@@ -253,6 +254,8 @@ class MalariaExcelForm(ExcelForm):
             except MissingData:
                 self.missing_value(fieldid)
                 complete = False
+                continue
+
 
             if value == None:
                 self.missing_value(fieldid)

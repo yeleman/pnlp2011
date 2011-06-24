@@ -26,3 +26,4 @@ def formcategories(value):
         return _(u"Collect / Data Entry")
     if value == 'stockout':
         return _(u"Stock outs")
+    return _(u"Default")
