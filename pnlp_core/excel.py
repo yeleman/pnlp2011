@@ -165,10 +165,10 @@ class MalariaExcelForm(ExcelForm):
                                      MalariaReport._meta.get_field(\
                                           'stockout_act_adult').verbose_name, \
                                      cast_args=YN_MAP),
-    'stockout_arthemeter': ExcelFormField('M11', \
+    'stockout_artemether': ExcelFormField('M11', \
                                      ExcelTypeConverter.NormalizedChoiceList, \
                                      MalariaReport._meta.get_field(\
-                                         'stockout_arthemeter').verbose_name, \
+                                         'stockout_artemether').verbose_name, \
                                      cast_args=YN_MAP),
     'stockout_quinine': ExcelFormField('M12', \
                                      ExcelTypeConverter.NormalizedChoiceList, \
@@ -296,7 +296,7 @@ class MalariaExcelForm(ExcelForm):
             return ['stockout_act_children', \
                     'stockout_act_youth', \
                     'stockout_act_adult', \
-                    'stockout_arthemeter', \
+                    'stockout_artemether', \
                     'stockout_quinine', \
                     'stockout_serum', \
                     'stockout_bednet', \

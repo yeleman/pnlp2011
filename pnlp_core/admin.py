@@ -60,7 +60,7 @@ class MalariaReportAdmin(admin.ModelAdmin):
       (_(u"Stock Outs"), {
            'fields': (('stockout_act_children', 'stockout_act_youth', \
                        'stockout_act_adult'), \
-                      ('stockout_arthemeter', 'stockout_quinine', \
+                      ('stockout_artemether', 'stockout_quinine', \
                        'stockout_serum'), \
                       ('stockout_bednet', 'stockout_rdt', 'stockout_sp'))
        }),

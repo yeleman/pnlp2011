@@ -51,7 +51,7 @@ class MalariaDataHolder(object):
             return ['stockout_act_children', \
                     'stockout_act_youth', \
                     'stockout_act_adult', \
-                    'stockout_arthemeter', \
+                    'stockout_artemether', \
                     'stockout_quinine', \
                     'stockout_serum', \
                     'stockout_bednet', \
@@ -224,7 +224,7 @@ def palu(message):
         'pw_total_sp1', \
         'pw_total_sp2', \
         'stockout_act_children', 'stockout_act_youth', 'stockout_act_adult', \
-        'stockout_arthemeter', 'stockout_quinine', 'stockout_serum', \
+        'stockout_artemether', 'stockout_quinine', 'stockout_serum', \
         'stockout_bednet', 'stockout_rdt', 'stockout_sp']
         args_values = message.text.strip().lower().split()
         arguments = dict(zip(args_names, args_values))

@@ -105,7 +105,7 @@ class MalariaReport(Report):
                                           max_length=1, choices=YESNO)
     stockout_act_adult = models.CharField(_(u"ACT Adult"), \
                                           max_length=1, choices=YESNO)
-    stockout_arthemeter = models.CharField(_(u"Arthemeter"), \
+    stockout_artemether = models.CharField(_(u"Artemether"), \
                                            max_length=1, choices=YESNO)
     stockout_quinine = models.CharField(_(u"Quinine"), \
                                         max_length=1, choices=YESNO)
@@ -210,7 +210,7 @@ class MalariaReport(Report):
     def add_stockout_data(self, stockout_act_children, \
                                 stockout_act_youth, \
                                 stockout_act_adult, \
-                                stockout_arthemeter, \
+                                stockout_artemether, \
                                 stockout_quinine, \
                                 stockout_serum, \
                                 stockout_bednet, \
@@ -219,7 +219,7 @@ class MalariaReport(Report):
         self.stockout_act_children = stockout_act_children
         self.stockout_act_youth = stockout_act_youth
         self.stockout_act_adult = stockout_act_adult
-        self.stockout_arthemeter = stockout_arthemeter
+        self.stockout_artemether = stockout_artemether
         self.stockout_quinine = stockout_quinine
         self.stockout_serum = stockout_serum
         self.stockout_bednet = stockout_bednet
