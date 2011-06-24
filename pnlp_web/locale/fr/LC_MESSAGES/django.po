@@ -1,0 +1,179 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pnlp_web\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-20 15:15+0000\n"
+"PO-Revision-Date: 2011-06-20 15:18-0000\n"
+"Last-Translator: renaud gaudin <reg@yeleman.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Basepath: ../../../\n"
+
+#: templates/403.html:4
+msgid "Access Denied!"
+msgstr "Accès refusé !"
+
+#: templates/403.html:8
+msgid "Access Denied"
+msgstr "Accès refusé"
+
+#: templates/base.html:19
+msgid "Edit your informations"
+msgstr "Modifier vos informations"
+
+#: templates/base.html:20
+msgid "Log out"
+msgstr "Se déconnecter"
+
+#: templates/base.html:20
+msgid "Disconnect"
+msgstr "Déconnecter"
+
+#: templates/base.html:22
+#: templates/login_django.html:23
+msgid "Log in"
+msgstr "S'identifier"
+
+#: templates/base.html:24
+msgid "View Help Topics"
+msgstr "Voir les page d'aide"
+
+#: templates/base.html:24
+msgid "Help"
+msgstr "Aide"
+
+#: templates/base.html:49
+msgid "Contact Us"
+msgstr "Contactez nous"
+
+#: templates/base.html:49
+msgid "Contact"
+msgstr "Contact"
+
+#: templates/base.html:50
+msgid "About PNLP"
+msgstr "À propos du PNLP"
+
+#: templates/base.html:50
+msgid "About"
+msgstr "À propos"
+
+#: templates/edit_profile.html:4
+#: templates/edit_profile.html.py:5
+msgid "My Profile"
+msgstr "Mon profil"
+
+#: templates/edit_profile.html:8
+msgid "My personnal informations"
+msgstr "Mes informations personnelles"
+
+#: templates/edit_profile.html:17
+msgid "Change password"
+msgstr "Changer de mot de passe"
+
+#: templates/index.html:4
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/index.html:5
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: templates/login_django.html:7
+msgid "Unable to log you in with this username and password."
+msgstr "Impossible de vous identifier avec cet identifiant et ce mot de passe."
+
+#: templates/login_django.html:14
+msgid "Username"
+msgstr "Identifiant"
+
+#: templates/login_django.html:18
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/logout_django.html:6
+msgid "Logged out!"
+msgstr "Déconnecté !"
+
+#: templates/logout_django.html:7
+msgid "You have been disconnected."
+msgstr "Vous avez été déconnecté."
+
+#: templatetags/excel.py:18
+msgid "Children Under 5yo."
+msgstr "Enfants de moins de 5ans"
+
+#: templatetags/excel.py:20
+msgid "Children Over 5yo."
+msgstr "Enfants de 5ans et plus"
+
+#: templatetags/excel.py:22
+msgid "Pregnant Women"
+msgstr "Femmes enceintes"
+
+#: templatetags/excel.py:24
+msgid "Reporting"
+msgstr "Rapport"
+
+#: templatetags/excel.py:26
+msgid "Collect / Data Entry"
+msgstr "Remplissage / Collecte"
+
+#: templatetags/excel.py:28
+msgid "Stock outs"
+msgstr "Rupture de stocks"
+
+#: views/profile.py:15
+#: views/providers.py:15
+msgid "First Name"
+msgstr "Prénom"
+
+#: views/profile.py:17
+#: views/providers.py:17
+msgid "Last Name"
+msgstr "Nom"
+
+#: views/profile.py:19
+#: views/providers.py:19
+msgid "E-mail Address"
+msgstr "Adresse e-mail"
+
+#: views/profile.py:21
+#: views/providers.py:21
+msgid "Phone Number"
+msgstr "Nº de téléphone"
+
+#: views/profile.py:26
+msgid "New Password"
+msgstr "Nouveau mot de passe"
+
+#: views/profile.py:28
+msgid "Confirm New Password"
+msgstr "Confirmer le nouveau mot de passe"
+
+#: views/profile.py:35
+msgid "You must confirm your password"
+msgstr "Vous devez confirmer votre mot de passe"
+
+#: views/profile.py:37
+msgid "Your passwords do not match"
+msgstr "Les deux mots de passe ne correspondent pas"
+
+#: views/profile.py:56
+msgid "Profile details updated."
+msgstr "Profil mis à jour."
+
+#: views/profile.py:66
+msgid "Password updated."
+msgstr "Mot de passe mis à jour."
+

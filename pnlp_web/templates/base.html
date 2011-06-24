@@ -1,0 +1,72 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>PNLP | {% block title %}Programe National de Lutte conte le Paludisme{% endblock %} - Routine Paludisme</title>
+    <link rel="stylesheet" media="screen" type="text/css" href="{% url static 'pnlp.css' %}" title="PNLP 2011" />
+    <link rel="shortcut icon" href="{% url static 'images/pnlp_favicon.png' %}" />
+    {% block javascript %}
+    
+    {% endblock %}
+    <script type="text/javascript" src="{% url static 'jquery-1.6.1.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $("ul#messages").click(function(event){
+             //$(this).addClass('hidden');
+             $(this).hide("slow");
+           });
+           $("#logo").click(function(event) {
+                location.href = '{% url index %}';
+           });
+           {% block jqueryonload %}{% endblock %}
+         });
+    </script>
+</head>
+<body>
+    <div id="page">
+
+        <div id="header" class="mainbox">
+            <div id="logo"></div>
+            <h1><a href="{% url index %}">PNLP – Programe National de Lutte contre le Paludisme</a></h1>
+
+            <ul id="user-menu">
+            {% if web_provider.is_authenticated %}
+            <li><a href="{% url profile %}" title="{% trans 'Edit your informations' %}">{{ web_provider.get_full_name }}</a></li>
+            <li><a href="{% url logout %}" title="{% trans 'Log out' %}">{% trans "Disconnect" %}</a></li>
+            {% else %}
+            <li><a href="{% url login %}" title="{% trans 'Log in' %}">{% trans "Log in" %}</a></li>
+            {% endif %}
+            <li><a href="{% url help %}" title="{% trans 'View Help Topics' %}">{% trans "Help" %}</a></li>
+            <!--
+            <li><a href="{% url support %}" title="Contact Technical Support">Contact</a></li>
+            <li><a href="{% url about %}" title="About this Web Site">About</a></li>-->
+            </ul>
+
+            <div id="breadcrumbs">{%block breadcrumbs %}{% endblock %}</div>
+            <div id="menu">{% include "menu.html" with category=category%}</div>
+        </div>
+
+        <div id="content" class="mainbox {% block page-name %}default{% endblock %}">
+        {% if messages %}
+        <ul id="messages" title="{% trans 'Informative Messages. Click to hide.' %}">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% block pagetitle %}{% endblock %}
+        {% block content %}
+        {% endblock %}
+        </div>
+
+        <div id="footer">
+        <ul>
+            <li><a href="{% url support %}" title="{% trans 'Contact Us' %}">{% trans "Contact" %}</a></li>
+            <li><a href="{% url about %}" title="{% trans 'About PNLP' %}">{% trans "About" %}</a></li>
+        </ul>
+        </div>
+    </div>
+</body>
+</html>

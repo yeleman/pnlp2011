@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Access Denied!" %}{% endblock %}
+
+{% block content %}
+
+<h1>{% trans "Access Denied" %}</h1>
+<p>Your credentials does not grant you access to this resource.</p>
+<p>If you believe you should be able to access, please contact <a href="{% url support %}">Technical Support</a></p>
+
+{% endblock %}

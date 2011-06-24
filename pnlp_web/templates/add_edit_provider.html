@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Modification de {{ provider.username }}{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Modification du compte de {{ provider.name }} (<em class="lower">{{ provider.username }}</em>)</h1>{% endblock %}
+
+{% block content %}
+<h2>Modifier les informations</h2>
+
+<form method="POST" action="{% if user_id %}{% url edit_user user_id=user_id %}{% else %}{% url add_user %}{% endif %}" name="profile">
+{% csrf_token %}
+<table>
+{% if user_id %}
+<tr><th>Identifiant</th><td><input type="text" disabled="disabled" value="{{ provider.username }}" /></td></tr>
+{% endif %}
+{{ form.as_table }}
+</table>
+<input type="submit" value="Enregistrer les modifications" />
+</form>
+<p><strong>Note:</strong> Les roles nationaux (ANTIM, PNLP) ne sont pas lié à une entité.</p>
+
+<h2>Changer le mot de passe</h2>
+<p>Dans le cas ou {{ provider.name }} aurait perdu son mot de passe, vous pouvez en créer un nouveau pour lui.</p>
+<p>Une fois le nouveau créé, il lui sera impossible d'utiliser l'ancien et vous devrez communiquer rapidement ce nouveau mot de passe.</p>
+{% if provider.email %}<p>{{ provider.name }} ayant enregistré son adresse e-mail, il recevra son nouveau mot de passe par e-mail immédiatement.</p>
+{% else %}
+<p>{{ provider.name }} n'ayant pas enregistré son adresse e-mail, vous seul pourrez lui communiquer son nouveau mot de passe.</p>
+{% endif %}
+<p><a href="{% url password_user provider.id %}"><input type="button" value="Générer un nouveau mot de passe" /></a></p>
+
+<h2>{% if provider.is_active %}Désactiver le compte{% else %}Activer le compte{% endif %} <em class="lower">{{ provider.username }}</em></h2>
+<p>Les comptes utilisateurs ne sont pas supprimables pour assurer l'intégrité des données.</p>
+<p>Pour supprimer l'accès d'un utilisateur au système, il faut <em>désactiver</em> son compte.</p>
+<p><a href="{% if provider.is_active %}{% url disable_user provider.id %}{% else %}{% url enable_user provider.id %}{% endif %}"><input type="button" value="{% if provider.is_active %}Désactiver le compte{% else %}Activer le compte{% endif %}" /></a></p>
+
+{% endblock %}

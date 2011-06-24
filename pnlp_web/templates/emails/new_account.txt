@@ -1,0 +1,16 @@
+Bonjour {{ provider.name }},
+
+{{ creator.name }} vient de créer un compte pour vous sur le système de gestion des informations de routine Paludisme du PNLP.
+Vous y êtes désormais enregistré avec les informations suivantes:
+
+Identifiant:    {{ provider.username }}
+Mot de passe:   {{ password }}
+Accès:          {{ provider.default_access }}
+
+Vous pouvez acceder au système à l'adresse suivante: {{ url }}
+
+En cas de problème, contactez l'ANTIM.
+
+Cordialement,
+Le PNLP.
+

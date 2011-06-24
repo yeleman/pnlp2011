@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}500 Error!{% endblock %}
+
+{% block content %}
+
+<h1>Erreur #500</h1>
+<p>The web page you requested raised an error.</p>
+<p>If you followed a legitimate link, please contact <a href="{% url support %}">Technical Support</a>.</p>
+
+{% endblock %}

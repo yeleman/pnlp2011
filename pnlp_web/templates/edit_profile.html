@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "My Profile" %}{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">{% trans "My Profile" %}</h1>{% endblock %}
+
+{% block content %}
+<h2>{% trans "My personnal informations" %}</h2>
+<form method="POST" action="{% url profile %}" name="profile">
+{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<input type="submit" />
+</form>
+
+<h2>{% trans "Change password" %}</h2>
+
+<form method="POST" action="{% url profile %}" name="passwd">
+{% csrf_token %}
+<table>
+{{ passwd_form.as_table }}
+</table>
+<input type="submit" />
+</form>
+{% endblock %}
