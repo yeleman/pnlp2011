@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.humanize',
     # pnlp2011 specific apps
     'bolibana_reporting',
     'bolibana_auth',
