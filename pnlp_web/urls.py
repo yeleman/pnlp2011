@@ -17,6 +17,8 @@ ENTITY_TIME_REGEX = r'(?P<entity_code>[a-z0-9A-Z\.\_\-]+)/' \
                      'to(?P<to_m>[0-9]{2})(?P<to_y>[0-9]{4})'
 
 urlpatterns = patterns('',
+    (r'^nosms/', include('nosms.urls')),
+
     url(r'^/?$', views.dashboard.index, name='index'),
     url(r'^profile/$', views.profile.edit_profile, name='profile'),
 

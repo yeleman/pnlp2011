@@ -3,11 +3,19 @@
 # maintainer: rgaudin
 
 import datetime
+import logging
+
+from django.conf import settings
 
 from bolibana_auth.models import Provider
 from bolibana_reporting.models import Entity, MonthPeriod
 from pnlp_core.validators import MalariaReportValidator
 from pnlp_core.models import MalariaReport
+
+from nosms.models import Message
+
+
+logger = logging.getLogger(__name__)
 
 
 class MalariaDataHolder(object):
@@ -65,28 +73,6 @@ class MalariaDataHolder(object):
         return data
 
 
-class Message(object):
-
-    def __init__(self, identity, text):
-
-        self.author = identity
-        self.recipient = identity
-        self.text = text
-        now = datetime.datetime.now()
-        self.creation_date = now
-        self.reception_date = now
-
-    def to_dict(self):
-        return {'author': self.author, 'text': self.text}
-
-    def send(self):
-        print("SENDING[%d] to %s: %s" \
-              % (self.text.__len__(), self.recipient, self.text))
-
-    def respond(self, text):
-        print("RESPONDING[%d] to %s: %s" % (text.__len__(), self.author, text))
-
-
 def entity_for(provider):
         entity = None
         for access in provider.access.all():
@@ -95,11 +81,21 @@ def entity_for(provider):
         return entity
 
 
+def nosms_handler(message):
+    if main_palu_handler(message):
+        message.status = Message.STATUS_PROCESSED
+        message.save()
+        logger.info("[HANDLED] msg: %s" % message)
+        return True
+    logger.info("[NOT HANDLED] msg : %s" % message)
+    return False
+
+
 def main_palu_handler(message):
-    if message.text.startswith('palu '):
-        if message.text.startswith('palu passwd'):
+    if message.text.lower().startswith('palu '):
+        if message.text.lower().startswith('palu passwd'):
             return palu_passwd(message)
-        elif message.text.startswith('palu aide'):
+        elif message.text.lower().startswith('palu aide'):
             return palu_help(message)
         else:
             return palu(message)
@@ -139,7 +135,7 @@ def palu_help(message):
         text_message = "[DEMANDE AIDE] %(provider)s de %(entity)s." \
                        % {'provider': provider, 'entity': entity_for(provider)}
 
-    m = Message(hotline, text_message)
+    m = Message(identity=hotline, text=text_message)
     m.send()
     return True
 
@@ -253,7 +249,8 @@ def palu(message):
         provider = Provider.objects.get(user__username=arguments['username'])
     except Provider.DoesNotExist:
         message.respond(error_start + "Ce nom d'utilisateur " +
-                                      "(%s) n'existe pas." % username)
+                                      "(%s) n'existe pas." % \
+                                      arguments['username'])
         return True
     if not provider.check_password(arguments['password']):
         message.respond(error_start + "Votre mot de passe est incorrect.")
@@ -315,8 +312,8 @@ def palu(message):
         message.respond(error_start + "Une erreur technique s'est produite. " \
                         "Reessayez plus tard et contactez ANTIM si " \
                         "le probleme persiste.")
-        # log that error
-        raise
+        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
+                     % (message.text, e))
         return True
 
     message.respond("[SUCCES] Le rapport de %(cscom)s pour %(period)s "
@@ -326,33 +323,3 @@ def palu(message):
                        'period': report.period, \
                        'receipt': report.receipt})
     return True
-
-
-def launch():
-    messages = []
-    m = Message('73120896', "palu passwd test")
-    messages.append(m)
-
-    m = Message('73120896', "palu passwd rgaudin     rega  padgim ")
-    messages.append(m)
-
-    m = Message('73120896', "palu passwd a     a  b ")
-    messages.append(m)
-
-    m = Message('73120896', "palu a b 5 2011 100 51 50 1 51 51 51 10 3 3 0 " \
-                            "12 100 60 50 6 60 56 5 14 6 5 1 100 20 18 20 " \
-                            "18 5 10 8 3 1 34 12 14 45 1 1 0 0 1 0 1 0 1")
-    messages.append(m)
-
-    m = Message('73120896', "palu aide u:")
-    messages.append(m)
-
-    for message in messages:
-        print("*** RECEIVING[%d] %s FROM %s." % (message.text.__len__(), \
-                                                 message.text, message.author))
-        treated = main_palu_handler(message)
-        print("*** TREATED: %s" % treated)
-
-
-if __name__ == '__main__':
-    launch()

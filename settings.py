@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     # pnlp2011 specific apps
+    'nosms',
     'bolibana_reporting',
     'bolibana_auth',
     'pnlp_core',
@@ -199,6 +200,12 @@ EMAIL_SENDER = 'root@localhost'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+NOSMS_HANDLER = 'pnlp_sms.palu.nosms_handler'
+NOSMS_TRANSPORT_HOST = 'localhost'
+NOSMS_TRANSPORT_PORT = 13013
+#NOSMS_TRANSPORT_USERNAME = None
+#NOSMS_TRANSPORT_PASSWORD = None
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
