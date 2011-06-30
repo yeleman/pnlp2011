@@ -27,7 +27,7 @@
 <tr><th>CSCom ayant envoyés leur rapport</th><td>{{ received_cscom_reports }}</td></tr>
 <tr><th>Rapports primaires validés</th><td>{{ cscom_reports_validated }}</td></tr>
 <tr><th>Rapports de districts validés</th><td>{{ district_reports_validated }}</td></tr>
-<tr><th>Taux de rapportage</th><td class="reporting_rate {{ reporting_rate|rate_class }}">{{ reporting_rate|percent }}</td></tr>
+<tr><th>Taux de rapportage</th><td class="reporting_rate {{ reporting_rate|rate_class }}">{{ reporting_rate|percent:2 }}</td></tr>
 </table>
 
 {% if time_cscom_over %}
