@@ -103,7 +103,7 @@ def report_type_verbose(value):
 
 
 def strnum_french(numstr):
-    if locale.getdefaultlocale()[0].startswith('fr'):
+    if locale.getdefaultlocale()[0].__str__().startswith('fr'):
         return numstr
     else:
         return numstr.replace(',', ' ').replace('.', ',')
@@ -170,6 +170,8 @@ def string_index(value, index):
 @register.filter(name='percent')
 @stringfilter
 def format_percent(value, precision=2, french=True):
+    if value == u'n/a':
+        return value
     try:
         return number_format(float(value) * 100, precision, french) + '%'
     except:
