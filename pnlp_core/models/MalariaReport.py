@@ -342,6 +342,7 @@ class MalariaReport(Report):
         def region_id(slug):
             return slug.upper()[0:2]
 
+        region = 'ML'
         for ent in instance.entity.get_ancestors().reverse():
             if ent.type == region_type:
                 region = region_id(ent.slug)

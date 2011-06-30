@@ -110,18 +110,18 @@ class MalariaReportCreated(Alert):
 
                 # we now have a national report
                 logger.info(u"Report %s found." % report)
-                report.status = MalariaReport.STATUS_VALIDATED
+                report._status = MalariaReport.STATUS_VALIDATED
                 report.save()
 
                 # send emails
                 ct, oi = Access.target_data(Entity.objects.get(slug='mali'))
                 nat_access = list(Access.objects.filter(content_type=ct, \
                                                         object_id=oi))
-                providers = Provider.active\
+                providers = list(Provider.active\
                                     .select_related()\
                                     .filter(user__email__isnull=False, \
                                             access__in=nat_access)\
-                                    .values_list('user__email', flat=True)
+                                    .values_list('user__email', flat=True))
 
                 rurl = full_url(path=reverse('raw_data', \
                                    kwargs={'entity_code': report.entity.slug, \
@@ -287,7 +287,8 @@ class EndOfDistrictPeriod(Alert):
 
     def get_alert_id(self):
         """ should happen once per month only """
-        return self.args.period.middle().strftime('%m%Y')
+        prefix = 'district' if self.args.is_district else 'region'
+        return '%s_%s' % (prefix, self.args.period.middle().strftime('%m%Y'))
 
     def can_trigger(self, *args, **kwargs):
         # triggers happens if:
@@ -322,7 +323,7 @@ class EndOfDistrictPeriod(Alert):
         for report in MalariaReport.unvalidated\
                                    .filter(period=self.args.period, \
                                            entity__type__slug=validate_level):
-            report.status = MalariaReport.STATUS_VALIDATED
+            report._status = MalariaReport.STATUS_VALIDATED
             if author:
                 report.modified_by = author
             report.modified_on = datetime.now()
@@ -338,7 +339,7 @@ class EndOfDistrictPeriod(Alert):
                                                      entity, rauthor)
             # region auto-validates their reports
             if not self.args.is_district:
-                report.status = MalariaReport.STATUS_VALIDATED
+                report._status = MalariaReport.STATUS_VALIDATED
                 report.save()
 
         # region-only section
@@ -522,7 +523,7 @@ class EndOfMonth(Alert):
         message = u"[PNLP] La periode %(period)s va commencer. " \
                     "Il faut envoyer du credit aux utilisateurs." \
                   % {'period': self.args.period.next()\
-                                               .middle().full_name()}
+                                               .full_name()}
 
         send_sms(to=settings.HOTLINE_NUMBER, text=message)
 

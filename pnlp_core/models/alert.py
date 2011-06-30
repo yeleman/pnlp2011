@@ -84,6 +84,7 @@ class Alert(models.Model):
             self.action()
         except Exception as e:
             logger.error(u"%(alert)s raised %(e)r" % {'alert': self, 'e': e})
+            raise
         else:
             if self.args.persist:
                 self.save()

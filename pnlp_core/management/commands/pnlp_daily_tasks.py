@@ -13,7 +13,7 @@ from pnlp_core.data import current_reporting_period
 from pnlp_core.alerts import (EndOfCSComPeriod, \
                                     EndOfDistrictPeriod, \
                                     MalariaReportCreated, \
-                                    Reminder)
+                                    Reminder, EndOfMonth)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -70,3 +70,7 @@ class Command(BaseCommand):
 
         # last day of month
         #   send SMS+email to hotline so they send units to everybody
+        eom = EndOfMonth.create(period=period)
+        if eom.can_trigger():
+            logger.info("End of Month.")
+            eom.trigger()
