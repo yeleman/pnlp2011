@@ -1,0 +1,9 @@
+{% load babel %}
+<select class="{{ class }}">
+{% if novalue %}
+<li><option value="-1" label="{{ novalue }}">{{ novalue }}</option>
+{% endif %}
+{% for itemid, item in items %}
+<li{% if selected = itemid %} selected="selected"{% endif %}><option value="itemid" label="{{ item }}">{{ item|datefmt:"MMMM YYYY" }}</option>
+{% endfor %}
+</select>

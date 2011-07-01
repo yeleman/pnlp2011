@@ -3,17 +3,25 @@
 {% load babel %}
 {% load pnlp %}
 
-{% block title %}Données brutes du rapport {{ report.receipt }}{% endblock %}
-{% block pagetitle %}<h1 class="pagetitle">Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
+{% block title %}{% if no_report %}Aucun rapport disponible{% else %}Données brutes du rapport {{ report.receipt }}{% endif %}{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">{% if no_report %}Aucun rapport disponible{% else %}Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
+
+{% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.main_role %}{% endblock %}
 
 {% block jqueryonload %}
 {% endblock %}
 
-
 {% block content %}
+<div id="period_nav"><p>Période {% include "generic_select.html" with class="browser" items=periods selected=period %}</select></p></div>
 
 <div id="context">
+
+{% if no_report %}
+<p>Désolé, il n'existe <strong>aucun</strong> rapport validé auquel vous puissiez accèder.</p>
+<p>Peut-être devriez-vous revenir plus tard…</p>
+{%else %}
+
 <p>Rapport de {{ report.entity.display_name }} pour la période de {{ report.period.middle|datefmt:"MMMM yyyy" }}</p>
 <p><strong>Type de rapport</strong>: {{ report.type|reporttype }}</p>
 <p><strong>Nº de reçu</strong>: {{ report.receipt }}</p>
@@ -53,15 +61,15 @@
 </table>
 
 <table class="center">
-<tr><th>CTA</th><th>{{ form.stockout_act_children.label_tag }}</th><th>{{ form.stockout_act_youth.label_tag }}</th><th>{{ form.stockout_act_adult.label_tag }}</th></tr>
+<tr><th>CTA</th><th class="center">{{ form.stockout_act_children.label_tag }}</th><th class="center">{{ form.stockout_act_youth.label_tag }}</th><th class="center">{{ form.stockout_act_adult.label_tag }}</th></tr>
 {% include "report_form_row.html" with so=1 f1=form.stockout_act_children f2=form.stockout_act_youth f3=form.stockout_act_adult dataonly=1 %}
 <tr class="spacer"><td colspan="4">&nbsp;</td></tr>
-<tr><th>PEC de Paludisme grave</th><th>{{ form.stockout_artemether.label_tag }}</th><th>{{ form.stockout_quinine.label_tag }}</th><th>{{ form.stockout_serum.label_tag }}</th></tr>
+<tr><th>PEC de Paludisme grave</th><th class="center">{{ form.stockout_artemether.label_tag }}</th><th class="center">{{ form.stockout_quinine.label_tag }}</th><th class="center">{{ form.stockout_serum.label_tag }}</th></tr>
 {% include "report_form_row.html" with so=1 f1=form.stockout_artemether f2=form.stockout_quinine f3=form.stockout_serum dataonly=1 %}
 <tr class="spacer"><td colspan="4">&nbsp;</td></tr>
-<tr><th></th><th>{{ form.stockout_bednet.label_tag }}</th><th>{{ form.stockout_rdt.label_tag }}</th><th>{{ form.stockout_sp.label_tag }}</th></tr>
+<tr><th></th><th class="center">{{ form.stockout_bednet.label_tag }}</th><th class="center">{{ form.stockout_rdt.label_tag }}</th><th class="center">{{ form.stockout_sp.label_tag }}</th></tr>
 {% include "report_form_row.html" with so=1 f1=form.stockout_bednet f2=form.stockout_rdt f3=form.stockout_sp dataonly=1 %}
 </table>
+{% endif %}
 </div>
-
 {% endblock %}

@@ -22,7 +22,9 @@
            });
            {% block jqueryonload %}{% endblock %}
          });
+         {% block inlinejs %}{% endblock %}
     </script>
+    
 </head>
 <body>
     <div id="page">
@@ -46,8 +48,9 @@
 
             <div id="breadcrumbs">{%block breadcrumbs %}{% endblock %}</div>
             <div id="menu">{% include "menu.html" with category=category%}</div>
+           
         </div>
-
+        {% block submenu %}{% endblock %}
         <div id="content" class="mainbox {% block page-name %}default{% endblock %} {% block content-class %}{% endblock %}">
         {% if messages %}
         <ul id="messages" title="{% trans 'Informative Messages. Click to hide.' %}">

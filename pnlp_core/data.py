@@ -151,3 +151,10 @@ def contact_for(entity):
     if entity.parent:
         return contact_for(entity.parent)
     return None
+
+def most_accurate_report(provider, period=current_reporting_period()):
+    return MalariaReport.validated.all()[0]
+
+
+def raw_data_periods_for(entity):
+    return [r.period for r in MalariaReport.validated.filter(entity=entity)]
