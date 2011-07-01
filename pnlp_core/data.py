@@ -153,8 +153,26 @@ def contact_for(entity):
     return None
 
 def most_accurate_report(provider, period=current_reporting_period()):
-    return MalariaReport.validated.all()[0]
+    try:
+        return MalariaReport.validated.filter(period=period)[0]
+    except:
+        return None
 
 
 def raw_data_periods_for(entity):
-    return [r.period for r in MalariaReport.validated.filter(entity=entity)]
+    return [r.mperiod for r in MalariaReport.validated.filter(entity=entity)]
+
+def entities_path(root, entity):
+    paths = []
+    if entity.get_children():
+        p = {'selected': None, 'elems': entity_children(entity)}
+        paths.append(p)
+    while entity.parent and not entity == root:
+        p = {'selected': entity.id, 'elems': entity_children(entity.parent)}
+        paths.append(p)
+        entity = entity.parent
+    paths.reverse()
+    return paths
+
+def entity_children(entity):
+    return [(e.id, e) for e in entity.get_children()]

@@ -7,13 +7,16 @@
 {% block pagetitle %}<h1 class="pagetitle">{% if no_report %}Aucun rapport disponible{% else %}Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 
-{% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.main_role %}{% endblock %}
+{% block submenu %}{% if no_report %}{% else %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.main_role paths=paths %}{% endif %}{% endblock %}
 
 {% block jqueryonload %}
 {% endblock %}
 
 {% block content %}
-<div id="period_nav"><p>Période {% include "generic_select.html" with class="browser" items=periods selected=period %}</select></p></div>
+{% if no_report %}
+{% else %}
+<div id="period_nav"><p>Période {% include "generic_select.html" with class="browser" items=periods selected=period datefilter="MMMM YYYY" %}</select></p></div>
+{% endif %}
 
 <div id="context">
 
@@ -27,7 +30,7 @@
 <p><strong>Nº de reçu</strong>: {{ report.receipt }}</p>
 <p><strong>Auteur</strong>: {{ report.created_by.name_access }}</p>
 <p><strong>Créé le</strong>: {{ report.created_on|datetimefmt }}</p>
-<p><strong>Modifié par</strong>: {{ report.created_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
+<p><strong>Modifié par</strong>: {{ report.modified_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
 <div class="rightbuttons"><a href=""><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
 <table class="center">
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Consultation</th></tr>

@@ -4,6 +4,6 @@
 <li><option value="-1" label="{{ novalue }}">{{ novalue }}</option>
 {% endif %}
 {% for itemid, item in items %}
-<li{% if selected = itemid %} selected="selected"{% endif %}><option value="itemid" label="{{ item }}">{{ item|datefmt:"MMMM YYYY" }}</option>
+<li><option value="itemid" label="{{ item }}"{% if selected = itemid %} selected="selected"{% endif %}>{% if datefilter %}{{ item|datefmt:datefilter }}{% else %}{{ item }}{% endif %}</option>
 {% endfor %}
 </select>

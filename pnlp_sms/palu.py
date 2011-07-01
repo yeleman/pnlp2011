@@ -11,8 +11,10 @@ from bolibana_auth.models import Provider
 from bolibana_reporting.models import Entity, MonthPeriod
 from pnlp_core.validators import MalariaReportValidator
 from pnlp_core.models import MalariaReport
+from pnlp_core.data import contact_for
 
 from nosms.models import Message
+from nosms.utils import send_sms
 
 
 logger = logging.getLogger(__name__)
@@ -323,4 +325,16 @@ def palu(message):
                     % {'cscom': report.entity.display_full_name(), \
                        'period': report.period, \
                        'receipt': report.receipt})
+    try:
+        to = contact_for(report.entity.parent).phone_number
+    except:
+        raise
+        to = None
+    if not to:
+        return True
+    send_sms(to, u"[ALERTE] Le CSCom %(cscom)s vient d'envoyer le " \
+                 "rapport #%(receipt)s pour %(period)s." \
+                 % {'cscom': report.entity.display_full_name(), \
+                    'period': report.period, \
+                    'receipt': report.receipt})
     return True

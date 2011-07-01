@@ -94,7 +94,8 @@ def add_edit_user(request, user_id=None):
 
                 # create Provider
                 provider = Provider.create_provider(username, \
-                                                    password, access=[access])
+                                                    'xx', access=[access])
+                provider.set_password(password)
             # we have a valid provider whatever the case. update details
             provider.first_name = form.cleaned_data.get('first_name')
             provider.last_name = form.cleaned_data.get('last_name')

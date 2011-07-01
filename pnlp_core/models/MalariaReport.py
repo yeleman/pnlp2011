@@ -9,7 +9,7 @@ from django.contrib import admin
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-from bolibana_reporting.models import EntityType, Entity, Report
+from bolibana_reporting.models import EntityType, Entity, Report, MonthPeriod
 
 
 class MalariaReport(Report):
@@ -114,6 +114,13 @@ class MalariaReport(Report):
                                        max_length=1, choices=YESNO)
     stockout_rdt = models.CharField(_(u"RDTs"), max_length=1, choices=YESNO)
     stockout_sp = models.CharField(_(u"SPs"), max_length=1, choices=YESNO)
+
+    @property
+    def mperiod(self):
+        """ casted period to MonthPeriod """
+        mp = self.period
+        mp.__class__ = MonthPeriod
+        return mp
 
     @classmethod
     def start(cls, period, entity, author, \

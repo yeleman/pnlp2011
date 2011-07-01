@@ -20,6 +20,7 @@ def index(request):
         return index_national(request)
 
     if level == 'region':
+        return validation.validation_list(request)
         return index_region(request)
 
     if level == 'district':
