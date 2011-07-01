@@ -156,6 +156,6 @@ select.browser{background-color:white;color:#2c3238;text-transform:uppercase;bor
 #content.download table img{display:none;}
 #content.download table a,#content.download table a:link,#content.download table a:hover,#content.download table a:active{font-weight:bold;color:#2d2d2d;}
 .reporting_rate{color:#ffffff;font-weight:bold;}
-.success{background-color:#88d16f;}
-.warning{background-color:#f85607;}
+td.success{background-color:#88d16f;}
+td.warning{background-color:#f85607;}
 input.hidden{display:block;}

@@ -6,7 +6,7 @@
 
 {% block title %}Rapports en attente de validation{% endblock %}
 {% block pagetitle %}<h1 class="pagetitle">Rapports à valider pour la période de {{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
-{% block content-class %}{% if validated %}withsidebar{% endif %}{% endblock %}
+{% block content-class %}{% if validated %}context withsidebar{% endif %}{% endblock %}
 
 {% block jqueryonload %}addJQEventsForValidationList();{% endblock %}
 
@@ -21,6 +21,17 @@
     {% endif %}
     <p>Une fois passé ce délai, les rapports sont automatiquement validés.</p>
 {% else %}
+    {% if validated %}
+    <div id="sidebar">
+        <h2>Rapports validés</h2>
+        <ul>
+        {% for entity, report in validated %}
+        <li><strong>{{ entity.name }}</strong><br />{{ report.modified_on|datefmt:"dd MMMM YYYY" }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
     <h2>Rapports en attente de validation</h2>
     {% if not_validated %}
     <table id="not_validated" class="background">
@@ -49,16 +60,6 @@
     {% else %}
     <p>Tous les rapports ont été envoyés.</p>
     {% endif %}
-
-    {% if validated %}
-    <div id="sidebar">
-        <h2>Rapports validés</h2>
-        <ul>
-        {% for entity, report in validated %}
-        <li>{{ entity.name }}<br />{{ report.modified_on|datefmt:"dd MMMM YYYY" }}</li>
-        {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
 {% endif %}
+<div id='next-container' style='clear:right;'></div>
 {% endblock %}

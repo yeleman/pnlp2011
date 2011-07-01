@@ -1,7 +1,9 @@
 {% if web_provider.is_authenticated %}
     <ul>
-    {% if level = 'district' or level = 'region' %}
+    {% if level = 'district' %}
     <li {% if category = 'upload' %}class="hover"{% endif %}><a href="{% url upload %}">Saisie</a></li>
+    {% endif %}
+    {% if level = 'district' or level = 'region' %}
     <li {% if category = 'validation' %}class="hover"{% endif %}><a href="{% url validation %}">Validation</a></li>
     {% endif %}
     <li {% if category = 'raw_data' %}class="hover"{% endif %}><a href="{% url raw_data %}">Données brutes</a></li>
