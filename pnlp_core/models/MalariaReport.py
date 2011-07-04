@@ -24,6 +24,7 @@ class MalariaReport(Report):
         app_label = 'pnlp_core'
         verbose_name = _(u"Malaria Report")
         verbose_name_plural = _(u"Malaria Reports")
+        unique_together = ('period', 'entity', 'type')
 
     u5_total_consultation_all_causes = models.PositiveIntegerField( \
                                            _(u"Total Consultation All Causes"))
@@ -114,6 +115,8 @@ class MalariaReport(Report):
                                        max_length=1, choices=YESNO)
     stockout_rdt = models.CharField(_(u"RDTs"), max_length=1, choices=YESNO)
     stockout_sp = models.CharField(_(u"SPs"), max_length=1, choices=YESNO)
+
+    sources = models.ManyToManyField('MalariaReport')
 
     @property
     def mperiod(self):
@@ -233,6 +236,17 @@ class MalariaReport(Report):
         self.stockout_rdt = stockout_rdt
         self.stockout_sp = stockout_sp
 
+    def to_dict(self):
+        d = {}
+        for field in self._meta.get_all_field_names():
+            try:
+                if not field.split('_')[0] in ('u5', 'o5', 'pw', 'stockout'):
+                    continue
+            except:
+                continue
+            d[field] = getattr(self, field)
+        return d
+
     @classmethod
     def generate_receipt(cls, instance):
         """ generates a reversable text receipt for a MalariaReport
@@ -277,6 +291,31 @@ class MalariaReport(Report):
         validator = MalariaReportValidator(self)
         validator.validate()
         return validator.errors
+
+    @classmethod
+    def create_aggregated(cls, period, entity, author, *args, **kwargs):
+        agg_report = cls.start(period, entity, author, \
+               type=Report.TYPE_AGGREGATED, *args, **kwargs)
+
+        sources = MalariaReport.validated.filter(period=period, \
+            entity__in=entity.get_children())
+        for report in sources:
+            for key, value in report.to_dict().items():
+                pv = getattr(agg_report, key)
+                if not pv:
+                    nv = value
+                elif pv in (cls.YES, cls.NO):
+                    if pv == cls.YES:
+                        nv = pv
+                    else:
+                        nv = value
+                else:
+                    nv = pv + value
+                setattr(agg_report, key, nv)
+            agg_report.sources.add(report)
+
+        agg_report.save()
+        return agg_report
 
 
 @receiver(pre_save, sender=MalariaReport)

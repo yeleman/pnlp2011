@@ -105,6 +105,14 @@ def report_type_verbose(value):
             return name
     return value
 
+@register.filter(name='reportstatus')
+@stringfilter
+def report_status_verbose(value):
+    for v, name in Report.STATUSES:
+        if v.__str__() == value:
+            return name
+    return value
+
 
 @register.filter(name='reportvalue')
 @stringfilter

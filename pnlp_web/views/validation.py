@@ -19,18 +19,23 @@ from pnlp_core.data import (provider_entity, current_reporting_period, \
                              time_cscom_over, time_district_over, \
                              time_region_over)
 
-from pnlp_web.decorators import provider_required
+from pnlp_web.decorators import provider_required, provider_permission
 from pnlp_core.models import MalariaReport
 from pnlp_core.validators import MalariaReportValidator
+from pnlp_core.data import provider_can_or_403
 
 
-@provider_required
+@provider_permission('can_validate_report')
 def validation_list(request):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
 
     entity = provider_entity(web_provider)
     period = current_reporting_period()
+
+    # check permission or raise 403
+    # should never raise as already checked by decorator
+    provider_can_or_403('can_validate_report', web_provider, entity)
 
     not_sent = [(ent, contact_for(ent)) for ent in get_not_received_reports(entity, period)]
 
@@ -51,7 +56,7 @@ def validation_list(request):
 
     return render(request, 'validation_list.html', context)
 
-@provider_required
+@provider_permission('can_validate_report')
 def report_validation(request, report_receipt):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
@@ -59,11 +64,12 @@ def report_validation(request, report_receipt):
     report = get_object_or_404(MalariaReport, receipt=report_receipt)
     context.update({'report': report})
 
+    # check permission or raise 403
+    provider_can_or_403('can_validate_report', web_provider, report.entity)
+
     if request.method == 'POST':
         form = MalariaReportForm(request.POST, instance=report)
         if form.is_valid():
-            #print(form.cleaned_data)
-            print("DJANGO VALID")
             data_browser = MalariaDataHolder()
 
             # feed data holder with sms provided data
@@ -110,12 +116,16 @@ def report_validation(request, report_receipt):
 
     return render(request, 'report_validation.html', context)
 
-@provider_required
+@provider_permission('can_validate_report')
 def report_do_validation(request, report_receipt):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
 
     report = get_object_or_404(MalariaReport, receipt=report_receipt)
+
+    # check permission or raise 403
+    provider_can_or_403('can_validate_report', web_provider, report.entity)
+
     report._status = MalariaReport.STATUS_VALIDATED
     report.modified_by = web_provider
     report.modified_on = datetime.now()

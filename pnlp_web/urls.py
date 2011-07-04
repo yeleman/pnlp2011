@@ -9,6 +9,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
 
 from pnlp_web import views
+from pnlp_web.decorators import provider_permission
 from settings import STATIC_ROOT
 from bolibana_auth.models import Provider
 
@@ -43,7 +44,7 @@ urlpatterns = patterns('',
     #url(r'^raw_data/excel/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.raw_data.excel_export, name='raw_data_excel'),
 
     # ANTIM
-    url(r'^users/?$', views.providers.ProvidersListView.as_view(), \
+    url(r'^users/?$', provider_permission('can_manage_users')(views.providers.ProvidersListView.as_view()), \
                       name='list_users'),
     url(r'^users/add$', views.providers.add_edit_user, name='add_user'),
     url(r'^users/edit/(?P<user_id>[0-9]+)$', \

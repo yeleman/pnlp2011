@@ -13,15 +13,16 @@ from pnlp_core.data import (MalariaDataHolder, \
                             raw_data_periods_for, \
                             provider_entity, \
                             entities_path, \
+                            provider_can_or_403, \
                             current_reporting_period)
 
 from bolibana_reporting.models import Entity, MonthPeriod
-from pnlp_web.decorators import provider_required
+from pnlp_web.decorators import provider_required, provider_permission
 from pnlp_core.models import MalariaReport
 from pnlp_core.validators import MalariaReportValidator
 
 
-@provider_required
+@provider_permission('can_view_raw_data')
 def data_browser(request, entity_code=None, period_str=None):
     context = {'category': 'raw_data'}
     web_provider = request.user.get_profile()
@@ -51,7 +52,11 @@ def data_browser(request, entity_code=None, period_str=None):
         entity = web_provider.first_target()
     context.update({'entity': entity})
 
+    print(web_provider.name_access())
+    print(entity)
+
     # check permissions on this entity and raise 403
+    provider_can_or_403('can_view_raw_data', web_provider, entity)
 
     # build entities browser
     context.update({'root': root, \
@@ -61,17 +66,35 @@ def data_browser(request, entity_code=None, period_str=None):
     all_periods = raw_data_periods_for(entity)
     if period_str and not period in all_periods:
         raise Http404(_(u"No report for that period"))
+
+    try:
+        # get validated report for that period and location
+        report = MalariaReport.validated.get(entity=entity, period=period)
+    except MalariaReport.DoesNotExist:
+        # district users need to be able to see the generated report
+        # which have been created based on their validations/data.
+        # if a district is looking at its root district and report exist
+        # but not validated, we show it (with period) and no valid flag
+        if web_provider.first_role().slug == 'district' and root == entity:
+            try:
+                report = MalariaReport.unvalidated.get(entity=entity, period=period)
+                if not period in all_periods:
+                    all_periods.insert(0, period)
+            except:
+                report = None
+        else:
+            report = None
+
+    # send period variables to template
     context.update({'periods': [(p.middle().strftime('%m%Y'), p.middle()) \
                                 for p in all_periods], \
                     'period': period})
 
-    try:
-        report = MalariaReport.validated.get(entity=entity, period=period)
-    except MalariaReport.DoesNotExist:
-        context.update({'no_report': True})
-    else:
+    if report:
         context.update({'report': report})
         form = MalariaReportForm(instance=report)
         context.update({'form': form})
+    else:
+        context.update({'no_report': True})
 
     return render(request, 'raw_data.html', context)

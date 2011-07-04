@@ -126,9 +126,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    # pnlp2011 specific apps
     'django.contrib.humanize',
     'babeldjango',
-    # pnlp2011 specific apps
+    'django_conditions',
     'nosms',
     'bolibana_reporting',
     'bolibana_auth',
@@ -205,6 +206,9 @@ NOSMS_TRANSPORT_HOST = 'localhost'
 NOSMS_TRANSPORT_PORT = 13013
 #NOSMS_TRANSPORT_USERNAME = None
 #NOSMS_TRANSPORT_PASSWORD = None
+
+HOTLINE_NUMBER = "00000000"
+HOTLINE_EMAIL = "root@localhost"
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",

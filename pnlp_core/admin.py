@@ -14,7 +14,8 @@ class MalariaReportAdmin(admin.ModelAdmin):
            'fields': ('receipt', \
                       ('_status', 'type'), \
                       ('period', 'entity'), \
-                      ('created_by', 'modified_by'))
+                      ('created_by', 'modified_by'), \
+                      'sources')
        }),
        (_(u"Under 5"), {
             'fields': (('u5_total_consultation_all_causes', \

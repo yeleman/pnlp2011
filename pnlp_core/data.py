@@ -114,22 +114,21 @@ def get_not_received_reports(entity, period=current_reporting_period()):
     return units
 
 
-def time_over_by_delta(delta):
-    period = current_reporting_period().next()
+def time_over_by_delta(delta, period=current_period()):
     today = date.today()
     return date.fromtimestamp(float(period.start_on.strftime('%s'))) + delta <= today
 
 
-def time_cscom_over():
-    return time_over_by_delta(timedelta(days=5))
+def time_cscom_over(period=current_period()):
+    return time_over_by_delta(timedelta(days=5), period)
 
 
-def time_district_over():
-    return time_over_by_delta(timedelta(days=15))
+def time_district_over(period=current_period()):
+    return time_over_by_delta(timedelta(days=15), period)
 
 
-def time_region_over():
-    return time_over_by_delta(timedelta(days=25))
+def time_region_over(period=current_period()):
+    return time_over_by_delta(timedelta(days=25), period)
 
 
 def time_can_validate(entity):
@@ -176,3 +175,35 @@ def entities_path(root, entity):
 
 def entity_children(entity):
     return [(e.slug, e) for e in entity.get_children()]
+
+
+def provider_can(permission, provider, entity=None):
+    """ bolean if(not) provider has permission on entity or descendants """
+    from bolibana_auth.models import Permission
+
+    for access in provider.access.all():
+        if access.role.permissions.filter(slug=permission).count() > 0:
+            # provider as access. Not entity was queried.
+            if entity == None:
+                return True
+
+            # if entity was queried, we need to find out if entity is
+            # within the descendants of provider's one.
+            if entity == access.target \
+            or entity in access.target.get_descendants():
+                return True
+    return False
+
+def provider_can_or_403(permission, provider, entity):
+    """ returns provider_can() or raise Http403 """
+    from pnlp_web.http import Http403
+    if provider_can(permission, provider, entity):
+        return True
+    else:
+        if entity:
+            message = _(u"You don't have permission %(perm)s on %(entity)s") \
+                      % {'perm': permission, \
+                         'entity': entity.display_full_name()}
+        else:
+            message = _(u"You don't have permission %(perm)s")
+        raise Http403(message)

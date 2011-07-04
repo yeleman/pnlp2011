@@ -241,7 +241,7 @@ class MalariaExcelForm(ExcelForm):
                            'field': field.display_name()}, \
                         self.section_from_variable(variable))
 
-    def is_complete(self):
+    def is_complete(self, *args, **kwargs):
         """ Test all required fields for emptyness """
         blank_fields = ('region', 'district')
         complete = True
@@ -262,9 +262,9 @@ class MalariaExcelForm(ExcelForm):
                 complete = False
         return complete
 
-    def validate(self):
+    def validate(self, *args, **kwargs):
         """ Triggers malaria routine Validator """
-        validator = MalariaReportValidator(self)
+        validator = MalariaReportValidator(self, **kwargs)
         validator.errors.reset()
         validator.validate()
         self.errors.fusion(validator.errors)

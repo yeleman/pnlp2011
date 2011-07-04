@@ -4,11 +4,11 @@
 
 from django import forms
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, RequestContext, redirect
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 from pnlp_web.views.dashboard import index
+from pnlp_web.decorators import provider_required
 
 
 class ProviderForm(forms.Form):
@@ -40,7 +40,7 @@ class ProviderPasswordForm(forms.Form):
         return password2
 
 
-@login_required
+@provider_required
 def edit_profile(request):
     context = {}
     provider = request.user.get_profile()

@@ -7,7 +7,6 @@ import logging
 from django import forms
 from django.http import Http404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, RequestContext, redirect
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.views.generic import ListView
@@ -17,6 +16,7 @@ from bolibana_auth.models import Role, Provider, Access
 from bolibana_auth.utils import username_from_name, random_password
 from bolibana_reporting.models import Entity
 from pnlp_core.utils import send_email, full_url
+from pnlp_web.decorators import provider_permission
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +58,7 @@ class EditProviderForm(forms.Form):
                                  label=ugettext_lazy(u"Entity"))
 
 
-@login_required
+@provider_permission('can_manage_users')
 def add_edit_user(request, user_id=None):
     context = {'category': 'users'}
     web_provider = request.user.get_profile()
@@ -67,7 +67,6 @@ def add_edit_user(request, user_id=None):
 
         form = EditProviderForm(request.POST)
         if form.is_valid():
-
             # build an Access based on Role and Entity selected
             role = Role.objects.get(slug=form.cleaned_data.get('role'))
             # if a national role, force attachment to root entity
@@ -140,7 +139,18 @@ def add_edit_user(request, user_id=None):
                                        % {'pass': password})
 
             return redirect(add_edit_user, provider.id)
-
+        else:
+            try:
+                provider = Provider.objects.get(id=user_id)
+                provider_data = provider.to_dict()
+            except Provider.DoesNotExist:
+                raise Http404
+            try:
+                provider_data.update({'entity': provider.first_target().id, \
+                                      'role': provider.first_role().slug})
+            except:
+                pass
+    # GET METHOD
     else:
         if user_id:
             # user_id might be forged and thus innexistant
@@ -165,7 +175,7 @@ def add_edit_user(request, user_id=None):
     return render(request, 'add_edit_provider.html', context)
 
 
-@login_required
+@provider_permission('can_manage_users')
 def enable_disable_user(request, user_id, activate):
     """ change user's active satus """
     try:
@@ -189,7 +199,7 @@ def enable_disable_user(request, user_id, activate):
     return redirect('edit_user', provider.id)
 
 
-@login_required
+@provider_permission('can_manage_users')
 def password_user(request, user_id):
     """ Generate new password for user """
     web_provider = request.user.get_profile()

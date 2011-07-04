@@ -9,6 +9,7 @@ from bolibana_reporting.validator import DataValidator
 from bolibana_reporting.errors import MissingData, IncorrectReportData
 from bolibana_reporting.models import Entity, EntityType, MonthPeriod
 from pnlp_core.models import MalariaReport
+from pnlp_core.data import provider_can, time_cscom_over
 
 
 class MalariaReportValidator(DataValidator):
@@ -125,6 +126,14 @@ class MalariaReportValidator(DataValidator):
                                        (self.get('month').__str__().zfill(2), \
                                         self.get('year'))}, 'period')
 
+        # NO PAST
+        period = MonthPeriod.find_create_from(year=self.get('year'), \
+                                                  month=self.get('month'))
+        if time_cscom_over(period):
+            self.errors.add(_(u"The reporting time frame for that " \
+                              "period (%(period)s) is over.") \
+                            % {'period': period}, 'period')
+
         # DATE DAY / MONTH / YEAR
         try:
             date(self.get('fillin_year'), \
@@ -162,3 +171,11 @@ class MalariaReportValidator(DataValidator):
                                   "period (%(period)s)") % \
                                   {'entity': entity.display_full_name(), \
                                    'period': period.name()}, 'period')
+
+        # User can create such report
+        if self.options.author:
+            if not provider_can('can_submit_report', self.options.author, entity):
+                self.errors.add(_(u"You don't have permission to send " \
+                                  "a report for that " \
+                                  "location (%(loc)s).") \
+                                % {'loc': entity.display_full_name()})

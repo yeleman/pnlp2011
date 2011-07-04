@@ -3,3 +3,4 @@
 # maintainer: rgaudin
 
 from MalariaReport import MalariaReport
+from conditions import MalariaReportCreated

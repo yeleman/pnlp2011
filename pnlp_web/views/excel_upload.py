@@ -4,11 +4,13 @@
 
 from datetime import datetime
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, RequestContext
+from django.shortcuts import render
+from django.utils.translation import ugettext as _
 
 from bolibana_reporting.excel import IncorrectReportData, MissingData
 from pnlp_core.excel import MalariaExcelForm
+from pnlp_web.decorators import provider_permission
+from pnlp_core.data import provider_can
 
 
 def handle_uploaded_file(f):
@@ -21,7 +23,7 @@ def handle_uploaded_file(f):
     return fname
 
 
-@login_required
+@provider_permission('can_submit_report_via_excel')
 def upload_form(request):
     context = {'category': 'upload'}
     web_provider = request.user.get_profile()
@@ -34,7 +36,7 @@ def upload_form(request):
             instance = None
 
             form = MalariaExcelForm(filepath)
-            if form.is_valid():
+            if form.is_valid(author=web_provider):
                 try:
                     instance = form.create_report(author=web_provider)
                     context.update({'instance': instance})
