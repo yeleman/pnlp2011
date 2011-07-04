@@ -150,9 +150,8 @@ def add_edit_user(request, user_id=None):
             except Provider.DoesNotExist:
                 raise Http404
             try:
-                provider_data.update({'entity': provider.default_access() \
-                                                        .target.id, \
-                                      'role': provider.main_role().slug})
+                provider_data.update({'entity': provider.first_target().id, \
+                                      'role': provider.first_role().slug})
             except:
                 pass
         else:

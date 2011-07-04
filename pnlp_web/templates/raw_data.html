@@ -3,26 +3,60 @@
 {% load babel %}
 {% load pnlp %}
 
-{% block title %}{% if no_report %}Aucun rapport disponible{% else %}Données brutes du rapport {{ report.receipt }}{% endif %}{% endblock %}
-{% block pagetitle %}<h1 class="pagetitle">{% if no_report %}Aucun rapport disponible{% else %}Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
+{% block title %}{% if no_report %}Rapport indisponible{% else %}Données brutes du rapport {{ report.receipt }}{% endif %}{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">{% if no_report %}Rapport indisponible{% else %}Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 
-{% block submenu %}{% if no_report %}{% else %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.main_role paths=paths %}{% endif %}{% endblock %}
+{% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths %}{% endblock %}
 
 {% block jqueryonload %}
+$("#submenu select.browser").change(function (event) {
+    current_entity = "{{ entity.slug }}";
+    root_entity = "{{ root.slug }}";
+
+    value = $(this).val();
+    if (!value)
+        return;
+
+    if (value != "-1") {
+        url = "{% url raw_data 0 %}".replace('0', value);
+    } else {
+
+        select_id = $(this).attr('id');
+        sid = parseInt(select_id.charAt(select_id.length -1));
+        if (sid == 0)
+            url = "{% url raw_data %}";
+        else {
+            url = "{% url raw_data 0 %}".replace('0', $("#browser_select" + (sid - 1)).val());
+        }
+    }
+
+    location.href = url;
+});
+
+$("#period_select").change(function (event) {
+    current_entity = "{{ entity.slug }}";
+    current_period = "{{ period.middle|datefmt:"MMMM yyyy" }}";
+
+    value = $(this).val();
+    url = "{% url raw_data 'ent_code' 111111 %}".replace('ent_code', current_entity).replace('111111', value);
+    location.href = url;
+});
+
 {% endblock %}
 
 {% block content %}
-{% if no_report %}
-{% else %}
-<div id="period_nav"><p>Période {% include "generic_select.html" with class="browser" items=periods selected=period datefilter="MMMM YYYY" %}</select></p></div>
+{% if periods %}
+<div id="period_nav"><p>Période {% if no_report %}{% include "generic_select.html" with class="browser" items=periods selected=period datefilter="MMMM YYYY" id="period_select" novalue=" - - - - "%}{% else %}{% include "generic_select.html" with class="browser" items=periods selected=period datefilter="MMMM YYYY" id="period_select" %}{% endif %}</select></p></div>
 {% endif %}
 
 <div id="context">
 
 {% if no_report %}
-<p>Désolé, il n'existe <strong>aucun</strong> rapport validé auquel vous puissiez accèder.</p>
-<p>Peut-être devriez-vous revenir plus tard…</p>
+<p>Désolé, il n'existe pas de rapport validé pour pour la période de {{ period.middle|datefmt:"MMMM yyyy" }} à {{ entity.display_full_name }}.</p>
+{% if periods %}
+<p>Cependant, il existe {{ periods|length}} autre rapport{{ periods|length|pluralize }} pour {{ entity.display_full_name }}. Séléctionnez une autre période pour y accèder.</p>
+{% endif %}
 {%else %}
 
 <p>Rapport de {{ report.entity.display_name }} pour la période de {{ report.period.middle|datefmt:"MMMM yyyy" }}</p>

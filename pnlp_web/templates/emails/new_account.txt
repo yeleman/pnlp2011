@@ -5,7 +5,7 @@ Vous y êtes désormais enregistré avec les informations suivantes:
 
 Identifiant:    {{ provider.username }}
 Mot de passe:   {{ password }}
-Accès:          {{ provider.default_access }}
+Accès:          {{ provider.first_access }}
 
 Vous pouvez acceder au système à l'adresse suivante: {{ url }}
 

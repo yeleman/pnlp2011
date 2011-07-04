@@ -145,3 +145,12 @@ def number_format(value):
     except Exception as e:
         pass
     return value
+
+
+@register.filter(name='concat')
+@stringfilter
+def number_format(value, value2):
+    try:
+        return u"%s%s" % (value, value2)
+    except:
+        return value

@@ -10,7 +10,7 @@
 {% csrf_token %}
 <table>
 <tr><th>Identifiant</th><td>{{ provider.username }}</td></tr>
-<tr><th>Accès</th><td>{{ provider.default_access }}</td></tr>
+<tr><th>Accès</th><td>{{ provider.first_access }}</td></tr>
 {{ form.as_table }}
 </table>
 <button class="formbutt default">Enregistrer les modifications</button>

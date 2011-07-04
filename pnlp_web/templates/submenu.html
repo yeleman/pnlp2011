@@ -1,5 +1,6 @@
+{% load pnlp %}
 <div id="submenu">
 {% if content = 'data_browser' %}
-<p><label for="source">Séléctionnez une entité</label><a class="toplevel" href="{% url raw_data %}">{{ root }}</a>{% for select in paths %}{% include "generic_select.html" with class="browser" items=select.elems selected=select.selected novalue="Aucun" %}{% endfor %}</p>
+<p><label for="source">Séléctionnez une entité</label><a class="toplevel" href="{% url raw_data %}">{{ root }}</a>{% for select in paths %}{% include "generic_select.html" with class="browser" items=select.elems selected=select.selected novalue="Aucun" id="browser_select"|concat:forloop.counter0 %}{% endfor %}</p>
 {% endif %}
 </div>

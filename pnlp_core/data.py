@@ -87,7 +87,7 @@ def current_reporting_period():
 
 def provider_entity(provider):
     """ Entity a Provider is attached to """
-    return provider.default_access().target
+    return provider.first_access().target
 
 
 def get_reports_to_validate(entity, period=current_reporting_period()):
@@ -168,11 +168,11 @@ def entities_path(root, entity):
         p = {'selected': None, 'elems': entity_children(entity)}
         paths.append(p)
     while entity.parent and not entity == root:
-        p = {'selected': entity.id, 'elems': entity_children(entity.parent)}
+        p = {'selected': entity.slug, 'elems': entity_children(entity.parent)}
         paths.append(p)
         entity = entity.parent
     paths.reverse()
     return paths
 
 def entity_children(entity):
-    return [(e.id, e) for e in entity.get_children()]
+    return [(e.slug, e) for e in entity.get_children()]
