@@ -148,7 +148,8 @@ select.browser{background-color:white;color:#2c3238;text-transform:uppercase;bor
 #content ol li{list-style:decimal inside none;}
 #content ul.help{font-size:113%;}
 #content>ul.help a{font-weight:bold;color:#2d2d2d;}
-#content div.helpon{background-color:#ebebeb;}
+#content.help div{padding-top:.1em;padding-bottom:.5em;}
+#content div.helpon{background-color:#9f9f9f;}
 #top-link a:link,#top-link a:visited{background-color:#777770;border:1px solid #B7B7AE;border-radius:4px 4px 4px 4px;bottom:10px;box-shadow:1px 2px 3px #333333;color:#F3F3ED;display:block;float:left;font-size:14px;line-height:1.2;outline:0 none;padding:4px 10px;position:fixed;right:10px;text-align:center;width:50px;}
 #content.download table th a{color:white;}
 #content.download hr{display:none;}
