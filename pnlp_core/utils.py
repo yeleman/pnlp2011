@@ -71,9 +71,8 @@ def send_email(recipients, message=None, template=None, context={}, \
         sender = settings.EMAIL_SENDER
 
     try:
-        #mail.send_mail(email_subject, email_msg, sender, \
-        #          recipients, fail_silently=False)
-        mail.send_mass_mail(((email_subject, email_msg, sender, recipients),), \
+        mail.send_mass_mail(((email_subject, email_msg, \
+                              sender, recipients),), \
                             fail_silently=False)
         return (True, recipients.__len__())
     except smtplib.SMTPException as e:

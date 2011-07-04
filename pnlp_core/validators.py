@@ -164,8 +164,9 @@ class MalariaReportValidator(DataValidator):
         if not self.options.data_only:
             period = MonthPeriod.find_create_from(year=self.get('year'), \
                                                   month=self.get('month'))
-            if entity and MalariaReport.objects.filter(entity=entity, \
-                                                       period=period).count() > 0:
+            if entity \
+            and MalariaReport.objects.filter(entity=entity, \
+                                             period=period).count() > 0:
                 self.errors.add(_(u"There is already a report for " \
                                   "that HC (%(entity)s) and that " \
                                   "period (%(period)s)") % \
@@ -174,7 +175,8 @@ class MalariaReportValidator(DataValidator):
 
         # User can create such report
         if self.options.author:
-            if not provider_can('can_submit_report', self.options.author, entity):
+            if not provider_can('can_submit_report', \
+                                self.options.author, entity):
                 self.errors.add(_(u"You don't have permission to send " \
                                   "a report for that " \
                                   "location (%(loc)s).") \

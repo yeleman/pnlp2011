@@ -9,6 +9,7 @@ from pnlp_web.utils import get_level_for
 from pnlp_web.views import validation
 from pnlp_web.decorators import provider_required
 
+
 @provider_required
 def index(request):
     provider = request.user.get_profile()

@@ -77,7 +77,8 @@ def data_browser(request, entity_code=None, period_str=None):
         # but not validated, we show it (with period) and no valid flag
         if web_provider.first_role().slug == 'district' and root == entity:
             try:
-                report = MalariaReport.unvalidated.get(entity=entity, period=period)
+                report = MalariaReport.unvalidated.get(entity=entity, \
+                                                       period=period)
                 if not period in all_periods:
                     all_periods.insert(0, period)
             except:

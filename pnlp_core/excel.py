@@ -256,7 +256,6 @@ class MalariaExcelForm(ExcelForm):
                 complete = False
                 continue
 
-
             if value == None:
                 self.missing_value(fieldid)
                 complete = False

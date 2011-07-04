@@ -39,6 +39,7 @@ ALL_COUNTRY_CODES = [1242, 1246, 1264, 1268, 1284, 1340, 1345, 1441, 1473, \
                      964, 965, 966, 967, 968, 970, 971, 972, 973, 974, 975, \
                      976, 977, 98, 992, 993, 994, 995, 996, 998]
 
+
 @register.filter(name='phone')
 @stringfilter
 def phone_number_formatter(number):
@@ -62,7 +63,8 @@ def phone_number_formatter(number):
             span = 3
         else:
             span = 2
-        return u" ".join([u"".join(number[i:i+span]) for i in range(0, len(number), span)])
+        return u" ".join([u"".join(number[i:i + span]) \
+                          for i in range(0, len(number), span)])
 
     if not isinstance(number, basestring):
         number = number.__str__()
@@ -72,8 +74,10 @@ def phone_number_formatter(number):
 
     # is in international format?
     if is_int(re.sub(r'[\-\s]', '', number)):
-        h, indicator, clean_number = clean_number.partition(get_indicator(clean_number))
-        return _(u"(%(ind)s) %(num)s") % {'ind': indicator, 'num': format(clean_number)}
+        h, indicator, clean_number = \
+                            clean_number.partition(get_indicator(clean_number))
+        return _(u"(%(ind)s) %(num)s") \
+               % {'ind': indicator, 'num': format(clean_number)}
     return format(clean_number)
 
 
@@ -105,6 +109,7 @@ def report_type_verbose(value):
             return name
     return value
 
+
 @register.filter(name='reportstatus')
 @stringfilter
 def report_status_verbose(value):
@@ -135,6 +140,7 @@ def report_type_verbose(value):
 
 def strnum_french(numstr):
     return numstr.replace(',', ' ').replace('.', ',')
+
 
 @register.filter(name='numberformat')
 @stringfilter

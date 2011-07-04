@@ -37,14 +37,17 @@ def validation_list(request):
     # should never raise as already checked by decorator
     provider_can_or_403('can_validate_report', web_provider, entity)
 
-    not_sent = [(ent, contact_for(ent)) for ent in get_not_received_reports(entity, period)]
+    not_sent = [(ent, contact_for(ent)) \
+                for ent in get_not_received_reports(entity, period)]
 
     context.update({'not_validated': get_reports_to_validate(entity, period),
                     'validated': get_validated_reports(entity, period),
                     'not_sent': not_sent})
 
-    context.update({'is_complete': context['validated'].__len__() == entity.get_children().__len__(), 
-                    'is_idle': context['not_validated'].__len__() == 0 and context['not_sent'].__len__() > 0})
+    context.update({'is_complete': context['validated'].__len__() == \
+                                   entity.get_children().__len__(),
+                    'is_idle': context['not_validated'].__len__() == 0 \
+                               and context['not_sent'].__len__() > 0})
 
     context.update({'time_cscom_over': time_cscom_over(), \
                     'time_district_over': time_district_over(), \
@@ -52,9 +55,11 @@ def validation_list(request):
 
     context.update({'validation_over': not time_can_validate(entity)})
 
-    context.update({'current_period': current_period(), 'current_reporting_period': period})
+    context.update({'current_period': current_period(), \
+                    'current_reporting_period': period})
 
     return render(request, 'validation_list.html', context)
+
 
 @provider_permission('can_validate_report')
 def report_validation(request, report_receipt):
@@ -115,6 +120,7 @@ def report_validation(request, report_receipt):
     context.update({'form': form})
 
     return render(request, 'report_validation.html', context)
+
 
 @provider_permission('can_validate_report')
 def report_do_validation(request, report_receipt):

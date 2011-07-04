@@ -94,14 +94,18 @@ def get_reports_to_validate(entity, period=current_reporting_period()):
     """ List of Entity which have sent report but are not validated """
     return [(report.entity, report) \
             for report \
-            in MalariaReport.unvalidated.filter(entity__in=entity.get_children(), period=period)]
+            in MalariaReport.unvalidated\
+                            .filter(entity__in=entity.get_children(), \
+                                    period=period)]
 
 
 def get_validated_reports(entity, period=current_reporting_period()):
     """ List of all Entity which report have been validated """
     return [(report.entity, report) \
             for report \
-            in MalariaReport.validated.filter(entity__in=entity.get_children(), period=period)]
+            in MalariaReport.validated\
+                            .filter(entity__in=entity.get_children(), \
+                                    period=period)]
 
 
 def get_not_received_reports(entity, period=current_reporting_period()):
@@ -115,23 +119,29 @@ def get_not_received_reports(entity, period=current_reporting_period()):
 
 
 def time_over_by_delta(delta, period=current_period()):
+    """ whether current date + delta is past """
     today = date.today()
-    return date.fromtimestamp(float(period.start_on.strftime('%s'))) + delta <= today
+    return date.fromtimestamp(float(period.start_on.strftime('%s'))) \
+                              + delta <= today
 
 
 def time_cscom_over(period=current_period()):
+    """ time_over_by_delta() with cscom delta """
     return time_over_by_delta(timedelta(days=5), period)
 
 
 def time_district_over(period=current_period()):
+    """ time_over_by_delta() with district delta """
     return time_over_by_delta(timedelta(days=15), period)
 
 
 def time_region_over(period=current_period()):
+    """ time_over_by_delta() with region delta """
     return time_over_by_delta(timedelta(days=25), period)
 
 
 def time_can_validate(entity):
+    """ is it possible to do validation now for that entity? """
     level = entity.type.slug
     if level == 'district':
         return not time_district_over()
@@ -141,8 +151,12 @@ def time_can_validate(entity):
 
 
 def contact_for(entity):
+    """ contact person for an entity. first found at level or sup levels """
     ct, oi = Access.target_data(entity)
-    providers = Provider.objects.filter(access__in=Access.objects.filter(content_type=ct, object_id=oi))
+    providers = Provider.objects\
+                        .filter(access__in=Access.objects\
+                                                 .filter(content_type=ct, \
+                                                         object_id=oi))
     if providers.count() == 1:
             return providers.all()[0]
     if providers.count() > 0:
@@ -151,7 +165,9 @@ def contact_for(entity):
         return contact_for(entity.parent)
     return None
 
+
 def most_accurate_report(provider, period=current_reporting_period()):
+    # don't use that anymore I think
     try:
         return MalariaReport.validated.filter(period=period)[0]
     except:
@@ -159,9 +175,12 @@ def most_accurate_report(provider, period=current_reporting_period()):
 
 
 def raw_data_periods_for(entity):
+    """ periods with validated report for an entity """
     return [r.mperiod for r in MalariaReport.validated.filter(entity=entity)]
 
+
 def entities_path(root, entity):
+    """ [] or {} for multi-select containing path to root entity """
     paths = []
     if entity.get_children():
         p = {'selected': None, 'elems': entity_children(entity)}
@@ -173,7 +192,9 @@ def entities_path(root, entity):
     paths.reverse()
     return paths
 
+
 def entity_children(entity):
+    """ (entity.slug, entity) of all children of an entity """
     return [(e.slug, e) for e in entity.get_children()]
 
 
@@ -193,6 +214,7 @@ def provider_can(permission, provider, entity=None):
             or entity in access.target.get_descendants():
                 return True
     return False
+
 
 def provider_can_or_403(permission, provider, entity):
     """ returns provider_can() or raise Http403 """
