@@ -12,7 +12,8 @@ from bolibana_auth.models import Role, Permission, Access, Provider
 from bolibana_auth.admin import (RoleAdmin, PermissionAdmin, \
                                  AccessAdmin, ProviderAdmin)
 from pnlp_core.models import MalariaReport
-from pnlp_core.admin import MalariaReportAdmin
+from pnlp_core.models.alert import Alert
+from pnlp_core.admin import MalariaReportAdmin, AlertAdmin
 
 from nosms.models import Message
 from nosms.admin import MessageAdmin
@@ -41,3 +42,5 @@ admin.site.register(Access, AccessAdmin)
 admin.site.register(Permission, PermissionAdmin)
 
 admin.site.register(Message, MessageAdmin)
+
+admin.site.register(Alert, AlertAdmin)

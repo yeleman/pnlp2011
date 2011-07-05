@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class MalariaReportAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'period', 'entity', 'receipt')
+    list_display = ('__unicode__', 'period', 'entity', 'receipt', '_status')
     list_filter = ('period', 'type', '_status')
 
     fieldsets = (
@@ -72,3 +72,9 @@ class MalariaReportAdmin(admin.ModelAdmin):
         if obj is not None:
             return ('receipt',) + self.readonly_fields
         return self.readonly_fields
+
+
+class AlertAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'alert_id', 'content_type', 'created')
+    list_filter = ('content_type',)

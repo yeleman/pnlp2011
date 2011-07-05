@@ -129,7 +129,6 @@ INSTALLED_APPS = (
     # pnlp2011 specific apps
     'django.contrib.humanize',
     'babeldjango',
-    'django_conditions',
     'nosms',
     'bolibana_reporting',
     'bolibana_auth',

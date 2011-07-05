@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 
 from bolibana_auth.models import Access, Provider
 from bolibana_reporting.models import MonthPeriod
-from pnlp_core.models import MalariaReport
+from pnlp_core.models.MalariaReport import MalariaReport
 
 
 class MalariaReportForm(forms.ModelForm):
