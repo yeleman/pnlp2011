@@ -1,0 +1,13 @@
+Bonjour,
+
+Le rapport national du mois de {{ report.period.full_name }} est désormais disponible.
+Il a été généré automatiquement à partir des rapports de régions suivantes:
+{% for subreport in report.sources.all %}
+* Rapport {{ subreport.receipt }} de {{ subreport.entity.display_name }}.
+{% endfor %}
+
+Vous pouvez y accèder dès à présent à l'adresse suivante: {{ report_url }}
+
+Cordialement,
+Le PNLP.
+{{ url }}

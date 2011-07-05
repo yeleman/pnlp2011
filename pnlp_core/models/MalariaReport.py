@@ -116,7 +116,9 @@ class MalariaReport(Report):
     stockout_rdt = models.CharField(_(u"RDTs"), max_length=1, choices=YESNO)
     stockout_sp = models.CharField(_(u"SPs"), max_length=1, choices=YESNO)
 
-    sources = models.ManyToManyField('MalariaReport')
+    sources = models.ManyToManyField('MalariaReport', \
+                                     verbose_name=_(u"Sources"), \
+                                     blank=True, null=True)
 
     @property
     def mperiod(self):

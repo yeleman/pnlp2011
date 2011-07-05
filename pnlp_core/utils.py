@@ -70,15 +70,21 @@ def send_email(recipients, message=None, template=None, context={}, \
     if not sender:
         sender = settings.EMAIL_SENDER
 
+    msgs = []
+    for recipient in recipients:
+        msgs.append((email_subject, email_msg, sender, recipient))
+
     try:
-        mail.send_mass_mail(((email_subject, email_msg, \
-                              sender, recipients),), \
-                            fail_silently=False)
+        mail.send_mass_mail(tuple(msgs), fail_silently=False)
         return (True, recipients.__len__())
     except smtplib.SMTPException as e:
         # log that error
         return (False, e)
 
 
-def full_url(request=None):
-    return 'http://%(domain)s/' % {'domain': get_current_site(request).domain}
+def full_url(request=None, path=''):
+    if path.startswith('/'):
+        path = path[1:]
+    return 'http://%(domain)s/%(path)s' \
+           % {'domain': get_current_site(request).domain, \
+              'path': path}

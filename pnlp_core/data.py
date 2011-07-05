@@ -121,23 +121,23 @@ def get_not_received_reports(entity, period=current_reporting_period()):
 def time_over_by_delta(delta, period=current_period()):
     """ whether current date + delta is past """
     today = date.today()
-    return date.fromtimestamp(float(period.start_on.strftime('%s'))) \
+    return date.fromtimestamp(float(period.end_on.strftime('%s'))) \
                               + delta <= today
 
 
 def time_cscom_over(period=current_period()):
     """ time_over_by_delta() with cscom delta """
-    return time_over_by_delta(timedelta(days=5), period)
+    return time_over_by_delta(timedelta(days=6), period)
 
 
 def time_district_over(period=current_period()):
     """ time_over_by_delta() with district delta """
-    return time_over_by_delta(timedelta(days=15), period)
+    return time_over_by_delta(timedelta(days=16), period)
 
 
 def time_region_over(period=current_period()):
     """ time_over_by_delta() with region delta """
-    return time_over_by_delta(timedelta(days=25), period)
+    return time_over_by_delta(timedelta(days=26), period)
 
 
 def time_can_validate(entity):
@@ -150,7 +150,7 @@ def time_can_validate(entity):
     return False
 
 
-def contact_for(entity):
+def contact_for(entity, recursive=True):
     """ contact person for an entity. first found at level or sup levels """
     ct, oi = Access.target_data(entity)
     providers = Provider.objects\
@@ -161,7 +161,7 @@ def contact_for(entity):
             return providers.all()[0]
     if providers.count() > 0:
         return providers.all()[0]
-    if entity.parent:
+    if entity.parent and recursive:
         return contact_for(entity.parent)
     return None
 
