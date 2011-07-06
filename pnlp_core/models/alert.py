@@ -90,9 +90,13 @@ class Alert(models.Model):
 
     def trigger(self, *args, **kwargs):
         """ call this to trigger your alert's action """
-        self.action()
-        if self.args.persist:
-            self.save()
+        try:
+            self.action()
+        except Exception as e:
+            logger.error(u"%(alert)s raised %(e)r" % {'alert': self, 'e': e})
+        else:
+            if self.args.persist:
+                self.save()
 
     def action(self):
         """ your code for that alert """
@@ -150,8 +154,8 @@ class IndividualMalariaReportCreated(Alert):
         if contact.phone_number:
             send_sms(contact.phone_number, message)
         elif contact.email:
-            send_email(contact.email, message, \
-                       _(u"[PNLP] Nouveau rapport recu!"))
+            send_email(recipients=contact.email, message=message, \
+                       title=_(u"[PNLP] Nouveau rapport recu!"))
         else:
             send_email(settings.HOTLINE_EMAIL, message, \
                        _(u"[PNLP] Unable to send report notification " \

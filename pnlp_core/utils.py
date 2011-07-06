@@ -2,6 +2,7 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
+import logging
 import smtplib
 
 from django.core import mail
@@ -9,6 +10,8 @@ from django.conf import settings
 from django.template import Template, loader, Context
 from django.utils.translation import ugettext as _
 from django.contrib.sites.models import Site, get_current_site
+
+logger = logging.getLogger(__name__)
 
 
 def send_email(recipients, message=None, template=None, context={}, \
@@ -72,7 +75,7 @@ def send_email(recipients, message=None, template=None, context={}, \
 
     msgs = []
     for recipient in recipients:
-        msgs.append((email_subject, email_msg, sender, recipient))
+        msgs.append((email_subject, email_msg, sender, [recipient]))
 
     try:
         mail.send_mass_mail(tuple(msgs), fail_silently=False)
