@@ -10,7 +10,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
 from pnlp_core.data import current_reporting_period
-from pnlp_core.models.alert import (EndOfCSComPeriod, \
+from pnlp_core.alerts import (EndOfCSComPeriod, \
                                     EndOfDistrictPeriod, \
                                     MalariaReportCreated, \
                                     Reminder)

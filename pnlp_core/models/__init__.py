@@ -3,4 +3,4 @@
 # maintainer: rgaudin
 
 from MalariaReport import MalariaReport
-#from alert import Alert, EndOfCSComPeriod
+from alert import Alert
