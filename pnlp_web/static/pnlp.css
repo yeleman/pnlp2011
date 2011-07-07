@@ -50,7 +50,9 @@ h2{font-size:123.1%;text-transform:uppercase;background-image:url("/static/image
 ul#messages{position:absolute;right:2em;border-radius:.7em;padding:1em;background-color:#30363d;opacity:.65;color:#f8f8f8;max-width:30em;cursor:pointer;z-index:99;}
 ul#messages li{list-style:square inside;}
 ul#messages.hidden{display:none;}
-table{border-collapse:collapse;width:100%;margin-top:1em;margin-bottom:1em;}
+table{border-collapse:collapse;width:100%;margin-top:1em;margin-bottom:1em;color:#303030;}
+caption,h3.caption{color:#4e4e4e;font-size:108%;margin-bottom:1em;font-weight:normal;}
+caption strong,h3.caption strong{color:black;}
 #content #context>table{width:823px;}
 th{background:none repeat scroll 0 0 #88d16f;color:#ffffff;text-transform:uppercase;padding:8px;}
 td,th{border-left:2px solid #ffffff;border-right:2px solid #ffffff;}
@@ -91,6 +93,9 @@ table.background{max-width:622px;width:auto;font-size:.8em;}
 #content.withsidebar{padding-right:270px;}
 #content tr:hover td a:active,#content tr:hover td a:link,#content tr:hover td a:visited,#content tr:hover td a{color:#f8f8f8;}
 html * .center{text-align:center;}
+html * .left{text-align:left;}
+html * .right{text-align:right;}
+html * .justify{text-align:justify;}
 html * td.nodata{background-color:#2d3339;}
 tr.spacer,tr.spacer td{background-color:transparent;}
 html * td.changed{background-color:orange;}

@@ -23,19 +23,44 @@ def test_indicators(request, entity_code=None, period_str=None):
 
     root = web_provider.first_target()
 
-    period = None
+    periods = []
+    speriod = eperiod = None
     entity = None
 
     # find period from string or default to current reporting
     if period_str:
+        speriod_str, eperiod_str = period_str.split('-')
         try:
-            period = MonthPeriod.find_create_from(year=int(period_str[-4:]), \
-                                                  month=int(period_str[:2]), \
+            speriod = MonthPeriod.find_create_from(year=int(speriod_str[-4:]), \
+                                                  month=int(speriod_str[:2]), \
                                                   dont_create=True)
+            eperiod = MonthPeriod.find_create_from(year=int(eperiod_str[-4:]), \
+                                                  month=int(eperiod_str[:2]), \
+                                                  dont_create=True)
+            if speriod.middle() >= eperiod.middle():
+                periods = [speriod]
+            else:
+                period = speriod
+                while period.middle() <= eperiod.middle():
+                    periods.append(period)
+                    period = period.next()
         except:
             pass
-    if not period:
-        period = current_reporting_period()
+
+    if not speriod or not eperiod:
+        speriod = eperiod = current_reporting_period()
+
+    if not periods:
+        periods = [speriod]
+
+
+    print("periods: %s" % periods)
+    print("speriod: %s" % speriod)
+    print("eperiod: %s" % eperiod)
+
+    # periods variables
+    context.update({'periods': [(p.pid, p.middle()) for p in periods], \
+                    'speriod': speriod, 'eperiod': eperiod, 'period': speriod})
 
     # find entity or default to provider target
     # raise 404 on wrong provided entity code
@@ -52,6 +77,17 @@ def test_indicators(request, entity_code=None, period_str=None):
     # build entities browser
     context.update({'root': root, \
                     'paths': entities_path(root, entity)})
+
+    from bolibana_reporting.models.Indicator import *
+    table = Under5MalariaTable(entity=entity, periods=periods)
+    print(table.data())
+    print(table.options)
+
+    graph = MalariaWithinAllConsultationGraph(entity=entity, periods=periods)
+    print(graph.data())
+    print(graph.options)
+
+    context.update({'table': table, 'graph': graph})
 
     return render(request, 'indicator_data.html', context)
 

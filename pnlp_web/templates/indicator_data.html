@@ -4,16 +4,58 @@
 {% load pnlp %}
 
 {% block title %}Indicateurs{% endblock %}
-{% block pagetitle %}<h1 class="pagetitle"></h1>{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Données de {{ entity.display_full_name }}, {% if speriod == eperiod %}{{ speriod.middle|datefmt:"MMMM yyyy" }}{% else %}{{ speriod.middle|datefmt:"MMMM yyyy" }} à {{ eperiod.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 
 {% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="indicator_data"|url:"0" %}{% endblock %}
 
 {% block jqueryonload %}
+chart1 = new Highcharts.Chart({
+         chart: {
+            renderTo: 'chart',
+            defaultSeriesType: 'column',
+            backgroundColor: 'transparent',
+         },
+         legend: {},
+         title: {text: null},
+         xAxis: {
+            categories: [{% for p in graph.periods %}'{{ p.middle|datefmt:"MMMM YYYY" }}',{% endfor %}]
+         },
+         yAxis: {title: {text: null}, max:100},
+         series: [{%for key, line in graph.sorted_data %}{name: '{{ line.label }}', data: [{% for pid, lvalue in line.values.items %}{{ lvalue.percent|default:"0"|percentraw }},{% endfor %}]},{% endfor %}],
+        plotOptions: {
+         line: {
+            dataLabels: {
+               enabled: true
+            },
+            enableMouseTracking: false
+         }
+      },
+        exporting: {enabled: true},
+        credits: {enabled: true, text: "© PNLP – {{ eperiod.middle|datefmt:"MMMM yyyy" }}", href: null},
+      });
 {% endblock %}
 
 {% block content %}
+
+{% if periods %}
+<div id="period_nav"><p>Périodes de {% include "generic_select.html" with class="browser" items=periods selected=speriod.pid datefilter="MMMM YYYY" id="speriod_select" %} à {% include "generic_select.html" with class="browser" items=periods selected=eperiod.pid datefilter="MMMM YYYY" id="eperiod_select" %}</select></p></div>
+{% endif %}
+
 <div id="context">
 <p>herr</p>
+
+<table class="center">
+<caption><strong>{{ table.name }}.</strong> {{ table.caption }}</caption>
+<tr><th rowspan="2">{{ table.title }}</th>{% for p in table.periods %}<th colspan="2" class="center">{{ p.middle|datefmt:"MMMM YYYY" }}</th>{% endfor %}{% if table.options.with_total %}<th colspan="2" class="center">Total</th>{% endif %}</tr>
+<tr>{% for p in table.periods %}<th class="center">Nbre</th><th class="center">%</th>{% endfor %}{% if table.options.with_total %}<th class="center" colspan="2">Nbre</th>{% endif %}</tr>
+{% for key, line in table.sorted_data %}
+<tr><th class="left">{{ line.label }}</th>{% for pid, lvalue in line.values.items %}<td>{{ lvalue.value|default:"n/a" }}</td><td>{{ lvalue.percent|default:"n/a"|percent }}</td>{% endfor %}{% if table.options.with_total %}<td colspan="2"><strong>{{ line.total.value }}</strong></td>{% endif %}</tr>
+{% endfor %}
+</table>
+
+<h3 class="caption"><strong>{{ graph.name }}.</strong> {{ graph.caption }}</h3>
+<div id="chart"></div>
+
 </div>
 {% endblock %}

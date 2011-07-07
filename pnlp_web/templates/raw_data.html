@@ -47,7 +47,7 @@ $("#period_select").change(function (event) {
 
 {% block content %}
 {% if periods %}
-<div id="period_nav" {% if report.status < 4 %}class="unvalidated" title="Ce rapport n'a pas encore été validé."{% endif %}><p>Période {% if no_report %}{% include "generic_select.html" with class="browser" items=periods selected=period datefilter="MMMM YYYY" id="period_select" novalue=" - - - - "%}{% else %}{% include "generic_select.html" with class="browser" items=periods selected=period datefilter="MMMM YYYY" id="period_select" %}{% endif %}</select></p></div>
+<div id="period_nav" {% if report.status < 4 %}class="unvalidated" title="Ce rapport n'a pas encore été validé."{% endif %}><p>Période {% if no_report %}{% include "generic_select.html" with class="browser" items=periods selected=period.pid datefilter="MMMM YYYY" id="period_select" novalue=" - - - - "%}{% else %}{% include "generic_select.html" with class="browser" items=periods selected=period.pid datefilter="MMMM YYYY" id="period_select" %}{% endif %}</select></p></div>
 {% endif %}
 
 <div id="context">

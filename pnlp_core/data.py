@@ -195,7 +195,7 @@ def entities_path(root, entity):
 
 def entity_children(entity):
     """ (entity.slug, entity) of all children of an entity """
-    return [(e.slug, e) for e in entity.get_children()]
+    return [(e.slug, e) for e in entity.children.all().order_by('name')]
 
 
 def provider_can(permission, provider, entity=None):

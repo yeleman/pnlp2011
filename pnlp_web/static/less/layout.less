@@ -225,6 +225,18 @@ table {
     width: 100%;
     margin-top: 1em;
     margin-bottom: 1em;
+    color: @text-table;
+}
+
+caption, h3.caption {
+    color: @text-caption;
+    font-size: 108%;
+    margin-bottom: 1em;
+    font-weight: normal;
+}
+
+caption strong, h3.caption strong {
+    color: black;
 }
 
 #content #context > table {
@@ -457,6 +469,18 @@ table.background {
 
 html * .center {
     text-align: center;
+}
+
+html * .left {
+    text-align: left;
+}
+
+html * .right {
+    text-align: right;
+}
+
+html * .justify {
+    text-align: justify;
 }
 
 html * td.nodata {

@@ -145,18 +145,24 @@ def strnum_french(numstr):
 
 @register.filter(name='numberformat')
 @stringfilter
-def number_format(value):
+def number_format(value, precision=2, french=True):
     try:
         format = '%d'
         value = int(value)
     except:
         try:
-            format = '%f'
+            format = '%.' + '%df' % precision
             value = float(value)
         except:
             format = '%s'
+        else:
+            if value.is_integer():
+                format = '%d'
+                value = int(value)
     try:
-        return strnum_french(locale.format(format, value, grouping=True))
+        if french:
+            return strnum_french(locale.format(format, value, grouping=True))
+        return locale.format(format, value, grouping=True)
     except Exception as e:
         pass
     return value
@@ -164,7 +170,7 @@ def number_format(value):
 
 @register.filter(name='concat')
 @stringfilter
-def number_format(value, value2):
+def concat_strings(value, value2):
     try:
         return u"%s%s" % (value, value2)
     except:
@@ -193,3 +199,18 @@ def string_index(value, index):
     suf = int(suf) if suf else None
 
     return value[None:suf]
+
+
+@register.filter(name='percent')
+@stringfilter
+def format_percent(value, precision=2, french=True):
+    try:
+        return number_format(float(value) * 100, precision, french) + '%'
+    except:
+        return value
+
+
+@register.filter(name='percentraw')
+@stringfilter
+def format_percent_us(value, precision=2, french=True):
+    return format_percent(value, precision, french=False)[:-1]
