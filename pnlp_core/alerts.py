@@ -479,11 +479,13 @@ class Reminder(Alert):
             logger.info(u"Sending %s text to %s" \
                         % (level, contact.phone_number))
 
+            dom = 15 if level == 'district' else 25
+
             message = _(u"[PNLP] Vous avez %(unval)d rapports a valider " \
                         "au plus tard le %(date)s.") \
                       % {'unval': stat['unval'], \
                          'date': date(today.year, \
-                                      today.month, 15).strftime('%x')}
+                                      today.month, dom).strftime('%x')}
 
             send_sms(to=contact.phone_number, text=message)
 
