@@ -436,8 +436,10 @@ table.background {
 
 #content #sidebar {
     position: absolute;
+    //float: right;
     top: 24px;
     right: 36px;
+    //margin-right: -174px;
     width: 192px;
     padding-top: 2em;
     padding-bottom: 1em;
@@ -636,12 +638,18 @@ background-color: white;
 }
 
 
-
-
+#content .clr {
+	clear:both;
+}
 
 #content.context.withsidebar #sidebar {
     top: 66px;
     padding-top: 22px;
+    position: relative;
+    right: 0px;
+    top: 0px;
+    float: right;
+    margin-right: -174px;
 }
 
 #content.context.withsidebar #sidebar ul li a, 

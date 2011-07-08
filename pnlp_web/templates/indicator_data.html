@@ -20,6 +20,15 @@
 
 {% block content %}
 
+<div id="sidebar" class="sections">
+    <ul class="main">
+    {% for sec in sections %}
+    <li{% if section.id == sec.id %} class="hover"{% endif %} title="{{ sec.label }}"><a href="{% url indicator_data entity_code=entity.slug period_str=period_str section=sec.id %}">SECTION {{ sec.id }}</a></li>
+    {% if sec.sections %}<ul>{% for ssid, ssname in sec.sections.items %}<li{% if section.id == sec.id and sub_section == ssid %} class="hover"{% endif %}><a href="{% url indicator_data entity_code=entity.slug period_str=period_str section=sec.id sub_section=ssid %}">{{ ssname }}</a></li>{% endfor %}</ul>{% endif %}
+    {% endfor %}
+    </ul>
+</div>
+
 {% if periods %}
 <div id="period_nav"><p>Périodes de {% include "generic_select.html" with class="browser" items=periods selected=speriod.pid datefilter="MMMM YYYY" id="speriod_select" %} à {% include "generic_select.html" with class="browser" items=periods selected=eperiod.pid datefilter="MMMM YYYY" id="eperiod_select" %}</select></p></div>
 {% endif %}
@@ -37,15 +46,6 @@
 {% endif %}
 {% endfor %}
 
+<div id='next-container' style='clear:both;'>
 </div>
-
-<div id="sidebar" class="sections">
-    <ul class="main">
-    {% for sec in sections %}
-    <li{% if section.id == sec.id %} class="hover"{% endif %} title="{{ sec.label }}"><a href="{% url indicator_data entity_code=entity.slug period_str=period_str section=sec.id %}">SECTION {{ sec.id }}</a></li>
-    {% if sec.sections %}<ul>{% for ssid, ssname in sec.sections.items %}<li{% if section.id == sec.id and sub_section == ssid %} class="hover"{% endif %}><a href="{% url indicator_data entity_code=entity.slug period_str=period_str section=sec.id sub_section=ssid %}">{{ ssname }}</a></li>{% endfor %}</ul>{% endif %}
-    {% endfor %}
-    </ul>
-</div>
-
 {% endblock %}
