@@ -127,8 +127,9 @@ select.browser{background-color:white;color:#2c3238;text-transform:uppercase;bor
 #content.context.withsidebar #context>table{width:640px;}
 #content.context.withsidebar #sidebar ul ul li:hover a,#content.context.withsidebar #sidebar ul ul li.hover a{color:#2d2d2d;}
 #content.context.withsidebar #sidebar ul>li{list-style:none outside none;}
-#content.context.withsidebar #sidebar ul li.hover{list-style:url("/static/images/list_selected_dark.png") inside none;}
+#content.context.withsidebar #sidebar ul li.hover{list-style:url("/static/images/list_selected_dark.png") outside none;}
 #content.context.withsidebar #sidebar ul.main>li:hover,#content.context.withsidebar #sidebar ul.main>li.hover{background-color:white;}
+#content.context.withsidebar #sidebar ul.main>li.hover{text-align:right;padding-right:1em;}
 #content.context.withsidebar #sidebar ul{margin-left:0px;padding-left:1em;}
 #content.context.withsidebar #sidebar *{margin-right:0;}
 #content.context.withsidebar #sidebar ul>li{padding-top:.1em;padding-bottom:.1em;font-size:93%;}

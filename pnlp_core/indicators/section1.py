@@ -26,14 +26,16 @@ class Under5MalariaTable(IndicatorTable):
 
     name = _(u"Tableau 5")
     title = _(u"Enfants moins de 5 ans")
-    caption = _(u"Nombre de cas de paludisme chez les enfants de moins de 5 ans")
+    caption = _(u"Nombre de cas de paludisme chez les enfants " \
+                "de moins de 5 ans")
 
     default_options = {'with_percentage': True, \
                        'with_total': True, \
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, period=period).count() > 0
+        return MalariaReport.validated.filter(entity=self.entity, \
+                                              period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -57,15 +59,18 @@ class Under5MalariaTable(IndicatorTable):
 class MalariaWithinAllConsultationGraph(IndicatorTable):
 
     name = _(u"Figure 1")
-    title = _(u"")
-    caption = _(u"Proportion des cas de paludisme par rapport aux consultations toutes causes confondues (TCC)")
+    title = _(u" ")
+    caption = _(u"Proportion des cas de paludisme par rapport aux " \
+                "consultations toutes causes confondues")
+    type = 'graph'
 
     default_options = {'with_percentage': True, \
                        'with_reference': False, \
                        'with_data': False}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, period=period).count() > 0
+        return MalariaReport.validated.filter(entity=self.entity, \
+                                              period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -78,3 +83,5 @@ class MalariaWithinAllConsultationGraph(IndicatorTable):
     def malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.total_suspected_malaria_cases
+
+WIDGETS = [Under5MalariaTable, MalariaWithinAllConsultationGraph]

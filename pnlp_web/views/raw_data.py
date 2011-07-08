@@ -52,6 +52,7 @@ def data_browser(request, entity_code=None, period_str=None):
         entity = web_provider.first_target()
     context.update({'entity': entity})
 
+
     # check permissions on this entity and raise 403
     provider_can_or_403('can_view_raw_data', web_provider, entity)
 

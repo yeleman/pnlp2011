@@ -2,6 +2,8 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
+from django.http import Http404
+from django.utils.translation import ugettext as _
 from django.shortcuts import render, redirect, get_object_or_404
 
 from pnlp_core.data import (MalariaDataHolder, \
@@ -16,9 +18,19 @@ from pnlp_web.decorators import provider_required, provider_permission
 from bolibana_reporting.models import Entity, MonthPeriod
 
 
+def import_path(name):
+        """ import a callable from full module.callable name """
+        modname, _, attr = name.rpartition('.')
+        if not modname:
+            # single module name
+            return __import__(attr)
+        m = __import__(modname, fromlist=[attr])
+        return getattr(m, attr)
+
+
 @provider_permission('can_view_raw_data')
 def test_indicators(request, entity_code=None, period_str=None, \
-                    section=None, sub_section=None):
+                    section=1, sub_section=None):
     context = {'category': 'indicator_data'}
     web_provider = request.user.get_profile()
 
@@ -27,7 +39,7 @@ def test_indicators(request, entity_code=None, period_str=None, \
     periods = []
     speriod = eperiod = None
     entity = None
-    #section = None
+    section = int(section) - 1
 
     # find period from string or default to current reporting
     if period_str:
@@ -55,13 +67,9 @@ def test_indicators(request, entity_code=None, period_str=None, \
     if not periods:
         periods = [speriod]
 
-    print("entity_code: %s" % entity_code)
-    print("periods: %s" % periods)
-    print("speriod: %s" % speriod)
-    print("eperiod: %s" % eperiod)
-
     # periods variables
     context.update({'periods': [(p.pid, p.middle()) for p in periods], \
+                    'period_str': '%s-%s' % (speriod.pid, eperiod.pid), \
                     'speriod': speriod, 'eperiod': eperiod, 'period': speriod})
 
     # find entity or default to provider target
@@ -80,25 +88,24 @@ def test_indicators(request, entity_code=None, period_str=None, \
     context.update({'root': root, \
                     'paths': entities_path(root, entity)})
 
-    from pnlp_core.indicators.section1 import *
-    table = Under5MalariaTable(entity=entity, periods=periods)
-    print(table.data())
-    print(table.options)
-
-    graph = MalariaWithinAllConsultationGraph(entity=entity, periods=periods)
-    print(graph.data())
-    print(graph.options)
-
     from pnlp_core.indicators import INDICATOR_SECTIONS
 
-    context.update({'sections': sorted(INDICATOR_SECTIONS.items())})
+    context.update({'sections': INDICATOR_SECTIONS})
 
-    if section:
-        section = INDICATOR_SECTIONS[section]
+    try:
+        sm = import_path('pnlp_core.indicators.section%d' % (section + 1))
+        section = INDICATOR_SECTIONS[int(section)]
+    except:
+        raise Http404(_(u"This section does not exist."))
+
+    if not sub_section:
+        if len(section['sections']):
+            sub_section = section['sections'].keys()[0]
 
     context.update({'section': section, 'sub_section': sub_section})
 
-    context.update({'table': table, 'graph': graph})
+
+    context.update({'widgets': [widget(entity=entity, periods=periods) \
+                                for widget in sm.WIDGETS]})
 
     return render(request, 'indicator_data.html', context)
-

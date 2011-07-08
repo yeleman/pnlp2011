@@ -1,4 +1,6 @@
-SECTION 1: Identification de la structure ayant notifié les données 
+SECTION 1: Identification de la structure ayant notifié les données
+
+SECTION 2: Morbidité (Cas suspects, cas testés/confirmés) 
     Tout Age Confondu
         - (T1.1a) Nombre de cas de paludisme (tout âge confondu) notifiés par trimestre
         - (F1.1) Proportion des cas de paludisme par rapport aux consultations toutes causes confondues (TCC)
@@ -17,12 +19,12 @@ SECTION 1: Identification de la structure ayant notifié les données
         - (T1.1d) Nombre de cas de paludisme chez les femmes enceintes
         - (F1.2c) Evolution de la proportion des cas testés parmi les cas suspects et proportion des cas confirmés parmi les cas testés  chez les femmes enceintes 
 
-SECTION 2: Traitement 
+SECTION 3: Traitement 
     - (T2.1) Cas de paludisme simple traités par CTA
     - (F2.1) Nombre de cas de paludisme confirmés et nombre de cas traités par CTA 
     - (F2.1) Evolution des proportions  de cas de paludisme simple traités par CTA Chez les moins de 5 ans et les 5 ans et plus
 
-SECTION 3: Hospitalisation
+SECTION 4: Hospitalisation
     Tout Age Confondu
         - (T3.1) Hospitalisation
         - (F3.1) Proportion des hospitalisations pour paludisme grave (par rapport aux hospitalisations toutes causes confondues)
@@ -39,7 +41,7 @@ SECTION 3: Hospitalisation
         - (T3.2c) Hospitalisation chez les femmes enceintes
         - (F3.2c) Proportion des hospitalisations pour paludisme grave chez les femmes enceintes (par rapport aux hospitalisations toutes causes confondues) 
 
-SECTION 4: Décès
+SECTION 5: Décès
     Tout Age Confondu
         - (T4.1) Décès notifiés  pour le trimestre tout âge confondu
         - (F4.1) Proportion de décès dû au  paludisme (par rapport aux décès toutes causes confondues) 
@@ -54,23 +56,23 @@ SECTION 4: Décès
         - (T4.2c) Décès notifiés  pour le trimestre chez les femmes enceintes
     - (F4.3) Evolution du nombre de décès dû au paludisme Chez les moins de 5 ans, les 5 ans et plus et les femmes enceintes
 
-SECTION 5 : Moustiquaires imprégnées  d’Insecticides de Longue Durée (MILD)
+SECTION 6 : Moustiquaires imprégnées  d’Insecticides de Longue Durée (MILD)
     - (T5.1) Nombre de Moustiquaires imprégnées  d’Insecticides de Longue Durée (MILD) distribuées 
     - (F5.1) Evolution du nombre de MILD distribuées aux moins de 5 ans et femmes enceintes
 
-SECTION 6 : Rupture de stock de CTA
+SECTION 7 : Rupture de stock de CTA
     - (T6.1) Pourcentage de structures avec Rupture de stock de CTA dans le district
     - (F6.1) Evolution du pourcentage de Structures avec rupture de stock en CTA
 
-SECTION 7 : Rupture de stock des produits de PEC du paludisme grave
+SECTION 8 : Rupture de stock des produits de PEC du paludisme grave
     - (T7.1) Pourcentage de structures avec Rupture de stock en produits de prise en charge des cas de paludisme grave
     - (F7.1) Evolution du pourcentage de Structures avec rupture de stock en produits de prise en charge des cas de paludisme grave
 
-SECTION 8 : Rupture de stock MILD, TDR, SP 
+SECTION 9 : Rupture de stock MILD, TDR, SP 
     - (T8.1) Pourcentage de structures avec Rupture de stock en MILD, TDR, SP
     - (F8.1) Evolution du pourcentage de Structures avec rupture de stock en MILD, TDR, SP
 
-SECTION 9 : CPN et Traitement Préventif  Intermittent  (TPI)
+SECTION 10 : CPN et Traitement Préventif  Intermittent  (TPI)
     - (T9.1) Données sur la CPN et le Traitement Préventif  Intermittent  (TPI)
     - (F9.1) Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes
     - (F9.2) Nombre de femmes enceintes reçues en CPN1 et Nombre de MILD distribuées aux femmes enceintes 

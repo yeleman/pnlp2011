@@ -87,11 +87,11 @@ def phone_number_formatter(number):
 def formcategories(value):
     """ categorie name from category slug """
     value = value.lower()
-    if value == 'u5':
+    if value in ('u5', 'under_five'):
         return _(u"Children Under 5yo.")
-    if value == 'o5':
+    if value in ('o5', 'over_five'):
         return _(u"Children Over 5yo.")
-    if value == 'pw':
+    if value in ('pw', 'pregnant_women'):
         return _(u"Pregnant Women")
     if value == 'period':
         return _(u"Reporting")
@@ -99,6 +99,10 @@ def formcategories(value):
         return _(u"Collect / Data Entry")
     if value == 'stockout':
         return _(u"Stock outs")
+    if value == 'all':
+        return _(u"Tout âge confondu")
+    if value == 'all_over_five':
+        return u"%s avec %s" % (formcategories('o5'), formcategories('pw'))
     return _(u"Default")
 
 
