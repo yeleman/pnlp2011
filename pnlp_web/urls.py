@@ -12,11 +12,11 @@ from pnlp_web import views
 from pnlp_web.decorators import provider_permission
 from settings import STATIC_ROOT
 
-RGXP_ENTITY = '(?P<entity_code>[a-zA-Z0-9]+)'
+RGXP_ENTITY = '(?P<entity_code>[a-zA-Z0-9\-\_]+)'
 RGXP_RECEIPT = '(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)'
 RGXP_PERIOD = '(?P<period_str>[0-9]{6})'
 RGXP_PERIODS = '(?P<period_str>[0-9]{6}-[0-9]{6})'
-RGXP_SECTION = 'section(?P<section>[0-9])'
+RGXP_SECTION = 'section(?P<section>[0-9]{1,2})'
 RGXP_SUBSECTION = '(?P<sub_section>[a-z\_]+)'
 
 urlpatterns = patterns('',
