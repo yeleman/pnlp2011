@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 
 from bolibana_reporting.models import Entity
 from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
-                                           reference, indicator, label)
+                                           reference, indicator, label, blank)
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
 
@@ -44,14 +44,18 @@ class Under5MalariaTable(IndicatorTable):
         report = get_report_for(self.entity, period)
         return report.u5_total_suspected_malaria_cases
 
-    @indicator(1, 'total_suspected_cases')
+    @blank
+    @indicator(1)
+    def none(self): pass
+
+    @indicator(2, 'total_suspected_cases')
     @label(u". Cas simples")
     def simple_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_simple_malaria_cases
 
     @label(u". Cas graves")
-    @indicator(2, 'total_suspected_cases')
+    @indicator(3, 'total_suspected_cases')
     def severe_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_severe_malaria_cases

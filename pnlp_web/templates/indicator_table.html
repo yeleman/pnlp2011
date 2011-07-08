@@ -3,8 +3,8 @@
 <table id="{{ id }}" class="center">
 <caption><strong>{{ table.name }}.</strong> {{ table.caption }}</caption>
 <tr><th rowspan="2">{{ table.title }}</th>{% for p in table.periods %}<th colspan="2" class="center">{{ p.middle|datefmt:"MMMM YYYY" }}</th>{% endfor %}{% if table.options.with_total %}<th colspan="2" class="center">Total</th>{% endif %}</tr>
-<tr>{% for p in table.periods %}<th class="center">Nbre</th><th class="center">%</th>{% endfor %}{% if table.options.with_total %}<th class="center" colspan="2">Nbre</th>{% endif %}</tr>
+<tr>{% for p in table.periods %}<th class="center">Nbre</th><th class="center">%</th>{% endfor %}{% if table.options.with_total %}<th class="center">Nbre</th>{% endif %}</tr>
 {% for key, line in table.data %}
-<tr><th class="left">{{ line.label }}</th>{% for pid, lvalue in line.values.items %}<td>{{ lvalue.value|default:"n/a" }}</td><td>{{ lvalue.percent|default:"n/a"|percent }}</td>{% endfor %}{% if table.options.with_total %}<td colspan="2"><strong>{{ line.total.value }}</strong></td>{% endif %}</tr>
+<tr>{% if line.blank %}<td colspan="4" class="nodata">&nbsp;</td>{% else %}<th class="left">{{ line.label }}</th>{% for pid, lvalue in line.values.items %}<td>{{ lvalue.value|default:"n/a" }}</td><td>{{ lvalue.percent|default:"n/a"|percent }}</td>{% endfor %}{% if table.options.with_total %}<td colspan="2"><strong>{{ line.total.value }}</strong></td>{% endif %}{% endif %}</tr>
 {% endfor %}
 </table>
