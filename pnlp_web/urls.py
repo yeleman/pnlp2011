@@ -12,10 +12,12 @@ from pnlp_web import views
 from pnlp_web.decorators import provider_permission
 from settings import STATIC_ROOT
 
-RGXP_ENTITY = '(?P<entity_code>[a-zA-Z\#\-\_\.0-9\/]+)'
+RGXP_ENTITY = '(?P<entity_code>[a-zA-Z0-9]+)'
 RGXP_RECEIPT = '(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)'
 RGXP_PERIOD = '(?P<period_str>[0-9]{6})'
 RGXP_PERIODS = '(?P<period_str>[0-9]{6}-[0-9]{6})'
+RGXP_SECTION = 'section(?P<section>[0-9])'
+RGXP_SUBSECTION = '(?P<sub_section>[a-z\_]+)'
 
 urlpatterns = patterns('',
     (r'^nosms/', include('nosms.urls')),
@@ -44,6 +46,8 @@ urlpatterns = patterns('',
     #url(r'^raw_data/excel/'+ RGXP_RECEIPT + '$', views.raw_data.excel_export, name='raw_data_excel'),
 
     # Indicator Views
+    url(r'^browse/'+ RGXP_ENTITY +'/'+ RGXP_PERIODS + '/' + RGXP_SECTION + '/' + RGXP_SUBSECTION + '$', views.indicators.test_indicators, name='indicator_data'),
+    url(r'^browse/'+ RGXP_ENTITY +'/'+ RGXP_PERIODS + '/' + RGXP_SECTION + '$', views.indicators.test_indicators, name='indicator_data'),
     url(r'^browse/'+ RGXP_ENTITY +'/'+ RGXP_PERIODS + '$', views.indicators.test_indicators, name='indicator_data'),
     url(r'^browse/'+ RGXP_ENTITY +'$', views.indicators.test_indicators, name='indicator_data'),
     url(r'^browse/$', views.indicators.test_indicators, name='indicator_data'),

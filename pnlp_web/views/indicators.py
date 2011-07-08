@@ -17,7 +17,8 @@ from bolibana_reporting.models import Entity, MonthPeriod
 
 
 @provider_permission('can_view_raw_data')
-def test_indicators(request, entity_code=None, period_str=None):
+def test_indicators(request, entity_code=None, period_str=None, \
+                    section=None, sub_section=None):
     context = {'category': 'indicator_data'}
     web_provider = request.user.get_profile()
 
@@ -26,6 +27,7 @@ def test_indicators(request, entity_code=None, period_str=None):
     periods = []
     speriod = eperiod = None
     entity = None
+    #section = None
 
     # find period from string or default to current reporting
     if period_str:
@@ -53,7 +55,7 @@ def test_indicators(request, entity_code=None, period_str=None):
     if not periods:
         periods = [speriod]
 
-
+    print("entity_code: %s" % entity_code)
     print("periods: %s" % periods)
     print("speriod: %s" % speriod)
     print("eperiod: %s" % eperiod)
@@ -78,7 +80,7 @@ def test_indicators(request, entity_code=None, period_str=None):
     context.update({'root': root, \
                     'paths': entities_path(root, entity)})
 
-    from bolibana_reporting.models.Indicator import *
+    from pnlp_core.indicators.section1 import *
     table = Under5MalariaTable(entity=entity, periods=periods)
     print(table.data())
     print(table.options)
@@ -86,6 +88,15 @@ def test_indicators(request, entity_code=None, period_str=None):
     graph = MalariaWithinAllConsultationGraph(entity=entity, periods=periods)
     print(graph.data())
     print(graph.options)
+
+    from pnlp_core.indicators import INDICATOR_SECTIONS
+
+    context.update({'sections': sorted(INDICATOR_SECTIONS.items())})
+
+    if section:
+        section = INDICATOR_SECTIONS[section]
+
+    context.update({'section': section, 'sub_section': sub_section})
 
     context.update({'table': table, 'graph': graph})
 

@@ -6,31 +6,21 @@
 {% block title %}Indicateurs{% endblock %}
 {% block pagetitle %}<h1 class="pagetitle">Données de {{ entity.display_full_name }}, {% if speriod == eperiod %}{{ speriod.middle|datefmt:"MMMM yyyy" }}{% else %}{{ speriod.middle|datefmt:"MMMM yyyy" }} à {{ eperiod.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
+{% block content-class %}withsidebar{% endblock %}
 
 {% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="indicator_data"|url:"0" %}{% endblock %}
 
 {% block jqueryonload %}
-chart1 = new Highcharts.Chart({
-         chart: {
-            renderTo: 'chart',
-            defaultSeriesType: 'column',
-            backgroundColor: 'transparent',
-         },
-         legend: {},
-         title: {text: null},
-         xAxis: {
-            categories: [{% for p in graph.periods %}'{{ p.middle|datefmt:"MMMM YYYY" }}',{% endfor %}]
-         },
-         yAxis: {title: {text: null}, max:100},
-         series: [{%for key, line in graph.sorted_data %}{name: '{{ line.label }}', data: [{% for pid, lvalue in line.values.items %}{{ lvalue.percent|default:"0"|percentraw }},{% endfor %}]},{% endfor %}],
-        plotOptions: {
-         line: {
-            dataLabels: {
-               enabled: true
-            },
-            enableMouseTracking: false
-         }
-      },
+chart1 = new Highcharts.Chart(
+        {chart: {renderTo: 'chart', defaultSeriesType: 'column', backgroundColor: 'transparent', },
+        legend: {},
+        title: {text: null},
+        xAxis: {categories: [{% for p in graph.periods %}'{{ p.middle|datefmt:"MMMM YYYY" }}',{% endfor %}]},
+        yAxis: {title: {text: null}, max:100},
+        series: [{%for key, line in graph.data %}{name: '{{ line.label }}', data: [{% for pid, lvalue in line.values.items %}{{ lvalue.percent|default:"0"|percentraw }},{% endfor %}]},{% endfor %}],
+        tooltip: {formatter: function() { return ''+ this.series.name +': '+ this.y +'%';} },
+        plotOptions: {line: {dataLabels: {enabled: true}, enableMouseTracking: false },
+                      column: {enableMouseTracking: false, dataLabels: {enabled: true, formatter: function() {return '' + this.y.toString().replace('.', ',') + '%';}} }},
         exporting: {enabled: true},
         credits: {enabled: true, text: "© PNLP – {{ eperiod.middle|datefmt:"MMMM yyyy" }}", href: null},
       });
@@ -42,14 +32,15 @@ chart1 = new Highcharts.Chart({
 <div id="period_nav"><p>Périodes de {% include "generic_select.html" with class="browser" items=periods selected=speriod.pid datefilter="MMMM YYYY" id="speriod_select" %} à {% include "generic_select.html" with class="browser" items=periods selected=eperiod.pid datefilter="MMMM YYYY" id="eperiod_select" %}</select></p></div>
 {% endif %}
 
+<h2 class="pagetitle sub">{% if section %}Section {{ section.id }} – {{ section.label }}{% else %}Résumé{% endif %}</h2>
+
 <div id="context">
-<p>herr</p>
 
 <table class="center">
 <caption><strong>{{ table.name }}.</strong> {{ table.caption }}</caption>
 <tr><th rowspan="2">{{ table.title }}</th>{% for p in table.periods %}<th colspan="2" class="center">{{ p.middle|datefmt:"MMMM YYYY" }}</th>{% endfor %}{% if table.options.with_total %}<th colspan="2" class="center">Total</th>{% endif %}</tr>
 <tr>{% for p in table.periods %}<th class="center">Nbre</th><th class="center">%</th>{% endfor %}{% if table.options.with_total %}<th class="center" colspan="2">Nbre</th>{% endif %}</tr>
-{% for key, line in table.sorted_data %}
+{% for key, line in table.data %}
 <tr><th class="left">{{ line.label }}</th>{% for pid, lvalue in line.values.items %}<td>{{ lvalue.value|default:"n/a" }}</td><td>{{ lvalue.percent|default:"n/a"|percent }}</td>{% endfor %}{% if table.options.with_total %}<td colspan="2"><strong>{{ line.total.value }}</strong></td>{% endif %}</tr>
 {% endfor %}
 </table>
@@ -58,4 +49,15 @@ chart1 = new Highcharts.Chart({
 <div id="chart"></div>
 
 </div>
+
+<div id="sidebar" class="sections">
+    <ul class="main">
+    <li {% if not section %} class="hover"{% endif%} title=""><a href="$23">Résumé</a></li>
+    {% for sid, sec in sections %}
+    <li{% if section.id == sid %} class="hover"{% endif %} title="{{ sec.label }}"><a href="#{{sid}}">SECTION {{ sid }}</a></li>
+    {% if sec.sections %}<ul>{% for ssid, ssname in sec.sections.items %}<li{% if section.id == sid and sub_section == ssid %} class="hover"{% endif %}><a href="#2#{{ ssid}}">{{ ssname }}</a></li>{% endfor %}</ul>{% endif %}
+    {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}

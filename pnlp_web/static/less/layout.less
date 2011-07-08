@@ -150,7 +150,8 @@ ul#user-menu li:hover a {
     border-left: none;
 }
 
-h1.pagetitle {
+h1.pagetitle,
+h2.pagetitle {
     font-size: 116%;
     text-transform: uppercase;
     background-image: url("@{STATIC_IMAGES}/bullet.png");
@@ -159,6 +160,12 @@ h1.pagetitle {
     padding-left: 1em;
     color: @text-content-title;
     margin-bottom: 2em;
+}
+
+h2.pagetitle {
+    background: none;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 #content p, #content h2, #content h3, #content form, 
@@ -444,6 +451,10 @@ table.background {
     margin-left: 0;
 }
 
+#sidebar a {
+    color: white;
+}
+
 #sidebar h2 {
     font-size: 93%;
     background: 0;
@@ -622,4 +633,91 @@ background-color: white;
 
 #period_nav.unvalidated {
     background-color: @orange;
+}
+
+
+
+
+
+#content.context.withsidebar #sidebar {
+    top: 66px;
+    padding-top: 22px;
+}
+
+#content.context.withsidebar #sidebar ul li a, 
+#content.context.withsidebar #sidebar ul li a:active {
+    color: @text-background;
+}
+
+#content.context.withsidebar #sidebar ul.main > li a, 
+#content.context.withsidebar #sidebar ul.main > li a:active {
+    color: @text-content-title;
+}
+
+#content.context.withsidebar #sidebar {
+    width: 142px;
+}
+
+#content.context.withsidebar {
+    padding-right: 210px;
+}
+
+#content.context.withsidebar #period_nav {
+    //width: 691px;
+    width: 741px;
+}
+
+#content.context.withsidebar #context > table {
+    //width: 580px;
+    width: 640px;
+}
+
+#content.context.withsidebar #sidebar ul ul li:hover a,
+#content.context.withsidebar #sidebar ul ul li.hover a {
+    color: @text-content;
+}
+
+#content.context.withsidebar #sidebar ul > li {
+    list-style: none outside none;
+}
+
+#content.context.withsidebar #sidebar ul li.hover {
+    list-style: url("@{STATIC_IMAGES}/list_selected_dark.png") inside none;
+}
+
+#content.context.withsidebar #sidebar ul.main > li:hover,
+#content.context.withsidebar #sidebar ul.main > li.hover {
+    background-color: white;
+}
+
+#content.context.withsidebar #sidebar ul {
+    margin-left: 0px;
+    padding-left: 1em;
+}
+
+#content.context.withsidebar #sidebar * {
+    margin-right: 0;
+}
+
+#content.context.withsidebar #sidebar ul > li {
+    padding-top: .1em;
+    padding-bottom: .1em;
+    font-size: 93%;
+}
+
+#content.context.withsidebar #sidebar ul.main {
+    padding-left: 0;
+    text-transform: uppercase;
+}
+
+#content.context.withsidebar #sidebar ul.main > li {
+    margin-top: 20px;
+}
+
+#content.context.withsidebar #sidebar ul.main > li {
+    font-size: 108%;
+}
+
+#content.context.withsidebar #sidebar ul.main > li {
+    list-style: url("@{STATIC_IMAGES}/bullet.png") inside none;
 }
