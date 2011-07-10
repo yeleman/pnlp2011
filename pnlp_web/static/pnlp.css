@@ -65,6 +65,7 @@ td a,td a:visited,td a:hover,td a:link{color:#2d2d2d;}
 #content.context #context{position:relative;background-color:#ebebeb;padding:1em 0em 1em 0em;}
 #content.context th,#content.context td{border-left:2px solid #ebebeb;border-right:2px solid #ebebeb;}
 #content.context tr{border-bottom:solid 6px #ebebeb;}
+tr.reference th{background-color:#6ec750;}
 .click{cursor:pointer;}
 tr:hover td{background-color:#88d16f;}
 em{font-style:italic;}

@@ -30,28 +30,28 @@ class CasPaludismeSimpleTraitesCTA(IndicatorTable):
 
     @reference
     @indicator(0)
-    @label(u"Nombre de cas de paludisme simple chez les moins de 5 ans")
+    @label(u"Nombre de cas simple chez les moins de 5 ans")
     def u5_total_simple_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_simple_malaria_cases
 
     @indicator(1, 'u5_total_simple_malaria_cases')
-    @label(u"Cas de paludisme simple traités par CTA chez " \
-           u"les enfants de moins de 5 ans")
+    @label(u"Cas simple traités par CTA chez " \
+           u"les moins de 5 ans")
     def u5_total_treated_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_treated_malaria_cases
 
     @reference
     @indicator(2)
-    @label(u"Nombre de cas de paludisme simple chez les 5 ans et plus")
+    @label(u"Nombre de cas simple chez les 5 ans et plus")
     def o5_total_simple_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_simple_malaria_cases
 
     @indicator(3, 'o5_total_simple_malaria_cases')
-    @label(u"Cas de paludisme simple traités par CTA chez " \
-           u"les enfants de 5 ans et plus")
+    @label(u"Cas simple traités par CTA chez " \
+           u"les 5 ans et plus")
     def o5_total_treated_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_treated_malaria_cases
@@ -67,7 +67,8 @@ class CasPaludismeConfirmesTraitesCTA(IndicatorTable):
 
     default_options = {'with_percentage': False, \
                        'with_reference': True, \
-                       'with_data': True}
+                       'with_data': True, \
+                       'only_percent': False}
 
     def period_is_valid(self, period):
         return MalariaReport.validated.filter(entity=self.entity, \
@@ -77,8 +78,6 @@ class CasPaludismeConfirmesTraitesCTA(IndicatorTable):
     @label(u"Nbre de cas confirmés")
     def total_confirmed_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
-        print(report)
-        print(report.total_confirmed_malaria_cases)
         return report.total_confirmed_malaria_cases
 
     @indicator(1)

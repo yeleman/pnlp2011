@@ -62,7 +62,8 @@ class MalariaWithinAllConsultationGraph(IndicatorTable):
 
     default_options = {'with_percentage': True, \
                        'with_reference': False, \
-                       'with_data': False}
+                       'with_data': False, \
+                       'only_percent': True}
 
     def period_is_valid(self, period):
         return MalariaReport.validated.filter(entity=self.entity, \
