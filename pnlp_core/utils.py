@@ -88,6 +88,6 @@ def send_email(recipients, message=None, template=None, context={}, \
 def full_url(request=None, path=''):
     if path.startswith('/'):
         path = path[1:]
-    return 'http://%(domain)s/%(path)s' \
+    return 'http%(ssl)s://%(domain)s/%(path)s' \
            % {'domain': get_current_site(request).domain, \
-              'path': path}
+              'path': path, 'ssl': u"s" if settings.USE_HTTPS else u''}

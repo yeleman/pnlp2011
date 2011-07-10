@@ -46,3 +46,5 @@ EMAIL_SENDER = "PNLP <pnlp@sante.gov.ml>"
 
 HOTLINE_NUMBER = "65731076"
 HOTLINE_EMAIL = "pnlp@yeleman.com"
+
+USE_HTTPS = True

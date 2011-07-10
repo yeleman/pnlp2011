@@ -212,6 +212,8 @@ NOSMS_TRANSPORT_PORT = 13013
 HOTLINE_NUMBER = "00000000"
 HOTLINE_EMAIL = "root@localhost"
 
+USE_HTTPS = False
+
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
