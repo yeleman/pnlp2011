@@ -96,6 +96,7 @@ def test_indicators(request, entity_code=None, period_str=None, \
         sm = import_path('pnlp_core.indicators.section%d' % (section + 1))
         section = INDICATOR_SECTIONS[int(section)]
     except:
+        raise
         raise Http404(_(u"This section does not exist."))
 
     if not sub_section:
