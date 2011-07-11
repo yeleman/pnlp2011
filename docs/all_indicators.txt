@@ -1,28 +1,28 @@
 SECTION 1: Identification de la structure ayant notifié les données
 
-SECTION 2: Morbidité (Cas suspects, cas testés/confirmés) 
+SECTION 2: Morbidité (Cas suspects, cas testés/confirmés)
     Tout Age Confondu
-        - (T1.1a) Nombre de cas de paludisme (tout âge confondu) notifiés par trimestre
-        - (F1.1) Proportion des cas de paludisme par rapport aux consultations toutes causes confondues (TCC)
-        - (F1.2) Nombre de cas de paludisme  par mois (cas suspects,  cas testés,  cas confirmés)  tout âge confondu.
+        - (T2.1a) Nombre de cas de paludisme (tout âge confondu) notifiés par trimestre
+        - (F3.1) Proportion des cas de paludisme par rapport aux consultations toutes causes confondues (TCC)
+        - (F2.2) Nombre de cas de paludisme  par mois (cas suspects,  cas testés,  cas confirmés)  tout âge confondu.
 
     Moins de 5 ans
-        - (T1.1b) Nombre de cas de paludisme chez les enfants de moins de 5 ans
-        - (F1.2a) Evolution de la proportion de cas testés parmi les cas suspects et proportion de cas confirmés parmi les cas testés  chez les enfants de moins de 5 ans 
+        - (T2.1b) Nombre de cas de paludisme chez les enfants de moins de 5 ans
+        - (F2.2a) Evolution de la proportion de cas testés parmi les cas suspects et proportion de cas confirmés parmi les cas testés  chez les enfants de moins de 5 ans
 
     5 ans et plus
-        - (T1.1c) Nombre de cas de paludisme chez les personnes  de 5 ans et  plus
-        - (F1.2b) Nombre de cas de paludisme  par mois (cas suspects,  cas testés,  cas confirmés)  chez les personnes de 5 ans et plus.
+        - (T2.1c) Nombre de cas de paludisme chez les personnes  de 5 ans et  plus
+        - (F2.2b) Nombre de cas de paludisme  par mois (cas suspects,  cas testés,  cas confirmés)  chez les personnes de 5 ans et plus.
         - (F) Evolution de la proportion des cas testés parmi les cas suspects et proportion des cas confirmés parmi les cas testés  chez les personnes de 5 ans et plus
 
     Femmes enceintes
-        - (T1.1d) Nombre de cas de paludisme chez les femmes enceintes
-        - (F1.2c) Evolution de la proportion des cas testés parmi les cas suspects et proportion des cas confirmés parmi les cas testés  chez les femmes enceintes 
+        - (T2.1d) Nombre de cas de paludisme chez les femmes enceintes
+        - (F2.2c) Evolution de la proportion des cas testés parmi les cas suspects et proportion des cas confirmés parmi les cas testés  chez les femmes enceintes
 
-SECTION 3: Traitement 
-    - (T2.1) Cas de paludisme simple traités par CTA
-    - (F2.1) Nombre de cas de paludisme confirmés et nombre de cas traités par CTA 
-    - (F2.1) Evolution des proportions  de cas de paludisme simple traités par CTA Chez les moins de 5 ans et les 5 ans et plus
+SECTION 3: Traitement
+    - (T3.1) Cas de paludisme simple traités par CTA
+    - (F3.1) Nombre de cas de paludisme confirmés et nombre de cas traités par CTA
+    - (F3.2) Evolution des proportions  de cas de paludisme simple traités par CTA Chez les moins de 5 ans et les 5 ans et plus
 
 SECTION 4: Hospitalisation
     Tout Age Confondu
@@ -31,20 +31,20 @@ SECTION 4: Hospitalisation
 
     Moins de 5 ans
         - (T3.2a) Hospitalisation chez les moins de 5ans
-        - (F3.2b) Proportion des hospitalisations pour paludisme grave chez les moins de 5 ans (par rapport aux hospitalisations toutes causes confondues) 
+        - (F3.2b) Proportion des hospitalisations pour paludisme grave chez les moins de 5 ans (par rapport aux hospitalisations toutes causes confondues)
 
     5 ans et plus y compris femmes enceintes
         - (T3.2b) Hospitalisation  chez les 5 ans et plus
-        - (F3.2b) Proportion des hospitalisations pour paludisme grave chez les personnes de 5 ans et plus (par rapport aux hospitalisations toutes causes confondues) 
+        - (F3.2b) Proportion des hospitalisations pour paludisme grave chez les personnes de 5 ans et plus (par rapport aux hospitalisations toutes causes confondues)
 
     Femmes enceintes
         - (T3.2c) Hospitalisation chez les femmes enceintes
-        - (F3.2c) Proportion des hospitalisations pour paludisme grave chez les femmes enceintes (par rapport aux hospitalisations toutes causes confondues) 
+        - (F3.2c) Proportion des hospitalisations pour paludisme grave chez les femmes enceintes (par rapport aux hospitalisations toutes causes confondues)
 
 SECTION 5: Décès
     Tout Age Confondu
         - (T4.1) Décès notifiés  pour le trimestre tout âge confondu
-        - (F4.1) Proportion de décès dû au  paludisme (par rapport aux décès toutes causes confondues) 
+        - (F4.1) Proportion de décès dû au  paludisme (par rapport aux décès toutes causes confondues)
 
     Moins de 5 ans
         - (T4.2a) Décès notifiés  pour le trimestre chez les  moins de 5 ans
@@ -57,7 +57,7 @@ SECTION 5: Décès
     - (F4.3) Evolution du nombre de décès dû au paludisme Chez les moins de 5 ans, les 5 ans et plus et les femmes enceintes
 
 SECTION 6 : Moustiquaires imprégnées  d’Insecticides de Longue Durée (MILD)
-    - (T5.1) Nombre de Moustiquaires imprégnées  d’Insecticides de Longue Durée (MILD) distribuées 
+    - (T5.1) Nombre de Moustiquaires imprégnées  d’Insecticides de Longue Durée (MILD) distribuées
     - (F5.1) Evolution du nombre de MILD distribuées aux moins de 5 ans et femmes enceintes
 
 SECTION 7 : Rupture de stock de CTA
@@ -68,11 +68,11 @@ SECTION 8 : Rupture de stock des produits de PEC du paludisme grave
     - (T7.1) Pourcentage de structures avec Rupture de stock en produits de prise en charge des cas de paludisme grave
     - (F7.1) Evolution du pourcentage de Structures avec rupture de stock en produits de prise en charge des cas de paludisme grave
 
-SECTION 9 : Rupture de stock MILD, TDR, SP 
+SECTION 9 : Rupture de stock MILD, TDR, SP
     - (T8.1) Pourcentage de structures avec Rupture de stock en MILD, TDR, SP
     - (F8.1) Evolution du pourcentage de Structures avec rupture de stock en MILD, TDR, SP
 
 SECTION 10 : CPN et Traitement Préventif  Intermittent  (TPI)
     - (T9.1) Données sur la CPN et le Traitement Préventif  Intermittent  (TPI)
     - (F9.1) Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes
-    - (F9.2) Nombre de femmes enceintes reçues en CPN1 et Nombre de MILD distribuées aux femmes enceintes 
+    - (F9.2) Nombre de femmes enceintes reçues en CPN1 et Nombre de MILD distribuées aux femmes enceintes

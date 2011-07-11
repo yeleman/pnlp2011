@@ -9,17 +9,7 @@ from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
                                            reference, indicator, label, blank)
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
-
-
-def get_report_for(entity, period, validated=True):
-    """ MalariaReport for entity and period or raise NoSourceData """
-    try:
-        if validated:
-            return MalariaReport.validated.get(entity=entity, period=period)
-        else:
-            return MalariaReport.unvalidated.get(entity=entity, period=period)
-    except MalariaReport.DoesNotExist:
-        raise NoSourceData
+from pnlp_core.indicators.common import get_report_for
 
 
 class Under5MalariaTable(IndicatorTable):
@@ -46,7 +36,8 @@ class Under5MalariaTable(IndicatorTable):
 
     @blank
     @indicator(1)
-    def none(self): pass
+    def none(self):
+        pass
 
     @indicator(2, 'total_suspected_cases')
     @label(u". Cas simples")
@@ -59,6 +50,7 @@ class Under5MalariaTable(IndicatorTable):
     def severe_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_severe_malaria_cases
+
 
 class MalariaWithinAllConsultationGraph(IndicatorTable):
 
