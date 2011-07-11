@@ -5,7 +5,8 @@
 from django.utils.translation import ugettext as _
 
 from bolibana_reporting.models import Entity
-from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
+from bolibana_reporting.indicators import (IndicatorTable, \
+                                           NoSourceData, \
                                            reference, indicator, label)
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
@@ -36,7 +37,7 @@ class CasPaludismeSimpleTraitesCTA(IndicatorTable):
 
     @indicator(1, 'u5_total_simple_malaria_cases')
     @label(u"Cas de paludisme simple traités par CTA chez " \
-           "les enfants de moins de 5 ans")
+           u"les enfants de moins de 5 ans")
     def u5_total_treated_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_treated_malaria_cases
@@ -50,7 +51,7 @@ class CasPaludismeSimpleTraitesCTA(IndicatorTable):
 
     @indicator(3, 'o5_total_simple_malaria_cases')
     @label(u"Cas de paludisme simple traités par CTA chez " \
-           "les enfants de 5 ans et plus")
+           u"les enfants de 5 ans et plus")
     def o5_total_treated_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_treated_malaria_cases
@@ -61,7 +62,7 @@ class CasPaludismeConfirmesTraitesCTA(IndicatorTable):
     name = _(u"Figure 3.1")
     title = _(u" ")
     caption = _(u"Nombre de cas de paludisme confirmés et " \
-                "nombre de cas traités par CTA")
+                u"nombre de cas traités par CTA")
     type = 'graph'
 
     default_options = {'with_percentage': False, \
