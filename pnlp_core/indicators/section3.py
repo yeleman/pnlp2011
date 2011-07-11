@@ -70,10 +70,6 @@ class CasPaludismeConfirmesTraitesCTA(IndicatorTable):
                        'with_data': True, \
                        'only_percent': False}
 
-    def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
-
     @indicator(0)
     @label(u"Nbre de cas confirmés")
     def total_confirmed_malaria_cases(self, period):
@@ -102,10 +98,6 @@ class EvolutionProportionCasPaludismeSimpleTraitesU5O5(IndicatorTable):
                        'with_reference': False, \
                        'with_data': True, \
                        'only_percent': False}
-
-    def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
 
     @indicator(0)
     @label(u"Nbre de cas traités par CTA chez les mois de 5 ans")

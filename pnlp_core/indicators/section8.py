@@ -18,7 +18,7 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
 
     name = _(u"Tableau 8")
     title = _(u" ")
-    caption = _(u"Pourcentage de structures avec Rupture de stock en" \
+    caption = _(u"Pourcentage de structures avec rupture de stock en" \
              "produits de prise en charge des cas de paludisme grave")
     type = 'table'
 
@@ -26,17 +26,70 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
                        'with_total': True, \
                        'with_reference': True}
 
-    def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
-
     @reference
     @indicator(0)
     @label(u"Nombre total de structures dans le district")
-    def Nombre_total_structures_district(self, period):
-        report = get_report_for(self.entity, period)
-        print self.entity.children.count(),'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn'
-        return report.u5_total_simple_malaria_cases
+    def nombre_total_structures_district(self, period):
+        return self.entity.children.count()
+
+    @indicator(1, "nombre_total_structures_district")
+    @label(u"Structures avec rupture de stock d’Artheméter Injectable")
+    def structures_rupture_stock_arthemeter_injectable(self, period):
+        children = self.entity.get_children()
+        return MalariaReport.validated.filter(entity__in=children,\
+                    stockout_artemether=MalariaReport.YES).count()
+
+    @indicator(2, "nombre_total_structures_district")
+    @label(u"Structures avec rupture de stock de Quinine Injectable")
+    def structures_rupture_stock_Quinine_injectable(self, period):
+        children = self.entity.get_children()
+        return MalariaReport.validated.filter(entity__in=children,\
+                    stockout_quinine=MalariaReport.YES).count()
+
+    @indicator(3, "nombre_total_structures_district")
+    @label(u"Structures avec rupture de stock en Sérum Glucosé 10%")
+    def structures_rupture_stock_Serum_Glucose_injectable(self, period):
+        children = self.entity.get_children()
+        return MalariaReport.validated.filter(entity__in=children,\
+                    stockout_serum=MalariaReport.YES).count()
 
 
-WIDGETS = [PourcentageStructuresRuptureStockProduitPaluGrave]
+class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
+    """ Évolution des proportions  de cas de paludisme simple
+        traités par CTA Chez les moins de 5 ans et les 5 ans et plus"""
+
+    name = _(u"Figure 3.2")
+    title = _(u" ")
+    caption = _(u"Evolution du pourcentage de structures avec rupture" \
+                u"de stock en produits de prise en charge des cas de" \
+                u"paludisme grave")
+    type = 'graph'
+
+    default_options = {'with_percentage': False, \
+                       'with_reference': False, \
+                       'with_data': True, \
+                       'only_percent': False}
+
+    @indicator(1)
+    @label(u"Structures avec rupture de stock d’Artheméter injectable")
+    def structures_rupture_stock_arthemeter_injectable(self, period):
+        children = self.entity.get_children()
+        return MalariaReport.validated.filter(entity__in=children,\
+                    stockout_artemether=MalariaReport.YES).count()
+
+    @indicator(2)
+    @label(u"Structures avec rupture de stock de Quinine injectable")
+    def structures_rupture_stock_Quinine_injectable(self, period):
+        children = self.entity.get_children()
+        return MalariaReport.validated.filter(entity__in=children,\
+                    stockout_quinine=MalariaReport.YES).count()
+
+    @indicator(3)
+    @label(u"Structures avec rupture de stock en sérum glucosé 10%")
+    def structures_rupture_stock_Serum_Glucose_injectable(self, period):
+        children = self.entity.get_children()
+        return MalariaReport.validated.filter(entity__in=children,\
+                    stockout_serum=MalariaReport.YES).count()
+
+WIDGETS = [PourcentageStructuresRuptureStockProduitPaluGrave, \
+            EvolutionStructuresRuptureStockProduitPaluGrave]
