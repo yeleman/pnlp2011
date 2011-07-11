@@ -11,6 +11,4 @@ from pnlp_core.indicators.common import get_report_for
 from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 
 
-
-
 WIDGETS = []
