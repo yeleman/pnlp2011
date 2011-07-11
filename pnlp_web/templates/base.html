@@ -11,23 +11,9 @@
     {% endblock %}
     <script type="text/javascript" src="{% url static 'jquery-1.6.2.min.js' %}"></script>
     {% if category == 'indicator_data' %}<script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>{% endif %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-           $("ul#messages").click(function(event){
-             //$(this).addClass('hidden');
-             $(this).hide("slow");
-           });
-           $("#logo").click(function(event) {
-                location.href = '{% url index %}';
-           });
-           {% block jqueryonload %}{% endblock %}
-         });
-         {% block inlinejs %}{% endblock %}
-    </script>
 </head>
 <body>
     <div id="page">
-
         <div id="header" class="mainbox">
             <div id="logo"></div>
             <h1><a href="{% url index %}">PNLP – Programe National de Lutte contre le Paludisme</a></h1>
@@ -67,4 +53,12 @@
         </div>
     </div>
 </body>
+<script type="text/javascript">
+    $(document).ready(function(){
+       $("ul#messages").click(function(event){$(this).hide("slow"); });
+       $("#logo").click(function(event) { location.href = '{% url index %}'; });
+       {% block jqueryonload %}{% endblock %}
+     });
+     {% block inlinejs %}{% endblock %}
+</script>
 </html>

@@ -94,16 +94,20 @@ def test_indicators(request, entity_code=None, period_str=None, \
 
     context.update({'sections': INDICATOR_SECTIONS})
 
+    if not sub_section:
+        if len(section['sections']):
+            sub_section = section['sections'].keys()[0]
+
     try:
-        sm = import_path('pnlp_core.indicators.section%d' % (section + 1))
+        sname = 'pnlp_core.indicators.section%d' % (section + 1)
+        if sub_section:
+            sname = '%s_%s' % (sname, sub_section.__str__())
+        #print(sname)
+        sm = import_path(sname)
         section = INDICATOR_SECTIONS[int(section)]
     except:
         raise
         raise Http404(_(u"This section does not exist."))
-
-    if not sub_section:
-        if len(section['sections']):
-            sub_section = section['sections'].keys()[0]
 
     context.update({'section': section, 'sub_section': sub_section})
 
