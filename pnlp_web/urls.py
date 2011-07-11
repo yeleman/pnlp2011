@@ -22,7 +22,7 @@ RGXP_SUBSECTION = '(?P<sub_section>[a-z\_]+)'
 urlpatterns = patterns('',
     (r'^nosms/', include('nosms.urls')),
 
-    url(r'^/?$', views.dashboard.index, name='index'),
+    url(r'^/?$', views.dashboard.dashboard, name='index'),
     url(r'^profile/$', views.profile.edit_profile, name='profile'),
 
     # login
@@ -48,8 +48,8 @@ urlpatterns = patterns('',
     url(r'^raw_data/' + RGXP_ENTITY + '$', \
         views.raw_data.data_browser, name='raw_data'),
     url(r'^raw_data/$', views.raw_data.data_browser, name='raw_data'),
-    #url(r'^raw_data/excel/'+ RGXP_RECEIPT + '$', \
-    #    views.raw_data.excel_export, name='raw_data_excel'),
+    url(r'^raw_data/excel/' + RGXP_RECEIPT + '$', \
+        views.raw_data.excel_export, name='raw_data_excel'),
 
     # Indicator Views
     url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '/' \

@@ -8,10 +8,9 @@
     <link rel="stylesheet" media="screen" type="text/css" href="{% url static 'pnlp.css' %}" title="PNLP 2011" />
     <link rel="shortcut icon" href="{% url static 'images/pnlp_favicon.png' %}" />
     {% block javascript %}
-    
     {% endblock %}
-    <script type="text/javascript" src="{% url static 'jquery-1.6.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>
+    <script type="text/javascript" src="{% url static 'jquery-1.6.2.min.js' %}"></script>
+    {% if category == 'indicator_data' %}<script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>{% endif %}
     <script type="text/javascript">
         $(document).ready(function(){
            $("ul#messages").click(function(event){
@@ -25,7 +24,6 @@
          });
          {% block inlinejs %}{% endblock %}
     </script>
-    
 </head>
 <body>
     <div id="page">
@@ -42,14 +40,10 @@
             <li><a href="{% url login %}" title="{% trans 'Log in' %}">{% trans "Log in" %}</a></li>
             {% endif %}
             <li><a href="{% url help %}" title="{% trans 'View Help Topics' %}">{% trans "Help" %}</a></li>
-            <!--
-            <li><a href="{% url support %}" title="Contact Technical Support">Contact</a></li>
-            <li><a href="{% url about %}" title="About this Web Site">About</a></li>-->
             </ul>
 
             <div id="breadcrumbs">{%block breadcrumbs %}{% endblock %}</div>
             <div id="menu">{% include "menu.html" with category=category%}</div>
-           
         </div>
         {% block submenu %}{% endblock %}
         <div id="content" class="mainbox {% block page-name %}default{% endblock %} {% block content-class %}{% endblock %}">

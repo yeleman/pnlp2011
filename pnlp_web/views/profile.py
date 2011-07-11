@@ -7,7 +7,6 @@ from django.contrib import messages
 from django.shortcuts import render, RequestContext, redirect
 from django.utils.translation import ugettext as _, ugettext_lazy
 
-from pnlp_web.views.dashboard import index
 from pnlp_web.decorators import provider_required
 
 
@@ -56,7 +55,7 @@ def edit_profile(request):
             provider.phone_number = form.cleaned_data.get('phone_number')
             provider.save()
             messages.success(request, _(u"Profile details updated."))
-            return redirect(index)
+            return redirect('index')
     elif is_password:
         form = ProviderForm(provider.to_dict())
 
