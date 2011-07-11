@@ -27,7 +27,7 @@ body {
     width: 955px;
     height: 160px;
     background-color: @green;
-    background-image: url("@{STATIC_IMAGES}/header.png");
+    background-image: @header_png;
 
     box-shadow: 0 1px 6px rgba(0,0,0,0.77);
 }
@@ -80,7 +80,7 @@ ul#user-menu li:hover a {
 }
 
 #menu {
-    background-image: url("@{STATIC_IMAGES}/menu_bg.png");
+    background-image: @menu_bg_png;
     height: 64px;
     position: absolute;
     width: 730px;
@@ -110,7 +110,7 @@ ul#user-menu li:hover a {
 }
 
 #menu ul li:hover, #menu ul li.hover {
-    background-image: url("@{STATIC_IMAGES}/menu_selected.png");
+    background-image: @menu_selected_png;
     background-position: center top;
     background-repeat: no-repeat;
 }
@@ -154,7 +154,7 @@ h1.pagetitle,
 h2.pagetitle {
     font-size: 116%;
     text-transform: uppercase;
-    background-image: url("@{STATIC_IMAGES}/bullet.png");
+    background-image: @bullet_png;
     background-position: left center;
     background-repeat: no-repeat;
     padding-left: 1em;
@@ -196,7 +196,7 @@ h2.pagetitle {
 h2 {
     font-size: 123.1%;
     text-transform: uppercase;
-    background-image: url("@{STATIC_IMAGES}/bullet2.png");
+    background-image: @bullet2_png;
     background-position: left center;
     background-repeat: no-repeat;
     padding-left: 1.5em;
@@ -528,7 +528,7 @@ button.formbutt {
     font-size: 85%;
     cursor: pointer;
     font-weight: 600;
-    background-image: url("@{STATIC_IMAGES}/button_bubble.png");
+    background-image: @button_bubble_png;
     background-position: 98% 40%;
     background-repeat: no-repeat;
     box-shadow: inset -1px -1px #888;
@@ -577,7 +577,7 @@ button.linkbutt {
 }
 
 button.download {
-    background-image: url("@{STATIC_IMAGES}/button_bubble_download.png");
+    background-image: @button_bubble_download_png;
 }
 
 
@@ -595,7 +595,7 @@ button.download {
 #submenu label {
     padding-right: 15px;
     margin-right: 20px;
-    background-image: url("@{STATIC_IMAGES}/arrow.png");
+    background-image: @arrow_png;
     background-position: right 65%;
     background-repeat: no-repeat;
 }
@@ -621,7 +621,7 @@ background-color: white;
     font-size: 85%;
     cursor: pointer;
     font-weight: 600;
-    //background-image: url("@{STATIC_IMAGES}/select_bubble.png");
+    //background-image: @select_bubble_png;
     background-position: 98% 40%;
     background-repeat: no-repeat;
     box-shadow: inset -1px -1px #888;
@@ -695,7 +695,7 @@ background-color: white;
 }
 
 #content.context.withsidebar #sidebar ul li.hover {
-    list-style: url("@{STATIC_IMAGES}/list_selected_dark.png") outside none;
+    list-style: @list_selected_dark_png outside none;
 }
 
 #content.context.withsidebar #sidebar ul.main > li:hover,
@@ -737,5 +737,5 @@ background-color: white;
 }
 
 #content.context.withsidebar #sidebar ul.main > li {
-    list-style: url("@{STATIC_IMAGES}/bullet.png") inside none;
+    list-style: @bullet_png inside none;
 }

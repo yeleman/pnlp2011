@@ -45,10 +45,12 @@ def test_indicators(request, entity_code=None, period_str=None, \
     if period_str:
         speriod_str, eperiod_str = period_str.split('-')
         try:
-            speriod = MonthPeriod.find_create_from(year=int(speriod_str[-4:]), \
+            speriod = MonthPeriod.find_create_from(\
+                                                  year=int(speriod_str[-4:]), \
                                                   month=int(speriod_str[:2]), \
                                                   dont_create=True)
-            eperiod = MonthPeriod.find_create_from(year=int(eperiod_str[-4:]), \
+            eperiod = MonthPeriod.find_create_from(\
+                                                  year=int(eperiod_str[-4:]), \
                                                   month=int(eperiod_str[:2]), \
                                                   dont_create=True)
             if speriod.middle() >= eperiod.middle():
@@ -104,7 +106,6 @@ def test_indicators(request, entity_code=None, period_str=None, \
             sub_section = section['sections'].keys()[0]
 
     context.update({'section': section, 'sub_section': sub_section})
-
 
     context.update({'widgets': [widget(entity=entity, periods=periods) \
                                 for widget in sm.WIDGETS]})

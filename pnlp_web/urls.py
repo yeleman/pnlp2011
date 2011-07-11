@@ -35,26 +35,40 @@ urlpatterns = patterns('',
     url(r'^upload/$', views.excel_upload.upload_form, name='upload'),
 
     # district, region
-    url(r'^validation/$', views.validation.validation_list, name='validation'),
-    url(r'^validation/do/'+ RGXP_RECEIPT + '$', views.validation.report_do_validation, name='report_do_validation'),
-    url(r'^validation/'+ RGXP_RECEIPT + '$', views.validation.report_validation, name='report_validation'),
+    url(r'^validation/$', \
+        views.validation.validation_list, name='validation'),
+    url(r'^validation/do/' + RGXP_RECEIPT + '$', \
+        views.validation.report_do_validation, name='report_do_validation'),
+    url(r'^validation/' + RGXP_RECEIPT + '$', \
+        views.validation.report_validation, name='report_validation'),
 
     # ALL
-    url(r'^raw_data/'+ RGXP_ENTITY +'/'+ RGXP_PERIOD + '$', views.raw_data.data_browser, name='raw_data'),
-    url(r'^raw_data/'+ RGXP_ENTITY +'$', views.raw_data.data_browser, name='raw_data'),
+    url(r'^raw_data/' + RGXP_ENTITY + '/' + RGXP_PERIOD + '$', \
+        views.raw_data.data_browser, name='raw_data'),
+    url(r'^raw_data/' + RGXP_ENTITY + '$', \
+        views.raw_data.data_browser, name='raw_data'),
     url(r'^raw_data/$', views.raw_data.data_browser, name='raw_data'),
-    #url(r'^raw_data/excel/'+ RGXP_RECEIPT + '$', views.raw_data.excel_export, name='raw_data_excel'),
+    #url(r'^raw_data/excel/'+ RGXP_RECEIPT + '$', \
+    #    views.raw_data.excel_export, name='raw_data_excel'),
 
     # Indicator Views
-    url(r'^browse/'+ RGXP_ENTITY +'/'+ RGXP_PERIODS + '/' + RGXP_SECTION + '/' + RGXP_SUBSECTION + '$', views.indicators.test_indicators, name='indicator_data'),
-    url(r'^browse/'+ RGXP_ENTITY +'/'+ RGXP_PERIODS + '/' + RGXP_SECTION + '$', views.indicators.test_indicators, name='indicator_data'),
-    url(r'^browse/'+ RGXP_ENTITY +'/'+ RGXP_PERIODS + '$', views.indicators.test_indicators, name='indicator_data'),
-    url(r'^browse/'+ RGXP_ENTITY +'$', views.indicators.test_indicators, name='indicator_data'),
+    url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '/' \
+         + RGXP_SECTION + '/' + RGXP_SUBSECTION + '$', \
+        views.indicators.test_indicators, name='indicator_data'),
+    url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '/' \
+         + RGXP_SECTION + '$', \
+        views.indicators.test_indicators, name='indicator_data'),
+    url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '$', \
+        views.indicators.test_indicators, name='indicator_data'),
+    url(r'^browse/' + RGXP_ENTITY + '$', \
+        views.indicators.test_indicators, name='indicator_data'),
     url(r'^browse/$', views.indicators.test_indicators, name='indicator_data'),
 
     # ANTIM
-    url(r'^users/?$', provider_permission('can_manage_users')(views.providers.ProvidersListView.as_view()), \
-                      name='list_users'),
+    url(r'^users/?$', \
+        provider_permission('can_manage_users')(views.providers. \
+                                                ProvidersListView.as_view()), \
+        name='list_users'),
     url(r'^users/add$', views.providers.add_edit_user, name='add_user'),
     url(r'^users/edit/(?P<user_id>[0-9]+)$', \
         views.providers.add_edit_user, name='edit_user'),

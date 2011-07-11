@@ -149,32 +149,33 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '[%(levelname)s] %(asctime)s %(name)s/L%(lineno)d: %(message)s'
+            'format': '[%(levelname)s] %(asctime)s ' \
+                      '%(name)s/L%(lineno)d: %(message)s'
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
         },
     },
     'handlers': {
-        'console':{
-            'level':'INFO',
-            'class':'logging.StreamHandler',
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
-        'debug':{
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
+        'debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'verbose',
             'filename': os.path.join(TEMP_DIR, 'pnlp_debug.log'),
-            'maxBytes': 1024*1024*2, # 2MB
+            'maxBytes': 1024 * 1024 * 2,  # 2MB
             'backupCount': 1
         },
-        'file':{
-            'level':'WARNING',
-            'class':'logging.handlers.TimedRotatingFileHandler',
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
             'when': 'W0',
             'interval': 1,
-            'backupCount': 8, 
+            'backupCount': 8,
             'formatter': 'verbose',
             'filename': os.path.join(LOGS_DIR, 'activity.log'),
         },
