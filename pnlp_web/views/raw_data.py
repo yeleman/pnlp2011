@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext as _
+from django.http import HttpResponse, Http404
 
 from pnlp_core.data import (MalariaDataHolder, \
                             MalariaReportForm, \
@@ -20,6 +21,7 @@ from bolibana_reporting.models import Entity, MonthPeriod
 from pnlp_web.decorators import provider_required, provider_permission
 from pnlp_core.models import MalariaReport
 from pnlp_core.validators import MalariaReportValidator
+from pnlp_core.exports import report_as_excel
 
 
 @provider_permission('can_view_raw_data')
@@ -96,3 +98,29 @@ def data_browser(request, entity_code=None, period_str=None):
         context.update({'no_report': True})
 
     return render(request, 'raw_data.html', context)
+
+
+@provider_required
+def excel_export(request, report_receipt):
+    context = {'category': 'raw_data'}
+    web_provider = request.user.get_profile()
+
+    report = get_object_or_404(MalariaReport, receipt=report_receipt)
+    context.update({'report': report})
+
+    # check permission or raise 403
+    provider_can_or_403('can_view_raw_data', web_provider, report.entity)
+
+    file_name = 'PNLP_%(entity)s.%(month)s.%(year)s.xls' \
+                % {'entity': report.entity.slug, \
+                   'month': report.period.middle().month, \
+                   'year': report.period.middle().year}
+
+    file_content = report_as_excel(report).getvalue()
+
+    response = HttpResponse(file_content, \
+                            content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % file_name
+    response['Content-Length'] = len(file_content)
+
+    return response

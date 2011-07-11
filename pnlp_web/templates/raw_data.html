@@ -65,7 +65,7 @@ $("#period_select").change(function (event) {
 <p><strong>Auteur</strong>: {{ report.created_by.name_access }}</p>
 <p><strong>Créé le</strong>: {{ report.created_on|datetimefmt }}</p>
 <p><strong>Modifié par</strong>: {{ report.modified_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
-<div class="rightbuttons"><a href=""><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
+<div class="rightbuttons"><a href="{% url raw_data_excel report.receipt %}"><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
 <table class="center">
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Consultation</th></tr>
 <tr><th class="center">Moins de 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
