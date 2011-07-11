@@ -1,0 +1,28 @@
+#!/bin/sh
+# encoding: utf-8
+# maintainer rgaudin
+
+LESS_PATH=0
+LESS_FILE=0
+for file in `find ~ -name 'less.js'`
+do
+        LESS_PATH="$file/bin"
+done
+
+for file in `find ~ -name 'pnlp.less'`
+do
+        LESS_FILE=$file
+done
+
+if [ $LESS_PATH = 0 ]; then
+    echo "Unable to find less.js binary"
+    exit 1
+fi
+
+if [ $LESS_FILE = 0 ]; then
+    echo "Unable to find your pnlp.less file"
+    exit 1
+fi
+
+cd $LESS_PATH && ./lessc $1 $2 $3 $LESS_FILE
+
