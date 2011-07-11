@@ -16,7 +16,7 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
     """Pourcentage de structures avec Rupture de stock en produits
     de prise en charge des cas de paludisme grave"""
 
-    name = _(u"Tableau 8")
+    name = _(u"Tableau 7.1")
     title = _(u" ")
     caption = _(u"Pourcentage de structures avec rupture de stock en" \
              "produits de prise en charge des cas de paludisme grave")
@@ -58,7 +58,7 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
     """ Évolution des proportions  de cas de paludisme simple
         traités par CTA Chez les moins de 5 ans et les 5 ans et plus"""
 
-    name = _(u"Figure 3.2")
+    name = _(u"Figure 7.1")
     title = _(u" ")
     caption = _(u"Evolution du pourcentage de structures avec rupture" \
                 u"de stock en produits de prise en charge des cas de" \
@@ -71,21 +71,21 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
                        'only_percent': False}
 
     @indicator(1)
-    @label(u"Structures avec rupture de stock d’Artheméter injectable")
+    @label(u"Arthemeter Injactable")
     def structures_rupture_stock_arthemeter_injectable(self, period):
         children = self.entity.get_children()
         return MalariaReport.validated.filter(entity__in=children,\
                     stockout_artemether=MalariaReport.YES).count()
 
     @indicator(2)
-    @label(u"Structures avec rupture de stock de Quinine injectable")
+    @label(u"Quinine Injectable")
     def structures_rupture_stock_Quinine_injectable(self, period):
         children = self.entity.get_children()
         return MalariaReport.validated.filter(entity__in=children,\
                     stockout_quinine=MalariaReport.YES).count()
 
     @indicator(3)
-    @label(u"Structures avec rupture de stock en sérum glucosé 10%")
+    @label(u"Serum Glucosé 10%")
     def structures_rupture_stock_Serum_Glucose_injectable(self, period):
         children = self.entity.get_children()
         return MalariaReport.validated.filter(entity__in=children,\
