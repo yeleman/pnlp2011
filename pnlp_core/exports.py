@@ -6,7 +6,7 @@
 import xlwt
 import StringIO
 
-#Définition des bordures
+# Définition des bordures
 borders = xlwt.Borders()
 borders.left = 1
 borders.right = 1
@@ -24,11 +24,14 @@ borderight.left = 0
 borderight.right = 2
 borderight.top = 0
 borderight.bottom = 2
-#Définition du font
+
+# Définition du font
 font = xlwt.Font()
 font.bold = True
-#Taille des caractères
+
+# Taille des caractères
 font.height = 10 * 0x14
+
 # On définit l'alignement
 al = xlwt.Alignment()
 al.horz = xlwt.Alignment.HORZ_CENTER
@@ -89,25 +92,27 @@ styleg.font = font
 
 
 def report_as_excel(report):
-    ''' Export des rapports en xls
-        Principe:
-            write( (nbre ligne - 1), nbre colonne, "contenu",
-            style(optionnel).
-            write_merge( (nbre ligne - 1), (nbre ligne - 1) + nbre de ligne
-            à merger, (nbre de colonne - 1), (nbre de colonne - 1) + nbre
-            de colonne à merger, u"contenu", style(optionnel)). '''
+    """ Export des rapports en xls """
 
     def report_status_verbose(value):
         for v, name in report.YESNO:
             if v.__str__() == value:
                 return name.__unicode__()
         return value
+
     # On crée le doc xls
     book = xlwt.Workbook(encoding='utf-8')
+
     # On crée une feuille nommé Report
     sheet = book.add_sheet(u"Report")
+
     # J'agrandi la colonne à trois fois la normale.
     sheet.col(0).width = 0x0d00 * 3
+
+    # write((nbre ligne - 1), nbre colonne, "contenu", style(optionnel).
+    # write_merge((nbre ligne - 1), (nbre ligne - 1) + nbre de ligne
+    # à merger, (nbre de colonne - 1), (nbre de colonne - 1) + nbre
+    # de colonne à merger, u"contenu", style(optionnel)).
     sheet.write_merge(0, 0, 0, 12, u"Formulaire de Collecte - Données"\
                      u"sur l'Information de Routime du PNLP - Niveau" \
                      u"District Sanitaire (Csréf/Cscom)", styleg)
@@ -163,8 +168,10 @@ def report_as_excel(report):
     sheet.write(2, 3, report.period.middle().month, styledate)
     sheet.write(2, 5, u"Année")
     sheet.write(2, 6, report.period.middle().year, styledate)
+
     # Consultation
     sheet.write_merge(4, 4, 2, 7, u"Consultation", styletitle)
+
     # les données de < 5 ans
     sheet.write_merge(5, 5, 2, 3, u"< 5 ans", styletitle)
     sheet.write_merge(6, 6, 2, 3, \
@@ -188,6 +195,7 @@ def report_as_excel(report):
     sheet.write_merge(12, 12, 2, 3, \
                           report.u5_total_treated_malaria_cases, \
                                                         stylevariable)
+
     # les données de 5 ans et plus
     sheet.write_merge(5, 5, 4, 5, u"5 ans et plus", styletitle)
     sheet.write_merge(6, 6, 4, 5, \
@@ -211,6 +219,7 @@ def report_as_excel(report):
     sheet.write_merge(12, 12, 4, 5, \
                           report.o5_total_treated_malaria_cases, \
                                                         stylevariable)
+
     # les données des Femmes enceintes
     sheet.write_merge(5, 5, 6, 7, u"Femmes enceintes", styletitle)
     sheet.write_merge(6, 6, 6, 7, \
@@ -232,7 +241,7 @@ def report_as_excel(report):
     sheet.write_merge(12, 12, 6, 7, \
                           report.pw_total_treated_malaria_cases, \
                                                         stylevariable)
-    #Hospitalisations
+    # Hospitalisations
     sheet.write_merge(14, 14, 2, 7, u"Hospitalisations", styletitle)
     # les données de < 5 ans
     sheet.write_merge(15, 15, 2, 3, u"< 5 ans", styletitle)
@@ -250,6 +259,7 @@ def report_as_excel(report):
     sheet.write_merge(17, 17, 4, 5, \
                               report.o5_total_malaria_inpatient, \
                                                         stylevariable)
+
     # les données des Femmes enceintes
     sheet.write_merge(15, 15, 6, 7, u"Femmes enceintes", styletitle)
     sheet.write_merge(16, 16, 6, 7, \
@@ -258,9 +268,11 @@ def report_as_excel(report):
     sheet.write_merge(17, 17, 6, 7, \
                               report.pw_total_malaria_inpatient, \
                                                         stylevariable)
-    #Decès
+
+    # SECTION Decès
     sheet.write_merge(19, 19, 2, 7, u"Decès", styletitle)
-    #les données de < 5 ans
+
+    # * les données de < 5 ans
     sheet.write_merge(20, 20, 2, 3, u"< 5 ans", styletitle)
     sheet.write_merge(21, 21, 2, 3, \
                                report.u5_total_death_all_causes, \
@@ -268,18 +280,21 @@ def report_as_excel(report):
     sheet.write_merge(22, 22, 2, 3, report.u5_total_malaria_death, \
                                                                  \
                                                         stylevariable)
-    #les données de 5 ans et plus
+
+    # les données de 5 ans et plus
     sheet.write_merge(20, 20, 4, 5, u"5 ans et plus", styletitle)
     sheet.write_merge(21, 21, 4, 5, report.o5_total_death_all_causes, \
                                                         stylevariable)
     sheet.write_merge(22, 22, 4, 5, report.o5_total_malaria_death, \
                                                         stylevariable)
-    #les données de Femmes enceintes
+
+    # les données de Femmes enceintes
     sheet.write_merge(20, 20, 6, 7, u"Femmes enceintes", styletitle)
     sheet.write_merge(21, 21, 6, 7, report.pw_total_death_all_causes, \
                                                         stylevariable)
     sheet.write_merge(22, 22, 6, 7, report.pw_total_malaria_death, \
                                                         stylevariable)
+
     # Moustiquaires imprégnéés d'insecticide distrivuées
     # < 5 ans
     sheet.write_merge(25, 25, 2, 3, u"< 5 ans", stylelabel)
@@ -291,7 +306,7 @@ def report_as_excel(report):
                             report.pw_total_distributed_bednets, \
                                                         stylevariable)
 
-    #Rupture de stock CTA pendant le mois (Oui, Non)
+    # Rupture de stock CTA pendant le mois (Oui, Non)
     sheet.write_merge(3, 3, 9, 12, u"Rupture de stock CTA pendant" \
                                    u"le mois \n (Oui, Non)", styletitle)
     sheet.write_merge(4, 4, 9, 11, u"CTA Nourisson - Enfant", stylelabel)
@@ -307,8 +322,9 @@ def report_as_excel(report):
                report_status_verbose(report.stockout_act_adult), \
                                                         stylevariable)
     sheet.write_merge(7, 7, 8, 12, u"")
-    #PEC de cas de Paludisme grave
-    #Rupture de soctk OUI/NON
+
+    # PEC de cas de Paludisme grave
+    # Rupture de soctk OUI/NON
     sheet.write_merge(8, 9, 9, 12, u"PEC de cas de Paludisme grave" \
                             u"\nRupture de soctk OUI/NON", styletitle)
     sheet.write_merge(10, 10, 9, 11, u"Arthemether injectable", stylelabel)
@@ -321,7 +337,8 @@ def report_as_excel(report):
     sheet.write_merge(12, 12, 9, 11, u"Serum", stylelabel)
     sheet.write(12, 12, report_status_verbose(report.stockout_serum), \
                                                         stylevariable)
-    #Rupture de stock pendant le mois O/N (Oui, Non)
+
+    # Rupture de stock pendant le mois O/N (Oui, Non)
     sheet.write_merge(14, 14, 10, 12, u"Rupture de stock pendant" \
                                       u" le mois O/N \n(Oui, Non)",\
                                        styletitle)
@@ -334,6 +351,7 @@ def report_as_excel(report):
     sheet.write_merge(17, 17, 10, 11, u"SP", stylelabel)
     sheet.write(17, 12, report_status_verbose(report.stockout_sp), \
                                                         stylevariable)
+
     # CPN/SP des femme s enceintes (nbre)
     sheet.write_merge(19, 20, 10, 12, u"CPN/SP des femmes" \
                                       u"enceintes (nbre)", styleg)
