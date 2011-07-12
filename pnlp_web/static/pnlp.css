@@ -141,5 +141,7 @@ select.browser{background-color:white;color:#2c3238;text-transform:uppercase;bor
 #content.context.withsidebar #sidebar ul.main>li{margin-top:20px;}
 #content.context.withsidebar #sidebar ul.main>li{font-size:108%;}
 #content.context.withsidebar #sidebar ul.main>li{list-style:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAHCAMAAAACh/xsAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFQUdPiNFv/////hwx+wAAAAN0Uk5T//8A18oNQQAAACBJREFUeNpiYAICBhBmhLIYmKAsIBvCQogg1EB1AQQYAAu8AF6MN82cAAAAAElFTkSuQmCC) inside none;}
-#content.http ul{font-size:100%;margin:1em;}
-#content.http ul li{font-size:100%;}
+#content>ul{font-size:100%;margin:1em;}
+#content>ul li{font-size:100%;}
+#content>ul.help{font-size:113%;}
+#content>ul.help a{font-weight:bold;color:#2d2d2d;}

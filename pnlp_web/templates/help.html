@@ -4,5 +4,26 @@
 {% block pagetitle %}<h1 class="pagetitle">Aide en ligne</h1>{% endblock %}
 
 {% block content %}
-<p>Contenu à développer.</p>
+<p>Cette section vous permettra de trouver des réponses aux questions que vous pouvez vous poser sur l'outil.</p>
+<p>Si vous ne trouvez pas satisfaction dans cette section, <a href="{% url support %}">faîtes nous en part</a> pour que nous améliorions ce contenu.</p>
+
+<h2>Listes des sujets traités</h2>
+<ul class="help">
+<li><a href="#lost_login">J'ai perdu mon identifiant.</a></li>
+<li><a href="#lost_password">J'ai perdu mon mot de passe.</a></li>
+</ul>
+
+<h2>Réponses</h2>
+
+<a name="lost_login"></a>
+<h3>J'ai perdu mon identifiant.</h3>
+<p>En cas de perte de votre identifiant, il vous faut contacter l'ANTIM.</p>
+<p>Vous pouvez les joindre via le <a href="{% url support %}">formulaire de contact</a> ou par téléphone.</p>
+
+
+<a name="lost_password"></a>
+<h3>J'ai perdu mon mot de passe.</h3>
+<p>En cas de perte de votre mot de passe, il vous faut contacter l'ANTIM.</p>
+<p>Vous pouvez les joindre via le <a href="{% url support %}">formulaire de contact</a> ou par téléphone.</p>
+
 {% endblock %}
