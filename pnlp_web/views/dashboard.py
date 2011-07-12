@@ -10,6 +10,6 @@ from pnlp_web.views import validation
 from pnlp_web.decorators import provider_required
 
 
-@login_required
+@provider_required
 def dashboard(request):
     return render(request, 'dashboard.html', {})
