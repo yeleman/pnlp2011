@@ -144,7 +144,10 @@ def report_type_verbose(value):
 
 
 def strnum_french(numstr):
-    return numstr.replace(',', ' ').replace('.', ',')
+    if locale.getdefaultlocale()[0].startswith('fr'):
+        return numstr
+    else:
+        return numstr.replace(',', ' ').replace('.', ',')
 
 
 @register.filter(name='numberformat')
