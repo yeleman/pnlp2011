@@ -31,7 +31,6 @@ def provider_required(target):
             # then foward logged-in or not to the login page.
             # logged-in users will see message there.
             return redirect('/login')
-    wrapper.decorated = True
     return wrapper
 
 
@@ -45,14 +44,12 @@ def provider_permission(permission, entity=None):
             except:
                 # user is not a provider. could be logged-in though.
                 # forwards to provider_required
-                return provider_required(target)(*args, **kwargs)
+                return provider_required(target)(request, *args, **kwargs)
             else:
                 # user is valid provider.
                 # need to check if has permission. if not, 403.
                 if provider_can_or_403(permission, web_provider, entity):
                     return target(request, *args, **kwargs)
                 raise Http403
-
-        wrapper.decorated = True
         return wrapper
     return decorator
