@@ -12,7 +12,9 @@ from pnlp_core.data import current_reporting_period
 
 
 class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
-    """Pourcentage de structures avec Rupture de stock en MILD, TDR, SP"""
+    """ Tableau: Pourcentage de structures avec Rupture de stock en MILD, TDR,
+
+        SP """
 
     name = _(u"Tableau 8.1")
     title = _(u" ")
@@ -57,6 +59,9 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
 
 
 class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
+    """ Graphe: Evolution du pourcentage de Structures avec rupture de stock en
+
+        MILD, TDR, SP """
 
     name = _(u"Figure 8.1")
     title = _(u" ")

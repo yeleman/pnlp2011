@@ -13,7 +13,8 @@ from pnlp_core.indicators.common import get_report_for
 
 
 class NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD(IndicatorTable):
-    """Tableau: Nombre de Moustiquaires imprégnées  d’Insecticides
+    """ Tableau: Nombre de Moustiquaires imprégnées  d’Insecticides
+
        de Longue Durée (MILD) distribuées"""
 
     # Information du tableau
@@ -51,6 +52,7 @@ class NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD(IndicatorTable):
 
 class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable):
     """Graphe: Evolution du nombre de MILD distribuées aux moins
+
        de 5 ans et femmes enceintes"""
 
     # Information du tableau

@@ -12,7 +12,10 @@ from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 
 
 class CasPaludismeEnfantsMoins5ans(IndicatorTable):
-    """ Nombre de cas de paludisme chez les enfants de moins de 5 ans """
+    """ Tableau: Nombre de cas de paludisme chez les enfants de moins de
+
+        5 ans """
+
     name = u"Tableau 2.1b"
     title = u"Enfants moins de 5 ans"
     caption = u"Nombre de cas de paludisme chez les enfants de moins de 5 ans"
@@ -70,6 +73,7 @@ class NbreCasSuspectesTestesConfirmesUnderFive(NbreCasSuspectesTestesConfirmes):
 
         proportion de cas confirmés parmi les cas testés  chez les enfants de
         moins de 5 ans """
+
     name = u"Figure 2.2a"
     caption = u"Evolution de la proportion de cas testés parmi les " \
               u"cas suspects et proportion de cas confirmés parmi les" \

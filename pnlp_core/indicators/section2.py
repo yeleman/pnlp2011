@@ -11,6 +11,9 @@ from pnlp_core.indicators.common import get_report_for, find_report_attr_age
 
 
 class NbreCasSuspectesTestesConfirmes(IndicatorTable):
+    """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
+
+        confirmés) """
 
     name = u"Figure 2.2"
     title = u""
@@ -25,7 +28,6 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
                        'only_percent': False}
 
     def period_is_valid(self, period):
-        """Periode valide"""
         return MalariaReport.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 

@@ -14,6 +14,7 @@ from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 
 
 class TousCasPaludismeNotifies(IndicatorTable):
+    """Tableau: Nombre de cas de paludisme (tout âge confondu) notifiés """
 
     name = u"Tableau 2.1a"
     title = u"Tout âge confondu"
@@ -25,7 +26,6 @@ class TousCasPaludismeNotifies(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        """Periode valide"""
         return MalariaReport.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
@@ -82,6 +82,9 @@ class TousCasPaludismeNotifies(IndicatorTable):
 
 
 class ProportionsPaludismeConsultationsTTC(IndicatorTable):
+    """Graphe: Proportion des cas de paludisme par rapport aux consultations
+
+        toutes causes confondues """
 
     name = u"Figure 2.1"
     title = u""
@@ -96,7 +99,6 @@ class ProportionsPaludismeConsultationsTTC(IndicatorTable):
                        'only_percent': True}
 
     def period_is_valid(self, period):
-        """Periode valide"""
         return MalariaReport.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
@@ -115,6 +117,9 @@ class ProportionsPaludismeConsultationsTTC(IndicatorTable):
 
 
 class NbreCasSuspectesTestesConfirmesALL(NbreCasSuspectesTestesConfirmes):
+    """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
+
+        confirmés) tout âge confondu. """
 
     name = u"Figure 2.2"
     caption = u"Nombre de cas de paludisme (cas suspects, " \

@@ -10,8 +10,11 @@ from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
 from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 
+
 class CasPaludismeEnfantsOverFive(IndicatorTable):
-    """ Nombre de cas de paludisme chez les personnes de 5 ans et plus """
+    """ Tableau: Nombre de cas de paludisme chez les personnes de 5 ans et
+
+        plus """
 
     name = u"Tableau 2.1c"
     title = u"Personnes de 5 ans et plus"
@@ -64,8 +67,9 @@ class CasPaludismeEnfantsOverFive(IndicatorTable):
         report = get_report_for(self.entity, period)
         return report.o5_total_confirmed_malaria_cases
 
+
 class NbreCasSuspectesTestesConfirmesOverFive(NbreCasSuspectesTestesConfirmes):
-    """ Nombre de cas de paludisme (cas suspects, cas testés,
+    """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés,
 
         cas confirmés) chez les personnes de 5 ans et plus """
 
@@ -82,11 +86,12 @@ class NbreCasSuspectesTestesConfirmesOverFive(NbreCasSuspectesTestesConfirmes):
 
 
 class EvolutionTestesConfirmesOverFive(NbreCasSuspectesTestesConfirmes):
-    """Evolution de la proportion des cas testés parmi les cas suspects et
+    """ Graphe: Evolution de la proportion des cas testés parmi les cas
 
-       proportion des cas confirmés parmi les cas testés  chez les personnes de
-       5 ans et plus """
-    name = u"Figure 2.2b"
+       et proportion des cas confirmés parmi les cas testés  chez les de 5 ans
+       et plus """
+
+    name = u"Figure 2.2c"
     caption = u"Evolution de la proportion des cas testés parmi" \
               u" les cas suspects et proportion des cas confirmés" \
               u" parmi les cas testés  chez les personnes de 5 ans et plus"
