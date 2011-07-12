@@ -106,8 +106,6 @@ def test_indicators(request, entity_code=None, period_str=None, \
     except:
         raise Http404(_(u"This section does not exist."))
 
-
-
     context.update({'section': section, 'sub_section': sub_section})
 
     context.update({'widgets': [widget(entity=entity, periods=periods) \

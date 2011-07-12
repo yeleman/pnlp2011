@@ -132,7 +132,9 @@ class MalariaReport(Report):
 
     @property
     def total_simple_malaria_cases(self):
-        return self.total_for_field(inspect.stack()[0][3])
+        # no value for pregnant_women
+        return self.u5_total_simple_malaria_cases \
+               + self.o5_total_simple_malaria_cases
 
     @property
     def total_severe_malaria_cases(self):

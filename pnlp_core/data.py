@@ -227,5 +227,6 @@ def provider_can_or_403(permission, provider, entity):
                       % {'perm': permission, \
                          'entity': entity.display_full_name()}
         else:
-            message = _(u"You don't have permission %(perm)s")
+            message = _(u"You don't have permission %(perm)s") \
+                      % {'perm': permission}
         raise Http403(message)
