@@ -14,10 +14,8 @@ from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 class NbreCasSuspectesTestesConfirmesO5(NbreCasSuspectesTestesConfirmes):
 
     name = u"Figure 2.2b"
-    title = u""
     caption = u"Nombre de cas de paludisme (cas suspects, cas testés, " \
               u"cas confirmés) chez les personnes de 5 ans et plus."
-    type = 'graph'
 
     default_options = {'with_percentage': False, \
                        'with_total': False, \

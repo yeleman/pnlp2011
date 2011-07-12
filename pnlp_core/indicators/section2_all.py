@@ -117,10 +117,8 @@ class ProportionsPaludismeConsultationsTTC(IndicatorTable):
 class NbreCasSuspectesTestesConfirmesALL(NbreCasSuspectesTestesConfirmes):
 
     name = u"Figure 2.2a"
-    title = u""
     caption = u"Nombre de cas de paludisme (cas suspects, " \
               u"cas testés, cas confirmés) tout âge confondu."
-    type = 'graph'
 
     default_options = {'with_percentage': False, \
                        'with_total': False, \
