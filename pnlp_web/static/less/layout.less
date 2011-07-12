@@ -749,11 +749,24 @@ background-color: white;
     list-style: @bullet_png inside none;
 }
 
-#content.http ul {
+#content > ul {
     font-size: 100%;
     margin: 1em;
 }
 
-#content.http ul li {
+#content > ul li {
     font-size: 100%;
+}
+
+#content > ul.help {
+    font-size: 113%;
+}
+
+#content > ul.help li {
+    //list-style: @bullet_png inside none;
+}
+
+#content > ul.help a {
+    font-weight: bold;
+    color: @text-content;
 }

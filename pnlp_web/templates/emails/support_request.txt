@@ -1,0 +1,13 @@
+Bonjour,
+
+Une demande d'aide a été déposée par:
+
+Nom: {{ name }}
+E-mail: {{ email }}
+Téléphone: {{ phone_number }}
+Identifiant: {% if provider %}{{ provider.username }}{% else %}Inconnu{% endif %}
+
+Objet de la demande: {{ subject }}
+
+Contenu du message:
+{{ message }}

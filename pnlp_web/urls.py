@@ -82,8 +82,7 @@ urlpatterns = patterns('',
         views.providers.password_user, name='password_user'),
 
     # static web pages
-     url(r'^support/$', direct_to_template, \
-         {'template': 'support.html'}, name='support'),
+     url(r'^support/$', views.dashboard.contact, name='support'),
      url(r'^help/$', direct_to_template, \
          {'template': 'help.html'}, name='help'),
      url(r'^about/$', direct_to_template, \
