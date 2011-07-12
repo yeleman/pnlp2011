@@ -31,7 +31,7 @@ SECTION 4: Hospitalisation
 
     Moins de 5 ans
         - (T3.2a) Hospitalisation chez les moins de 5ans
-        - (F3.2b) Proportion des hospitalisations pour paludisme grave chez les moins de 5 ans (par rapport aux hospitalisations toutes causes confondues)
+        - (F3.2a) Proportion des hospitalisations pour paludisme grave chez les moins de 5 ans (par rapport aux hospitalisations toutes causes confondues)
 
     5 ans et plus y compris femmes enceintes
         - (T3.2b) Hospitalisation  chez les 5 ans et plus

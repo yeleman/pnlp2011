@@ -13,7 +13,9 @@ from pnlp_core.indicators.common import get_report_for
 
 
 class DonneesCPNetTPI(IndicatorTable):
-    """Données sur la CPN et le Traitement Préventif  Intermittent  (TPI)"""
+    """ Tableau: Données sur la CPN et le Traitement Préventif  Intermittent
+
+        (TPI) """
 
     name = _(u"Tableau 9.1")
     title = _(u" ")
@@ -50,7 +52,8 @@ class DonneesCPNetTPI(IndicatorTable):
 
 
 class EvolutionCPN1SP1SP2(IndicatorTable):
-    """Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes"""
+    """ Graphe: Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes"""
+
     name = _(u"Figure 9.1")
     title = _(u" ")
     caption = _(u"Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes")
@@ -86,8 +89,10 @@ class EvolutionCPN1SP1SP2(IndicatorTable):
 
 
 class NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes(IndicatorTable):
-    """Nombre de femmes enceintes reçues en CPN1 et Nombre de
-       MILD distribuées aux femmes enceintes"""
+    """ Graphe: Nombre de femmes enceintes reçues en CPN1 et Nombre de
+
+        MILD distribuées aux femmes enceintes"""
+
     name = _(u"Figure 9.2")
     title = _(u" ")
     caption = _(u"Nombre de femmes enceintes reçues en CPN1 et Nombre " \

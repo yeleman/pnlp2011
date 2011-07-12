@@ -84,5 +84,5 @@ class Http500Middleware(object):
             # we are filling error message with whatever the response is.
             # this could be terrible if content is a webpage although not
             # that likely to happen.
-            return access_error(request, response.content)
+            return access_error(request, u"Unknown")
         return response

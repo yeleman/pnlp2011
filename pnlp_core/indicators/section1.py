@@ -13,6 +13,9 @@ from pnlp_core.indicators.common import get_report_for
 
 
 class Under5MalariaTable(IndicatorTable):
+    """ Tableau: Nombre de cas de paludisme chez les enfants de moins de
+
+        5 ans """
 
     name = _(u"Tableau 5")
     title = _(u"Enfants moins de 5 ans")
@@ -53,6 +56,9 @@ class Under5MalariaTable(IndicatorTable):
 
 
 class MalariaWithinAllConsultationGraph(IndicatorTable):
+    """ Graphe: Proportion des cas de paludisme par rapport aux consultations
+
+        toutes causes confondues """
 
     name = _(u"Figure 1")
     title = _(u" ")

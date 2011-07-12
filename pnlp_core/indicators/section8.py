@@ -13,8 +13,9 @@ from pnlp_core.indicators.common import get_report_for
 
 
 class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
-    """Pourcentage de structures avec Rupture de stock en produits
-    de prise en charge des cas de paludisme grave"""
+    """ Tableau: Pourcentage de structures avec Rupture de stock en produits
+
+    de prise en charge des cas de paludisme grave """
 
     name = _(u"Tableau 7.1")
     title = _(u" ")
@@ -55,8 +56,9 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
 
 
 class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
-    """ Évolution des proportions  de cas de paludisme simple
-        traités par CTA Chez les moins de 5 ans et les 5 ans et plus"""
+    """ Gaphe: Évolution des proportions  de cas de paludisme simple
+
+        traités par CTA Chez les moins de 5 ans et les 5 ans et plus """
 
     name = _(u"Figure 7.1")
     title = _(u" ")

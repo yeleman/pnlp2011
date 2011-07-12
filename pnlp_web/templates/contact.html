@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Support technique{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Support technique</h1>{% endblock %}
+
+{% block content %}
+<p>Lorsque vous rencontrez des difficultés opérationneles avec le système, le point de départ est toujours l'<a href="{% url help %}">aide en ligne</a>.</p>
+<p>Si vous ne trouvez pas de solution dans la rubrique d'aide ou que vous rencontrez un problème technique, remplissez le formulaire ci-dessous. Un membre du PNLP ou de l'ANTIM prendra contact avec vous.</p>
+<h2>Contactez-nous</h2>
+{% if form.errors %}
+<p>Votre demande comporte des erreurs. Merci de les corriger et de reéssayer.</p>
+{% endif %}
+<form method="POST" action="{% url support %}">
+{% csrf_token %}
+<table>
+{% for field in form %}
+<tr><th>{{ field.label }}</th><td{%if field.errors %} class="error" title="{% for error in field.errors %}{{ error }}{% endfor %}"{% endif %}>{% if field %}{{ field }}{% endif %}</td></tr>
+{% endfor %}
+</table>
+<button class="formbutt default">Envoyer la demande</button>
+</form>
+{% endblock %}

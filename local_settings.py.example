@@ -48,3 +48,5 @@ HOTLINE_NUMBER = "65731076"
 HOTLINE_EMAIL = "pnlp@yeleman.com"
 
 USE_HTTPS = True
+
+SUPPORT_CONTACTS = []

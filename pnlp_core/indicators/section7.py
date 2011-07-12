@@ -13,6 +13,9 @@ from pnlp_core.indicators.common import get_report_for
 
 
 class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
+    """ Tableau: Pourcentage de structures avec Rupture de stock de CTA dans
+
+        le district """
 
     name = _(u"Tableau 6.1")
     title = _(u" ")
@@ -57,6 +60,9 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
 
 
 class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
+    """ Graphe: Evolution du pourcentage de Structures avec rupture de stock en
+
+        CTA """
 
     name = _(u"Figure 6.1")
     title = _(u" ")
