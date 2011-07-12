@@ -29,6 +29,7 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
         return MalariaReport.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
+    @reference
     @indicator(0)
     @label(u"Cas suspects")
     def total_suspected_malaria_cases(self, period):
@@ -36,14 +37,14 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
                                'total_suspected_malaria_cases', \
                                self.options.age)
 
-    @indicator(1)
+    @indicator(1, "total_suspected_malaria_cases")
     @label(u"Cas testés")
     def total_tested_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period, \
                                'total_tested_malaria_cases', \
                                self.options.age)
 
-    @indicator(2)
+    @indicator(2, "total_suspected_malaria_cases")
     @label(u"Cas confirmés")
     def total_confirmed_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period, \

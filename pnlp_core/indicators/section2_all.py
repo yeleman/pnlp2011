@@ -15,7 +15,7 @@ from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 
 class TousCasPaludismeNotifies(IndicatorTable):
 
-    name = u"Tableau 2.1"
+    name = u"Tableau 2.1a"
     title = u"Tout âge confondu"
     caption = u"Nombre de cas de paludisme (tout âge confondu) notifiés"
     type = 'table'
@@ -116,7 +116,7 @@ class ProportionsPaludismeConsultationsTTC(IndicatorTable):
 
 class NbreCasSuspectesTestesConfirmesALL(NbreCasSuspectesTestesConfirmes):
 
-    name = u"Figure 2.2a"
+    name = u"Figure 2.2"
     caption = u"Nombre de cas de paludisme (cas suspects, " \
               u"cas testés, cas confirmés) tout âge confondu."
 
