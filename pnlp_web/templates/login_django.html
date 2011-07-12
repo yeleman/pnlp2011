@@ -1,11 +1,20 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block title %}Connexion{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Merci de vous identifier</h1>{% endblock %}
+
 {% block content %}
 
 {% if form.errors %}
 <p>{% trans "Unable to log you in with this username and password." %}</p>
 {% endif %}
+
+<h2>Bienvenue !</h2>
+<p>Bienvenue dans le <strong>Système d'Information de Routine Paludisme</strong> du PNLP.</p>
+<p>Ce site web est un outil du <accronym title="Programme National de Lutte contre le Paludisme">PNLP</accronym>, permettant la saisie et la consultation des informations relatives au programme.</p>
+<p>L'accès à cet outil est limité aux partenaires du programme.</p>
+<p>Vous trouverez plus d'informations dans la section <a href="{% url about %}">à propos</a>.</p>
 
 <form method="post" action="{% url login %}">
 {% csrf_token %}
@@ -20,8 +29,10 @@
 </tr>
 </table>
 
-<input type="submit" value="{% trans 'Log in' %}" />
 <input type="hidden" name="next" value="{{ next }}" />
+<button class="formbutt default">{% trans 'Log in' %}</button>
 </form>
+
+<p>Si vous souhaitez obtenir un accès ou que vous avez perdu vos identifiants, contactez le <a href="{% url support %}">support technique</a>.</p>
 
 {% endblock %}
