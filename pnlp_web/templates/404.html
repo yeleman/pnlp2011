@@ -1,11 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %}Resource not found!{% endblock %}
+{% block title %}Ressource introuvable !{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Erreur 404: Ressource introuvable !</h1>{% endblock %}
+{% block content-class %}http{% endblock %}
 
 {% block content %}
 
-<h1>Resource not found!</h1>
-<p>The web page or resource you are looking for could not be found.</p>
-<p>If you followed a legitimate link, please contact <a href="{% url support %}">Technical Support</a>.</p>
+<div id="context">
+<h2>L'adresse {{ request_path }} n'existe pas.</h2>
 
+{% if message %}
+<table>
+<tr><th>Message</th><td><q>{{ message }}</q></td></tr>
+</table>
+{% endif %}
+
+<p>Vous voyez cette page car l'adresse demandée n'existe pas.</p>
+
+<h3>Que faire ?</h3>
+<ul>
+<li>Si vous avez saisie l'adresse vous-même, peut-être avez-vous fait une erreur ?</li>
+{% if referrer %}<li>Il semble que vous veniez de l'adresse <a href="{{ referrer }}">{{ referrer }}</a>. Contactez l'auteur du lien.</li>{% endif %}
+</ul>
+
+<p>Si vous avez suivi un lien interne, signalez le au <a href="{% url support %}">support technique</a>.</p>
+</div>
 {% endblock %}

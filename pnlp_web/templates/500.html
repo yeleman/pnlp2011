@@ -1,11 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}500 Error!{% endblock %}
-
+{% block title %}Erreur !{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Erreur 500: impossible de traiter la demande</h1>{% endblock %}
 {% block content %}
 
-<h1>Erreur #500</h1>
-<p>The web page you requested raised an error.</p>
-<p>If you followed a legitimate link, please contact <a href="{% url support %}">Technical Support</a>.</p>
+<div id="context">
+<h2>La page {{ request_path }} a rencontrée une erreur.</h2>
+<p>Le serveur a recontré une erreur lors du traitement de votre requête.</p>
+<p>Veuillez accepter nos excuses pour ce désagrément indépendant de notre volonté.</p>
+<p>Nous allons être automatiquement prévenu de cet incident.</p>
+<p>Si le problème persiste, merci de contactez le <a href="{% url support %}">support technique</a>, si possible avec les indications suivantes:</p>
+<table>
+<tr><th>Page demandée</th><td>{{ request_path }}</td></tr>
+<tr><th>Votre accès</th><td>{% if web_provider %}@{{ web_provider.username}}/{{ web_provider.name_access }}{% else %}Aucun{% endif %}</td></tr>
+<tr><th>Page d'origine</th><td>{% if referrer %}<a href="{{ referrer }}">{{ referrer }}</a>{% else %}Aucune{% endif %}</td></tr>
+{% if message %}<tr><th>Détail de l'erreur</th><td><q>{{ message }}</q></td></tr>{% endif %}
+</table>
 
+</div>
 {% endblock %}

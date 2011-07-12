@@ -108,6 +108,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'babeldjango.middleware.LocaleMiddleware',
+    'pnlp_web.middleware.Http500Middleware',
+    'pnlp_web.middleware.Http404Middleware',
     'pnlp_web.middleware.Http403Middleware',
 )
 

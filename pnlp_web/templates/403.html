@@ -1,12 +1,18 @@
 {% extends "base.html" %}
-{% load i18n %}
 
-{% block title %}{% trans "Access Denied!" %}{% endblock %}
-
+{% block title %}Accès refusé !{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Accès refusé!</h1>{% endblock %}
 {% block content %}
 
-<h1>{% trans "Access Denied" %}</h1>
-<p>Your credentials does not grant you access to this resource.</p>
-<p>If you believe you should be able to access, please contact <a href="{% url support %}">Technical Support</a></p>
-
+<div id="context">
+<h2>Vous n'avez pas accès à l'adresse {{ request_path }}</h2>
+<p>Vos droits d'accès ne vous permettent pas d'accèder à la page {{ request_path }}.</p>
+<table>
+<tr><th>Votre accès</th><td>{% if web_provider %}@{{ web_provider.username}}/{{ web_provider.name_access }}{% else %}Aucun{% endif %}</td></tr>
+{% if message %}
+<tr><th>Raison du refus</th><td><q>{{ message }}</q></td></tr>
+{% endif %}
+</table>
+<p>Si vous pensez devoir accèder à cette ressource, contactez le <a href="{% url support %}">support technique</a>.</p>
+</div>
 {% endblock %}
