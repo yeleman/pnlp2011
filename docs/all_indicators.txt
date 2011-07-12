@@ -3,7 +3,7 @@ SECTION 1: Identification de la structure ayant notifié les données
 SECTION 2: Morbidité (Cas suspects, cas testés/confirmés)
     Tout Age Confondu
         - (T2.1a) Nombre de cas de paludisme (tout âge confondu) notifiés par trimestre
-        - (F3.1) Proportion des cas de paludisme par rapport aux consultations toutes causes confondues (TCC)
+        - (F2.1) Proportion des cas de paludisme par rapport aux consultations toutes causes confondues (TCC)
         - (F2.2) Nombre de cas de paludisme  par mois (cas suspects,  cas testés,  cas confirmés)  tout âge confondu.
 
     Moins de 5 ans
@@ -13,11 +13,11 @@ SECTION 2: Morbidité (Cas suspects, cas testés/confirmés)
     5 ans et plus
         - (T2.1c) Nombre de cas de paludisme chez les personnes  de 5 ans et  plus
         - (F2.2b) Nombre de cas de paludisme  par mois (cas suspects,  cas testés,  cas confirmés)  chez les personnes de 5 ans et plus.
-        - (F) Evolution de la proportion des cas testés parmi les cas suspects et proportion des cas confirmés parmi les cas testés  chez les personnes de 5 ans et plus
+        - (F2.2c) Evolution de la proportion des cas testés parmi les cas suspects et proportion des cas confirmés parmi les cas testés  chez les personnes de 5 ans et plus
 
     Femmes enceintes
         - (T2.1d) Nombre de cas de paludisme chez les femmes enceintes
-        - (F2.2c) Evolution de la proportion des cas testés parmi les cas suspects et proportion des cas confirmés parmi les cas testés  chez les femmes enceintes
+        - (F2.2d) Evolution de la proportion des cas testés parmi les cas suspects et proportion des cas confirmés parmi les cas testés  chez les femmes enceintes
 
 SECTION 3: Traitement
     - (T3.1) Cas de paludisme simple traités par CTA
