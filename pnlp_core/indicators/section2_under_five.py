@@ -16,7 +16,7 @@ class CasPaludismeEnfantsMoins5ans(IndicatorTable):
 
         5 ans """
 
-    name = u"Tableau 2.1b"
+    name = u"Tableau 2.2"
     title = u"Enfants moins de 5 ans"
     caption = u"Nombre de cas de paludisme chez les enfants de moins de 5 ans"
     type = 'table'
@@ -74,7 +74,7 @@ class NbreCasSuspectesTestesConfirmesUnderFive(NbreCasSuspectesTestesConfirmes):
         proportion de cas confirmés parmi les cas testés  chez les enfants de
         moins de 5 ans """
 
-    name = u"Figure 2.2a"
+    name = u"Figure 2.2"
     caption = u"Evolution de la proportion de cas testés parmi les " \
               u"cas suspects et proportion de cas confirmés parmi les" \
               u" cas testés  chez les enfants de moins de 5 ans"

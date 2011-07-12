@@ -15,7 +15,7 @@ from pnlp_core.indicators.common import get_report_for, find_report_attr_age
 class Hospitalisation(IndicatorTable):
     """ Graphe: Hospitalisation """
 
-    name = u"Figure 2.2"
+    name = u"Figure 4"
     title = u""
     caption = u"Hospitalisation"
     type = 'graph'

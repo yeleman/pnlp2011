@@ -14,7 +14,7 @@ from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 class CasPaludismeFemmesEnceintes(IndicatorTable):
     """ Tableau: Nombre de cas de paludisme chez les femmes enceintes """
 
-    name = u"Tableau 2.1d"
+    name = u"Tableau 2.4"
     title = u"Femmes enceintes"
     caption = u"Nombre de cas de paludisme chez les femmes enceintes"
     type = 'table'
@@ -66,7 +66,7 @@ class EvolutionTestesConfirmesFemmesEnceintes(NbreCasSuspectesTestesConfirmes):
         suspects et proportion des cas confirmés parmi les cas
         testés  chez les femmes enceintes """
 
-    name = u"Figure 2.2d"
+    name = u"Figure 2.5"
     caption = u"Evolution de la proportion des cas testés parmi les cas" \
               u" suspects et proportion des cas confirmés parmi les cas" \
               u" testés  chez les femmes enceintes "

@@ -13,7 +13,7 @@ from pnlp_core.indicators.section4 import Hospitalisation
 
 class Hospitalisation5ansPlus(IndicatorTable):
     """ Tableau: Hospitalisation  chez les 5 ans et plus"""
-    name = u"Tableau 3.2b"
+    name = u"Tableau 4.3"
     title = u"5 ans et plus"
     caption = u"Hospitalisation  chez les 5 ans et plus"
     type = 'table'
@@ -46,7 +46,7 @@ class ProportionHospitalisations5ansPlus(Hospitalisation):
         personnes de 5 ans et plus (par rapport aux hospitalisations toutes
         causes confondues) """
 
-    name = u"Figure 3.2b"
+    name = u"Figure 4.3"
     caption = u"Proportion des hospitalisations pour paludisme grave chez" \
               u" les personnes de 5 ans et plus (par rapport aux " \
               u" hospitalisations toutes causes confondues)"

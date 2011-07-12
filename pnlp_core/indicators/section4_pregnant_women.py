@@ -14,7 +14,7 @@ from pnlp_core.indicators.section4 import Hospitalisation
 class HospitalisationFemmesEnceintes(IndicatorTable):
     """ Tableau: Hospitalisation chez les femmes enceintes """
 
-    name = u"Tableau 3.2c"
+    name = u"Tableau 4.4"
     title = u"Femmes enceintes"
     caption = u"Hospitalisation chez les femmes enceintes"
     type = 'table'
@@ -46,7 +46,7 @@ class ProportionHospitalisationsFemmesEnceintes(Hospitalisation):
 
         femmes enceintes (par rapport aux hospitalisations toutes causes
         confondues """
-    name = u"Figure 3.2c"
+    name = u"Figure 4.4"
     caption = u"Proportion des hospitalisations pour paludisme grave chez" \
               u" les femmes enceintes (par rapport aux hospitalisations" \
               u" toutes causes confondues)"

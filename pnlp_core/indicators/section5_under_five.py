@@ -14,7 +14,7 @@ from pnlp_core.indicators.section5 import GraphDeces, GraphCommun
 class DecesUnderFive(IndicatorTable):
     """ Tableau: Décès notifiés chez les  moins de 5 ans """
 
-    name = u"Tableau 4.2a"
+    name = u"Tableau 5.2"
     title = u"Enfants moins de 5 ans"
     caption = u"Décès notifiés chez les  moins de 5 ans"
     type = 'table'
