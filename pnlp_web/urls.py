@@ -54,15 +54,16 @@ urlpatterns = patterns('',
     # Indicator Views
     url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '/' \
          + RGXP_SECTION + '/' + RGXP_SUBSECTION + '$', \
-        views.indicators.test_indicators, name='indicator_data'),
+        views.indicators.indicator_browser, name='indicator_data'),
     url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '/' \
          + RGXP_SECTION + '$', \
-        views.indicators.test_indicators, name='indicator_data'),
+        views.indicators.indicator_browser, name='indicator_data'),
     url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '$', \
-        views.indicators.test_indicators, name='indicator_data'),
+        views.indicators.indicator_browser, name='indicator_data'),
     url(r'^browse/' + RGXP_ENTITY + '$', \
-        views.indicators.test_indicators, name='indicator_data'),
-    url(r'^browse/$', views.indicators.test_indicators, name='indicator_data'),
+        views.indicators.indicator_browser, name='indicator_data'),
+    url(r'^browse/$', views.indicators.indicator_browser, \
+        name='indicator_data'),
 
     # ANTIM
     url(r'^users/?$', \

@@ -29,7 +29,7 @@ def import_path(name):
 
 
 @provider_permission('can_view_raw_data')
-def test_indicators(request, entity_code=None, period_str=None, \
+def indicator_browser(request, entity_code=None, period_str=None, \
                     section_index=1, sub_section=None):
     context = {'category': 'indicator_data'}
     web_provider = request.user.get_profile()

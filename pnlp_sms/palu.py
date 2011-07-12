@@ -173,7 +173,8 @@ def palu_passwd(message):
         provider.set_password(new_password)
         provider.save()
     except:
-        message.respond(error_start + u"Essayez un autre nouveau mot de passe.")
+        message.respond(error_start + u"Essayez un autre nouveau " \
+                                      u"mot de passe.")
         return True
 
     message.respond(u"Votre mot de passe a ete change et est " \
@@ -318,9 +319,9 @@ def palu(message):
         report.add_stockout_data(*data_browser.data_for_cat('so'))
         report.save()
     except Exception as e:
-        message.respond(error_start + u"Une erreur technique s'est produite. " \
-                        u"Reessayez plus tard et contactez ANTIM si " \
-                        u"le probleme persiste.")
+        message.respond(error_start + u"Une erreur technique s'est " \
+                        u"produite. Reessayez plus tard et " \
+                        u"contactez ANTIM si le probleme persiste.")
         logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
                      % (message.text, e))
         return True
