@@ -10,7 +10,6 @@
     <li {% if category = 'users' %}class="hover"{% endif %}><a href="{% url list_users %}">Utilisateurs</a></li>
     <li {% if category = 'entities' %}class="hover"{% endif %}><a href="{% url list_entities %}">Établissements</a></li>
     {% else %}
-
     {% endif %}
     </ul>
 {% else %}

@@ -8,17 +8,7 @@
 {% block pagetitle %}<h1 class="pagetitle">Rapports à valider pour la période de {{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
 {% block content-class %}{% if validated %}withsidebar{% endif %}{% endblock %}
 
-{% block jqueryonload %}
-$("#not_validated tr").click(function (event) {
-    url = $(this).children("td").children("a").attr('href');
-    if (url)
-        location.href = url;
-});
-$("#not_validated tr").each(function () {
-    if ($(this).children("td").children("a").attr('href'))
-        $(this).addClass('click');
-});
-{% endblock %}
+{% block jqueryonload %}addJQEventsForValidationList();{% endblock %}
 
 {% block content %}
 {% if validation_over %}

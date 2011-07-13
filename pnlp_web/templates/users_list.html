@@ -6,17 +6,8 @@
 {% block pagetitle %}<h1 class="pagetitle">Liste des utilisateurs</h1>{% endblock %}
 {% block page-name %}default{% endblock %}
 
-{% block jqueryonload %}
-$("tr").click(function (event) {
-    url = $(this).children("td").children("a").attr('href');
-    if (url)
-        location.href = url;
-});
-$("tr").each(function () {
-    if ($(this).children("td").children("a").attr('href'))
-        $(this).addClass('click');
-});
-{% endblock %}
+{% block jqueryonload %}addJQeventHandlerForLargeTable();
+addClickClassToTRElements();{% endblock %}
 
 {% block content %}
 <a href="{% url add_user %}"><button class="linkbutt">Créer un compte utilisateur</button></a>

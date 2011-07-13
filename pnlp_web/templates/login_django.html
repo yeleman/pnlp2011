@@ -19,16 +19,10 @@
 <form method="post" action="{% url login %}">
 {% csrf_token %}
 <table>
-<tr>
-    <th>{% trans "Username" %}</th>
-    <td>{{ form.username }}</td>
+<tr><th>{% trans "Username" %}</th><td>{{ form.username }}</td>
 </tr>
-<tr>
-    <th>{% trans "Password" %}</th>
-    <td>{{ form.password }}</td>
-</tr>
+<tr><th>{% trans "Password" %}</th><td>{{ form.password }}</td></tr>
 </table>
-
 <input type="hidden" name="next" value="{{ next }}" />
 <button class="formbutt default">{% trans 'Log in' %}</button>
 </form>

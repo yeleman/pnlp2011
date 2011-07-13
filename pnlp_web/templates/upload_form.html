@@ -7,14 +7,7 @@
 {% block pagetitle %}<h1 class="pagetitle">Envoyer un rapport de CSCom</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 
-{% block jqueryonload %}
-$("#excel-form").mouseleave(function(event) {
-    value = "Parcourir…";
-    if ($(this).val())
-        value = $(this).val();
-    $("#fakefield").prop('value', value);
-});
-{% endblock %}
+{% block jqueryonload %}addJQEventCustomFileInput();{% endblock %}
 
 {% block content %}
 <div id="context">

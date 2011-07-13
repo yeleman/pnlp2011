@@ -9,45 +9,9 @@
 
 {% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="raw_data"|url:"0" %}{% endblock %}
 
-{% block jqueryonload %}
-$("#submenu select.browser").change(function (event) {
-    current_entity = "{{ entity.slug }}";
-    root_entity = "{{ root.slug }}";
-
-    value = $(this).val();
-    if (!value)
-        return;
-
-    if (value != "-1") {
-        url = "{% url raw_data 0 %}".replace('0', value);
-    } else {
-
-        select_id = $(this).attr('id');
-        sid = parseInt(select_id.charAt(select_id.length -1));
-        if (sid == 0)
-            url = "{% url raw_data %}";
-        else {
-            url = "{% url raw_data 0 %}".replace('0', $("#browser_select" + (sid - 1)).val());
-        }
-    }
-
-    location.href = url;
-});
-
-$("#period_select").change(function (event) {
-    current_entity = "{{ entity.slug }}";
-    current_period = "{{ period.middle|datefmt:"MMMM yyyy" }}";
-
-    value = $(this).val();
-    url = "{% url raw_data 'ent_code' 111111 %}".replace('ent_code', current_entity).replace('111111', value);
-    location.href = url;
-});
-
-$("#toggle_sources").click(function (event) {
-    $("#sources").toggle("quick");
-});
-
-{% endblock %}
+{% block jqueryonload %}addJQEventsSubMenu("{% url raw_data %}", "{% url raw_data 0 %}");
+addJQEventPeriodChange("{% url raw_data 'ent_code' 111111 %}", "{{ entity.slug }}");
+addJQEventToggleSources();{% endblock %}
 
 {% block content %}
 {% if periods %}

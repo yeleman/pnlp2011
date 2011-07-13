@@ -7,28 +7,9 @@
 {% block pagetitle %}<h1 class="pagetitle">rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 
-
-{% block jqueryonload %}
-$("form#report_form input, form#report_form select").change(function (event) {
-    $(this).parent().addClass('changed');
-});
-$("#reset_button").click(function (event) {
-    event.preventDefault();
-    $("form#report_form input, form#report_form select").parent().removeClass('changed');
-    $("form#report_form")[0].reset();
-});
-$("form").submit(function (event) {});
-$("#validate_form").click(function (event) {
-    event.preventDefault();
-    if (confirm("Êtes vous sûr de vouloir valider le rapport ?\nUne fois validé, il ne sera plus modifiable.")) {
-        location.href = '{% url report_do_validation report.receipt %}';
-    }
-});
-{% endblock %}
-
+{% block jqueryonload %}addJQEventsForValidationChange();{% endblock %}
 
 {% block content %}
-
 <div id="context">
 {% if saved %}
 <h2>Rapport sauvegardé</h2>

@@ -1,5 +1,4 @@
-{% load i18n %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+{% load i18n %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -7,9 +6,9 @@
     <title>PNLP | {% block title %}Programe National de Lutte conte le Paludisme{% endblock %} - Routine Paludisme</title>
     <link rel="stylesheet" media="screen" type="text/css" href="{% url static 'pnlp.css' %}" title="PNLP 2011" />
     <link rel="shortcut icon" href="{% url static 'images/pnlp_favicon.png' %}" />
-    {% block javascript %}
-    {% endblock %}
+    {% block javascript %}{% endblock %}
     <script type="text/javascript" src="{% url static 'jquery-1.6.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% url static 'pnlp.js' %}"></script>
     {% if category == 'indicator_data' %}<script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>{% endif %}
 </head>
 <body>
@@ -17,7 +16,6 @@
         <div id="header" class="mainbox">
             <div id="logo"></div>
             <h1><a href="{% url index %}">PNLP – Programe National de Lutte contre le Paludisme</a></h1>
-
             <ul id="user-menu">
             {% if web_provider.is_authenticated %}
             <li><a href="{% url profile %}" title="{% trans 'Edit your informations' %}">{{ web_provider.get_full_name }}</a></li>
@@ -44,7 +42,6 @@
         {% block content %}
         {% endblock %}
         </div>
-
         <div id="footer">
         <ul>
             <li><a href="{% url support %}" title="{% trans 'Contact Us' %}">{% trans "Contact" %}</a></li>
@@ -55,8 +52,8 @@
 </body>
 <script type="text/javascript">
     $(document).ready(function(){
-       $("ul#messages").click(function(event){$(this).hide("slow"); });
-       $("#logo").click(function(event) { location.href = '{% url index %}'; });
+       addMessagesClickEvent();
+       addLogoClickEvent();
        {% block jqueryonload %}{% endblock %}
      });
      {% block inlinejs %}{% endblock %}

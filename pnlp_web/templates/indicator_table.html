@@ -1,5 +1,4 @@
-{% load babel %}
-{% load pnlp %}
+{% load babel %}{% load pnlp %}
 <table id="{{ id }}" class="center">
 <caption><strong>{{ table.name }}.</strong> {{ table.caption }}</caption>
 <tr><th rowspan="2">{{ table.title }}</th>{% for p in table.periods %}<th colspan="2" class="center">{{ p.middle|datefmt:"MMMM YYYY" }}</th>{% endfor %}{% if table.options.with_total %}<th colspan="2" class="center">Total</th>{% endif %}</tr>
