@@ -14,7 +14,7 @@ from pnlp_core.indicators.section5 import GraphDeces, GraphCommun
 class DecesToutAgeConfondu(IndicatorTable):
     """Tableau: Décès"""
 
-    name = u"Tableau 5.1"
+    name = u"Tableau 5.1a"
     title = u"Tout âge confondu"
     caption = u"Décès"
     type = 'table'
@@ -45,7 +45,7 @@ class ProportionDecesToutAgeConfondu(GraphDeces):
     """ Graphe: Proportion de décès dû au  paludisme (par rapport aux décès
 
         toutes causes confondues) """
-    name = u"Figure 5.1"
+    name = u"Figure 5.1a"
     caption = u"Proportion de décès dû au  paludisme (par rapport aux décès " \
               u"toutes causes confondues) "
 

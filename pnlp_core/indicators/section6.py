@@ -23,16 +23,15 @@ class NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD(IndicatorTable):
                 u" Longue Durée (MILD) distribuées")
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
-                       'with_reference': True}
+    default_options = {'with_percentage': False, \
+                       'with_total': False, \
+                       'with_reference': False}
 
     def period_is_valid(self, period):
         """Periode valide"""
         return MalariaReport.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
-    @reference
     @indicator(0)
     @label(u"Nombre MILD distribuées aux enfants de moins de 5 ans")
     def u5_total_distributed_bednets(self, period):
@@ -58,6 +57,7 @@ class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable):
     caption = _(u"Evolution du nombre de MILD distribuées aux moins de " \
                 u"5 ans et femmes enceintes")
     type = 'graph'
+    graph_type = 'line'
 
     default_options = {'with_percentage': False, \
                        'with_reference': True, \

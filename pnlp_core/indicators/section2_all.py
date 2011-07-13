@@ -16,7 +16,7 @@ from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 class TousCasPaludismeNotifies(IndicatorTable):
     """Tableau: Nombre de cas de paludisme (tout âge confondu) notifiés """
 
-    name = u"Tableau 2.1"
+    name = u"Tableau 2.1a"
     title = u"Tout âge confondu"
     caption = u"Nombre de cas de paludisme (tout âge confondu) notifiés"
     type = 'table'
@@ -30,7 +30,7 @@ class TousCasPaludismeNotifies(IndicatorTable):
                                               period=period).count() > 0
 
     @reference
-    @indicator(0, 'total_consultation_all_causes')
+    @indicator(0)
     @label(u"Total consultation toutes causes confondues (TCC)")
     def total_consultation_all_causes(self, period):
         report = get_report_for(self.entity, period)
@@ -68,7 +68,7 @@ class TousCasPaludismeNotifies(IndicatorTable):
     blank_again._is_indicator = True
 
     @reference
-    @indicator(6, 'total_tested_malaria_cases')
+    @indicator(6, 'total_consultation_all_causes')
     @label(u"Total des cas suspects testés (GE et/ou TDR)")
     def total_tested_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
@@ -86,7 +86,7 @@ class ProportionsPaludismeConsultationsTTC(IndicatorTable):
 
         toutes causes confondues """
 
-    name = u"Figure 2.1"
+    name = u"Figure 2.1a"
     title = u""
     caption = u"Proportion des cas de paludisme par rapport aux " \
               u"consultations toutes causes confondues"

@@ -14,7 +14,7 @@ from pnlp_core.indicators.section5 import GraphDeces, GraphCommun
 class DecesUnderFive(IndicatorTable):
     """ Tableau: Décès notifiés chez les  moins de 5 ans """
 
-    name = u"Tableau 5.2"
+    name = u"Tableau 5.1b"
     title = u"Enfants moins de 5 ans"
     caption = u"Décès notifiés chez les  moins de 5 ans"
     type = 'table'
@@ -28,13 +28,13 @@ class DecesUnderFive(IndicatorTable):
                                               period=period).count() > 0
 
     @reference
-    @indicator(0)
+    @indicator(0, 'u5_total_death_all_causes')
     @label(u"Total des décès toutes causes confondues")
-    def total_death_all_causes(self, period):
+    def u5_total_death_all_causes(self, period):
         report = get_report_for(self.entity, period)
-        return report.total_death_all_causes
+        return report.u5_total_death_all_causes
 
-    @indicator(1, 'total_death_all_causes')
+    @indicator(1, 'u5_total_death_all_causes')
     @label(u"Total des décès pour paludisme")
     def u5_total_malaria_death(self, period):
         report = get_report_for(self.entity, period)
