@@ -13,33 +13,32 @@ borders.right = 1
 borders.top = 1
 borders.bottom = 1
 
-bordersbor = xlwt.Borders()
-bordersbor.left = 0
-bordersbor.right = 0
-bordersbor.top = 0
-bordersbor.bottom = 2
+borderformbottom = xlwt.Borders()
+borderformbottom.left = 0
+borderformbottom.right = 0
+borderformbottom.top = 0
+borderformbottom.bottom = 2
 
-borderight = xlwt.Borders()
-borderight.left = 0
-borderight.right = 2
-borderight.top = 0
-borderight.bottom = 2
+borderformright = xlwt.Borders()
+borderformright.left = 0
+borderformright.right = 2
+borderformright.top = 0
+borderformright.bottom = 2
 
 # Définition du font
 font = xlwt.Font()
 font.bold = True
-
-# Taille des caractères
 font.height = 10 * 0x14
 
 # On définit l'alignement
 al = xlwt.Alignment()
 al.horz = xlwt.Alignment.HORZ_CENTER
 al.vert = xlwt.Alignment.VERT_CENTER
+
 # color
-pat = xlwt.Pattern()
-pat.pattern = xlwt.Pattern.SOLID_PATTERN
-pat.pattern_fore_colour = 0x01F
+colordescription = xlwt.Pattern()
+colordescription.pattern = xlwt.Pattern.SOLID_PATTERN
+colordescription.pattern_fore_colour = 44
 
 colordate = xlwt.Pattern()
 colordate.pattern = xlwt.Pattern.SOLID_PATTERN
@@ -47,15 +46,16 @@ colordate.pattern_fore_colour = 0x01B
 
 colortitle = xlwt.Pattern()
 colortitle.pattern = xlwt.Pattern.SOLID_PATTERN
-colortitle.pattern_fore_colour = 57
+colortitle.pattern_fore_colour = 22
 
 colorvide = xlwt.Pattern()
 colorvide.pattern = xlwt.Pattern.SOLID_PATTERN
 colorvide.pattern_fore_colour = 8
+
 #style
-style = xlwt.XFStyle()
-style.pattern = pat
-style.borders = borders
+styledescription = xlwt.XFStyle()
+styledescription.pattern = colordescription
+styledescription.borders = borders
 
 stylevariable = xlwt.XFStyle()
 stylevariable.borders = borders
@@ -79,20 +79,20 @@ stylevide = xlwt.XFStyle()
 stylevide.pattern = colorvide
 stylevide.alignment = al
 
-stylebor = xlwt.XFStyle()
-stylebor.borders = bordersbor
+styleborformbutton = xlwt.XFStyle()
+styleborformbutton.borders = borderformbottom
 
-styleboright = xlwt.XFStyle()
-styleboright.borders = borderight
+styleborformright = xlwt.XFStyle()
+styleborformright.borders = borderformright
 
-styleg = xlwt.XFStyle()
-styleg.alignment = al
-styleg.borders = borders
-styleg.font = font
+styletitleform = xlwt.XFStyle()
+styletitleform.alignment = al
+styletitleform.borders = borders
+styletitleform.font = font
 
 
 def report_as_excel(report):
-    """ Export des rapports en xls """
+    """ Export les données d'un rapport en xls """
 
     def report_status_verbose(value):
         for v, name in report.YESNO:
@@ -109,15 +109,17 @@ def report_as_excel(report):
     # J'agrandi la colonne à trois fois la normale.
     sheet.col(0).width = 0x0d00 * 3
 
+    # Principe
     # write((nbre ligne - 1), nbre colonne, "contenu", style(optionnel).
     # write_merge((nbre ligne - 1), (nbre ligne - 1) + nbre de ligne
     # à merger, (nbre de colonne - 1), (nbre de colonne - 1) + nbre
     # de colonne à merger, u"contenu", style(optionnel)).
     sheet.write_merge(0, 0, 0, 12, u"Formulaire de Collecte - Données"\
-                     u"sur l'Information de Routime du PNLP - Niveau" \
-                     u"District Sanitaire (Csréf/Cscom)", styleg)
+                    u"sur l'Information de Routime du PNLP - Niveau" \
+                    u"District Sanitaire (Csréf/Cscom)", styletitleform)
     sheet.write_merge(1, 3, 0, 0, u"Région Médical \nDistrict"\
-                        u"Sanitaire \n \nEtablissement sanitaire", style)
+                            u"Sanitaire \n \nEtablissement sanitaire", \
+                                                    styledescription)
 
     sheet.write_merge(4, 5, 0, 1, u"Classification", styletitle)
     sheet.write_merge(6, 6, 0, 1, u"Total consultation, toutes" \
@@ -157,7 +159,7 @@ def report_as_excel(report):
     sheet.write_merge(26, 26, 0, 1, u"Nombre de moustiquaires"\
                                             u"distribuées", stylelabel)
     sheet.write_merge(27, 27, 0, 8, u"")
-    sheet.write_merge(28, 28, 0, 12, u"", stylebor)
+    sheet.write_merge(28, 28, 0, 12, u"", styleborformbutton)
 
     sheet.write(1, 1, report.entity.parent.parent.display_name(), \
                                                         styletitle)
@@ -169,7 +171,7 @@ def report_as_excel(report):
     sheet.write(2, 5, u"Année")
     sheet.write(2, 6, report.period.middle().year, styledate)
 
-    # Consultation
+    # SECTION Consultation
     sheet.write_merge(4, 4, 2, 7, u"Consultation", styletitle)
 
     # les données de < 5 ans
@@ -241,7 +243,7 @@ def report_as_excel(report):
     sheet.write_merge(12, 12, 6, 7, \
                           report.pw_total_treated_malaria_cases, \
                                                         stylevariable)
-    # Hospitalisations
+    # SECTION Hospitalisations
     sheet.write_merge(14, 14, 2, 7, u"Hospitalisations", styletitle)
     # les données de < 5 ans
     sheet.write_merge(15, 15, 2, 3, u"< 5 ans", styletitle)
@@ -295,7 +297,7 @@ def report_as_excel(report):
     sheet.write_merge(22, 22, 6, 7, report.pw_total_malaria_death, \
                                                         stylevariable)
 
-    # Moustiquaires imprégnéés d'insecticide distrivuées
+    # SECTION Moustiquaires imprégnéés d'insecticide distrivuées
     # < 5 ans
     sheet.write_merge(25, 25, 2, 3, u"< 5 ans", stylelabel)
     sheet.write_merge(26, 26, 2, 3, \
@@ -306,7 +308,7 @@ def report_as_excel(report):
                             report.pw_total_distributed_bednets, \
                                                         stylevariable)
 
-    # Rupture de stock CTA pendant le mois (Oui, Non)
+    # SECTION Rupture de stock CTA pendant le mois (Oui, Non)
     sheet.write_merge(3, 3, 9, 12, u"Rupture de stock CTA pendant" \
                                    u"le mois \n (Oui, Non)", styletitle)
     sheet.write_merge(4, 4, 9, 11, u"CTA Nourisson - Enfant", stylelabel)
@@ -323,8 +325,7 @@ def report_as_excel(report):
                                                         stylevariable)
     sheet.write_merge(7, 7, 8, 12, u"")
 
-    # PEC de cas de Paludisme grave
-    # Rupture de soctk OUI/NON
+    # SECTION PEC de cas de Paludisme grave Rupture de soctk OUI/NON
     sheet.write_merge(8, 9, 9, 12, u"PEC de cas de Paludisme grave" \
                             u"\nRupture de soctk OUI/NON", styletitle)
     sheet.write_merge(10, 10, 9, 11, u"Arthemether injectable", stylelabel)
@@ -338,7 +339,7 @@ def report_as_excel(report):
     sheet.write(12, 12, report_status_verbose(report.stockout_serum), \
                                                         stylevariable)
 
-    # Rupture de stock pendant le mois O/N (Oui, Non)
+    # SECTION Rupture de stock pendant le mois O/N (Oui, Non)
     sheet.write_merge(14, 14, 10, 12, u"Rupture de stock pendant" \
                                       u" le mois O/N \n(Oui, Non)",\
                                        styletitle)
@@ -352,9 +353,9 @@ def report_as_excel(report):
     sheet.write(17, 12, report_status_verbose(report.stockout_sp), \
                                                         stylevariable)
 
-    # CPN/SP des femme s enceintes (nbre)
+    # SECTION CPN/SP des femme s enceintes (nbre)
     sheet.write_merge(19, 20, 10, 12, u"CPN/SP des femmes" \
-                                      u"enceintes (nbre)", styleg)
+                                      u"enceintes (nbre)", styletitleform)
     sheet.write_merge(21, 21, 10, 11, u"CPN 1", stylelabel)
     sheet.write(21, 12, report.pw_total_anc1, stylevariable)
     sheet.write_merge(22, 22, 10, 11, u"SP 1", stylelabel)
@@ -370,7 +371,7 @@ def report_as_excel(report):
     sheet.write(27, 11, report.created_on.month, styledate)
     sheet.write(27, 12, report.created_on.year, styledate)
 
-    sheet.write_merge(0, 28, 13, 13, u"", styleboright)
+    sheet.write_merge(0, 28, 13, 13, u"", styleborformright)
 
     stream = StringIO.StringIO()
     book.save(stream)
