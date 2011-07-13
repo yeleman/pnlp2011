@@ -15,7 +15,7 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
 
         confirmés) """
 
-    name = u"Figure 2.2"
+    name = u"Figure 2"
     title = u""
     caption = u"Nombre de cas de paludisme (cas suspects, " \
               u"cas testés, cas confirmés) ???."

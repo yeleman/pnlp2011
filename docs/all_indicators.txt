@@ -26,53 +26,53 @@ SECTION 3: Traitement
 
 SECTION 4: Hospitalisation
     Tout Age Confondu
-        - (T3.1) Hospitalisation
-        - (F3.1) Proportion des hospitalisations pour paludisme grave (par rapport aux hospitalisations toutes causes confondues)
+        - (T4.1) Hospitalisation
+        - (F4.1) Proportion des hospitalisations pour paludisme grave (par rapport aux hospitalisations toutes causes confondues)
 
     Moins de 5 ans
-        - (T3.2a) Hospitalisation chez les moins de 5ans
-        - (F3.2a) Proportion des hospitalisations pour paludisme grave chez les moins de 5 ans (par rapport aux hospitalisations toutes causes confondues)
+        - (T4.2a) Hospitalisation chez les moins de 5ans
+        - (F4.2a) Proportion des hospitalisations pour paludisme grave chez les moins de 5 ans (par rapport aux hospitalisations toutes causes confondues)
 
     5 ans et plus y compris femmes enceintes
-        - (T3.2b) Hospitalisation  chez les 5 ans et plus
-        - (F3.2b) Proportion des hospitalisations pour paludisme grave chez les personnes de 5 ans et plus (par rapport aux hospitalisations toutes causes confondues)
+        - (T4.2b) Hospitalisation  chez les 5 ans et plus
+        - (F4.2b) Proportion des hospitalisations pour paludisme grave chez les personnes de 5 ans et plus (par rapport aux hospitalisations toutes causes confondues)
 
     Femmes enceintes
-        - (T3.2c) Hospitalisation chez les femmes enceintes
-        - (F3.2c) Proportion des hospitalisations pour paludisme grave chez les femmes enceintes (par rapport aux hospitalisations toutes causes confondues)
+        - (T4.2c) Hospitalisation chez les femmes enceintes
+        - (F4.2c) Proportion des hospitalisations pour paludisme grave chez les femmes enceintes (par rapport aux hospitalisations toutes causes confondues)
 
 SECTION 5: Décès
     Tout Age Confondu
-        - (T4.1) Décès notifiés  pour le trimestre tout âge confondu
-        - (F4.1) Proportion de décès dû au  paludisme (par rapport aux décès toutes causes confondues)
+        - (T5.1) Décès notifiés  pour le trimestre tout âge confondu
+        - (F5.1) Proportion de décès dû au  paludisme (par rapport aux décès toutes causes confondues)
 
     Moins de 5 ans
-        - (T4.2a) Décès notifiés  pour le trimestre chez les  moins de 5 ans
+        - (T5.2a) Décès notifiés  pour le trimestre chez les  moins de 5 ans
 
     5ans et plus (sans femmes enceintes)
-        - (T4.2b) Décès notifiés pour le trimestre chez les 5 ans et plus
+        - (T5.2b) Décès notifiés pour le trimestre chez les 5 ans et plus
 
     Femmes enceintes
-        - (T4.2c) Décès notifiés  pour le trimestre chez les femmes enceintes
-    - (F4.3) Evolution du nombre de décès dû au paludisme Chez les moins de 5 ans, les 5 ans et plus et les femmes enceintes
+        - (T5.2c) Décès notifiés  pour le trimestre chez les femmes enceintes
+		- (F5.3) Evolution du nombre de décès dû au paludisme Chez les moins de 5 ans, les 5 ans et plus et les femmes enceintes
 
 SECTION 6 : Moustiquaires imprégnées  d’Insecticides de Longue Durée (MILD)
-    - (T5.1) Nombre de Moustiquaires imprégnées  d’Insecticides de Longue Durée (MILD) distribuées
-    - (F5.1) Evolution du nombre de MILD distribuées aux moins de 5 ans et femmes enceintes
+    - (T6.1) Nombre de Moustiquaires imprégnées  d’Insecticides de Longue Durée (MILD) distribuées
+    - (F6.1) Evolution du nombre de MILD distribuées aux moins de 5 ans et femmes enceintes
 
 SECTION 7 : Rupture de stock de CTA
-    - (T6.1) Pourcentage de structures avec Rupture de stock de CTA dans le district
-    - (F6.1) Evolution du pourcentage de Structures avec rupture de stock en CTA
+    - (T7.1) Pourcentage de structures avec Rupture de stock de CTA dans le district
+    - (F7.1) Evolution du pourcentage de Structures avec rupture de stock en CTA
 
 SECTION 8 : Rupture de stock des produits de PEC du paludisme grave
-    - (T7.1) Pourcentage de structures avec Rupture de stock en produits de prise en charge des cas de paludisme grave
-    - (F7.1) Evolution du pourcentage de Structures avec rupture de stock en produits de prise en charge des cas de paludisme grave
+    - (T8.1) Pourcentage de structures avec Rupture de stock en produits de prise en charge des cas de paludisme grave
+    - (F8.1) Evolution du pourcentage de Structures avec rupture de stock en produits de prise en charge des cas de paludisme grave
 
 SECTION 9 : Rupture de stock MILD, TDR, SP
-    - (T8.1) Pourcentage de structures avec Rupture de stock en MILD, TDR, SP
-    - (F8.1) Evolution du pourcentage de Structures avec rupture de stock en MILD, TDR, SP
+    - (T9.1) Pourcentage de structures avec Rupture de stock en MILD, TDR, SP
+    - (F9.1) Evolution du pourcentage de Structures avec rupture de stock en MILD, TDR, SP
 
 SECTION 10 : CPN et Traitement Préventif  Intermittent  (TPI)
-    - (T9.1) Données sur la CPN et le Traitement Préventif  Intermittent  (TPI)
-    - (F9.1) Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes
-    - (F9.2) Nombre de femmes enceintes reçues en CPN1 et Nombre de MILD distribuées aux femmes enceintes
+    - (T10.1) Données sur la CPN et le Traitement Préventif  Intermittent  (TPI)
+    - (F10.1) Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes
+    - (F10.2) Nombre de femmes enceintes reçues en CPN1 et Nombre de MILD distribuées aux femmes enceintes

@@ -14,7 +14,7 @@ from pnlp_core.indicators.section5 import GraphDeces, GraphCommun
 class DecesFemmesEnceintes(IndicatorTable):
     """ Décès notifiés chez les femmes enceintes """
 
-    name = u"Tableau 4.2c"
+    name = u"Tableau 5.4"
     title = u"Femmes enceintes"
     caption = u"Décès notifiés chez les femmes enceintes"
     type = 'table'

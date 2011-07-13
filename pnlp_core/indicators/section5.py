@@ -15,7 +15,7 @@ from pnlp_core.indicators.common import get_report_for, find_report_attr_age
 class GraphDeces(IndicatorTable):
     """ Geaphe: Décès """
 
-    name = u"Figure 4.3"
+    name = u"Figure 5"
     title = u""
     caption = u"Décès"
     type = 'graph'
@@ -58,7 +58,7 @@ class GraphCommun(IndicatorTable):
 
         5 ans, les 5 ans et plus et les femmes enceintes """
 
-    name = u"Figure 4.3"
+    name = u"Figure 5.2"
     title = u""
     caption = u"Evolution du nombre de décès dû au paludisme Chez les moins" \
               u" de 5 ans, les 5 ans et plus et les femmes enceintes"

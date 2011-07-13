@@ -14,7 +14,7 @@ from pnlp_core.indicators.section4 import Hospitalisation
 class HospitalisationUnderFive(IndicatorTable):
     """ Tableau: Hospitalisation chez les moins de 5ans """
 
-    name = u"Tableau 3.2a"
+    name = u"Tableau 4.2"
     title = u"Enfants moins de 5 ans"
     caption = u"Hospitalisation chez les moins de 5ans"
     type = 'table'
@@ -46,7 +46,7 @@ class ProportionHospitalisationsUnderFive(Hospitalisation):
 
         moins de5 ans (par rapport aux hospitalisations toutes causes
         confondues) """
-    name = u"Figure 3.2a"
+    name = u"Figure 4.2"
     caption = u"Proportion des hospitalisations pour paludisme grave chez" \
               u" les moins de 5 ans (par rapport aux hospitalisations" \
               u" toutes causes confondues)"

@@ -17,14 +17,12 @@ class NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD(IndicatorTable):
 
        de Longue Durée (MILD) distribuées"""
 
-    # Information du tableau
-    name = _(u"Tableau 5.1")
+    name = _(u"Tableau 6")
     title = _(u" ")
     caption = _(u"Nombre de Moustiquaires imprégnées  d’Insecticides de" \
                 u" Longue Durée (MILD) distribuées")
     type = 'table'
 
-    # Option du tableau
     default_options = {'with_percentage': True, \
                        'with_total': True, \
                        'with_reference': True}
@@ -55,8 +53,7 @@ class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable):
 
        de 5 ans et femmes enceintes"""
 
-    # Information du tableau
-    name = _(u"Figure 5.1")
+    name = _(u"Figure 6")
     title = _(u" ")
     caption = _(u"Evolution du nombre de MILD distribuées aux moins de " \
                 u"5 ans et femmes enceintes")

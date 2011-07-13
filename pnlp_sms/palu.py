@@ -87,9 +87,9 @@ def nosms_handler(message):
     if main_palu_handler(message):
         message.status = Message.STATUS_PROCESSED
         message.save()
-        logger.info("[HANDLED] msg: %s" % message)
+        logger.info(u"[HANDLED] msg: %s" % message)
         return True
-    logger.info("[NOT HANDLED] msg : %s" % message)
+    logger.info(u"[NOT HANDLED] msg : %s" % message)
     return False
 
 
@@ -97,6 +97,8 @@ def main_palu_handler(message):
     if message.text.lower().startswith('palu '):
         if message.text.lower().startswith('palu passwd'):
             return palu_passwd(message)
+        elif message.text.lower().strip() == 'palu aide':
+            return palu_help(message, True)
         elif message.text.lower().startswith('palu aide'):
             return palu_help(message)
         else:
@@ -105,18 +107,22 @@ def main_palu_handler(message):
         return False
 
 
-def palu_help(message):
+def palu_help(message, nousername=False):
 
     try:
         hotline = settings.HOTLINE_NUMBER
     except:
-        hotline = "65731076"
+        hotline = '65731076'
 
-    kw1, kw2, uusername = message.text.strip().lower().split()
-    try:
-        username = uusername.split(':')[1]
-    except:
+    if nousername:
+        kw1, kw2 = message.text.strip().lower().split()
         username = None
+    else:
+        kw1, kw2, uusername = message.text.strip().lower().split()
+        try:
+            username = uusername.split(':')[1]
+        except:
+            username = None
 
     provider = None
     if username:
@@ -127,14 +133,14 @@ def palu_help(message):
 
     if not provider:
         try:
-            provider = Provider.objects.get(phone_number=message.author)
+            provider = Provider.objects.get(phone_number=message.identity)
         except:
             provider = None
 
     if not provider:
-        text_message = "[DEMANDE AIDE] Non identifié: %s" % message.author
+        text_message = u"[DEMANDE AIDE] Non identifié: %s" % message.identity
     else:
-        text_message = "[DEMANDE AIDE] %(provider)s de %(entity)s." \
+        text_message = u"[DEMANDE AIDE] %(provider)s de %(entity)s." \
                        % {'provider': provider, 'entity': entity_for(provider)}
 
     m = Message(identity=hotline, text=text_message)
@@ -143,35 +149,35 @@ def palu_help(message):
 
 
 def palu_passwd(message):
-    error_start = "Impossible de changer votre mot de passe. "
+    error_start = u"Impossible de changer votre mot de passe. "
     try:
         kw1, kw2, username, \
         old_password, new_password = message.text.strip().lower().split()
     except ValueError:
-        message.respond(error_start + "Le format du SMS est incorrect.")
+        message.respond(error_start + u"Le format du SMS est incorrect.")
         return True
 
     try:
         provider = Provider.objects.get(user__username=username)
     except Provider.DoesNotExist:
-        message.respond(error_start + "Ce nom d'utilisateur (%s) " \
-                                      "n'existe pas." % username)
+        message.respond(error_start + u"Ce nom d'utilisateur (%s) " \
+                                      u"n'existe pas." % username)
         return True
 
     if not provider.check_password(old_password):
-        message.respond(error_start + "Votre ancien mot de passe " \
-                                      "est incorrect.")
+        message.respond(error_start + u"Votre ancien mot de passe " \
+                                      u"est incorrect.")
         return True
 
     try:
         provider.set_password(new_password)
         provider.save()
     except:
-        message.respond(error_start + "Essayez un autre nouveau mot de passe.")
+        message.respond(error_start + u"Essayez un autre nouveau mot de passe.")
         return True
 
-    message.respond("Votre mot de passe a ete change et est " \
-                    "effectif immediatement. Merci.")
+    message.respond(u"Votre mot de passe a ete change et est " \
+                    u"effectif immediatement. Merci.")
 
     return True
 
@@ -179,7 +185,7 @@ def palu_passwd(message):
 def palu(message):
 
     # common start of error message
-    error_start = "Impossible d'enregistrer le rapport. "
+    error_start = u"Impossible d'enregistrer le rapport. "
 
     # create variables from text messages.
     try:
@@ -229,7 +235,7 @@ def palu(message):
     except ValueError:
         # failure to split means we proabably lack a data or more
         # we can't process it.
-        message.respond(error_start + " Le format du SMS est incorrect.")
+        message.respond(error_start + u" Le format du SMS est incorrect.")
         return True
 
     # convert form-data to int or bool respectively
@@ -243,19 +249,19 @@ def palu(message):
     except:
         raise
         # failure to convert means non-numeric value which we can't process.
-        message.respond(error_start + " Les données sont malformées.")
+        message.respond(error_start + u" Les données sont malformées.")
         return True
 
     # check credentials
     try:
         provider = Provider.objects.get(user__username=arguments['username'])
     except Provider.DoesNotExist:
-        message.respond(error_start + "Ce nom d'utilisateur " +
-                                      "(%s) n'existe pas." % \
+        message.respond(error_start + u"Ce nom d'utilisateur " +
+                                      u"(%s) n'existe pas." % \
                                       arguments['username'])
         return True
     if not provider.check_password(arguments['password']):
-        message.respond(error_start + "Votre mot de passe est incorrect.")
+        message.respond(error_start + u"Votre mot de passe est incorrect.")
         return True
 
     # now we have well formed and authenticated data.
@@ -312,16 +318,16 @@ def palu(message):
         report.add_stockout_data(*data_browser.data_for_cat('so'))
         report.save()
     except Exception as e:
-        message.respond(error_start + "Une erreur technique s'est produite. " \
-                        "Reessayez plus tard et contactez ANTIM si " \
-                        "le probleme persiste.")
+        message.respond(error_start + u"Une erreur technique s'est produite. " \
+                        u"Reessayez plus tard et contactez ANTIM si " \
+                        u"le probleme persiste.")
         logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
                      % (message.text, e))
         return True
 
-    message.respond("[SUCCES] Le rapport de %(cscom)s pour %(period)s "
-                    "a ete enregistre. " \
-                    "Le No de recu est #%(receipt)s." \
+    message.respond(u"[SUCCES] Le rapport de %(cscom)s pour %(period)s "
+                    u"a ete enregistre. " \
+                    u"Le No de recu est #%(receipt)s." \
                     % {'cscom': report.entity.display_full_name(), \
                        'period': report.period, \
                        'receipt': report.receipt})
@@ -333,7 +339,7 @@ def palu(message):
     if not to:
         return True
     send_sms(to, u"[ALERTE] Le CSCom %(cscom)s vient d'envoyer le " \
-                 "rapport #%(receipt)s pour %(period)s." \
+                 u"rapport #%(receipt)s pour %(period)s." \
                  % {'cscom': report.entity.display_full_name(), \
                     'period': report.period, \
                     'receipt': report.receipt})

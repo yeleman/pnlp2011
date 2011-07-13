@@ -16,7 +16,7 @@ from pnlp_core.indicators.common import get_report_for
 class CasPaludismeSimpleTraitesCTA(IndicatorTable):
     """ Tableau: Cas de paludisme simple traités par CTA """
 
-    name = _(u"Tableau 3.1")
+    name = _(u"Tableau 3")
     title = _(u" ")
     caption = _(u"Cas de paludisme simple traités par CTA")
     type = 'table'

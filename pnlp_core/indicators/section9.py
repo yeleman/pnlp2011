@@ -16,7 +16,7 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
 
         SP """
 
-    name = _(u"Tableau 8.1")
+    name = _(u"Tableau 9")
     title = _(u" ")
     caption = _(u"Pourcentage de structures avec Rupture de stock en" \
                 u"MILD, TDR, SP")
@@ -63,7 +63,7 @@ class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
 
         MILD, TDR, SP """
 
-    name = _(u"Figure 8.1")
+    name = _(u"Figure 9")
     title = _(u" ")
     caption = _(u"Evolution du pourcentage de Structures avec rupture " \
                 u"de stock en MILD, TDR, SP")

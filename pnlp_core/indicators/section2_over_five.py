@@ -16,7 +16,7 @@ class CasPaludismeEnfantsOverFive(IndicatorTable):
 
         plus """
 
-    name = u"Tableau 2.1c"
+    name = u"Tableau 2.3"
     title = u"Personnes de 5 ans et plus"
     caption = u"Nombre de cas de paludisme chez les personnes de 5 ans et plus"
     type = 'table'
@@ -73,7 +73,7 @@ class NbreCasSuspectesTestesConfirmesOverFive(NbreCasSuspectesTestesConfirmes):
 
         cas confirmés) chez les personnes de 5 ans et plus """
 
-    name = u"Figure 2.2b"
+    name = u"Figure 2.3"
     caption = u"Nombre de cas de paludisme (cas suspects, cas testés, " \
               u"cas confirmés) chez les personnes de 5 ans et plus."
 
@@ -91,7 +91,7 @@ class EvolutionTestesConfirmesOverFive(NbreCasSuspectesTestesConfirmes):
        et proportion des cas confirmés parmi les cas testés  chez les de 5 ans
        et plus """
 
-    name = u"Figure 2.2c"
+    name = u"Figure 2.4"
     caption = u"Evolution de la proportion des cas testés parmi" \
               u" les cas suspects et proportion des cas confirmés" \
               u" parmi les cas testés  chez les personnes de 5 ans et plus"
