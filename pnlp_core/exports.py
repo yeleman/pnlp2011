@@ -31,9 +31,9 @@ font.bold = True
 font.height = 10 * 0x14
 
 # On définit l'alignement
-al = xlwt.Alignment()
-al.horz = xlwt.Alignment.HORZ_CENTER
-al.vert = xlwt.Alignment.VERT_CENTER
+alcenter = xlwt.Alignment()
+alcenter.horz = xlwt.Alignment.HORZ_CENTER
+alcenter.vert = xlwt.Alignment.VERT_CENTER
 
 # color
 colordescription = xlwt.Pattern()
@@ -55,20 +55,19 @@ colorvide.pattern_fore_colour = 8
 #style
 styledescription = xlwt.XFStyle()
 styledescription.pattern = colordescription
-styledescription.borders = borders
 
 stylevariable = xlwt.XFStyle()
 stylevariable.borders = borders
-stylevariable.alignment = al
+stylevariable.alignment = alcenter
 
 styletitle = xlwt.XFStyle()
 styletitle.pattern = colortitle
 styletitle.borders = borders
 styletitle.font = font
-styletitle.alignment = al
+styletitle.alignment = alcenter
 
 styledate = xlwt.XFStyle()
-styledate.alignment = al
+styledate.alignment = alcenter
 styledate.pattern = colordate
 styledate.borders = borders
 
@@ -77,7 +76,7 @@ stylelabel.borders = borders
 
 stylevide = xlwt.XFStyle()
 stylevide.pattern = colorvide
-stylevide.alignment = al
+stylevide.alignment = alcenter
 
 styleborformbutton = xlwt.XFStyle()
 styleborformbutton.borders = borderformbottom
@@ -86,9 +85,14 @@ styleborformright = xlwt.XFStyle()
 styleborformright.borders = borderformright
 
 styletitleform = xlwt.XFStyle()
-styletitleform.alignment = al
+styletitleform.alignment = alcenter
 styletitleform.borders = borders
 styletitleform.font = font
+
+styleentity = xlwt.XFStyle()
+styleentity.borders = borders
+styleentity.pattern = colortitle
+styleentity.font = font
 
 
 def report_as_excel(report):
@@ -117,9 +121,9 @@ def report_as_excel(report):
     sheet.write_merge(0, 0, 0, 12, u"Formulaire de Collecte - Données"\
                     u"sur l'Information de Routime du PNLP - Niveau" \
                     u"District Sanitaire (Csréf/Cscom)", styletitleform)
-    sheet.write_merge(1, 3, 0, 0, u"Région Médical \nDistrict"\
-                            u"Sanitaire \n \nEtablissement sanitaire", \
-                                                    styledescription)
+    sheet.write(1, 0, u"Région Médical", styledescription)
+    sheet.write(2, 0, u"District Sanitaire", styledescription)
+    sheet.write(3, 0, u"Etablissement sanitaire", styledescription)
 
     sheet.write_merge(4, 5, 0, 1, u"Classification", styletitle)
     sheet.write_merge(6, 6, 0, 1, u"Total consultation, toutes" \
@@ -155,21 +159,25 @@ def report_as_excel(report):
     sheet.write_merge(24, 24, 0, 5, u"Moustiquaires imprégnées"\
                                 u"d'insecticide distribuées", styletitle)
 
-    sheet.write_merge(25, 25, 0, 1, u"Classification", stylelabel)
+    sheet.write_merge(25, 25, 0, 1, u"Classification", styletitle)
     sheet.write_merge(26, 26, 0, 1, u"Nombre de moustiquaires"\
                                             u"distribuées", stylelabel)
     sheet.write_merge(27, 27, 0, 8, u"")
     sheet.write_merge(28, 28, 0, 12, u"", styleborformbutton)
 
     sheet.write(1, 1, report.entity.parent.parent.display_name(), \
-                                                        styletitle)
-    sheet.write(2, 1, report.entity.parent.display_name(), styletitle)
-    sheet.write_merge(3, 3, 1, 2, report.entity.slug, styletitle)
+                                                        styleentity)
+    sheet.write(2, 1, report.entity.parent.display_name(), styleentity)
+    sheet.write_merge(3, 3, 1, 2, report.entity.slug, styleentity)
 
-    sheet.write(2, 2, u"Mois")
+    sheet.write_merge(1, 1, 2, 12, u"", styledescription)
+    sheet.write(2, 2, u"Mois", styledescription)
     sheet.write(2, 3, report.period.middle().month, styledate)
-    sheet.write(2, 5, u"Année")
+    sheet.write(2, 4, u"", styledescription)
+    sheet.write(2, 5, u"Année", styledescription)
     sheet.write(2, 6, report.period.middle().year, styledate)
+    sheet.write_merge(2, 2, 7, 12, u"", styledescription)
+
 
     # SECTION Consultation
     sheet.write_merge(4, 4, 2, 7, u"Consultation", styletitle)
@@ -299,11 +307,11 @@ def report_as_excel(report):
 
     # SECTION Moustiquaires imprégnéés d'insecticide distrivuées
     # < 5 ans
-    sheet.write_merge(25, 25, 2, 3, u"< 5 ans", stylelabel)
+    sheet.write_merge(25, 25, 2, 3, u"< 5 ans", styletitle)
     sheet.write_merge(26, 26, 2, 3, \
                             report.u5_total_distributed_bednets, \
                                                         stylevariable)
-    sheet.write_merge(25, 25, 4, 5, u"Femmes enceintes", stylelabel)
+    sheet.write_merge(25, 25, 4, 5, u"Femmes enceintes", styletitle)
     sheet.write_merge(26, 26, 4, 5, \
                             report.pw_total_distributed_bednets, \
                                                         stylevariable)
@@ -326,8 +334,10 @@ def report_as_excel(report):
     sheet.write_merge(7, 7, 8, 12, u"")
 
     # SECTION PEC de cas de Paludisme grave Rupture de soctk OUI/NON
-    sheet.write_merge(8, 9, 9, 12, u"PEC de cas de Paludisme grave" \
-                            u"\nRupture de soctk OUI/NON", styletitle)
+    sheet.write_merge(8, 8, 9, 12, u"PEC de cas de Paludisme grave", \
+                                                            styletitle)
+    sheet.write_merge(9, 9, 9, 12, u"Rupture de soctk OUI/NON", \
+                                                            styletitle)
     sheet.write_merge(10, 10, 9, 11, u"Arthemether injectable", stylelabel)
     sheet.write(10, 12, \
               report_status_verbose(report.stockout_artemether), \
