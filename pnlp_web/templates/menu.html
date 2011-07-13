@@ -8,7 +8,7 @@
     <li {% if category = 'indicator_data' %}class="hover"{% endif %}><a href="{% url indicator_data %}">Données analysées</a></li>
     {% if web_provider.first_role.slug == 'antim' %}
     <li {% if category = 'users' %}class="hover"{% endif %}><a href="{% url list_users %}">Utilisateurs</a></li>
-    <li><a href="##">Établissements</a></li>
+    <li {% if category = 'entities' %}class="hover"{% endif %}><a href="{% url list_entities %}">Établissements</a></li>
     {% else %}
 
     {% endif %}

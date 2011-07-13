@@ -65,7 +65,7 @@ urlpatterns = patterns('',
     url(r'^browse/$', views.indicators.indicator_browser, \
         name='indicator_data'),
 
-    # ANTIM
+    # ANTIM : USERS
     url(r'^users/?$', \
         provider_permission('can_manage_users')(views.providers. \
                                                 ProvidersListView.as_view()), \
@@ -81,6 +81,15 @@ urlpatterns = patterns('',
         kwargs={'activate': True}),
     url(r'^users/new_password/(?P<user_id>[0-9]+)$', \
         views.providers.password_user, name='password_user'),
+
+    # ANTIM : ENTITIES
+    url(r'^entities/?$', \
+        provider_permission('can_manage_entities')(views.entities. \
+                                                EntitiesListView.as_view()), \
+        name='list_entities'),
+    url(r'^entities/add$', views.entities.add_edit_entity, name='add_entity'),
+    url(r'^entities/edit/(?P<entity_id>[0-9]+)$', \
+        views.entities.add_edit_entity, name='edit_entity'),
 
     # static web pages
      url(r'^support/$', views.dashboard.contact, name='support'),

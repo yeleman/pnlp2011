@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load pnlp %}
+
+{% block title %}Tous les établissements{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Liste des établissements</h1>{% endblock %}
+{% block page-name %}default{% endblock %}
+
+{% block jqueryonload %}
+$("tr").click(function (event) {
+    url = $(this).children("td").children("a").attr('href');
+    if (url)
+        location.href = url;
+});
+$("tr").each(function () {
+    if ($(this).children("td").children("a").attr('href'))
+        $(this).addClass('click');
+});
+{% endblock %}
+
+{% block content %}
+<a href="{% url add_entity %}"><button class="linkbutt">Ajouter un établissement</button></a>
+<table>
+<tr><th>Code</th><th>Nom</th><th>Type</th><th>Parent</th></tr>
+{% for entity in entities_list %}
+<tr><td><a href="{% url edit_entity entity_id=entity.id %}">{{ entity.slug }}</a></td><td>{{ entity.name }}</td><td>{{ entity.type }}</td><td>{{ entity.parent|default:"" }}</td></tr>
+{% endfor %}
+</table>
+{% endblock %}
