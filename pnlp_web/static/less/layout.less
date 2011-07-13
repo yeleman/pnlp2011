@@ -40,6 +40,7 @@ body {
     display: block;
 }
 
+
 #header h1 {
     display: none;
 }
@@ -757,13 +758,17 @@ background-color: white;
     list-style: @bullet_png inside none;
 }
 
-#content > ul {
+#content > ul, #content > ol {
     font-size: 100%;
     margin: 1em;
 }
 
-#content ul li {
+#content ul li, #content ol li {
     font-size: 100%;
+}
+
+#content ol li {
+    list-style: decimal inside none;
 }
 
 #content ul.help {
@@ -777,4 +782,8 @@ background-color: white;
 #content > ul.help a {
     font-weight: bold;
     color: @text-content;
+}
+
+#content div.helpon {
+    background-color: @background-context;
 }

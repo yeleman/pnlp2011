@@ -37,7 +37,7 @@ addJQEventToggleSources();{% endblock %}
 <p><strong>Sources</strong>: <a id="toggle_sources" href="#">{{ report.sources.all|length}} source{{ report.sources.all|pluralize }}</a> compose{{ report.sources.all|pluralize:"nt" }} ce rapport agrégé.</p>
 <ul id="sources" class="hidden">
 {% for source in report.sources.all %}
-<li>{{ source.entity.display_name }} – {{ source.receipt }}</li>
+<li>{{ source.entity.display_name }} – <a href="{% url raw_data source.entity.slug source.mperiod.pid %}">{{ source.receipt }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

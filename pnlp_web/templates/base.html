@@ -10,6 +10,11 @@
     <script type="text/javascript" src="{% url static 'jquery-1.6.2.min.js' %}"></script>
     <script type="text/javascript" src="{% url static 'pnlp.js' %}"></script>
     {% if category == 'indicator_data' %}<script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>{% endif %}
+    <meta http-equiv="Content-Language" content="fr-fr" />
+    <meta name="ROBOTS" content="ALL" />
+    <meta name="Copyright" content="PNLP, ANTIM, YELEMAN" />
+    <meta name="keywords" content="pnlp, mali, paludisme, antim, sms" />
+    <meta name="description" content="Système d'information de routine sur le Paludisme au Mali. Données SMS et Web." />
 </head>
 <body>
     <div id="page">
@@ -53,7 +58,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
        addMessagesClickEvent();
-       addLogoClickEvent();
+       addLogoClickEvent('{% url index %}');
        {% block jqueryonload %}{% endblock %}
      });
      {% block inlinejs %}{% endblock %}

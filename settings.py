@@ -217,6 +217,8 @@ HOTLINE_EMAIL = "root@localhost"
 
 SUPPORT_CONTACTS = [('unknown', u"HOTLINE", HOTLINE_EMAIL)]
 
+ENABLE_FORTUNE = True
+
 USE_HTTPS = False
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",

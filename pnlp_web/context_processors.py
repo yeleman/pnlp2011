@@ -2,7 +2,9 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from pnlp_web.utils import get_level_for
+from django.conf import settings
+
+from pnlp_web.utils import get_level_for, random_proverb
 
 
 def add_provider(request):
@@ -11,7 +13,9 @@ def add_provider(request):
         web_provider = request.user.get_profile()
     except:
         web_provider = None
-    return {'web_provider': web_provider}
+
+    fortune = random_proverb() if settings.ENABLE_FORTUNE else None
+    return {'web_provider': web_provider, 'fortune': fortune}
 
 
 def add_level(request):

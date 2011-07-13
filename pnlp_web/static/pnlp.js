@@ -36,8 +36,8 @@ function addMessagesClickEvent() {
     $("ul#messages").click(function(event){$(this).hide("slow"); });
 }
 
-function addLogoClickEvent() {
-    $("#logo").click(function(event) { location.href = '{% url index %}'; });
+function addLogoClickEvent(base_url) {
+    $("#logo").click(function(event) { location.href = base_url; });
 }
 
 function addJQEventsForValidationList() {
@@ -82,7 +82,7 @@ function addJQEventsSubMenu(base_url, base_url_zero) {
     });
 }
 
-function addJQEventsForValidationChange() {
+function addJQEventsForValidationChange(base_url) {
     $("form#report_form input, form#report_form select").change(function (event) {
         $(this).parent().addClass('changed');
     });
@@ -95,7 +95,7 @@ function addJQEventsForValidationChange() {
     $("#validate_form").click(function (event) {
         event.preventDefault();
         if (confirm("Êtes vous sûr de vouloir valider le rapport ?\nUne fois validé, il ne sera plus modifiable.")) {
-            location.href = '{% url report_do_validation report.receipt %}';
+            location.href = base_url;
         }
     });
 }
@@ -120,5 +120,30 @@ function addJQEventPeriodsChange(base_url, current_entity) {
         eperiod = $("#eperiod_select").val();
         url = base_url.replace('ent_code', current_entity).replace('111111', speriod).replace('222222', eperiod);
         location.href = url;
+    });
+}
+
+function addJQEventForHelpNavigation() {
+
+    $("#content").click(function (event) {
+        var target = $(event.target);
+        if (target.is("div"))
+            elem = target
+        else if (target.is("a")) {
+            // special case for topic list
+            if (target.parent().parent().hasClass('help')) {
+                name = target.attr('href').replace('#', '');
+                elem = $("#content div a[name*="+name+"]").parent();
+            } else {
+                // regular inside link.
+                return;
+            }
+        } else if (target.is("li"))
+            elem = target.parent().parent()
+        else
+            elem = target.parent()
+
+        $("#content div").removeClass("helpon");
+        elem.addClass("helpon");
     });
 }

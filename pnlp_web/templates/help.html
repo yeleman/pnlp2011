@@ -2,6 +2,9 @@
 
 {% block title %}Aide{% endblock %}
 {% block pagetitle %}<h1 class="pagetitle">Aide en ligne</h1>{% endblock %}
+{% block content-class %}context{% endblock %}
+
+{% block jqueryonload %}addJQEventForHelpNavigation();{% endblock %}
 
 {% block content %}
 <p>Cette section vous permettra de trouver des réponses aux questions que vous pouvez vous poser sur l'outil.</p>
@@ -11,19 +14,108 @@
 <ul class="help">
 <li><a href="#lost_login">J'ai perdu mon identifiant.</a></li>
 <li><a href="#lost_password">J'ai perdu mon mot de passe.</a></li>
+<li><a href="#change_password">Comment changer mon mot de passe ?</a></li>
+<li><a href="#edit_prodile">Comment changer mes informations (nom, e-mail, téléphone) ?</a></li>
+<li><a href="#upload_report">Comment envoyer un rapport de CSCom ?</a></li>
+<li><a href="#send_sms">Comment envoyer un rapport par SMS ?</a></li>
+<li><a href="#validate_report">Comment valider un rapport ?</a></li>
+<li><a href="#view_report">Comment consulter un rapport ?</a></li>
+<li><a href="#timeline_report">De combien de temps je dispose pour envoyer ou valider un rapport ?</a></li>
+<li><a href="#pending_reports">Quels sont les rapports en attente ?</a></li>
 </ul>
 
 <h2>Réponses</h2>
 
-<a name="lost_login"></a>
+<div><a name="lost_login"></a>
 <h3>J'ai perdu mon identifiant.</h3>
 <p>En cas de perte de votre identifiant, il vous faut contacter l'ANTIM.</p>
-<p>Vous pouvez les joindre via le <a href="{% url support %}">formulaire de contact</a> ou par téléphone.</p>
+<p>Vous pouvez les joindre via le <a href="{% url support %}">formulaire de contact</a> ou par téléphone.</p></div>
 
 
-<a name="lost_password"></a>
+<div><a name="lost_password"></a>
 <h3>J'ai perdu mon mot de passe.</h3>
 <p>En cas de perte de votre mot de passe, il vous faut contacter l'ANTIM.</p>
-<p>Vous pouvez les joindre via le <a href="{% url support %}">formulaire de contact</a> ou par téléphone.</p>
+<p>Vous pouvez les joindre via le <a href="{% url support %}">formulaire de contact</a> ou par téléphone.</p></div>
+
+<div><a name="change_password"></a>
+<h3>Comment changer mon mot de passe ?</h3>
+<p>Vous pouvez changer votre mot de passe depuis <a href="{% url profile %}">votre profil</a> accessible à tout moment en cliquant sur votre nom en haut de l'écran.</p>
+<p>Vous devez être identifié pour changer de mot de passe.</p>
+<p>Si vous n'arrivez pas à vous identifiez, referrez vous à <a href="#lost_login">la section correspondante</a>.</p></div>
+
+<div><a name="edit_prodile"></a>
+<h3>Comment changer mes informations (nom, e-mail, téléphone) ?</h3>
+<p>Depuis <a href="{% url profile %}">votre profil</a> (accessible en cliquant sur votre nom), vous pouvez changer votre informations personnelles:</p>
+<ul>
+<li>Prénom</li>
+<li>Nom</li>
+<li>Adresse e-mail. Celle-ci sera utilisé pour vous envoyer des informations et notifications ainsi que votre mot de passe.</li>
+<li>Numéro de téléphone. Celui-ci sera utilisé pour vous avertir (nouveaux rapports).</li>
+</ul>
+<p>Vous devez être identifié pour modifier ces informations.</p></div>
+
+<div><a name="upload_report"></a>
+<h3>Comment envoyer un rapport de CSCom ?</h3>
+<p>L'envoi de rapport depuis cette interface est réservé aux CSRéf.</p>
+<p>Pour envoyer un rapport, il faut se rendre dans l'<a href="{% url upload %}">interface de saisie</a>, cliquer sur le bouton <em>Parcourir…</em> et sélectionner le formulaire de saisie déjà rempli.</p>
+<p>Aucune information n'est demandée ; toutes les informations doivent déjà être présentent dans le fichier Excel.</p>
+<p>Si vous rencontrez des problèmes pour le remplissage du formulaire ou que vous ne parvenez pas à corriger vos erreurs, réferrez-vous au <a href="{% url static 'guide_remplissage_1.0.doc' %}">Guide de remplissage du formulaire de saisie</a>.</p></div>
+
+<div><a name="send_sms"></a>
+<h3>Comment envoyer un rapport par SMS ?</h3>
+<p>Les rapports mensuels de routine primaires sont exclusivement envoyés à travers l'application PNLP disponible sur votre téléphone.</p>
+<p>Si vous avez besoin d'aide concernant la saisie du rapport sur le téléphone, réferrez-vous au <a href="{% url static 'guide_application_1.0.doc' %}">Guide d'utilisation de l'application java</a>, ou <a href="{% url support %}">contactez l'ANTIM</a> à travers l'application elle-même.</p>
+<p>Si l'application ne se trouve plus sur votre téléphone, <a href="{% url support %}">contactez l'ANTIM</a>.</p>
+<p>Si vous cherchez l'application et savez ce que vous faîtes, <a href="{% url static 'pnlp1.0.jar' %}">téléchargez l'application</a>.</p></div>
+
+<div><a name="validate_report"></a>
+<h3>Comment valider un rapport ?</h3>
+<p>La validation des rapports s'effectue à deux niveaux:</p>
+<ul>
+<li>Niveau CSRéf: le district valide les rapports primaires des CSComs de son aîre.</li>
+<li>Niveau Région: la région valide les rapports agrégés des districts la concernant.</li>
+</ul>
+<p>La validation à lieu dans la <a href="{% url validation %}">section éponyme</a>.</p>
+<p>Il s'y trouve une liste des rapports en attente de validation. L'agent peut alors consulter les données, les modifier éventuellement puis les valider.</p>
+<p><strong>Attention</strong>, la validation des rapports n'est possible que pendant <a href="#timeline_report">la période de validation</a>.</p></div>
+
+<div><a name="view_report"></a>
+<h3>Comment consulter un rapport ?</h3>
+<p>Les rapports sont disponibles dans la section <a href="{% url raw_data %}">données brutes</a>.</p>
+<p>Pour accèder à un rapport, vous devez naviguer:</p>
+<ol>
+<li>Dans la hiérachie des établissement: en utilisant les menus déroulants <em>établissements</em>.
+    <p>Votre établissement de référence s'affiche en premier, en vert. Si vous avez un rôle national, ce sera <em>Mali</em>. Si vous avez un rôle district, ce sera vôtre district.</p>
+    <p>Le menu déroulant qui le suit permet d'accèder aux établissements qui dépendent de celui-ci, jusqu'aux CSComs.</p>
+    <p>Pour revenir au rapport <em>parent</em>, choisissez <em>aucun</em> dans la liste.</p></li>
+<li>Dans le temps en utilisant le menu déroulant <em>période</em>.
+    <p>Choisissez ici la période pour laquelle vous voulez consulter le rapport.</p>
+    <p>Si la période désirée ne s'affiche pas, il n'y a pas de rapport.</p></li>
+</ol>
+<p>Les rapports en attentes de validation porte un bandeau de couleur orange.</p>
+<p>Les rapports de agrégés (non primaires) permettent de visualiser leurs <em>sources</em>: les rapports qui ont été utilisé pour sa génétation.</p></div>
+
+<div><a name="timeline_report"></a>
+<h3>De combien de temps je dispose pour envoyer ou valider un rapport ?</h3>
+<p>Pour des raisons évidentes de qualité des données, le système se tient à un calendrier stricte.</p>
+<p>Chaque étape dispose d'un temps défini pour effectuer ses actions et toute action non effectuée à temps est déclinée ; il n'y a pas de retard possible. C'est la raison pour laquelle il est très important que nous travaillions dans les temps.</p>
+<ol>
+<li><strong>Collecte et transmission des données primaires</strong>: du 1<sup>er</sup> au 5 du mois (inclus).</li>
+<li><strong>Validation des données primaires par le district</strong>: du 1<sup>er</sup> (arrivée des rapports) au 15 du mois (inclus).</p>
+<li><strong>Validation des données district par la région</strong>: du 1<sup>er</sup> (arrivée des rapports) au 25 du mois (inclus).</p>
+</ol>
+<p>Il n'y a pas de délais ni de cascade en cas de retard:</p>
+<ul>
+<li>Si le CSCom n'envoi pas ses données à temps, elles sont perdues. Le CSCom ne sera pas prit en compte pour la période.</li>
+<li>Si le district ne valide pas ses rapports à temps, le système auto-valide les rapports à sa place (le 16 du mois).</li>
+<li>Si la région ne valide pas ses rapports à temps, le système auto-valide les rapports à sa place (le 26 du mois).</li>
+</ul>
+<p>Ce calendrier strict assure la bonne marche du système et la promptitude des rapports. En cas de difficulté ou de retard, il est impératif de <a href="{% url support %}">contacter le PNLP</a> pour obtenir la marche à suivre.</p></div>
+
+<div><a name="pending_reports"></a>
+<h3>Quels sont les rapports en attente ?</h3>
+<p>Durant les <a href="#timeline_report">périodes de validations</a>, les districts attendent l'arrivée des rapports primaires puis les régions attendent la création des rapports de districts.</p>
+<p>Depuis la <a href="{% url validation %}">section validation</a>, il est possible de voir la liste des établissements n'ayant pas encore terminés leur travail.</p>
+<p>Cet espace fournit également les contacts des responsables afin de prévenir tout retard.</p></div>
 
 {% endblock %}
