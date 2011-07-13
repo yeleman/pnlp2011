@@ -15,7 +15,7 @@ from pnlp_core.data import (MalariaDataHolder, \
                             provider_can_or_403, \
                             current_reporting_period)
 from pnlp_web.decorators import provider_required, provider_permission
-from bolibana_reporting.models import Entity, MonthPeriod
+from bolibana_reporting.models import Entity, MonthPeriod, Report
 
 
 def import_path(name):
@@ -41,7 +41,26 @@ def indicator_browser(request, entity_code=None, period_str=None, \
     entity = None
     section_index = int(section_index) - 1
 
-    # find period from string or default to current reporting
+    # find entity or default to provider target
+    # raise 404 on wrong provided entity code
+    if entity_code:
+        entity = get_object_or_404(Entity, slug=entity_code)
+
+    if not entity:
+        entity = web_provider.first_target()
+    context.update({'entity': entity})
+
+    # define a list of all possible periods.
+    # this is the list of all existing MonthPeriod anterior to current
+    def all_anterior_periods(period):
+        return MonthPeriod.objects\
+                          .filter(start_on__lte=period.start_on)\
+                          .order_by('start_on')
+
+    all_periods = all_anterior_periods(current_reporting_period())
+
+    # retrieve Periods from string
+    # if period_string include innexistant periods -> 404.
     if period_str:
         speriod_str, eperiod_str = period_str.split('-')
         try:
@@ -53,35 +72,34 @@ def indicator_browser(request, entity_code=None, period_str=None, \
                                                   year=int(eperiod_str[-4:]), \
                                                   month=int(eperiod_str[:2]), \
                                                   dont_create=True)
-            if speriod.middle() >= eperiod.middle():
-                periods = [speriod]
-            else:
-                period = speriod
-                while period.middle() <= eperiod.middle():
-                    periods.append(period)
-                    period = period.next()
-        except:
-            pass
 
+            # loop on Period.next() from start one to end one.
+            period = speriod
+            while period.middle() <= eperiod.middle():
+                periods.append(period)
+                period = period.next()
+        except:
+            raise Http404(_(u"Requested period interval (%(period_str)s) " \
+                            u"includes inexistant periods.") \
+                          % {'period': period_str})
+
+    # in case user did not request a specific interval
+    # default to current_reporting_period
     if not speriod or not eperiod:
         speriod = eperiod = current_reporting_period()
-
-    if not periods:
         periods = [speriod]
 
+    # if end period is before start period, redirect to opposite
+    if eperiod.middle() < speriod.middle():
+        return redirect('indicator_data', \
+                        entity_code=entity.slug, \
+                        period_str='%s-%s' % (eperiod.pid, speriod.pid))
+
     # periods variables
+    context.update({'period_str': '%s-%s' % (speriod.pid, eperiod.pid), \
+                    'speriod': speriod, 'eperiod': eperiod})
     context.update({'periods': [(p.pid, p.middle()) for p in periods], \
-                    'period_str': '%s-%s' % (speriod.pid, eperiod.pid), \
-                    'speriod': speriod, 'eperiod': eperiod, 'period': speriod})
-
-    # find entity or default to provider target
-    # raise 404 on wrong provided entity code
-    if entity_code:
-        entity = get_object_or_404(Entity, slug=entity_code)
-
-    if not entity:
-        entity = web_provider.first_target()
-    context.update({'entity': entity})
+                    'all_periods': [(p.pid, p.middle()) for p in all_periods]})
 
     # check permissions on this entity and raise 403
     provider_can_or_403('can_view_indicator_data', web_provider, entity)
@@ -107,7 +125,7 @@ def indicator_browser(request, entity_code=None, period_str=None, \
         raise Http404(_(u"This section does not exist."))
 
     context.update({'section': section, 'sub_section': sub_section})
-
+    print(periods)
     context.update({'widgets': [widget(entity=entity, periods=periods) \
                                 for widget in sm.WIDGETS]})
 

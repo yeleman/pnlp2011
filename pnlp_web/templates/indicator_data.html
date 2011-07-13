@@ -11,6 +11,14 @@
 {% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="indicator_data"|url:"0" %}{% endblock %}
 
 {% block jqueryonload %}
+    $("#period_nav select").change(function (event) {
+        current_entity = "{{ entity.slug }}";
+        speriod = $("#speriod_select").val();
+        eperiod = $("#eperiod_select").val();
+        url = "{% url indicator_data 'ent_code' '111111-222222' %}".replace('ent_code', current_entity).replace('111111', speriod).replace('222222', eperiod);
+        location.href = url;
+    });
+
     {% for widget in widgets %}
     {% if widget.type == 'graph' %}
         {% include "indicator_graph.js" with graph=widget id=widget.id|concat:forloop.counter0 %}
@@ -30,7 +38,7 @@
 </div>
 
 {% if periods %}
-<div id="period_nav"><p>Périodes de {% include "generic_select.html" with class="browser" items=periods selected=speriod.pid datefilter="MMMM YYYY" id="speriod_select" %} à {% include "generic_select.html" with class="browser" items=periods selected=eperiod.pid datefilter="MMMM YYYY" id="eperiod_select" %}</select></p></div>
+<div id="period_nav"><p>Périodes de {% include "generic_select.html" with class="browser" items=all_periods selected=speriod.pid datefilter="MMMM YYYY" id="speriod_select" %} à {% include "generic_select.html" with class="browser" items=all_periods selected=eperiod.pid datefilter="MMMM YYYY" id="eperiod_select" %}</select></p></div>
 {% endif %}
 
 <h2 class="pagetitle sub">Section {{ section.id }} – {{ section.label }}{% if sub_section %} / {{ sub_section|pnlpcat }}{% endif %}</h2>
