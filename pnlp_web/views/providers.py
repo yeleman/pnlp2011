@@ -15,7 +15,7 @@ from mptt.fields import TreeNodeChoiceField
 from bolibana_auth.models import Role, Provider, Access
 from bolibana_auth.utils import username_from_name, random_password
 from bolibana_reporting.models import Entity
-from pnlp_core.utils import send_email, full_url
+from pnlp_core.utils import send_email, full_url, clean_phone_number
 from pnlp_web.decorators import provider_permission
 
 logger = logging.getLogger(__name__)
@@ -39,6 +39,9 @@ class ProvidersListView(ListView):
 
 class EditProviderForm(forms.Form):
 
+    uid = forms.IntegerField(required=False, \
+                             widget=forms.widgets.HiddenInput(), \
+                             label=ugettext_lazy(u"User ID"))
     first_name = forms.CharField(max_length=50, required=True, \
                                  label=ugettext_lazy(u"First Name"))
     last_name = forms.CharField(max_length=50, required=True, \
@@ -56,6 +59,30 @@ class EditProviderForm(forms.Form):
     entity = TreeNodeChoiceField(queryset=Entity.tree.all(), \
                                  level_indicator=u'---', \
                                  label=ugettext_lazy(u"Entity"))
+
+    def clean_phone_number(self):
+        ind, clean_num = clean_phone_number(self.cleaned_data\
+                                                .get('phone_number'))
+        if not ind:
+            ind = '223'
+        phone_number = '+%s%s' % (ind, clean_num)
+        user_id = self.cleaned_data.get('uid')
+        print(user_id)
+
+        if phone_number \
+           and Provider.objects.filter(phone_number=phone_number)\
+                               .exclude(id=user_id).count() > 0:
+            raise forms.ValidationError(_(u"Phone number already " \
+                                          u"taken by %(provider)s") \
+                                        % {'provider': Provider.objects\
+                                               .get(phone_number=phone_number)\
+                                               .name_access()})
+        return phone_number
+
+    def clean_entity(self):
+        if self.cleaned_data.get('role') in ('antim', 'partners', 'pnlp'):
+            return 1
+        return self.cleaned_data.get('entity')
 
 
 @provider_permission('can_manage_users')
@@ -101,7 +128,9 @@ def add_edit_user(request, user_id=None):
             provider.email = form.cleaned_data.get('email')
             phone_number = form.cleaned_data.get('phone_number')
             # only update if not None to preserve uniqueness
-            if phone_number:
+            if phone_number \
+               and Provider.objects.filter(phone_number=phone_number)\
+                                   .exclude(id=user_id).count() == 0:
                 provider.phone_number = phone_number
             provider.save()
             messages.success(request, _(u"Profile details updated."))
@@ -161,7 +190,8 @@ def add_edit_user(request, user_id=None):
                 raise Http404
             try:
                 provider_data.update({'entity': provider.first_target().id, \
-                                      'role': provider.first_role().slug})
+                                      'role': provider.first_role().slug, \
+                                      'uid': provider.id})
             except:
                 pass
         else:
