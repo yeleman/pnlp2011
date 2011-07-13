@@ -43,6 +43,10 @@ $("#period_select").change(function (event) {
     location.href = url;
 });
 
+$("#toggle_sources").click(function (event) {
+    $("#sources").toggle("quick");
+});
+
 {% endblock %}
 
 {% block content %}
@@ -60,11 +64,19 @@ $("#period_select").change(function (event) {
 {%else %}
 
 <p>Rapport de {{ report.entity.display_name }} pour la période de {{ report.period.middle|datefmt:"MMMM yyyy" }}</p>
-<p><strong>Type de rapport</strong>: {{ report.type|reporttype }}</p>
 <p><strong>Nº de reçu</strong>: {{ report.receipt }}</p>
 <p><strong>Auteur</strong>: {{ report.created_by.name_access }}</p>
 <p><strong>Créé le</strong>: {{ report.created_on|datetimefmt }}</p>
 <p><strong>Modifié par</strong>: {{ report.modified_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
+<p><strong>Type de rapport</strong>: {{ report.type|reporttype }}</p>
+{% if report.type == 1 and report.sources.all %}
+<p><strong>Sources</strong>: <a id="toggle_sources" href="#">{{ report.sources.all|length}} source{{ report.sources.all|pluralize }}</a> compose{{ report.sources.all|pluralize:"nt" }} ce rapport agrégé.</p>
+<ul id="sources" class="hidden">
+{% for source in report.sources.all %}
+<li>{{ source.entity.display_name }} – {{ source.receipt }}</li>
+{% endfor %}
+</ul>
+{% endif %}
 <div class="rightbuttons"><a href="{% url raw_data_excel report.receipt %}"><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
 <table class="center">
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Consultation</th></tr>
