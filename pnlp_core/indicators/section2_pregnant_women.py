@@ -14,7 +14,7 @@ from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 class CasPaludismeFemmesEnceintes(IndicatorTable):
     """ Tableau: Nombre de cas de paludisme chez les femmes enceintes """
 
-    name = u"Tableau 2.4"
+    name = u"Tableau 2.1d"
     title = u"Femmes enceintes"
     caption = u"Nombre de cas de paludisme chez les femmes enceintes"
     type = 'table'
@@ -28,14 +28,14 @@ class CasPaludismeFemmesEnceintes(IndicatorTable):
                                               period=period).count() > 0
 
     @reference
-    @indicator(0, 'total_suspected_malaria_cases')
+    @indicator(0, 'pw_total_suspected_malaria_cases')
     @label(u"Total des cas suspects")
-    def total_suspected_malaria_cases(self, period):
+    def pw_total_suspected_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
-        return report.total_suspected_malaria_cases
+        return report.pw_total_suspected_malaria_cases
 
     @label(u". Cas graves")
-    @indicator(1, 'total_suspected_malaria_cases')
+    @indicator(1, 'pw_total_suspected_malaria_cases')
     def pw_total_severe_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.pw_total_severe_malaria_cases
@@ -47,13 +47,13 @@ class CasPaludismeFemmesEnceintes(IndicatorTable):
     blank._is_indicator = True
 
     @reference
-    @indicator(3, 'total_tested_malaria_cases')
+    @indicator(3, 'pw_total_tested_malaria_cases')
     @label(u"Total des cas suspects testés (GE et/ou TDR)")
-    def total_tested_malaria_cases(self, period):
+    def pw_total_tested_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
-        return report.total_tested_malaria_cases
+        return report.pw_total_tested_malaria_cases
 
-    @indicator(4, 'total_tested_malaria_cases')
+    @indicator(4, 'pw_total_tested_malaria_cases')
     @label(u"Nombre de cas suspects testés qui sont confirmés par  GE ou TDR")
     def pw_total_confirmed_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
@@ -66,10 +66,11 @@ class EvolutionTestesConfirmesFemmesEnceintes(NbreCasSuspectesTestesConfirmes):
         suspects et proportion des cas confirmés parmi les cas
         testés  chez les femmes enceintes """
 
-    name = u"Figure 2.5"
+    name = u"Figure 2.2d"
     caption = u"Evolution de la proportion des cas testés parmi les cas" \
               u" suspects et proportion des cas confirmés parmi les cas" \
               u" testés  chez les femmes enceintes "
+    graph_type = 'line'
 
     default_options = {'with_percentage': True, \
                        'with_total': False, \
@@ -77,4 +78,5 @@ class EvolutionTestesConfirmesFemmesEnceintes(NbreCasSuspectesTestesConfirmes):
                        'with_data': True,
                        'only_percent': True, \
                        'age': 'pregnant_women'}
-WIDGETS = [CasPaludismeFemmesEnceintes, EvolutionTestesConfirmesFemmesEnceintes]
+WIDGETS = [CasPaludismeFemmesEnceintes,
+           EvolutionTestesConfirmesFemmesEnceintes]

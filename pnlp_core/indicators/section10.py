@@ -23,9 +23,9 @@ class DonneesCPNetTPI(IndicatorTable):
                 u" Intermittent(TPI)")
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
-                       'with_reference': True}
+    default_options = {'with_percentage': False, \
+                       'with_total': False, \
+                       'with_reference': False}
 
     def period_is_valid(self, period):
         return MalariaReport.validated.filter(entity=self.entity, \
@@ -58,11 +58,12 @@ class EvolutionCPN1SP1SP2(IndicatorTable):
     title = _(u" ")
     caption = _(u"Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes")
     type = 'graph'
+    graph_type = 'line'
 
-    default_options = {'with_percentage': True, \
+    default_options = {'with_percentage': False, \
                        'with_reference': True, \
                        'with_data': False,
-                       'only_percent': True}
+                       'only_percent': False}
 
     def period_is_valid(self, period):
         return MalariaReport.validated.filter(entity=self.entity, \
@@ -99,8 +100,8 @@ class NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes(IndicatorTable):
                 u"de MILD distribuées aux femmes enceintes")
     type = 'graph'
 
-    default_options = {'with_percentage': True, \
-                       'with_reference': True, \
+    default_options = {'with_percentage': False, \
+                       'with_reference': False, \
                        'with_data': False,
                        'only_percent': False}
 
@@ -108,7 +109,6 @@ class NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes(IndicatorTable):
         return MalariaReport.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
-    @reference
     @indicator(0)
     @label(u"Nbre de femmes enceintes reçues en CPN 1")
     def pw_total_anc1(self, period):

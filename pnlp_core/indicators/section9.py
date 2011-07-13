@@ -23,7 +23,7 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
     type = 'table'
 
     default_options = {'with_percentage': True, \
-                       'with_total': True, \
+                       'with_total': False, \
                        'with_reference': True}
 
     def period_is_valid(self, period):
@@ -68,6 +68,7 @@ class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
     caption = _(u"Evolution du pourcentage de Structures avec rupture " \
                 u"de stock en MILD, TDR, SP")
     type = 'graph'
+    graph_type = 'line'
 
     default_options = {'with_percentage': True, \
                        'with_reference': False, \

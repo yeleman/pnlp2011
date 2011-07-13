@@ -13,7 +13,7 @@ from pnlp_core.indicators.section4 import Hospitalisation
 
 class HospitalisationToutAgeConfondu(IndicatorTable):
     """ Tableau: Hospitalisation """
-    name = u"Tableau 4.1"
+    name = u"Tableau 4.1a"
     title = u"Tout âge confondu"
     caption = u"Hospitalisation"
     type = 'table'
@@ -45,7 +45,7 @@ class ProportionHospitalisations(Hospitalisation):
 
         rapport aux hospitalisations toutes causes confondues)"""
 
-    name = u"Figure 4.1"
+    name = u"Figure 4.1a"
     caption = u"Proportion des hospitalisations pour paludisme grave (par" \
               u" rapport aux hospitalisations toutes causes confondues)"
 

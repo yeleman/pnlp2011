@@ -14,7 +14,7 @@ from pnlp_core.indicators.section4 import Hospitalisation
 class HospitalisationFemmesEnceintes(IndicatorTable):
     """ Tableau: Hospitalisation chez les femmes enceintes """
 
-    name = u"Tableau 4.4"
+    name = u"Tableau 4.1d"
     title = u"Femmes enceintes"
     caption = u"Hospitalisation chez les femmes enceintes"
     type = 'table'
@@ -28,13 +28,13 @@ class HospitalisationFemmesEnceintes(IndicatorTable):
                                               period=period).count() > 0
 
     @reference
-    @indicator(0)
+    @indicator(0, 'pw_total_inpatient_all_causes')
     @label(u"Total des hospitalisations (toutes causes confondues)")
-    def total_inpatient_all_causes(self, period):
+    def pw_total_inpatient_all_causes(self, period):
         report = get_report_for(self.entity, period)
-        return report.total_inpatient_all_causes
+        return report.pw_total_inpatient_all_causes
 
-    @indicator(1, 'total_inpatient_all_causes')
+    @indicator(1, 'pw_total_inpatient_all_causes')
     @label(u"Total des hospitalisations pour paludisme grave")
     def pw_total_malaria_inpatient(self, period):
         report = get_report_for(self.entity, period)
@@ -46,7 +46,7 @@ class ProportionHospitalisationsFemmesEnceintes(Hospitalisation):
 
         femmes enceintes (par rapport aux hospitalisations toutes causes
         confondues """
-    name = u"Figure 4.4"
+    name = u"Figure 4.1d"
     caption = u"Proportion des hospitalisations pour paludisme grave chez" \
               u" les femmes enceintes (par rapport aux hospitalisations" \
               u" toutes causes confondues)"

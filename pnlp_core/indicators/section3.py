@@ -30,7 +30,7 @@ class CasPaludismeSimpleTraitesCTA(IndicatorTable):
                                               period=period).count() > 0
 
     @reference
-    @indicator(0)
+    @indicator(0, 'u5_total_simple_malaria_cases')
     @label(u"Nombre de cas simple chez les moins de 5 ans")
     def u5_total_simple_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
@@ -44,7 +44,7 @@ class CasPaludismeSimpleTraitesCTA(IndicatorTable):
         return report.u5_total_treated_malaria_cases
 
     @reference
-    @indicator(2)
+    @indicator(2, 'o5_total_simple_malaria_cases')
     @label(u"Nombre de cas simple chez les 5 ans et plus")
     def o5_total_simple_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
@@ -98,6 +98,7 @@ class EvolutionProportionCasPaludismeSimpleTraitesU5O5(IndicatorTable):
                 u"simple traités par CTA Chez les moins de 5 ans" \
                  u"et les 5 ans et plus")
     type = 'graph'
+    graph_type = 'line'
 
     default_options = {'with_percentage': False, \
                        'with_reference': False, \

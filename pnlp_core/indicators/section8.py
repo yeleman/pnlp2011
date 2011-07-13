@@ -24,7 +24,7 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
     type = 'table'
 
     default_options = {'with_percentage': True, \
-                       'with_total': True, \
+                       'with_total': False, \
                        'with_reference': True}
 
     @reference
@@ -66,6 +66,7 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
                 u"de stock en produits de prise en charge des cas de" \
                 u"paludisme grave")
     type = 'graph'
+    graph_type = 'line'
 
     default_options = {'with_percentage': False, \
                        'with_reference': False, \
