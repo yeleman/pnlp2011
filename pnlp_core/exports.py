@@ -383,15 +383,14 @@ def report_as_excel(report):
 
     sheet.write_merge(0, 28, 13, 13, u"", styleborformright)
 
-
     if report.type == report.TYPE_AGGREGATED:
         sheet.write(35, 0, u"Sources", styletitle)
         i = 36
         for source in report.sources.all():
-             sheet.write(i, 0, u"%s - %s" % \
+            sheet.write(i, 0, u"%s - %s" % \
                         (source.entity.display_name(), report.receipt),\
                                                             stylelabel)
-             i += 1
+            i += 1
 
     stream = StringIO.StringIO()
     book.save(stream)
