@@ -65,9 +65,8 @@ class EditProviderForm(forms.Form):
                                                 .get('phone_number'))
         if not ind:
             ind = '223'
-        phone_number = '+%s%s' % (ind, clean_num)
+        phone_number = '+%s%s' % (ind, clean_num) if clean_num else None
         user_id = self.cleaned_data.get('uid')
-        print(user_id)
 
         if phone_number \
            and Provider.objects.filter(phone_number=phone_number)\
@@ -173,7 +172,9 @@ def add_edit_user(request, user_id=None):
                 provider = Provider.objects.get(id=user_id)
                 provider_data = provider.to_dict()
             except Provider.DoesNotExist:
-                raise Http404
+                provider = None
+                pass
+                #raise Http404
             try:
                 provider_data.update({'entity': provider.first_target().id, \
                                       'role': provider.first_role().slug})
