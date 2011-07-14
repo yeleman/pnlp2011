@@ -61,7 +61,7 @@ function addJQEventCustomFileInput() {
     });
 }
 
-function addJQEventsSubMenu(base_url, base_url_zero) {
+function addJQEventsSubMenu(base_url, base_url_zero, period_str, section, sub_section) {
     $("#submenu select.browser").change(function (event) {
         value = $(this).val();
         if (!value)
@@ -77,6 +77,12 @@ function addJQEventsSubMenu(base_url, base_url_zero) {
             else {
                 url = base_url_zero.replace('0', $("#browser_select" + (sid - 1)).val());
             }
+        }
+        if (section != null) {
+            url += '/' + period_str + '/section' + section;
+        }
+        if (section != null && sub_section != null) {
+            url += '/' + sub_section;
         }
         location.href = url;
     });
