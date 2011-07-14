@@ -81,11 +81,11 @@ function addJQEventsSubMenu(base_url, base_url_zero, period_str, section, sub_se
                 url = base_url_zero.replace('0', $("#browser_select" + (sid - 1)).val());
             }
         }
-        if (section != null) {
+        if (section != null && value != "-1") {
             url += '/' + period_str + '/section' + section;
-        }
-        if (section != null && sub_section != null) {
-            url += '/' + sub_section;
+            if (sub_section != null) {
+                url += '/' + sub_section;
+            }
         }
         location.href = url;
     });
