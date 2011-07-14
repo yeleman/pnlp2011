@@ -107,7 +107,7 @@ def dashboard(request):
     from pnlp_core.data import (current_period, \
                                 current_reporting_period, current_stage, \
                                 time_cscom_over, time_district_over, \
-                                time_region_over)
+                                time_region_over, contact_for)
 
     def sms_received_sent_by_period(period):
         from nosms.models import Message
@@ -133,14 +133,51 @@ def dashboard(request):
                     'time_district_over': time_district_over(period),
                     'time_region_over': time_region_over(period)})
 
-    received_cscom_reports = MalariaReport.objects.filter(period=period, entity__type__slug='cscom').count()
-    cscom_reports_validated = MalariaReport.validated.filter(period=period, entity__type__slug='cscom').count()
-    district_reports_validated = MalariaReport.validated.filter(period=period, entity__type__slug='district').count()
-    reporting_rate = float(MalariaReport.validated.filter(period=period).count()) / Entity.objects.count()
+    received_cscom_reports = \
+        MalariaReport.objects.filter(period=period, entity__type__slug='cscom')
+    cscom_reports_validated = \
+        MalariaReport.validated.filter(period=period, \
+                                       entity__type__slug='cscom')
+    district_reports_validated = \
+        MalariaReport.validated.filter(period=period, \
+                                       entity__type__slug='district')
+    reporting_rate = \
+        float(MalariaReport.validated.filter(period=period).count()) \
+        / Entity.objects.count()
 
-    context.update({'received_cscom_reports': received_cscom_reports,
-                    'cscom_reports_validated': cscom_reports_validated,
-                    'district_reports_validated': district_reports_validated,
-                    'reporting_rate': reporting_rate})
+    cscom_missed_report = \
+        Entity.objects.filter(type__slug='cscom')\
+                      .exclude(id__in=[r.entity.id \
+                                       for r \
+                                       in received_cscom_reports])\
+                      .order_by('name')
+
+    def entities_autoreports(level):
+        districts_missed_report = {}
+        auto_validated_cscom_reports = \
+            MalariaReport.validated\
+                         .filter(entity__type__slug=level, \
+                                 modified_by__user__username='autobot')
+        for report in auto_validated_cscom_reports:
+            if not report.entity.parent.slug in districts_missed_report:
+                districts_missed_report[report.entity.parent.slug] = \
+                    {'entity': report.entity.parent, \
+                     'nbauto': 0, \
+                     'contact': contact_for(report.entity.parent, False)}
+            districts_missed_report[report.entity.parent.slug]['nbauto'] += 1
+        return districts_missed_report
+
+    districts_missed_report = entities_autoreports('cscom')
+    regions_missed_report = entities_autoreports('district')
+
+    context.update({'received_cscom_reports': received_cscom_reports.count(),
+                'cscom_reports_validated': cscom_reports_validated.count(),
+              'district_reports_validated': district_reports_validated.count(),
+                'reporting_rate': reporting_rate,
+                'cscom_missed_report_count': cscom_missed_report.count(),
+                'cscom_missed_report': [(e, contact_for(e, True)) \
+                                        for e in cscom_missed_report[:20]],
+                'districts_missed_report': districts_missed_report,
+                'regions_missed_report': regions_missed_report})
 
     return render(request, 'dashboard.html', context)

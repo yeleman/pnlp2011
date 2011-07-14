@@ -218,6 +218,7 @@ def stage_name(slug):
         return _(u"Analyse niveau national")
     return slug
 
+
 @register.filter(name='rate_class')
 @stringfilter
 def css_rate_class(rate):
