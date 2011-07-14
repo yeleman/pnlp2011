@@ -10,7 +10,7 @@
 
 {% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="indicator_data"|url:"0" %}{% endblock %}
 
-{% block jqueryonload %}addJQEventsSubMenu("{{ "indicator_data"|url:"0"}}", "{{"indicator_data"|url:"0"}}", "{{ period_str }}", "{{ section.id }}", "{{ sub_section }}");
+{% block jqueryonload %}addJQEventsSubMenu("{{ "indicator_data"|url:"0"}}", "{{"indicator_data"|url:"0"}}", "{{ period_str }}", "{{ section.id }}"{% if sub_section %}, "{{ sub_section }}"{% endif %});
 addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "{{ entity.slug }}");
 {% for widget in widgets %}{% if widget.type == 'graph' %}{% include "indicator_graph.js" with graph=widget id=widget.id|concat:forloop.counter0 %}{% endif %}{% endfor %}{% endblock %}
 
