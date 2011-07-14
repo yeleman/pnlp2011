@@ -42,23 +42,29 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
     @indicator(1, 'total_structures_in_the_district')
     @label(u"Structures avec rupture de stock en CTA Nourrisson - Enfant")
     def stockout_act_children(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_act_children=MalariaReport.YES).count()
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_act_children == MalariaReport.YES)
+        return report.sources.filter(stockout_act_children=MalariaReport.YES) \
+                             .count()
 
     @indicator(2, 'total_structures_in_the_district')
     @label(u"Structures avec rupture de stock en CTA Adolescent")
     def stockout_act_youth(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_act_youth=MalariaReport.YES).count()
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_act_youth == MalariaReport.YES)
+        return report.sources.filter(stockout_act_youth=MalariaReport.YES) \
+                             .count()
 
     @indicator(3, 'total_structures_in_the_district')
     @label(u"Structures avec rupture de stock en CTA Adulte")
     def stockout_act_adult(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_act_adult=MalariaReport.YES).count()
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_act_adult == MalariaReport.YES)
+        return report.sources.filter(stockout_act_adult=MalariaReport.YES) \
+                             .count()
 
 
 class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):

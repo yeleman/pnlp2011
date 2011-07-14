@@ -42,23 +42,28 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
     @indicator(1, "nombre_total_structures_district")
     @label(u"Structures avec rupture de stock d’Artheméter Injectable")
     def structures_rupture_stock_arthemeter_injectable(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,\
-                    stockout_artemether=MalariaReport.YES).count()
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_artemether == MalariaReport.YES)
+        return report.sources.filter(stockout_artemether=MalariaReport.YES) \
+                             .count()
 
     @indicator(2, "nombre_total_structures_district")
     @label(u"Structures avec rupture de stock de Quinine Injectable")
     def structures_rupture_stock_Quinine_injectable(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,\
-                    stockout_quinine=MalariaReport.YES).count()
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_quinine == MalariaReport.YES)
+        return report.sources.filter(stockout_quinine=MalariaReport.YES) \
+                             .count()
 
     @indicator(3, "nombre_total_structures_district")
     @label(u"Structures avec rupture de stock en Sérum Glucosé 10%")
     def structures_rupture_stock_Serum_Glucose_injectable(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,\
-                    stockout_serum=MalariaReport.YES).count()
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_serum == MalariaReport.YES)
+        return report.sources.filter(stockout_serum=MalariaReport.YES).count()
 
 
 class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
@@ -82,23 +87,28 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
     @indicator(1)
     @label(u"Arthemeter Injactable")
     def structures_rupture_stock_arthemeter_injectable(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,\
-                    stockout_artemether=MalariaReport.YES).count()
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_artemether == MalariaReport.YES)
+        return report.sources.filter(stockout_artemether=MalariaReport.YES) \
+                             .count()
 
     @indicator(2)
     @label(u"Quinine Injectable")
     def structures_rupture_stock_Quinine_injectable(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,\
-                    stockout_quinine=MalariaReport.YES).count()
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_quinine == MalariaReport.YES)
+        return report.sources.filter(stockout_quinine=MalariaReport.YES) \
+                             .count()
 
     @indicator(3)
     @label(u"Serum Glucosé 10%")
     def structures_rupture_stock_Serum_Glucose_injectable(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,\
-                    stockout_serum=MalariaReport.YES).count()
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_serum == MalariaReport.YES)
+        return report.sources.filter(stockout_serum=MalariaReport.YES).count()
 
 WIDGETS = [PourcentageStructuresRuptureStockProduitPaluGrave, \
             EvolutionStructuresRuptureStockProduitPaluGrave]
