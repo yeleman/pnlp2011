@@ -33,7 +33,7 @@ class ContactForm(forms.Form):
                                 label=ugettext_lazy(u"Subject"))
 
     recipient = forms.ChoiceField(required=False, \
-                                  label=ugettext_lazy(u"Destinataire"), \
+                                  label=ugettext_lazy(u"Recipient"), \
                           choices=contact_choices(settings.SUPPORT_CONTACTS), \
                                   help_text=_(u"Choose PNLP for operational " \
                                               u"requests and ANTIM for " \

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pnlp_web\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-20 15:15+0000\n"
-"PO-Revision-Date: 2011-06-20 15:18-0000\n"
+"POT-Creation-Date: 2011-07-14 19:25+0000\n"
+"PO-Revision-Date: 2011-07-14 19:26-0000\n"
 "Last-Translator: renaud gaudin <reg@yeleman.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -19,38 +19,38 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-Basepath: ../../../\n"
 
-#: templates/403.html:4
-msgid "Access Denied!"
-msgstr "Accès refusé !"
+#: decorators.py:28
+msgid "The credentials you are using to log in are not valid. Please contact ANTIM."
+msgstr "Les identifiants que vous utilisez ne sont pas valides. Merci de contacter l'ANTIM."
 
-#: templates/403.html:8
-msgid "Access Denied"
-msgstr "Accès refusé"
-
-#: templates/base.html:19
+#: templates/base.html:23
 msgid "Edit your informations"
 msgstr "Modifier vos informations"
 
-#: templates/base.html:20
+#: templates/base.html:24
 msgid "Log out"
 msgstr "Se déconnecter"
 
-#: templates/base.html:20
+#: templates/base.html:24
 msgid "Disconnect"
 msgstr "Déconnecter"
 
-#: templates/base.html:22
-#: templates/login_django.html:23
+#: templates/base.html:26
+#: templates/login_django.html:27
 msgid "Log in"
 msgstr "S'identifier"
 
-#: templates/base.html:24
+#: templates/base.html:28
 msgid "View Help Topics"
 msgstr "Voir les page d'aide"
 
-#: templates/base.html:24
+#: templates/base.html:28
 msgid "Help"
 msgstr "Aide"
+
+#: templates/base.html:37
+msgid "Informative Messages. Click to hide."
+msgstr "Messages d'information. Cliquez pour les faire disparaître."
 
 #: templates/base.html:49
 msgid "Contact Us"
@@ -77,103 +77,252 @@ msgstr "Mon profil"
 msgid "My personnal informations"
 msgstr "Mes informations personnelles"
 
-#: templates/edit_profile.html:17
+#: templates/edit_profile.html:19
+#: templates/edit_profile.html.py:26
 msgid "Change password"
 msgstr "Changer de mot de passe"
 
-#: templates/index.html:4
-msgid "Home"
-msgstr "Accueil"
-
-#: templates/index.html:5
-msgid "Dashboard"
-msgstr "Tableau de bord"
-
-#: templates/login_django.html:7
+#: templates/login_django.html:10
 msgid "Unable to log you in with this username and password."
 msgstr "Impossible de vous identifier avec cet identifiant et ce mot de passe."
 
-#: templates/login_django.html:14
+#: templates/login_django.html:22
 msgid "Username"
 msgstr "Identifiant"
 
-#: templates/login_django.html:18
+#: templates/login_django.html:24
 msgid "Password"
 msgstr "Mot de passe"
 
-#: templates/logout_django.html:6
-msgid "Logged out!"
-msgstr "Déconnecté !"
+#: templatetags/pnlp.py:39
+#, python-format
+msgid "(%(ind)s) %(num)s"
+msgstr "(%(ind)s) %(num)s"
 
-#: templates/logout_django.html:7
-msgid "You have been disconnected."
-msgstr "Vous avez été déconnecté."
-
-#: templatetags/excel.py:18
+#: templatetags/pnlp.py:50
 msgid "Children Under 5yo."
 msgstr "Enfants de moins de 5ans"
 
-#: templatetags/excel.py:20
+#: templatetags/pnlp.py:52
 msgid "Children Over 5yo."
 msgstr "Enfants de 5ans et plus"
 
-#: templatetags/excel.py:22
+#: templatetags/pnlp.py:54
 msgid "Pregnant Women"
 msgstr "Femmes enceintes"
 
-#: templatetags/excel.py:24
+#: templatetags/pnlp.py:56
 msgid "Reporting"
 msgstr "Rapport"
 
-#: templatetags/excel.py:26
+#: templatetags/pnlp.py:58
 msgid "Collect / Data Entry"
 msgstr "Remplissage / Collecte"
 
-#: templatetags/excel.py:28
+#: templatetags/pnlp.py:60
 msgid "Stock outs"
 msgstr "Rupture de stocks"
 
-#: views/profile.py:15
-#: views/providers.py:15
+#: templatetags/pnlp.py:62
+msgid "All Age"
+msgstr "Tout âge confondu"
+
+#: templatetags/pnlp.py:65
+msgid "Default"
+msgstr "Autres"
+
+#: templatetags/pnlp.py:212
+msgid "Data Collection"
+msgstr "Collecte + transmission CSCom"
+
+#: templatetags/pnlp.py:214
+msgid "District Validation"
+msgstr "Validation niveau district"
+
+#: templatetags/pnlp.py:216
+msgid "Region Validation"
+msgstr "Validation niveau région"
+
+#: templatetags/pnlp.py:218
+msgid "National Analysis"
+msgstr "Analyse niveau national"
+
+#: views/dashboard.py:27
+msgid "Your Name"
+msgstr "Votre nom"
+
+#: views/dashboard.py:29
+msgid "Your e-mail address"
+msgstr "Votre adresse e-mail"
+
+#: views/dashboard.py:31
+msgid "Your phone number"
+msgstr "Votre numéro de téléphone"
+
+#: views/dashboard.py:33
+msgid "Subject"
+msgstr "Objet"
+
+#: views/dashboard.py:36
+msgid "Recipient"
+msgstr "Destinataire"
+
+#: views/dashboard.py:38
+msgid "Choose PNLP for operational requests and ANTIM for technical ones."
+msgstr "Choisissez PNLP pour les demandes opérationnelles et ANTIM pour celles techniques."
+
+#: views/dashboard.py:43
+msgid "Your request"
+msgstr "Votre requête"
+
+#: views/dashboard.py:79
+msgid "Support request sent."
+msgstr "Demande d'assistance envoyée."
+
+#: views/dashboard.py:82
+msgid "Unable to send request. Please try again later."
+msgstr "Impossible d'envoyer la demande. Merci de réessayer plus tard."
+
+#: views/entities.py:56
+#, python-format
+msgid "Entity %(entity)s updated."
+msgstr "Établissement %(entity)s mis à jour."
+
+#: views/entities.py:59
+#, python-format
+msgid "Entity %(entity)s created."
+msgstr "L'établissement %(entity)s a été créé."
+
+#: views/indicators.py:82
+#, python-format
+msgid "Requested period interval (%(period_str)s) includes inexistant periods."
+msgstr "L'interval demandée (%(period_str)s) contient des périodes inexistantes."
+
+#: views/indicators.py:125
+msgid "This section does not exist."
+msgstr "Cette section n'existe pas."
+
+#: views/profile.py:16
+#: views/providers.py:46
 msgid "First Name"
 msgstr "Prénom"
 
-#: views/profile.py:17
-#: views/providers.py:17
+#: views/profile.py:18
+#: views/providers.py:48
 msgid "Last Name"
 msgstr "Nom"
 
-#: views/profile.py:19
-#: views/providers.py:19
+#: views/profile.py:20
+#: views/providers.py:50
 msgid "E-mail Address"
 msgstr "Adresse e-mail"
 
-#: views/profile.py:21
-#: views/providers.py:21
+#: views/profile.py:22
+#: views/providers.py:52
 msgid "Phone Number"
 msgstr "Nº de téléphone"
 
-#: views/profile.py:26
+#: views/profile.py:27
 msgid "New Password"
 msgstr "Nouveau mot de passe"
 
-#: views/profile.py:28
+#: views/profile.py:29
 msgid "Confirm New Password"
 msgstr "Confirmer le nouveau mot de passe"
 
-#: views/profile.py:35
+#: views/profile.py:36
 msgid "You must confirm your password"
 msgstr "Vous devez confirmer votre mot de passe"
 
-#: views/profile.py:37
+#: views/profile.py:38
 msgid "Your passwords do not match"
 msgstr "Les deux mots de passe ne correspondent pas"
 
-#: views/profile.py:56
+#: views/profile.py:57
+#: views/providers.py:135
 msgid "Profile details updated."
 msgstr "Profil mis à jour."
 
-#: views/profile.py:66
+#: views/profile.py:67
 msgid "Password updated."
 msgstr "Mot de passe mis à jour."
 
+#: views/providers.py:44
+msgid "User ID"
+msgstr "ID Utilisateur"
+
+#: views/providers.py:54
+msgid "Role"
+msgstr "Rôle"
+
+#: views/providers.py:61
+msgid "Entity"
+msgstr "Établissement"
+
+#: views/providers.py:74
+#, python-format
+msgid "Phone number already taken by %(provider)s"
+msgstr "Ce numéro de téléphone est déjà associé à %(provider)s"
+
+#: views/providers.py:147
+#: views/providers.py:259
+#, python-format
+msgid "An e-mail containing the password has been sent to %(email)s"
+msgstr "Un e-mail contenant le mot de passe a été envoyé à %(email)s"
+
+#: views/providers.py:152
+#: views/providers.py:264
+#, python-format
+msgid "Unable to send e-mail to %(email)s. Please record and forward the password: %(pass)s"
+msgstr "Impossible d'envoyer un e-mail à %(email)s. Merci de noter et transmettre le mot de passe: %(pass)s"
+
+#: views/providers.py:165
+#: views/providers.py:277
+#, python-format
+msgid "Please record and forward the generated password: %(pass)s"
+msgstr "Merci de noter et transmettre à la personne concerné son mot de passe: %(pass)s"
+
+#: views/providers.py:215
+#: views/providers.py:241
+#, python-format
+msgid "There is no Provider account with ID #%(id)d"
+msgstr "Il n'y a as de compte utilisateur avec l'ID #%(id)d"
+
+#: views/providers.py:219
+msgid "Requested status is same as current user status."
+msgstr "Le statut demandé est identique au statut actuel."
+
+#: views/providers.py:224
+#, python-format
+msgid "%(provider)s status has been changed to %(status)s"
+msgstr "Le compte %(provider)s est désormais %(status)s"
+
+#: views/providers.py:227
+msgid "active"
+msgstr "actif"
+
+#: views/providers.py:229
+msgid "inactive"
+msgstr "inactif"
+
+#: views/raw_data.py:67
+msgid "No report for that period"
+msgstr "Aucun rapport pour cette période"
+
+#~ msgid "Access Denied!"
+#~ msgstr "Accès refusé !"
+
+#~ msgid "Access Denied"
+#~ msgstr "Accès refusé"
+
+#~ msgid "Home"
+#~ msgstr "Accueil"
+
+#~ msgid "Dashboard"
+#~ msgstr "Tableau de bord"
+
+#~ msgid "Logged out!"
+#~ msgstr "Déconnecté !"
+
+#~ msgid "You have been disconnected."
+#~ msgstr "Vous avez été déconnecté."

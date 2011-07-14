@@ -17,10 +17,10 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
 
     de prise en charge des cas de paludisme grave """
 
-    name = _(u"Tableau 8")
-    title = _(u" ")
-    caption = _(u"Pourcentage de structures avec rupture de stock en" \
-             "produits de prise en charge des cas de paludisme grave")
+    name = u"Tableau 8"
+    title = u" "
+    caption = u"Pourcentage de structures avec rupture de stock en" \
+             "produits de prise en charge des cas de paludisme grave"
     type = 'table'
 
     default_options = {'with_percentage': True, \
@@ -71,11 +71,11 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
 
         traités par CTA Chez les moins de 5 ans et les 5 ans et plus """
 
-    name = _(u"Figure 8")
-    title = _(u" ")
-    caption = _(u"Evolution du pourcentage de structures avec rupture" \
+    name = u"Figure 8"
+    title = u" "
+    caption = u"Evolution du pourcentage de structures avec rupture" \
                 u"de stock en produits de prise en charge des cas de" \
-                u"paludisme grave")
+                u"paludisme grave"
     type = 'graph'
     graph_type = 'line'
 

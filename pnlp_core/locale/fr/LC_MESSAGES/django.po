@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pnlp_core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-20 14:33+0000\n"
-"PO-Revision-Date: 2011-06-20 14:34-0000\n"
+"POT-Creation-Date: 2011-07-14 19:42+0000\n"
+"PO-Revision-Date: 2011-07-14 19:42-0000\n"
 "Last-Translator: renaud gaudin <reg@yeleman.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -19,229 +19,270 @@ msgstr ""
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-Language: French\n"
 
-#: admin.py:19
+#: admin.py:21
 msgid "Under 5"
 msgstr "Moins de 5ans"
 
-#: admin.py:33
+#: admin.py:35
 msgid "Over 5"
 msgstr "5ans et plus"
 
-#: admin.py:46
+#: admin.py:48
 msgid "Pregnant Women"
 msgstr "Femmes enceintes"
 
-#: admin.py:60
+#: admin.py:62
 msgid "Stock Outs"
 msgstr "Rupture de stock"
 
-#: excel.py:23
+#: data.py:237
+#, python-format
+msgid "You don't have permission %(perm)s on %(entity)s"
+msgstr "Vous ne disposez pas de la permission %(perm)s pour %(entity)s"
+
+#: data.py:241
+#, python-format
+msgid "You don't have permission %(perm)s"
+msgstr "Vous ne disposez pas de la permission %(perm)s"
+
+#: excel.py:24
 msgid "Region"
 msgstr "Région"
 
-#: excel.py:24
+#: excel.py:25
 msgid "Health District"
 msgstr "District sanitaire"
 
-#: excel.py:25
+#: excel.py:26
 msgid "Health Center"
 msgstr "Établissement sanitaire"
 
-#: excel.py:27
+#: excel.py:28
 msgid "Month"
 msgstr "Mois"
 
-#: excel.py:29
+#: excel.py:30
 msgid "Year"
 msgstr "Année"
 
-#: excel.py:199
+#: excel.py:200
 msgid "Filling Day"
 msgstr "Jour de remplissage"
 
-#: excel.py:202
+#: excel.py:203
 msgid "Filling Month"
 msgstr "Mois de remplissage"
 
-#: excel.py:205
+#: excel.py:206
 msgid "Filling Year"
 msgstr "Année de remplissage"
 
-#: excel.py:206
+#: excel.py:207
 msgid "Author Name"
 msgstr "Nom de l'auteur"
 
-#: excel.py:227
+#: excel.py:228
 #, python-format
 msgid "%(field)s is missing."
 msgstr "Le champ %(field)s est vide."
 
-#: excel.py:238
+#: excel.py:239
 #, python-format
 msgid "%(data)s is not a valid data for %(field)s"
 msgstr "%(data)s n'est pas une donnée valide pour %(field)s"
 
-#: validators.py:21
+#: utils.py:46
+msgid "No Recipients for that message"
+msgstr "Aucun destinataire pour ce message"
+
+#: utils.py:50
+msgid "Unable to send empty email messages"
+msgstr "Impossible d'envoyer un e-mail sans corps"
+
+#: utils.py:60
+#, python-format
+msgid "Message from %(site)s"
+msgstr "Message de %(site)s"
+
+#: validators.py:22
 #, python-format
 msgid "%(field2)s (%(f2value)d) can't be more than %(field1)s (%(f1value)d)"
 msgstr "%(field2)s (%(f2value)d) ne peut pas être supérieur à %(field1)s (%(f1value)d)"
 
-#: validators.py:73
+#: validators.py:74
 #, python-format
 msgid "%(simple)s + %(severe)s"
 msgstr "%(simple)s + %(severe)s"
 
-#: validators.py:122
+#: validators.py:123
 #, python-format
 msgid "The period of data (%(period)s) is in the future."
 msgstr "La période (%(period)s) déclarée est dans le futur."
 
 #: validators.py:133
 #, python-format
+msgid "The reporting time frame for that period (%(period)s) is over."
+msgstr "La période de rapportage pour cette période  (%(period)s) est terminée."
+
+#: validators.py:142
+#, python-format
 msgid "The fillin day (%(day)s) is out of range for that month (%(month)s)"
 msgstr "Le jour de remplissage est erroné. Il n'y a pas de jour %(day)s dans le mois %(month)s"
 
-#: validators.py:150
+#: validators.py:159
 #, python-format
 msgid "The entity code (%(code)s) does not match any HC."
 msgstr "Le code établissement (%(code)s) ne correspond à aucun centre."
 
-#: validators.py:159
+#: validators.py:170
 #, python-format
 msgid "There is already a report for that HC (%(entity)s) and that period (%(period)s)"
 msgstr "Il y a déjà un rapport pour ce centre (%(entity)s) et cette période (%(period)s)"
 
-#: models/MalariaReport.py:21
+#: validators.py:180
+#, python-format
+msgid "You don't have permission to send a report for that location (%(loc)s)."
+msgstr "Vous n'avez pas la permission d'envoyer un rapport pour cet établissement  (%(loc)s)."
+
+#: models/MalariaReport.py:23
 msgid "Yes"
 msgstr "Oui"
 
-#: models/MalariaReport.py:21
+#: models/MalariaReport.py:23
 msgid "No"
 msgstr "Non"
 
-#: models/MalariaReport.py:25
+#: models/MalariaReport.py:27
 msgid "Malaria Report"
 msgstr "Rapport Paludisme"
 
-#: models/MalariaReport.py:26
+#: models/MalariaReport.py:28
 msgid "Malaria Reports"
 msgstr "Rapports Paludisme"
 
-#: models/MalariaReport.py:29
-#: models/MalariaReport.py:54
-#: models/MalariaReport.py:77
+#: models/MalariaReport.py:32
+#: models/MalariaReport.py:57
+#: models/MalariaReport.py:80
 msgid "Total Consultation All Causes"
 msgstr "Total consultations toutes causes"
 
-#: models/MalariaReport.py:31
-#: models/MalariaReport.py:56
-#: models/MalariaReport.py:79
+#: models/MalariaReport.py:34
+#: models/MalariaReport.py:59
+#: models/MalariaReport.py:82
 msgid "Total Suspected Malaria Cases"
 msgstr "Cas suspectés de paludisme"
 
-#: models/MalariaReport.py:33
-#: models/MalariaReport.py:58
+#: models/MalariaReport.py:36
+#: models/MalariaReport.py:61
 msgid "Total Simple Malaria Cases"
 msgstr "Cas de paludisme simple"
 
-#: models/MalariaReport.py:35
-#: models/MalariaReport.py:60
-#: models/MalariaReport.py:81
+#: models/MalariaReport.py:38
+#: models/MalariaReport.py:63
+#: models/MalariaReport.py:84
 msgid "Total Severe Malaria Cases"
 msgstr "Cas de paludisme grave"
 
-#: models/MalariaReport.py:37
-#: models/MalariaReport.py:62
-#: models/MalariaReport.py:83
+#: models/MalariaReport.py:40
+#: models/MalariaReport.py:65
+#: models/MalariaReport.py:86
 msgid "Total Tested Malaria Cases"
 msgstr "Cas de paludisme testés"
 
-#: models/MalariaReport.py:39
-#: models/MalariaReport.py:64
-#: models/MalariaReport.py:85
+#: models/MalariaReport.py:42
+#: models/MalariaReport.py:67
+#: models/MalariaReport.py:88
 msgid "Total Confirmed Malaria Cases"
 msgstr "Cas de paludisme confirmés"
 
-#: models/MalariaReport.py:41
-#: models/MalariaReport.py:66
-#: models/MalariaReport.py:87
+#: models/MalariaReport.py:44
+#: models/MalariaReport.py:69
+#: models/MalariaReport.py:90
 msgid "Total Treated Malaria Cases"
 msgstr "Cas de paludisme traités"
 
-#: models/MalariaReport.py:43
-#: models/MalariaReport.py:68
-#: models/MalariaReport.py:89
+#: models/MalariaReport.py:46
+#: models/MalariaReport.py:71
+#: models/MalariaReport.py:92
 msgid "Total Inpatient All Causes"
 msgstr "Hospitalisations toutes causes"
 
-#: models/MalariaReport.py:45
-#: models/MalariaReport.py:70
-#: models/MalariaReport.py:91
+#: models/MalariaReport.py:48
+#: models/MalariaReport.py:73
+#: models/MalariaReport.py:94
 msgid "Total Malaria Inpatient"
 msgstr "Hospitalisations paludisme"
 
-#: models/MalariaReport.py:47
-#: models/MalariaReport.py:72
-#: models/MalariaReport.py:93
+#: models/MalariaReport.py:50
+#: models/MalariaReport.py:75
+#: models/MalariaReport.py:96
 msgid "Total Death All Causes"
 msgstr "Décès toutes causes"
 
-#: models/MalariaReport.py:49
-#: models/MalariaReport.py:74
-#: models/MalariaReport.py:95
+#: models/MalariaReport.py:52
+#: models/MalariaReport.py:77
+#: models/MalariaReport.py:98
 msgid "Total Malaria Death"
 msgstr "Décès paludisme"
 
-#: models/MalariaReport.py:51
-#: models/MalariaReport.py:97
+#: models/MalariaReport.py:54
+#: models/MalariaReport.py:100
 msgid "Total Distributed Bednets"
 msgstr "MILD distribuées"
 
-#: models/MalariaReport.py:98
+#: models/MalariaReport.py:101
 msgid "Total ANC1 Visits"
 msgstr "CPN 1"
 
-#: models/MalariaReport.py:99
+#: models/MalariaReport.py:102
 msgid "Total SP1 given"
 msgstr "SP 1"
 
-#: models/MalariaReport.py:100
+#: models/MalariaReport.py:103
 msgid "Total SP2 given"
 msgstr "SP 2"
 
-#: models/MalariaReport.py:102
+#: models/MalariaReport.py:105
 msgid "ACT Children"
 msgstr "CTA Enfant"
 
-#: models/MalariaReport.py:104
+#: models/MalariaReport.py:107
 msgid "ACT Youth"
 msgstr "CTA Adolescent"
 
-#: models/MalariaReport.py:106
+#: models/MalariaReport.py:109
 msgid "ACT Adult"
 msgstr "CTA Adulte"
 
-#: models/MalariaReport.py:108
-msgid "Arthemeter"
+#: models/MalariaReport.py:111
+msgid "Artemether"
 msgstr "Artémether"
 
-#: models/MalariaReport.py:110
+#: models/MalariaReport.py:113
 msgid "Quinine"
 msgstr "Quinine"
 
-#: models/MalariaReport.py:112
+#: models/MalariaReport.py:115
 msgid "Serum"
 msgstr "Sérum"
 
-#: models/MalariaReport.py:113
+#: models/MalariaReport.py:116
 msgid "Bednets"
 msgstr "MILDs"
 
-#: models/MalariaReport.py:115
+#: models/MalariaReport.py:118
 msgid "RDTs"
 msgstr "TDRs"
 
-#: models/MalariaReport.py:116
+#: models/MalariaReport.py:119
 msgid "SPs"
 msgstr "SPs"
+
+#: models/MalariaReport.py:122
+msgid "Sources"
+msgstr "Sources"
+
+#: models/alert.py:33
+msgid "created"
+msgstr "créé"
 

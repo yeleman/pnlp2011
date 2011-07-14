@@ -17,10 +17,10 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
 
         le district """
 
-    name = _(u"Tableau 7")
-    title = _(u" ")
-    caption = _(u"Pourcentage de structures avec Rupture de stock de " \
-                u"CTA dans le district")
+    name = u"Tableau 7"
+    title = u" "
+    caption = u"Pourcentage de structures avec Rupture de stock de " \
+                u"CTA dans le district"
     type = 'table'
 
     default_options = {'with_percentage': True, \
@@ -72,10 +72,10 @@ class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
 
         CTA """
 
-    name = _(u"Figure 7")
-    title = _(u" ")
-    caption = _(u"Evolution du pourcentage de Structures avec rupture" \
-                u" de stock en CTA")
+    name = u"Figure 7"
+    title = u" "
+    caption = u"Evolution du pourcentage de Structures avec rupture" \
+                u" de stock en CTA"
     type = 'graph'
     graph_type = 'line'
 

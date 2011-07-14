@@ -59,7 +59,7 @@ def formcategories(value):
     if value == 'stockout':
         return _(u"Stock outs")
     if value == 'all':
-        return _(u"Tout âge confondu")
+        return _(u"All Age")
     if value == 'all_over_five':
         return u"%s avec %s" % (formcategories('o5'), formcategories('pw'))
     return _(u"Default")
@@ -209,13 +209,13 @@ def region_from_slug(entity_slug):
 @stringfilter
 def stage_name(slug):
     if slug == 'cscom':
-        return _(u"Collecte + transmission CSCom")
+        return _(u"Data Collection")
     if slug == 'district':
-        return _(u"Validation niveau district")
+        return _(u"District Validation")
     if slug == 'region':
-        return _(u"Validation niveau région")
+        return _(u"Region Validation")
     if slug == 'over':
-        return _(u"Analyse niveau national")
+        return _(u"National Analysis")
     return slug
 
 

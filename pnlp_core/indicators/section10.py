@@ -17,10 +17,10 @@ class DonneesCPNetTPI(IndicatorTable):
 
         (TPI) """
 
-    name = _(u"Tableau 10")
-    title = _(u" ")
-    caption = _(u"Données sur la CPN et le Traitement Préventif" \
-                u" Intermittent(TPI)")
+    name = u"Tableau 10"
+    title = u" "
+    caption = u"Données sur la CPN et le Traitement Préventif" \
+                u" Intermittent(TPI)"
     type = 'table'
 
     default_options = {'with_percentage': False, \
@@ -54,9 +54,9 @@ class DonneesCPNetTPI(IndicatorTable):
 class EvolutionCPN1SP1SP2(IndicatorTable):
     """ Graphe: Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes"""
 
-    name = _(u"Figure 10")
-    title = _(u" ")
-    caption = _(u"Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes")
+    name = u"Figure 10"
+    title = u" "
+    caption = u"Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes"
     type = 'graph'
     graph_type = 'line'
 
@@ -94,10 +94,10 @@ class NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes(IndicatorTable):
 
         MILD distribuées aux femmes enceintes"""
 
-    name = _(u"Figure 10.2")
-    title = _(u" ")
-    caption = _(u"Nombre de femmes enceintes reçues en CPN1 et Nombre " \
-                u"de MILD distribuées aux femmes enceintes")
+    name = u"Figure 10.2"
+    title = u" "
+    caption = u"Nombre de femmes enceintes reçues en CPN1 et Nombre " \
+                u"de MILD distribuées aux femmes enceintes"
     type = 'graph'
 
     default_options = {'with_percentage': False, \

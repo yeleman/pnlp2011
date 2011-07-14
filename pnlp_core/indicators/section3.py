@@ -16,9 +16,9 @@ from pnlp_core.indicators.common import get_report_for
 class CasPaludismeSimpleTraitesCTA(IndicatorTable):
     """ Tableau: Cas de paludisme simple traités par CTA """
 
-    name = _(u"Tableau 3")
-    title = _(u" ")
-    caption = _(u"Cas de paludisme simple traités par CTA")
+    name = u"Tableau 3"
+    title = u" "
+    caption = u"Cas de paludisme simple traités par CTA"
     type = 'table'
 
     default_options = {'with_percentage': True, \
@@ -63,10 +63,10 @@ class CasPaludismeConfirmesTraitesCTA(IndicatorTable):
 
         par CTA """
 
-    name = _(u"Figure 3.1")
-    title = _(u" ")
-    caption = _(u"Nombre de cas de paludisme confirmés et " \
-                u"nombre de cas traités par CTA")
+    name = u"Figure 3.1"
+    title = u" "
+    caption = u"Nombre de cas de paludisme confirmés et " \
+                u"nombre de cas traités par CTA"
     type = 'graph'
 
     default_options = {'with_percentage': False, \
@@ -92,11 +92,11 @@ class EvolutionProportionCasPaludismeSimpleTraitesU5O5(IndicatorTable):
 
         traités par CTA Chez les moins de 5 ans et les 5 ans et plus """
 
-    name = _(u"Figure 3.2")
-    title = _(u" ")
-    caption = _(u"Évolution des proportions  de cas de paludisme " \
+    name = u"Figure 3.2"
+    title = u" "
+    caption = u"Évolution des proportions  de cas de paludisme " \
                 u"simple traités par CTA Chez les moins de 5 ans" \
-                 u"et les 5 ans et plus")
+                 u"et les 5 ans et plus"
     type = 'graph'
     graph_type = 'line'
 

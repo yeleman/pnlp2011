@@ -13,9 +13,9 @@ from pnlp_core.indicators.common import get_report_for
 
 
 class TableauSection1(IndicatorTable):
-    name = _(u"Tableau 1")
-    title = _(u" ")
-    caption = _(u" ")
+    name = u"Tableau 1"
+    title = u" "
+    caption = u" "
     type = 'table'
 
     default_options = {'with_percentage': False, \
