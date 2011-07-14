@@ -103,8 +103,11 @@ def dashboard(request):
     context = {}
 
     from bolibana_reporting.models import Entity
+    from pnlp_core.models import MalariaReport
     from pnlp_core.data import (current_period, \
-                                current_reporting_period, current_stage)
+                                current_reporting_period, current_stage, \
+                                time_cscom_over, time_district_over, \
+                                time_region_over)
 
     def sms_received_sent_by_period(period):
         from nosms.models import Message
@@ -116,15 +119,28 @@ def dashboard(request):
         return (received, sent)
 
     current_period = current_period()
-    current_reporting_period = current_reporting_period()
+    period = current_reporting_period()
 
     context.update({'current_period': current_period,
-                    'current_reporting_period': current_reporting_period,
+                    'current_reporting_period': period,
                     'current_stage': current_stage(),
                     'current_sms': sms_received_sent_by_period(current_period),
                     'current_reporting_sms': \
-                         sms_received_sent_by_period(current_reporting_period),
+                         sms_received_sent_by_period(period),
                     'total_cscom': Entity.objects\
-                                         .filter(type__slug='cscom').count()})
+                                         .filter(type__slug='cscom').count(),
+                    'time_cscom_over': time_cscom_over(period),
+                    'time_district_over': time_district_over(period),
+                    'time_region_over': time_region_over(period)})
+
+    received_cscom_reports = MalariaReport.objects.filter(period=period, entity__type__slug='cscom').count()
+    cscom_reports_validated = MalariaReport.validated.filter(period=period, entity__type__slug='cscom').count()
+    district_reports_validated = MalariaReport.validated.filter(period=period, entity__type__slug='district').count()
+    reporting_rate = float(MalariaReport.validated.filter(period=period).count()) / Entity.objects.count()
+
+    context.update({'received_cscom_reports': received_cscom_reports,
+                    'cscom_reports_validated': cscom_reports_validated,
+                    'district_reports_validated': district_reports_validated,
+                    'reporting_rate': reporting_rate})
 
     return render(request, 'dashboard.html', context)

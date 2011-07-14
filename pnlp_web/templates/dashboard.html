@@ -24,32 +24,33 @@
 
 <h2>Avancement de la collecte/transmission</h2>
 <table class="center">
-<tr><th>CSCom ayant envoyés leur rapport</th><td>6</td></tr>
-<tr><th>Rapports primaires validés</th><td>2</td></tr>
-<tr><th>Rapports de districts validés</th><td>0</td></tr>
+<tr><th>CSCom ayant envoyés leur rapport</th><td>{{ received_cscom_reports }}</td></tr>
+<tr><th>Rapports primaires validés</th><td>{{ cscom_reports_validated }}</td></tr>
+<tr><th>Rapports de districts validés</th><td>{{ district_reports_validated }}</td></tr>
+<tr><th>Taux de rapportage</th><td class="reporting_rate {{ reporting_rate|rate_class }}">{{ reporting_rate|percent }}</td></tr>
 </table>
 
-{% if time_cscom_over or 1 %}
+{% if time_cscom_over %}
 <h2>CSCom n'ayant pas transmis les données ce mois-ci</h2>
 <table class="center">
-<tr><th>CSCom</th><th>Contact</th></tr>
+<tr><th>CSCom</th><th class="center">Contact</th></tr>
 <tr><td class="left">Baguineda/Blah</td><td>75 22 45 14</td></tr>
 <tr><td class="left">Tiby/Markala</td><td>75 45 45 10</td></tr>
 </table>
 {% endif %}
 
-{% if time_district_over or 1%}
+{% if time_district_over%}
 <h2>Districts n'ayant pas validés tous leurs rapports</h2>
 <table class="center">
-<tr><th>District</th><th>Nb auto-validés</th><th>Contact</th></tr>
+<tr><th>District</th><th class="center">Nb auto-validés</th><th class="center">Contact</th></tr>
 <tr><td class="left">Baguineda/Blah</td><td>4</td><td>75 22 45 14</td></tr>
 </table>
 {% endif %}
 
-{% if time_region_over or 1%}
+{% if time_region_over %}
 <h2>Régions n'ayant pas validés tous leurs rapports</h2>
 <table class="center">
-<tr><th>Région</th><th>Nb auto-validés</th><th>Contact</th></tr>
+<tr><th>Région</th><th class="center">Nb auto-validés</th><th class="center">Contact</th></tr>
 <tr><td class="left">Ségou</td><td>18</td><td>75 22 45 11</td></tr>
 </table>
 {% endif %}
