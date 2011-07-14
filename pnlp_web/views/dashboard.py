@@ -100,4 +100,31 @@ def contact(request):
 @provider_required
 def dashboard(request):
     category = 'dashboard'
-    return render(request, 'dashboard.html', {})
+    context = {}
+
+    from bolibana_reporting.models import Entity
+    from pnlp_core.data import (current_period, \
+                                current_reporting_period, current_stage)
+
+    def sms_received_sent_by_period(period):
+        from nosms.models import Message
+        messages = Message.objects.filter(date__gte=period.start_on, \
+                                          date__lte=period.end_on)
+        received = Message.objects\
+                          .filter(direction=Message.DIRECTION_INCOMING).count()
+        sent = messages.filter(direction=Message.DIRECTION_OUTGOING).count()
+        return (received, sent)
+
+    current_period = current_period()
+    current_reporting_period = current_reporting_period()
+
+    context.update({'current_period': current_period,
+                    'current_reporting_period': current_reporting_period,
+                    'current_stage': current_stage(),
+                    'current_sms': sms_received_sent_by_period(current_period),
+                    'current_reporting_sms': \
+                         sms_received_sent_by_period(current_reporting_period),
+                    'total_cscom': Entity.objects\
+                                         .filter(type__slug='cscom').count()})
+
+    return render(request, 'dashboard.html', context)

@@ -203,3 +203,17 @@ def region_from_slug(entity_slug):
 @stringfilter
 def region_from_slug(entity_slug):
     return get_parent_by_type(entity_slug, 'district')
+
+
+@register.filter(name='stage')
+@stringfilter
+def stage_name(slug):
+    if slug == 'cscom':
+        return _(u"Collecte + transmission CSCom")
+    if slug == 'district':
+        return _(u"Validation niveau district")
+    if slug == 'region':
+        return _(u"Validation niveau région")
+    if slug == 'over':
+        return _(u"Analyse niveau national")
+    return slug

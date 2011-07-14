@@ -150,6 +150,17 @@ def time_can_validate(entity):
     return False
 
 
+def current_stage():
+    period = current_reporting_period()
+    if not time_cscom_over(period):
+        return 'cscom'
+    if not time_district_over(period):
+        return 'district'
+    if not time_region_over(period):
+        return 'region'
+    return 'over'
+
+
 def contact_for(entity, recursive=True):
     """ contact person for an entity. first found at level or sup levels """
     ct, oi = Access.target_data(entity)

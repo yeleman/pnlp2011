@@ -10,7 +10,7 @@ from django.views.generic.simple import direct_to_template
 
 from pnlp_web import views
 from pnlp_web.decorators import provider_permission
-from settings import STATIC_ROOT
+from settings import STATIC_ROOT, MEDIA_ROOT
 
 RGXP_ENTITY = '(?P<entity_code>[a-zA-Z0-9\-\_]+)'
 RGXP_RECEIPT = '(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)'
@@ -114,4 +114,9 @@ urlpatterns = patterns('',
              'django.views.static.serve',
              {'document_root': STATIC_ROOT, 'show_indexes': True}, \
              name='static'),
+
+    url(r'^media/(?P<path>.*)$',
+             'django.views.static.serve',
+             {'document_root': MEDIA_ROOT, 'show_indexes': True}, \
+             name='media'),
 )
