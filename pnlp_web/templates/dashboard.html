@@ -32,26 +32,36 @@
 
 {% if time_cscom_over %}
 <h2>CSCom n'ayant pas transmis les données ce mois-ci</h2>
-<table class="center">
-<tr><th>CSCom</th><th class="center">Contact</th></tr>
-<tr><td class="left">Baguineda/Blah</td><td>75 22 45 14</td></tr>
-<tr><td class="left">Tiby/Markala</td><td>75 45 45 10</td></tr>
-</table>
+{% if cscom_missed_report %}
+    <p>Ce mois-ci, <strong>{{ cscom_missed_report_count }} CSCom{{ cscom_missed_report_count|pluralize }}</strong> n'ont pas transmis.{% if cscom_missed_report_count > 20 %} Seuls les 20 premiers sont affichés ci-dessous.{% endif %}</p>
+    <table class="center">
+    <tr><th>CSCom</th><th class="center">Code</th><th class="center">Contact</th><th class="center">Téléphone</th></tr>
+    {% for entity, contact in cscom_missed_report %}
+    <tr><td class="left">{{ entity.display_name }}</td><td>{{ entity.slug }}</td><td>{{ contact.name_access}}</td><td>{{ contact.phone_number|phone }}</td></tr>
+    {% endfor %}
+    </table>
+{% else %}
+<p>Tous les CSComs ont transmis les données à temps. Bravo!</p>
+{% endif %}
 {% endif %}
 
-{% if time_district_over%}
+{% if time_district_over and districts_missed_report.values %}
 <h2>Districts n'ayant pas validés tous leurs rapports</h2>
 <table class="center">
-<tr><th>District</th><th class="center">Nb auto-validés</th><th class="center">Contact</th></tr>
-<tr><td class="left">Baguineda/Blah</td><td>4</td><td>75 22 45 14</td></tr>
+<tr><th>District</th><th class="center">Nb auto-validés</th><th class="center">Contact</th><th class="center">Téléphone</th></tr>
+{% for data in districts_missed_report.values %}
+<tr><td class="left">{{ data.entity.display_full_name }}</td><td>{{ data.nbauto }}</td><td>{{ contact.name_access}}</td><td>{{ contact.phone_number|phone }}</td></tr>
+{% endfor %}
 </table>
 {% endif %}
 
-{% if time_region_over %}
+{% if time_region_over and regions_missed_report.values %}
 <h2>Régions n'ayant pas validés tous leurs rapports</h2>
 <table class="center">
-<tr><th>Région</th><th class="center">Nb auto-validés</th><th class="center">Contact</th></tr>
-<tr><td class="left">Ségou</td><td>18</td><td>75 22 45 11</td></tr>
+<tr><th>Région</th><th class="center">Nb auto-validés</th><th class="center">Contact</th><th class="center">Téléphone</th></tr>
+{% for data in regions_missed_report.values %}
+<tr><td class="left">{{ data.entity.display_full_name }}</td><td>{{ data.nbauto }}</td><td>{{ contact.name_access}}</td><td>{{ contact.phone_number|phone }}</td></tr>
+{% endfor %}
 </table>
 {% endif %}
 
