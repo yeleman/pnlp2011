@@ -7,9 +7,6 @@
     <link rel="stylesheet" media="screen" type="text/css" href="{% url static 'pnlp.css' %}" title="PNLP 2011" />
     <link rel="shortcut icon" href="{% url static 'images/pnlp_favicon.png' %}" />
     {% block javascript %}{% endblock %}
-    <script type="text/javascript" src="{% url static 'jquery-1.6.2.min.js' %}"></script>
-    <script type="text/javascript" src="{% url static 'pnlp.js' %}"></script>
-    {% if category == 'indicator_data' %}<script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>{% endif %}
     <meta http-equiv="Content-Language" content="fr-fr" />
     <meta name="ROBOTS" content="ALL" />
     <meta name="Copyright" content="PNLP, ANTIM, YELEMAN" />
@@ -55,12 +52,15 @@
         </div>
     </div>
 </body>
+<script type="text/javascript" src="{% url static 'jquery-1.6.2.min.js' %}"></script>
+<script type="text/javascript" src="{% url static 'pnlp.js' %}"></script>
+{% if category == 'indicator_data' %}<script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>{% endif %}
 <script type="text/javascript">
-    $(document).ready(function(){
-       addMessagesClickEvent();
-       addLogoClickEvent('{% url index %}');
-       {% block jqueryonload %}{% endblock %}
-     });
-     {% block inlinejs %}{% endblock %}
+$(document).ready(function(){
+    addMessagesClickEvent();
+    addLogoClickEvent('{% url index %}');
+    {% block jqueryonload %}{% endblock %}
+    {% if category != 'indicator_data' %}addJavascript("{% url static 'highcharts.js' %}", 'head'){% endif %}
+});
 </script>
 </html>
