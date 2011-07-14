@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 
 from django.contrib.humanize.templatetags.humanize import intcomma
 
-from bolibana_reporting.models import Report
+from bolibana_reporting.models import Report, Entity
 from pnlp_core.models import MalariaReport
 from pnlp_core.utils import clean_phone_number
 
@@ -180,3 +180,26 @@ def format_percent(value, precision=2, french=True):
 @stringfilter
 def format_percent_us(value, precision=2, french=True):
     return format_percent(value, precision, french=False)[:-1]
+
+
+def get_parent_by_type(entity_slug, type):
+    entity = Entity.objects.get(slug=entity_slug)
+    if entity.type.slug == type:
+        return entity
+    while entity.parent:
+        if entity.parent.type.slug == type:
+            return entity.parent
+        entity = entity.parent
+    return None
+
+
+@register.filter(name='region')
+@stringfilter
+def region_from_slug(entity_slug):
+    return get_parent_by_type(entity_slug, 'region')
+
+
+@register.filter(name='district')
+@stringfilter
+def region_from_slug(entity_slug):
+    return get_parent_by_type(entity_slug, 'district')
