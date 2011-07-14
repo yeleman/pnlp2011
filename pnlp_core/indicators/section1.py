@@ -55,4 +55,4 @@ class TableauSection1(IndicatorTable):
                 #~ sms += 1
         #~ return report.sources.filter(created_by)
 
-WIDGETS = [TableauSection1(IndicatorTable]
+WIDGETS = [TableauSection1]
