@@ -67,7 +67,7 @@ addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "
 
 {% for widget in widgets %}
 {% if widget.type == 'graph' %}
-<h3 class="caption"><strong>{{ widget.name }}</strong> {{ widget.caption }}</h3>
+<h3 class="caption"><strong>{{ widget.name }}?</strong> {{ widget.caption }}</h3>
 <div id="{{ widget.id|concat:forloop.counter0 }}"></div>
 {% else %}
     {% include "indicator_table.html" with table=widget id=widget.id|concat:forloop.counter0 %}

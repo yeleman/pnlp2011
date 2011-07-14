@@ -28,14 +28,16 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
+        return True
 
     @reference
     @indicator(0)
     @label(u"Nombre total de structures dans le district")
     def total_structures_in_the_district(self, period):
-        return self.entity.children.count()
+        if self.entity.type.slug == 'cscom':
+            return 1
+        else:
+            return self.entity.children.count()
 
     @indicator(1, 'total_structures_in_the_district')
     @label(u"Structures avec rupture de stock en CTA Nourrisson - Enfant")

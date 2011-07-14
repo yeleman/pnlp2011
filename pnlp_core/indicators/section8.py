@@ -27,11 +27,17 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
                        'with_total': False, \
                        'with_reference': True}
 
+    def period_is_valid(self, period):
+        return True
+
     @reference
     @indicator(0)
     @label(u"Nombre total de structures dans le district")
     def nombre_total_structures_district(self, period):
-        return self.entity.children.count()
+        if self.entity.type.slug == 'cscom':
+            return 1
+        else:
+            return self.entity.children.count()
 
     @indicator(1, "nombre_total_structures_district")
     @label(u"Structures avec rupture de stock d’Artheméter Injectable")

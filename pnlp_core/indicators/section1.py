@@ -13,7 +13,7 @@ from pnlp_core.indicators.common import get_report_for
 
 
 class TableauSection1(IndicatorTable):
-    name = _(u" ")
+    name = _(u"Tableau 1")
     title = _(u" ")
     caption = _(u" ")
     type = 'table'
@@ -28,7 +28,10 @@ class TableauSection1(IndicatorTable):
     @indicator(0)
     @label(u"Structures")
     def total_structures_in_the_district(self, period):
-        return self.entity.children.count()
+        if self.entity.type.slug == 'cscom':
+            return 1
+        else:
+            return self.entity.children.count()
 
     @indicator(1)
     @label(u"Auto-validation")
