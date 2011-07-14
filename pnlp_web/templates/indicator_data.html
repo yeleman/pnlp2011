@@ -42,6 +42,10 @@ addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "
 <td>Disrict</td>
 <td>{{ entity.slug|district|default:"" }}</td>
 </tr>
+<tr>
+<td>Etablissement</td>
+<td>{{ entity.display_full_name }}</td>
+</tr>
 {% if entity.type.slug != 'cscom' %}
 <tr>
 <td>Sources</td>
@@ -54,12 +58,16 @@ addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "
 </td>
 </tr>
 {% endif %}
+<tr>
+<td>Contact</td>
+<td>{{ contact.name_access }} ({{ contact.phone_number|phone }})</td>
+</tr>
 </table>
 {% endif %}
 
 {% for widget in widgets %}
 {% if widget.type == 'graph' %}
-<h3 class="caption"><strong>{{ widget.name }}.</strong> {{ widget.caption }}</h3>
+<h3 class="caption"><strong>{{ widget.name }}</strong> {{ widget.caption }}</h3>
 <div id="{{ widget.id|concat:forloop.counter0 }}"></div>
 {% else %}
     {% include "indicator_table.html" with table=widget id=widget.id|concat:forloop.counter0 %}

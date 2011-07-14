@@ -13,7 +13,7 @@ from pnlp_core.data import (MalariaDataHolder, \
                             provider_entity, \
                             entities_path, \
                             provider_can_or_403, \
-                            current_reporting_period)
+                            current_reporting_period, contact_for)
 from pnlp_web.decorators import provider_required, provider_permission
 from bolibana_reporting.models import Entity, MonthPeriod, Report
 
@@ -124,8 +124,12 @@ def indicator_browser(request, entity_code=None, period_str=None, \
     except:
         raise Http404(_(u"This section does not exist."))
 
+    # section 1 specifics
+    if int(section_index) == 0:
+        context.update({'contact': contact_for(entity)})
+
     context.update({'section': section, 'sub_section': sub_section})
-    print(periods)
+
     context.update({'widgets': [widget(entity=entity, periods=periods) \
                                 for widget in sm.WIDGETS]})
 
