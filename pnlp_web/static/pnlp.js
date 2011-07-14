@@ -38,6 +38,9 @@ function addMessagesClickEvent() {
 
 function addLogoClickEvent(base_url) {
     $("#logo").click(function(event) { location.href = base_url; });
+    $(".anchor").click(function(event){ event.preventDefault();
+        $('html, body').animate({scrollTop:0}, 500);
+    });
 }
 
 function addJQEventsForValidationList() {

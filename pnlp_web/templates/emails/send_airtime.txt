@@ -1,0 +1,9 @@
+La nouvelle période va commencer immédiatement.
+
+Il est *impératif* d'envoyer du crédit Malitel à tous les utilisateurs SMS.
+L'envoi doit être fait au matin du 1er.
+
+La liste des numéros est disponible à {{ url }}
+
+Merci,
+Le PNLP.

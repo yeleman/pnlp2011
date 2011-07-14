@@ -50,6 +50,7 @@
             <li><a href="{% url about %}" title="{% trans 'About PNLP' %}">{% trans "About" %}</a></li>
         </ul>
         </div>
+        <div id="top-link"><a class="anchor" href="">↑Haut</a></div>
     </div>
 </body>
 <script type="text/javascript" src="{% url static 'jquery-1.6.2.min.js' %}"></script>
@@ -60,7 +61,7 @@ $(document).ready(function(){
     addMessagesClickEvent();
     addLogoClickEvent('{% url index %}');
     {% block jqueryonload %}{% endblock %}
-    {% if category != 'indicator_data' %}addJavascript("{% url static 'highcharts.js' %}", 'head'){% endif %}
+    {% if category != 'indicator_data' %}addJavascript("{% url static 'highcharts.js' %}", 'head');{% endif %}
 });
 </script>
 </html>
