@@ -11,17 +11,5 @@
 </body>
 <script type="text/javascript" src="/static/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="/static/pnlp.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    addLogoClickEvent('/');
-    $("table tr").each(function (event) {
-        $(this).children("td:first").each(function (event) {
-            $(this).remove();
-        });
-        $(this).children("th:first").each(function (event) {
-            $(this).remove();
-        });
-    });
-});
-</script>
+<script type="text/javascript">$(document).ready(function(){addLogoClickEvent('/');});</script>
 </html>
