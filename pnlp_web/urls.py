@@ -98,6 +98,10 @@ urlpatterns = patterns('',
      url(r'^about/$', direct_to_template, \
          {'template': 'about.html'}, name='about'),
 
+    # CSCOM credit
+     url(r'^malitel/$', direct_to_template, \
+         {'template': 'malitel.html'}, name='malitel'),
+
     # development only
     url(r'^static/admin/(?P<path>.*)$',
              'django.views.static.serve',

@@ -525,3 +525,10 @@ class EndOfMonth(Alert):
                                                .middle().full_name()}
 
         send_sms(to=settings.HOTLINE_NUMBER, text=message)
+
+        malitel_url = full_url(path=reverse('malitel'))
+        title = _(u"[PNLP] La période va commencer.")
+        sent, sent_message = send_email(recipients=settings.HOTLINE_EMAIL, \
+                                        template='emails/send_airtime.txt', \
+                                        context={'url': malitel_url}, \
+                                        title=title)
