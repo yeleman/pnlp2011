@@ -2,7 +2,10 @@
 
 # FILE DESCRIPTIONS
 # Add meta description bellow with complete correct file name.
-AddDescription "Navigateur Web moderne et fiable" Firefox Setup 5.0.exe
-AddDescription "Sources et aperçus du logo" logo PNLP
-
+AddDescription "Navigateur Web moderne et fiable" Firefox Setup 5
+AddDescription "Sources et aperçus du logo" logo PNLP/
+AddDescription "Formulaire de saisie des données CSCom pour les District" Formulaire_de_saisie_PNLP-0.3.xls
+AddDescription "Guide d'utilisation de l'application Java" Guide-application-telephone_1.0.pdf
+AddDescription "Guide utilisateur du formulaire de saisie" Guide-utilisateur-formulaire-saisie_1.0.doc
+AddDescription "Support de formation sur le formulaire de saisie" Support-formation-saisie-district_1.0.pptx
 </IfModule>
