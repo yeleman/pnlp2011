@@ -1,0 +1,53 @@
+Options +Indexes
+
+<Files ~ "^.*\.([Hh][Tt][Aa])">
+ order allow,deny
+ deny from all
+</Files>
+
+<IfModule mod_autoindex.c>
+
+# FILE DESCRIPTIONS
+# Add meta description bellow with complete correct file name.
+AddDescription "Navigateur Web moderne et fiable" Firefox Setup 5.0.exe
+
+IndexOrderDefault Descending Name
+IndexOptions IgnoreCase FancyIndexing FoldersFirst NameWidth=* DescriptionWidth=* SuppressHTMLPreamble HTMLTable
+DefaultIcon /static/images/bullet.png
+HeaderName header.html
+ReadmeName footer.html
+IndexIgnore header.html footer.html favicon.ico .htaccess .ftpquota .DS_Store icons *.log *,v *,t .??* *~ *#
+
+AddDescription "MPEG Layer 3 Format" .mp3
+AddDescription "GZIP compressed TAR archive" .tgz .tar.gz
+AddDescription "GZIP compressed archive" .Z .z .gz .zip
+AddDescription "RAR compressed archive" .rar
+AddDescription "TAR compressed archive" .tar
+AddDescription "ZIP compressed archive" .zip 
+AddDescription "Windows executable file" .exe
+AddDescription "Common Gateway Interface" .cgi
+AddDescription "Joint Photographics Experts Group" .jpg .jpeg .jpe
+AddDescription "Graphic Interchange Format" .gif
+AddDescription "Portable Network Graphic" .png
+AddDescription "Vector graphic" .ps .ai .eps
+AddDescription "Hypertext Markup Language" .html .shtml .htm
+AddDescription "Cascading Style Sheet" .css
+AddDescription "DocType Definition" .dtd
+AddDescription "Extensible Markup Language" .xml
+AddDescription "Win32 compressed HTML help" .chm
+AddDescription "Adobe Portable Document Format" .pdf
+AddDescription "Plain text file" .txt .nfo .faq .readme
+AddDescription "Unix man page" .man
+AddDescription "Email data" .eml .mbox
+AddDescription "Microsoft Word document" .doc
+AddDescription "PHP: Hypertext Preprocessor script" .php  .php3 .php4
+AddDescription "PHP: Hypertext Preprocessor source code" .phps
+AddDescription "Javascript" .js
+AddDescription "Java code"  .java
+AddDescription "Unix shell script" .sh .shar .csh .ksh .command
+AddDescription "Mac OS X shell script" .command
+AddDescription "Configuration file" .conf
+AddDescription "Mac OS X terminal" .term
+AddDescription "BitTorrent file" .torrent
+AddDescription "Windows link" .lnk .url
+</IfModule>

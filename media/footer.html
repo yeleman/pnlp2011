@@ -1,0 +1,27 @@
+        </div>
+        </div>
+        <div id="footer">
+        <ul>
+            <li><a href="/support/" title="Contactez nous">Contact</a></li>
+            <li><a href="/about/" title="À propos du PNLP">À propos</a></li>
+        </ul>
+        </div>
+        <div id="top-link"><a class="anchor" href="">↑Haut</a></div>
+    </div>
+</body>
+<script type="text/javascript" src="/static/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/static/pnlp.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    addLogoClickEvent('/');
+    $("table tr").each(function (event) {
+        $(this).children("td:first").each(function (event) {
+            $(this).remove();
+        });
+        $(this).children("th:first").each(function (event) {
+            $(this).remove();
+        });
+    });
+});
+</script>
+</html>

@@ -61,7 +61,7 @@ $(document).ready(function(){
     addMessagesClickEvent();
     addLogoClickEvent('{% url index %}');
     {% block jqueryonload %}{% endblock %}
-    {% if category != 'indicator_data' %}addJavascript("{% url static 'highcharts.js' %}", 'head'){% endif %}
+    {% if category != 'indicator_data' %}addJavascript("{% url static 'highcharts.js' %}", 'head');{% endif %}
 });
 </script>
 </html>
