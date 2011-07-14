@@ -178,7 +178,6 @@ def report_as_excel(report):
     sheet.write(2, 6, report.period.middle().year, styledate)
     sheet.write_merge(2, 2, 7, 12, u"", styledescription)
 
-
     # SECTION Consultation
     sheet.write_merge(4, 4, 2, 7, u"Consultation", styletitle)
 
