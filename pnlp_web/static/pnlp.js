@@ -123,11 +123,17 @@ function addJQEventToggleSources() {
     });
 }
 
-function addJQEventPeriodsChange(base_url, current_entity) {
+function addJQEventPeriodsChange(base_url, current_entity, section, sub_section) {
     $("#period_nav select").change(function (event) {
         speriod = $("#speriod_select").val();
         eperiod = $("#eperiod_select").val();
         url = base_url.replace('ent_code', current_entity).replace('111111', speriod).replace('222222', eperiod);
+        if (section != null) {
+            url += '/section' + section;
+            if (sub_section != null) {
+                url += '/' + sub_section;
+            }
+        }
         location.href = url;
     });
 }
