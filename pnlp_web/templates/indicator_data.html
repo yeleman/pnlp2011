@@ -34,34 +34,19 @@ addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "
 <div id="context">
 {% if section.id = '1' %}
 <table>
-<tr>
-<td>Region</td>
-<td>{{ entity.slug|region|default:"" }}</td>
-</tr>
-<tr>
-<td>Disrict</td>
-<td>{{ entity.slug|district|default:"" }}</td>
-</tr>
-<tr>
-<td>Etablissement</td>
-<td>{{ entity.display_full_name }}</td>
-</tr>
+<tr><td>Region</td><td>{{ entity.slug|region|default:"" }}</td></tr>
+<tr><td>Disrict</td><td>{{ entity.slug|district|default:"" }}</td></tr>
+<tr><td>Etablissement</td><td>{{ entity.display_full_name }}</td></tr>
 {% if entity.type.slug != 'cscom' %}
-<tr>
-<td>Sources</td>
-<td><p>{{ entity.children.count }} {% if entity.type.slug = 'national' %}Region{% endif %}{% if entity.type.slug = 'region' %}District{% endif %}{% if entity.type.slug = 'district' %}CSCom{% endif %}{{entity.children.count|pluralize}}</p>
-<ul>
-{%for child in entity.children.all %}
-<li>{{ child }}</li>
+<tr><td>{% if entity.type.slug = 'national' %}Region{% endif %}{% if entity.type.slug = 'region' %}District{% endif %}{% if entity.type.slug = 'district' %}CSCom{% endif %}{{entity.children.count|pluralize}} ({{ entity.children.count }})</td>
+<td>{%for child in entity.children.all %}
+{{ child }} ({{ child.slug }})<br />
 {% endfor %}
-</ul>
-</td>
-</tr>
+</td></tr>
 {% endif %}
-<tr>
-<td>Contact</td>
-<td>{{ contact.name_access }} ({{ contact.phone_number|phone }})</td>
-</tr>
+{% if contact %}
+<tr><td>Contact</td><td>{{ contact.name_access }}{% if contact.phone_number %} – {{ contact.phone_number|phone }}{% endif %}</td></tr>
+{% endif %}
 </table>
 {% endif %}
 
