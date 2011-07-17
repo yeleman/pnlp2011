@@ -24,9 +24,11 @@ class ProviderForm(forms.Form):
 
 class ProviderPasswordForm(forms.Form):
     password1 = forms.CharField(max_length=100, \
-                                          label=ugettext_lazy(u"New Password"))
-    password2 = forms.CharField(max_length=100, \
-                                  label=ugettext_lazy(u"Confirm New Password"))
+                                label=ugettext_lazy(u"New Password"),
+                                widget=forms.PasswordInput(render_value=False))
+    password2 = forms.CharField(max_length=100,
+                                label=ugettext_lazy(u"Confirm New Password"),
+                                widget=forms.PasswordInput(render_value=False))
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
