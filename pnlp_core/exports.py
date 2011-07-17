@@ -165,10 +165,33 @@ def report_as_excel(report):
     sheet.write_merge(27, 27, 0, 8, u"")
     sheet.write_merge(28, 28, 0, 12, u"", styleborformbutton)
 
-    sheet.write(1, 1, report.entity.parent.parent.display_name(), \
-                                                        styleentity)
-    sheet.write(2, 1, report.entity.parent.display_name(), styleentity)
-    sheet.write_merge(3, 3, 1, 2, report.entity.slug, styleentity)
+    if report.entity.type.slug == 'region':
+        region = report.entity.slug
+    else:
+        region = u"Aucune"
+        entity = report.entity
+        while entity.parent:
+            if entity.parent.type.slug == 'region':
+                region = entity.parent.display_name()
+            entity = entity.parent
+    sheet.write(1, 1, region, styleentity)
+
+    if report.entity.type.slug == 'district':
+        district = report.entity.slug
+    else:
+        district = u"Aucun"
+        entity = report.entity
+        while entity.parent:
+            if entity.parent.type.slug == 'district':
+                district = entity.parent.display_name()
+            entity = entity.parent
+    sheet.write(2, 1, district, styleentity)
+
+    if report.entity.type.slug == 'cscom':
+        cscom = report.entity.slug
+    else:
+        cscom = u"Aucun"
+    sheet.write_merge(3, 3, 1, 2, cscom, styleentity)
 
     sheet.write_merge(1, 1, 2, 12, u"", styledescription)
     sheet.write(2, 2, u"Mois", styledescription)
