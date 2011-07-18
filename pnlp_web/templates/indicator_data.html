@@ -34,8 +34,8 @@ addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "
 <div id="context">
 {% if section.id = '1' %}
 <table>
-<tr><td>Region</td><td>{{ entity.slug|region|default:"" }}</td></tr>
-<tr><td>Disrict</td><td>{{ entity.slug|district|default:"" }}</td></tr>
+<tr><td>Region</td><td>{{ entity|region|default:"" }}</td></tr>
+<tr><td>Disrict</td><td>{{ entity|district|default:"" }}</td></tr>
 <tr><td>Etablissement</td><td>{{ entity.display_full_name }}</td></tr>
 {% if entity.type.slug != 'cscom' %}
 <tr><td>{% if entity.type.slug = 'national' %}Region{% endif %}{% if entity.type.slug = 'region' %}District{% endif %}{% if entity.type.slug = 'district' %}CSCom{% endif %}{{entity.children.count|pluralize}} ({{ entity.children.count }})</td>

@@ -78,4 +78,7 @@ def edit_profile(request):
     context.update({'form': form, 'passwd_form': passwd_form, \
                     'provider': provider})
 
+    print("dasda %s " % provider)
+    print(provider.has_permission('can_view_raw_data'))
+
     return render(request, 'edit_profile.html', context)

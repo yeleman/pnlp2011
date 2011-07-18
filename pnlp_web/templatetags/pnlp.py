@@ -184,8 +184,7 @@ def format_percent_us(value, precision=2, french=True):
     return format_percent(value, precision, french=False)[:-1]
 
 
-def get_parent_by_type(entity_slug, type):
-    entity = Entity.objects.get(slug=entity_slug)
+def get_parent_by_type(entity, type):
     if entity.type.slug == type:
         return entity
     while entity.parent:
@@ -196,15 +195,13 @@ def get_parent_by_type(entity_slug, type):
 
 
 @register.filter(name='region')
-@stringfilter
-def region_from_slug(entity_slug):
-    return get_parent_by_type(entity_slug, 'region')
+def region_from_slug(entity):
+    return get_parent_by_type(entity, 'region')
 
 
 @register.filter(name='district')
-@stringfilter
-def region_from_slug(entity_slug):
-    return get_parent_by_type(entity_slug, 'district')
+def region_from_slug(entity):
+    return get_parent_by_type(entity, 'district')
 
 
 @register.filter(name='stage')
@@ -234,3 +231,11 @@ def css_rate_class(rate):
         if rate < 60:
             return 'warning'
         return 'success'
+
+
+@register.filter(name='has_permission')
+def provider_has_permission(provider, perm_slug=None):
+    try:
+        return provider.has_permission(perm_slug)
+    except:
+        return False
