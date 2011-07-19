@@ -1,0 +1,98 @@
+
+Deployment Installation
+=======================
+
+* Install Ubuntu 10.04 LTS Server
+    - Mail Server (postfix)
+        -> Select Internet Site
+    - OpenSSH Server
+
+* Configure Network
+    - 192.168.5.131/255.255.255.0/192.168.5.10 (YLM)
+    - dns on 8.8.8.8 8.8.4.4
+
+* Updrade
+    aptitude update
+    aptitude safe-upgrade
+    reboot
+
+* Install base packages (as root):
+    acpid git-core python-pip python-gammu gammu kannel mysql-server mysql-client sqlite3 python-mysqldb apache2-mpm-worker build-essential make apache2-threaded-dev python-dev
+    pip install virtualenv virtualenvwrapper
+
+* Compiled packages
+
+    wget http://modwsgi.googlecode.com/files/mod_wsgi-3.3.tar.gz -O mod_wsgi-3.3.tar.gz
+    tar xf mod_wsgi-3.3.tar.gz
+    cd mod_wsgi-3.3
+    ./configure
+    make
+    make install
+    vim -v /etc/apache2/mods-available/wsgi.load
+        LoadModule wsgi_module /usr/lib/apache2/modules/mod_wsgi.so
+    a2enmod wsgi
+    /etc/init.d/apache2 restart
+    make clean
+
+* Create User
+    useradd -m -G adm,dialout,cdrom,plugdev,lpadmin,admin,sambashare pnlp
+
+* Get Source Code
+    mkdir -p ~/src
+    mkdir -p ~/src/envs
+    vim -v .bashrc
+    Add to end of file:
+        export WORKON_HOME=~/src/envs
+        source /usr/local/bin/virtualenvwrapper.sh
+    logout / login
+    mkvirtualenv pnlp
+    cd ~/src
+    git clone git://github.com/yeleman/nosms.git
+    git clone git://github.com/yeleman/bolibana_auth.git
+    git clone git://github.com/yeleman/bolibana_reporting.git
+    git clone git://github.com/yeleman/pnlp2011.git
+    cdsitepackages
+    ln -s ~/src/nosms .
+    ln -s ~/src/bolibana_auth .
+    ln -s ~/src/bolibana_reporting .
+    ln -s ~/src/pnlp2011 .
+    ln -s ~/src/pnlp2011/pnlp_core .
+    ln -s ~/src/pnlp2011/pnlp_web .
+    ln -s ~/src/pnlp2011/pnlp_sms .
+    cd ~/src/pnlp2011
+    pip install -r pip-requirements.txt
+
+* Configure
+    sudo locale-gen en_US.UTF-8
+    sudo locale-gen fr_FR.UTF-8
+    - cp local_settings.py.example local_settings.py
+    => customize it.
+    - Create MySQL DB and User
+    echo "grant all privileges on pnlp.* to 'pnlp'@'localhost' identified by 'pnlp' with grant option; flush privileges; create database pnlp;" | mysql -uroot -p
+    - Django preparations
+    ./manage.py syncdb
+    ./manage.py loaddata ./fixtures/entities_types.json
+    ./manage.py loaddata ./fixtures/role_permission.json
+    ./manage.py loaddata ./fixtures/default_access.json
+    ./manage.py runserver
+    /admin/
+    > Site object PNLP / pnlp.sante.gov.ml
+
+* Web Server setup
+    cp docs/pnlp.apache2 /etc/apache2/sites-available/pnlp
+    a2enmod ssl
+    a2enmod headers
+    a2enmode expires
+    a2ensite pnlp
+    apache2ctl restart
+
+* Services
+    - web server
+        update-rc.d apache2 defaults
+    - NoSMS gammu_kannel
+    - Kannel
+
+* Cron Jobs:
+    - Django collectstatic
+    - pnlp_daily_tasks
+    - nosmsloop
