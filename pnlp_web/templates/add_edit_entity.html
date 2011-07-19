@@ -12,6 +12,9 @@
 {% csrf_token %}
 <table>
 {% csrf_token %}
+{% if entity_id %}
+<th>Code</th><td>{{ entity.slug }}</td>
+{%endif %}
 {% for field in form.visible_fields %}
 <tr><th>{{ field.label }}</th><td{%if field.errors %} class="error" title="{% for error in field.errors %}{{ error }}{% endfor %}"{% endif %}>{% if field %}{{ field }}{% endif %}</td></tr>
 {% endfor %}

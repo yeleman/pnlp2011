@@ -32,10 +32,17 @@ class EntitiesListView(ListView):
         return context
 
 
+class AddEntityForm(ModelForm):
+
+    class Meta:
+        model = Entity
+
+
 class EditEntityForm(ModelForm):
 
     class Meta:
         model = Entity
+        exclude = ('slug',)
 
 
 @provider_permission('can_manage_entities')
@@ -44,12 +51,14 @@ def add_edit_entity(request, entity_id=None):
 
     if entity_id:
         entity = get_object_or_404(Entity, id=entity_id)
+        formclass = EditEntityForm
     else:
         entity = None
+        formclass = AddEntityForm
 
     if request.method == 'POST':
 
-        form = EditEntityForm(request.POST, instance=entity)
+        form = formclass(request.POST, instance=entity)
         if form.is_valid():
             entity = form.save()
             if entity_id:
@@ -66,7 +75,7 @@ def add_edit_entity(request, entity_id=None):
     # GET METHOD
     else:
 
-        form = EditEntityForm(instance=entity)
+        form = formclass(instance=entity)
 
     context.update({'form': form, 'entity_id': entity_id, 'entity': entity})
 
