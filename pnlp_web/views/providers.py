@@ -81,6 +81,11 @@ class EditProviderForm(forms.Form):
     def clean_entity(self):
         if self.cleaned_data.get('role') in ('antim', 'partners', 'pnlp'):
             return 1
+        else:
+            if self.cleaned_data.get('entity').type.slug \
+               != self.cleaned_data.get('role'):
+                raise forms.ValidationError(_(u"Entity is not valid " \
+                                              u"for this Role."))
         return self.cleaned_data.get('entity')
 
 
