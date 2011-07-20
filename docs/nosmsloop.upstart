@@ -1,0 +1,11 @@
+description     "NoSMS messages loop"
+author          "rgaudin <rgaudin@gmail.com>"
+
+start on started network
+stop on stopping network
+stop on starting shutdown
+
+console output
+
+exec sudo -u reg /home/reg/src/pnlp2011/virtual-manage.sh nosmsloop
+respawn
