@@ -130,14 +130,14 @@ def report_as_excel(report):
                                      u"causes confondues", stylelabel)
     sheet.write_merge(7, 7, 0, 1, u"Nbre de Cas de paludisme"\
                                     u"(Tous suspectés)", stylelabel)
-    sheet.write_merge(8, 8, 0, 1, u"Nbre de Cas de paludisme Simple",\
-                                                            stylelabel)
-    sheet.write_merge(9, 9, 0, 1, u"Nbre de Cas de paludisme Grave",\
-                                                            stylelabel)
-    sheet.write_merge(10, 10, 0, 1, u"Cas de paludisme testés"\
+    sheet.write_merge(8, 8, 0, 1, u"Cas de paludisme testés"\
                                     u"(GE et/ou TDR)", stylelabel)
-    sheet.write_merge(11, 11, 0, 1, u"Cas de paludisme confirmés"\
+    sheet.write_merge(9, 9, 0, 1, u"Cas de paludisme confirmés"\
                                     u"(GE et/ou TDR)", stylelabel)
+    sheet.write_merge(10, 10, 0, 1, u"Nbre de Cas de paludisme Simple",\
+                                                            stylelabel)
+    sheet.write_merge(11, 11, 0, 1, u"Nbre de Cas de paludisme Grave",\
+                                                            stylelabel)
     sheet.write_merge(12, 12, 0, 1, u"Nbre de Cas traités avec CTA",\
                                                             stylelabel)
     sheet.write_merge(13, 13, 0, 12, u"")
@@ -213,16 +213,16 @@ def report_as_excel(report):
                         report.u5_total_suspected_malaria_cases, \
                                                         stylevariable)
     sheet.write_merge(8, 8, 2, 3, \
-                           report.u5_total_simple_malaria_cases, \
-                                                        stylevariable)
-    sheet.write_merge(9, 9, 2, 3, \
-                           report.u5_total_severe_malaria_cases, \
-                                                        stylevariable)
-    sheet.write_merge(10, 10, 2, 3, \
                            report.u5_total_tested_malaria_cases, \
                                                         stylevariable)
-    sheet.write_merge(11, 11, 2, 3, \
+    sheet.write_merge(9, 9, 2, 3, \
                         report.u5_total_confirmed_malaria_cases, \
+                                                        stylevariable)
+    sheet.write_merge(10, 10, 2, 3, \
+                           report.u5_total_simple_malaria_cases, \
+                                                        stylevariable)
+    sheet.write_merge(11, 11, 2, 3, \
+                           report.u5_total_severe_malaria_cases, \
                                                         stylevariable)
     sheet.write_merge(12, 12, 2, 3, \
                           report.u5_total_treated_malaria_cases, \
@@ -237,16 +237,16 @@ def report_as_excel(report):
                         report.o5_total_suspected_malaria_cases, \
                                                         stylevariable)
     sheet.write_merge(8, 8, 4, 5, \
-                           report.o5_total_simple_malaria_cases, \
-                                                        stylevariable)
-    sheet.write_merge(9, 9, 4, 5, \
-                           report.o5_total_severe_malaria_cases, \
-                                                        stylevariable)
-    sheet.write_merge(10, 10, 4, 5, \
                            report.o5_total_tested_malaria_cases, \
                                                         stylevariable)
-    sheet.write_merge(11, 11, 4, 5, \
+    sheet.write_merge(9, 9, 4, 5, \
                         report.o5_total_confirmed_malaria_cases, \
+                                                        stylevariable)
+    sheet.write_merge(10, 10, 4, 5, \
+                           report.o5_total_simple_malaria_cases, \
+                                                        stylevariable)
+    sheet.write_merge(11, 11, 4, 5, \
+                           report.o5_total_severe_malaria_cases, \
                                                         stylevariable)
     sheet.write_merge(12, 12, 4, 5, \
                           report.o5_total_treated_malaria_cases, \
@@ -260,15 +260,15 @@ def report_as_excel(report):
     sheet.write_merge(7, 7, 6, 7, \
                         report.pw_total_suspected_malaria_cases, \
                                                         stylevariable)
-    sheet.write_merge(8, 8, 6, 7, u"", stylevide)
-    sheet.write_merge(9, 9, 6, 7, \
-                           report.pw_total_severe_malaria_cases, \
-                                                        stylevariable)
-    sheet.write_merge(10, 10, 6, 7, \
+    sheet.write_merge(8, 8, 6, 7, \
                            report.pw_total_tested_malaria_cases, \
                                                         stylevariable)
-    sheet.write_merge(11, 11, 6, 7, \
+    sheet.write_merge(9, 9, 6, 7, \
                         report.pw_total_confirmed_malaria_cases, \
+                                                        stylevariable)
+    sheet.write_merge(10, 10, 6, 7, u"", stylevide)
+    sheet.write_merge(11, 11, 6, 7, \
+                           report.pw_total_severe_malaria_cases, \
                                                         stylevariable)
     sheet.write_merge(12, 12, 6, 7, \
                           report.pw_total_treated_malaria_cases, \

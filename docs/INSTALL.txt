@@ -49,18 +49,18 @@ Deployment Installation
     logout / login
     mkvirtualenv pnlp
     cd ~/src
-git clone git://github.com/yeleman/nosms.git
-git clone git://github.com/yeleman/bolibana_auth.git
-git clone git://github.com/yeleman/bolibana_reporting.git
-git clone git://github.com/yeleman/pnlp2011.git
+    git clone git://github.com/yeleman/nosms.git
+    git clone git://github.com/yeleman/bolibana_auth.git
+    git clone git://github.com/yeleman/bolibana_reporting.git
+    git clone git://github.com/yeleman/pnlp2011.git
     cdsitepackages
-ln -s ~/src/nosms .
-ln -s ~/src/bolibana_auth .
-ln -s ~/src/bolibana_reporting .
-ln -s ~/src/pnlp2011 .
-ln -s ~/src/pnlp2011/pnlp_core .
-ln -s ~/src/pnlp2011/pnlp_web .
-ln -s ~/src/pnlp2011/pnlp_sms .
+    ln -s ~/src/nosms .
+    ln -s ~/src/bolibana_auth .
+    ln -s ~/src/bolibana_reporting .
+    ln -s ~/src/pnlp2011 .
+    ln -s ~/src/pnlp2011/pnlp_core .
+    ln -s ~/src/pnlp2011/pnlp_web .
+    ln -s ~/src/pnlp2011/pnlp_sms .
     cd ~/src/pnlp2011
     pip install -r pip-requirements.txt
 
@@ -86,17 +86,31 @@ ln -s ~/src/pnlp2011/pnlp_sms .
     cp docs/pnlp.apache2 /etc/apache2/sites-available/pnlp
     a2enmod ssl
     a2enmod headers
-    a2enmode expires
+    a2enmod expires
     a2ensite pnlp
     apache2ctl restart
 
 * Services
     - web server
         update-rc.d apache2 defaults
-    - NoSMS gammu_kannel
-    - Kannel
+        update-rc.d mysql-server defaults
+    - NoSMS gammu_kannel (if using modem)
+        cp docs/gammu.upstart /etc/init/gammu_kannel.conf
+    - Kannel (if SMPP)
+        update-rc.d kannel defaults
+    - NoSMS loop
+        cp docs/nosmsloop.upstart /etc/init/nosmsloop.conf
 
 * Cron Jobs:
-    - Django collectstatic
-    - pnlp_daily_tasks
-    - nosmsloop
+    - [pnlp] crontab -e
+         #m h  dom mon dow   command
+         0 8 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
+         0 10 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
+         0 12 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
+         0 14 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
+         0 16 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
+    - [root] contab -e
+         45 7 * * * /sbin/stop nosmsloop
+         50 7 * * * /sbin/start nosmsloop
+         0 20 * * * /sbin/stop gammu_kannel
+         0 7  * * * /sbin/start gammu_kannel
