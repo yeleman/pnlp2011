@@ -30,7 +30,7 @@ def import_path(name):
 
 @provider_permission('can_view_raw_data')
 def indicator_browser(request, entity_code=None, period_str=None, \
-                    section_index=1, sub_section=None):
+                    section_index='1', sub_section=None):
     context = {'category': 'indicator_data'}
     web_provider = request.user.get_profile()
 
@@ -39,7 +39,7 @@ def indicator_browser(request, entity_code=None, period_str=None, \
     periods = []
     speriod = eperiod = None
     entity = None
-    section_index = int(section_index) - 1
+    #section_index = int(section_index) - 1
 
     # find entity or default to provider target
     # raise 404 on wrong provided entity code
@@ -110,22 +110,26 @@ def indicator_browser(request, entity_code=None, period_str=None, \
 
     from pnlp_core.indicators import INDICATOR_SECTIONS
 
-    context.update({'sections': INDICATOR_SECTIONS})
+    context.update({'sections': \
+                    sorted(INDICATOR_SECTIONS.values(), \
+                          cmp=lambda a, b: int(a['id'].strip('a').strip('b')) \
+                                        - int(b['id'].strip('a').strip('b')))})
 
     try:
-        section = INDICATOR_SECTIONS[int(section_index)]
+        section = INDICATOR_SECTIONS[section_index]
         if not sub_section:
             if len(section['sections']):
                 sub_section = section['sections'].keys()[0]
-        sname = 'pnlp_core.indicators.section%d' % (section_index + 1)
+        sname = 'pnlp_core.indicators.section%s' % section_index.__str__()
         if sub_section:
             sname = '%s_%s' % (sname, sub_section.__str__())
         sm = import_path(sname)
     except:
+        raise
         raise Http404(_(u"This section does not exist."))
 
     # section 1 specifics
-    if int(section_index) == 0:
+    if section_index == '1':
         context.update({'contact': contact_for(entity)})
 
     context.update({'section': section, 'sub_section': sub_section})
