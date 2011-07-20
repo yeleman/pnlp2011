@@ -1,0 +1,11 @@
+description     "Gammu Kannel Interface"
+author          "rgaudin <rgaudin@gmail.com>"
+
+start on started network
+stop on stopping network
+stop on starting shutdown
+
+console output
+
+exec /home/pnlp/src/nosms/gammu_kannel.py
+respawn
