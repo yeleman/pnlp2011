@@ -6,8 +6,10 @@ Deployment Installation
     - Mail Server (postfix)
         -> Select Internet Site
     - OpenSSH Server
+    - apt-get install openssh-server postfix
+    - apt-get install aptitude vim
 
-* Configure Network
+* Configure Static Network
     - 192.168.5.131/255.255.255.0/192.168.5.10 (YLM)
     - dns on 8.8.8.8 8.8.4.4
 
@@ -47,18 +49,18 @@ Deployment Installation
     logout / login
     mkvirtualenv pnlp
     cd ~/src
-    git clone git://github.com/yeleman/nosms.git
-    git clone git://github.com/yeleman/bolibana_auth.git
-    git clone git://github.com/yeleman/bolibana_reporting.git
-    git clone git://github.com/yeleman/pnlp2011.git
+git clone git://github.com/yeleman/nosms.git
+git clone git://github.com/yeleman/bolibana_auth.git
+git clone git://github.com/yeleman/bolibana_reporting.git
+git clone git://github.com/yeleman/pnlp2011.git
     cdsitepackages
-    ln -s ~/src/nosms .
-    ln -s ~/src/bolibana_auth .
-    ln -s ~/src/bolibana_reporting .
-    ln -s ~/src/pnlp2011 .
-    ln -s ~/src/pnlp2011/pnlp_core .
-    ln -s ~/src/pnlp2011/pnlp_web .
-    ln -s ~/src/pnlp2011/pnlp_sms .
+ln -s ~/src/nosms .
+ln -s ~/src/bolibana_auth .
+ln -s ~/src/bolibana_reporting .
+ln -s ~/src/pnlp2011 .
+ln -s ~/src/pnlp2011/pnlp_core .
+ln -s ~/src/pnlp2011/pnlp_web .
+ln -s ~/src/pnlp2011/pnlp_sms .
     cd ~/src/pnlp2011
     pip install -r pip-requirements.txt
 
