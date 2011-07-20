@@ -52,3 +52,45 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
         return find_report_attr_age(self.entity, period, \
                                'total_confirmed_malaria_cases', \
                                self.options.age)
+
+
+class NbreCasConfirmes(IndicatorTable):
+    """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
+
+        confirmés) """
+
+    name = u" "
+    title = u" "
+    caption = u" "
+    type = 'graph'
+
+    default_options = {'with_percentage': False, \
+                       'with_total': False, \
+                       'with_reference': False, \
+                       'with_data': True,
+                       'only_percent': False}
+
+    def period_is_valid(self, period):
+        return MalariaReport.validated.filter(entity=self.entity, \
+                                              period=period).count() > 0
+
+    @indicator(0)
+    @label(u"Cas confirmés")
+    def total_confirmed_malaria_cases(self, period):
+        return find_report_attr_age(self.entity, period, \
+                               'total_confirmed_malaria_cases', \
+                               self.options.age)
+
+    @indicator(1, "total_confirmed_malaria_cases")
+    @label(u"Cas simples")
+    def total_simple_malaria_cases(self, period):
+        return find_report_attr_age(self.entity, period, \
+                               'total_simple_malaria_cases', \
+                               self.options.age)
+
+    @indicator(2, "total_confirmed_malaria_cases")
+    @label(u"Cas graves")
+    def total_severe_malaria_cases(self, period):
+        return find_report_attr_age(self.entity, period, \
+                               'total_severe_malaria_cases', \
+                               self.options.age)

@@ -12,10 +12,10 @@ from pnlp_core.data import current_reporting_period, contact_for
 from pnlp_core.indicators.common import get_report_for
 
 
-class TableauSection1(IndicatorTable):
+class Tableau1(IndicatorTable):
     name = u"Tableau 1"
     title = u" "
-    caption = u" "
+    caption = u"Pourcentage de structures ayant transmis leurs formulaires de collecte dans les délais prévus"
     type = 'table'
 
     default_options = {'with_percentage': False, \
@@ -26,7 +26,7 @@ class TableauSection1(IndicatorTable):
         return True
 
     @indicator(0)
-    @label(u"Structures")
+    @label(u"Nombre total de structures dans le district")
     def total_structures_in_the_district(self, period):
         if self.entity.type.slug == 'cscom':
             return 1
@@ -34,17 +34,7 @@ class TableauSection1(IndicatorTable):
             return self.entity.children.count()
 
     @indicator(1)
-    @label(u"Auto-validation")
-    def number_autovalide(self, period):
-        if self.entity.type.slug == 'cscom':
-            children = [self.entity]
-        else:
-            children = self.entity.get_descendants()
-        return MalariaReport.validated.filter(entity__in=children, \
-            modified_by__user__username='autobot').count()
-
-    @indicator(2)
-    @label(u"Total rapports")
+    @label(u"Nombre de structures ayant transmis leurs formulaires de collecte dans les délais prévus")
     def number_tautovalide(self, period):
         return self.entity.reports.count()
 
@@ -59,4 +49,56 @@ class TableauSection1(IndicatorTable):
                 #~ sms += 1
         #~ return report.sources.filter(created_by)
 
-WIDGETS = [TableauSection1]
+class Figure1(IndicatorTable):
+    name = u"Figure 1"
+    title = u""
+    caption = u"Evolution de la promptitude de la notification dans le district"
+    type = 'graph'
+
+    default_options = {'with_percentage': False, \
+                   'with_total': False, \
+                   'with_reference': False, \
+                   'with_data': True,
+                   'only_percent': False}
+
+class Tableau2(IndicatorTable):
+    name = u"Tableau 2"
+    title = u" "
+    caption = u"Pourcentage de structures ayant transmis leurs formulaires de collecte"
+    type = 'table'
+
+    default_options = {'with_percentage': False, \
+                       'with_total': False, \
+                       'with_reference': False}
+
+    def period_is_valid(self, period):
+        return True
+
+    @indicator(0)
+    @label(u"Nombre total de structures dans le district (nombre de formulaires de collecte attendu)")
+    def total_structures_in_the_district(self, period):
+        if self.entity.type.slug == 'cscom':
+            return 1
+        else:
+            return self.entity.children.count()
+
+    @indicator(1)
+    @label(u"Nombre de structures ayant transmis leurs formulaires de collecte")
+    def number_tautovalide(self, period):
+        return self.entity.reports.count()
+
+
+class Figure2(IndicatorTable):
+    name = u"Figure 2"
+    title = u""
+    caption = u"Evolution de la complétude de la notification dans le district"
+    type = 'graph'
+
+    default_options = {'with_percentage': False, \
+                   'with_total': False, \
+                   'with_reference': False, \
+                   'with_data': True,
+                   'only_percent': False}
+
+
+WIDGETS = [Tableau1, Figure1, Tableau2, Figure2]

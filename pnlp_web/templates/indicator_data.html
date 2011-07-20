@@ -32,6 +32,7 @@ addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "
 <h2 class="pagetitle sub">Section {{ section.id }} – {{ section.label }}{% if sub_section %} / {{ sub_section|pnlpcat }}{% endif %}</h2>
 
 <div id="context">
+<!--
 {% if section.id = '1' %}
 <table>
 <tr><td>Region</td><td>{{ entity|region|default:"" }}</td></tr>
@@ -49,10 +50,11 @@ addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "
 {% endif %}
 </table>
 {% endif %}
+-->
 
 {% for widget in widgets %}
 {% if widget.type == 'graph' %}
-<h3 class="caption"><strong>{{ widget.name }}?</strong> {{ widget.caption }}</h3>
+<h3 class="caption"><strong>{{ widget.name }}</strong> {{ widget.caption }}</h3>
 <div id="{{ widget.id|concat:forloop.counter0 }}"></div>
 {% else %}
     {% include "indicator_table.html" with table=widget id=widget.id|concat:forloop.counter0 %}

@@ -16,7 +16,7 @@ class CasPaludismeEnfantsOverFive(IndicatorTable):
 
         plus """
 
-    name = u"Tableau 2.1c"
+    name = u"Tableau 5"
     title = u"Personnes de 5 ans et plus"
     caption = u"Nombre de cas de paludisme chez les personnes de 5 ans et plus"
     type = 'table'
@@ -36,36 +36,30 @@ class CasPaludismeEnfantsOverFive(IndicatorTable):
         report = get_report_for(self.entity, period)
         return report.o5_total_suspected_malaria_cases
 
-    @indicator(1, 'o5_total_suspected_malaria_cases')
+    @reference
+    @indicator(1, 'o5_total_tested_malaria_cases')
+    @label(u"Total des cas suspects testés (GE et/ou TDR)")
+    def o5_total_tested_malaria_cases(self, period):
+        report = get_report_for(self.entity, period)
+        return report.o5_total_tested_malaria_cases
+
+    @indicator(2, 'o5_total_tested_malaria_cases')
+    @label(u"Nombre de cas suspects testés qui sont confirmés par  GE ou TDR")
+    def u5_total_confirmed_malaria_cases(self, period):
+        report = get_report_for(self.entity, period)
+        return report.o5_total_confirmed_malaria_cases
+
+    @indicator(3, 'u5_total_confirmed_malaria_cases')
     @label(u". Cas simples")
     def o5_total_simple_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_simple_malaria_cases
 
     @label(u". Cas graves")
-    @indicator(2, 'o5_total_suspected_malaria_cases')
+    @indicator(4, 'u5_total_confirmed_malaria_cases')
     def u5_total_severe_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_severe_malaria_cases
-
-    def blank(self):
-        pass
-    blank._is_blank = True
-    blank._index = 3
-    blank._is_indicator = True
-
-    @reference
-    @indicator(4, 'o5_total_tested_malaria_cases')
-    @label(u"Total des cas suspects testés (GE et/ou TDR)")
-    def o5_total_tested_malaria_cases(self, period):
-        report = get_report_for(self.entity, period)
-        return report.o5_total_tested_malaria_cases
-
-    @indicator(5, 'o5_total_tested_malaria_cases')
-    @label(u"Nombre de cas suspects testés qui sont confirmés par  GE ou TDR")
-    def u5_total_confirmed_malaria_cases(self, period):
-        report = get_report_for(self.entity, period)
-        return report.o5_total_confirmed_malaria_cases
 
 
 class NbreCasSuspectesTestesConfirmesOverFive(NbreCasSuspectesTestesConfirmes):
@@ -73,7 +67,7 @@ class NbreCasSuspectesTestesConfirmesOverFive(NbreCasSuspectesTestesConfirmes):
 
         cas confirmés) chez les personnes de 5 ans et plus """
 
-    name = u"Figure 2.2b"
+    name = u"Figure 10"
     caption = u"Nombre de cas de paludisme (cas suspects, cas testés, " \
               u"cas confirmés) chez les personnes de 5 ans et plus."
 
