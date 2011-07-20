@@ -67,6 +67,8 @@ ln -s ~/src/pnlp2011/pnlp_sms .
 * Configure
     sudo locale-gen en_US.UTF-8
     sudo locale-gen fr_FR.UTF-8
+    - cp django.wsgi.example django.wsgi
+    => customize it.
     - cp local_settings.py.example local_settings.py
     => customize it.
     - Create MySQL DB and User
