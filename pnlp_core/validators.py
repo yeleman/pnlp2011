@@ -89,6 +89,27 @@ class MalariaReportValidator(DataValidator):
             except MissingData:
                 pass
 
+        # confirmed > simple + severe
+        for cat in nopwcat:
+            try:
+                dic = {'field2': _(u"%(simple)s + %(severe)s") % {'simple': \
+                      self.field_name('%s_total_simple_malaria_cases' % cat), \
+                      'severe': \
+                     self.field_name('%s_total_severe_malaria_cases' % cat)}, \
+                      'f2value': int(self.get('%s_total_simple_malaria_cases' \
+                                              % cat)) \
+                               + int(self.get('%s_total_severe_malaria_cases' \
+                                              % cat)), \
+                      'field1': \
+                           self.field_name('%s_total_confirmed_malaria_cases' \
+                                           % cat), \
+                      'f1value': self.get('%s_total_confirmed_malaria_cases' \
+                                           % cat)}
+                if dic['f1value'] < dic['f2value']:
+                    self.errors.add(no_more_than_text % dic, cat)
+            except MissingData:
+                pass
+
         # tested > confirmed
         test_value_under('total_tested_malaria_cases', \
                          'total_confirmed_malaria_cases', allcats)
