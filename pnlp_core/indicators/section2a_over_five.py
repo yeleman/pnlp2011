@@ -132,13 +132,14 @@ class NbreCasSimplesGravesOverFive(CasSimplesGraves):
               u" et plus"
     graph_type = 'line'
 
-    default_options = {'with_percentage': True, \
+    default_options = {'with_percentage': False, \
                        'with_total': False, \
                        'with_reference': False, \
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': False,
                        'age': 'over_five'}
 
 
 WIDGETS = [CasPaludismeEnfantsOverFive, NbreTestesConfirmesOverFive,
-           NbreTestesOverrFive, NbreConfirmesOverrFive]
+           NbreTestesOverrFive, NbreConfirmesOverrFive,
+           NbreCasSimplesGravesOverFive]
