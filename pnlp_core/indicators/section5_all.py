@@ -42,12 +42,12 @@ class DecesToutAgeConfondu(IndicatorTable):
 
 
 class ProportionDecesToutAgeConfondu(GraphDeces):
-    """ Graphe: Proportion de décès dû au  paludisme (par rapport aux décès
+    """ Graphe: Proportion de décès dû au  paludisme (par rapport aux
 
-        toutes causes confondues) """
+        décès toutes causes confondues) """
     name = u"Figure 5.1a"
-    caption = u"Proportion de décès dû au  paludisme (par rapport aux décès " \
-              u"toutes causes confondues) "
+    caption = u"Proportion de décès dû au  paludisme (par rapport aux " \
+              u"décès toutes causes confondues) "
 
     default_options = {'with_percentage': True, \
                        'with_total': False, \

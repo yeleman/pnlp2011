@@ -54,10 +54,8 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
                                self.options.age)
 
 
-class NbreCasConfirmes(IndicatorTable):
-    """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
-
-        confirmés) """
+class CasSimplesGraves(IndicatorTable):
+    """   """
 
     name = u" "
     title = u" "
@@ -93,4 +91,74 @@ class NbreCasConfirmes(IndicatorTable):
     def total_severe_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period, \
                                'total_severe_malaria_cases', \
+                               self.options.age)
+
+
+class CasTestes(IndicatorTable):
+    """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
+
+        confirmés) """
+
+    name = u" "
+    caption = u" "
+    graph_type = 'line'
+    type = "graph"
+    default_options = {'with_percentage': True, \
+                       'with_total': False, \
+                       'with_reference': False, \
+                       'with_data': True,
+                       'only_percent': True}
+
+    def period_is_valid(self, period):
+        return MalariaReport.validated.filter(entity=self.entity, \
+                                              period=period).count() > 0
+
+    @reference
+    @indicator(0)
+    @label(u"Cas suspects")
+    def total_suspected_malaria_cases(self, period):
+        return find_report_attr_age(self.entity, period, \
+                               'total_suspected_malaria_cases', \
+                               self.options.age)
+
+    @indicator(1, "total_suspected_malaria_cases")
+    @label(u"Cas testés")
+    def total_tested_malaria_cases(self, period):
+        return find_report_attr_age(self.entity, period, \
+                               'total_tested_malaria_cases', \
+                               self.options.age)
+
+
+class CasConfirmes(IndicatorTable):
+    """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
+
+        confirmés) """
+
+    name = u" "
+    caption = u" "
+    graph_type = 'line'
+    type = "graph"
+    default_options = {'with_percentage': True, \
+                       'with_total': False, \
+                       'with_reference': False, \
+                       'with_data': True,
+                       'only_percent': True}
+
+    def period_is_valid(self, period):
+        return MalariaReport.validated.filter(entity=self.entity, \
+                                              period=period).count() > 0
+
+    @reference
+    @indicator(0)
+    @label(u"Cas suspects")
+    def total_suspected_malaria_cases(self, period):
+        return find_report_attr_age(self.entity, period, \
+                               'total_suspected_malaria_cases', \
+                               self.options.age)
+
+    @indicator(1, "total_suspected_malaria_cases")
+    @label(u"Cas confirmés")
+    def total_confirmed_malaria_cases(self, period):
+        return find_report_attr_age(self.entity, period, \
+                               'total_confirmed_malaria_cases', \
                                self.options.age)

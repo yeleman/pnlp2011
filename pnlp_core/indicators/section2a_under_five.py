@@ -8,7 +8,8 @@ from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
-from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes, NbreCasConfirmes
+from pnlp_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes, \
+                                CasSimplesGraves, CasTestes, CasConfirmes)
 
 
 class CasPaludismeEnfantsMoins5ans(IndicatorTable):
@@ -36,7 +37,6 @@ class CasPaludismeEnfantsMoins5ans(IndicatorTable):
         report = get_report_for(self.entity, period)
         return report.u5_total_suspected_malaria_cases
 
-    @reference
     @indicator(1, 'u5_total_tested_malaria_cases')
     @label(u"Total des cas suspects testés (GE et/ou TDR)")
     def u5_total_tested_malaria_cases(self, period):
@@ -44,7 +44,8 @@ class CasPaludismeEnfantsMoins5ans(IndicatorTable):
         return report.u5_total_tested_malaria_cases
 
     @indicator(2, 'u5_total_tested_malaria_cases')
-    @label(u"Nombre de cas suspects testés qui sont confirmés par  GE ou TDR")
+    @label(u"Nombre de cas suspects testés qui sont confirmés par  GE" \
+           u"ou TDR")
     def u5_total_confirmed_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_confirmed_malaria_cases
@@ -63,24 +64,22 @@ class CasPaludismeEnfantsMoins5ans(IndicatorTable):
 
 
 class NbreTestesConfirmesUnderFive(NbreCasSuspectesTestesConfirmes):
-    """ Evolution de la proportion de cas testés parmi les cas suspects et
+    """ Nombre de cas de paludisme  par mois (cas suspects, cas testés,
 
-        proportion de cas confirmés parmi les cas testés  chez les enfants de
-        moins de 5 ans """
+        cas confirmés)  chez les moins de 5 ans. """
 
     name = u"Figure 6"
-    caption = u"Evolution de la proportion de cas testés parmi les " \
-              u"cas suspects et proportion de cas confirmés parmi les" \
-              u" cas testés  chez les enfants de moins de 5 ans"
-    graph_type = 'line'
-    default_options = {'with_percentage': True, \
+    caption = u"Nombre de cas de paludisme  par mois (cas suspects," \
+              u"cas testés,  cas confirmés)  chez les moins de 5 ans."
+    default_options = {'with_percentage': False, \
                        'with_total': False, \
                        'with_reference': True, \
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': False, \
                        'age': 'under_five'}
 
-class NbreTestesUnderFive(IndicatorTable):
+
+class NbreTestesUnderFive(CasTestes):
     """ Evolution de la proportion des cas testés parmi les cas suspects
 
         chez les moins de 5 ans """
@@ -94,60 +93,29 @@ class NbreTestesUnderFive(IndicatorTable):
                        'with_total': False, \
                        'with_reference': False, \
                        'with_data': True,
-                       'only_percent': True}
+                       'only_percent': True, \
+                       'age': 'under_five'}
 
-    def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
 
-    @reference
-    @indicator(0)
-    @label(u"Cas suspects")
-    def u5_total_suspected_malaria_cases(self, period):
-        report = get_report_for(self.entity, period)
-        return report.o5_total_suspected_malaria_cases
-
-    @indicator(1, "u5_total_suspected_malaria_cases")
-    @label(u"Cas testés")
-    def u5_total_tested_malaria_cases(self, period):
-        report = get_report_for(self.entity, period)
-        return report.u5_total_tested_malaria_cases
-
-class NbreConfirmesUnderFive(IndicatorTable):
+class NbreConfirmesUnderFive(CasConfirmes):
     """ Evolution de la proportion des cas confirmés parmi les cas testés
 
         chez les moins de 5 ans """
 
     name = u"Figure 8"
-    caption = u" Evolution de la proportion des cas confirmés parmi les cas " \
-              u"testés  chez les moins de 5 ans"
+    caption = u" Evolution de la proportion des cas confirmés parmi les " \
+              u"cas testés  chez les moins de 5 ans"
     graph_type = 'line'
     type = "graph"
     default_options = {'with_percentage': True, \
                        'with_total': False, \
                        'with_reference': False, \
                        'with_data': True,
-                       'only_percent': True}
-
-    def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
-
-    @reference
-    @indicator(0)
-    @label(u"Cas suspects")
-    def u5_total_suspected_malaria_cases(self, period):
-        report = get_report_for(self.entity, period)
-        return report.o5_total_suspected_malaria_cases
-
-    @indicator(1, "u5_total_suspected_malaria_cases")
-    @label(u"Cas confirmés")
-    def u5_total_confirmed_malaria_cases(self, period):
-        report = get_report_for(self.entity, period)
-        return report.u5_total_confirmed_malaria_cases
+                       'only_percent': True, \
+                       'age': 'under_five'}
 
 
-class NbreCasSimplesGravesUnderFive(NbreCasConfirmes):
+class NbreCasSimplesGravesUnderFive(CasSimplesGraves):
     """ Evolution de la proportion des cas confirmés parmi les cas testés
 
         chez les moins de 5 ans """
@@ -156,6 +124,7 @@ class NbreCasSimplesGravesUnderFive(NbreCasConfirmes):
     caption = u"Proportion de cas simples et cas graves chez les moins " \
               u"de 5 ans "
     graph_type = 'line'
+    type = "graph"
     default_options = {'with_percentage': True, \
                        'with_total': False, \
                        'with_reference': False, \

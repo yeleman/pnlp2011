@@ -54,14 +54,14 @@ class GraphDeces(IndicatorTable):
 
 
 class GraphCommun(IndicatorTable):
-    """ Graphe: Evolution du nombre de décès dû au paludisme Chez les moins de
+    """ Graphe: Evolution du nombre de décès dû au paludisme Chez les
 
-        5 ans, les 5 ans et plus et les femmes enceintes """
+        moins de 5 ans, les 5 ans et plus et les femmes enceintes """
 
     name = u"Figure 5.2"
     title = u""
-    caption = u"Evolution du nombre de décès dû au paludisme Chez les moins" \
-              u" de 5 ans, les 5 ans et plus et les femmes enceintes"
+    caption = u"Evolution du nombre de décès dû au paludisme Chez les " \
+              u"moins de 5 ans, les 5 ans et plus et les femmes enceintes"
     type = 'graph'
     graph_type = 'line'
 

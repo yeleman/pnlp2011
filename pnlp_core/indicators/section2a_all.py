@@ -10,7 +10,7 @@ from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
-from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes, NbreCasConfirmes
+from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
 
 
 class TousCasPaludismeNotifies(IndicatorTable):
@@ -43,7 +43,8 @@ class TousCasPaludismeNotifies(IndicatorTable):
     blank._is_indicator = True
 
     @indicator(2, 'total_consultation_all_causes')
-    @label(u"Nombre de cas de paludisme (tous suspectés)  parmi le total consultation ")
+    @label(u"Nombre de cas de paludisme (tous suspectés)  parmi le total" \
+           u" consultation ")
     def total_suspected_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.total_suspected_malaria_cases
@@ -125,7 +126,7 @@ class NbreCasSuspectesTestesConfirmesALL(NbreCasSuspectesTestesConfirmes):
                        'age': 'all'}
 
 
-class Fugure5(NbreCasConfirmes):
+class Fugure5(NbreCasSuspectesTestesConfirmes):
     """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
 
         confirmés) tout âge confondu. """
