@@ -38,7 +38,13 @@ class Tableau1(IndicatorTable):
     @label(u"Nombre de structures ayant transmis leurs formulaires " \
            u"de collecte dans les délais prévus")
     def number_tautovalide(self, period):
-        return self.entity.reports.count()
+        print self.entity.reports.filter(created_by=2).count()
+
+        if self.entity.type.slug == 'cscom' and self.entity.reports \
+                                        .filter(created_by=8).count() == 0:
+            return self.entity.children.count()
+        else:
+            return 100
 
 
     #~ @indicator(2, 'total_structures_in_the_district')

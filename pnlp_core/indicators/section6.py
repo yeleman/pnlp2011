@@ -12,75 +12,107 @@ from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
 
 
-class NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD(IndicatorTable):
-    """ Tableau: Nombre de Moustiquaires imprégnées  d’Insecticides
+class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
+    """ Tableau: Pourcentage de structures avec Rupture de stock de CTA dans
 
-       de Longue Durée (MILD) distribuées"""
+        le district """
 
-    name = u"Tableau 6"
+    name = u"Tableau 17"
     title = u" "
-    caption = u"Nombre de Moustiquaires imprégnées  d’Insecticides de" \
-                u" Longue Durée (MILD) distribuées"
+    caption = u"Pourcentage de structures sans Rupture de stock de CTA dans" \
+              u" le district"
     type = 'table'
 
-    default_options = {'with_percentage': False, \
+    default_options = {'with_percentage': True, \
                        'with_total': False, \
-                       'with_reference': False}
+                       'with_reference': True}
 
     def period_is_valid(self, period):
-        """Periode valide"""
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
+        return True
 
+    @reference
     @indicator(0)
-    @label(u"Nombre MILD distribuées aux enfants de moins de 5 ans")
-    def u5_total_distributed_bednets(self, period):
-        """Total des moustiquaires distribues aux moin de 5 ans"""
+    @label(u"Nombre total de structures dans le district")
+    def total_structures_in_the_district(self, period):
+        if self.entity.type.slug == 'cscom':
+            return 1
+        else:
+            return self.entity.children.count()
+
+    @indicator(1, 'total_structures_in_the_district')
+    @label(u"Structures asans rupture de stock en CTA Nourrisson - Enfant")
+    def stockout_act_children(self, period):
         report = get_report_for(self.entity, period)
-        return report.u5_total_distributed_bednets
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_act_children == MalariaReport.NO)
+        return report.sources.filter(stockout_act_children=MalariaReport.NO) \
+                             .count()
 
-    @indicator(1)
-    @label(u"Nombre de MILD distribuées aux femmes enceintes")
-    def pw_total_distributed_bednets(self, period):
-        """Total des moustiquaires distribues aux femmes enceintes"""
+    @indicator(2, 'total_structures_in_the_district')
+    @label(u"Structures sans rupture de stock en CTA Adolescent")
+    def stockout_act_youth(self, period):
         report = get_report_for(self.entity, period)
-        return report.pw_total_distributed_bednets
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_act_youth == MalariaReport.NO)
+        return report.sources.filter(stockout_act_youth=MalariaReport.NO) \
+                             .count()
+
+    @indicator(3, 'total_structures_in_the_district')
+    @label(u"Structures sans rupture de stock en CTA Adulte")
+    def stockout_act_adult(self, period):
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_act_adult == MalariaReport.NO)
+        return report.sources.filter(stockout_act_adult=MalariaReport.NO) \
+                             .count()
 
 
-class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable):
-    """Graphe: Evolution du nombre de MILD distribuées aux moins
+class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
+    """ Graphe: Evolution du pourcentage de Structures avec rupture de stock en
 
-       de 5 ans et femmes enceintes"""
+        CTA """
 
-    name = u"Figure 6"
+    name = u"Figure 27"
     title = u" "
-    caption = u"Evolution du nombre de MILD distribuées aux moins de " \
-                u"5 ans et femmes enceintes"
+    caption = u"Evolution du pourcentage de Structures sans rupture de " \
+              u"stock en CTA"
     type = 'graph'
     graph_type = 'line'
 
-    default_options = {'with_percentage': False, \
-                       'with_reference': True, \
-                       'with_data': True}
+    default_options = {'with_percentage': True, \
+                       'with_reference': False, \
+                       'with_data': False,
+                       'only_percent': True}
 
     def period_is_valid(self, period):
-        """Periode valide"""
         return MalariaReport.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
+    @reference
     @indicator(0)
-    @label(u"Nbre de MILD distribuées aux moins de 5 ans")
-    def u5_total_distributed_bednets(self, period):
-        """Total des moustiquaires distribues aux moin de 5 ans"""
-        report = get_report_for(self.entity, period)
-        return report.u5_total_distributed_bednets
+    def total_structures_in_the_district(self, period):
+        return self.entity.children.count()
 
-    @indicator(1)
-    @label(u"Nbre de MILD distribuées aux femmes enceintes")
-    def pw_total_distributed_bednets(self, period):
-        """Total des moustiquaires distribues aux femmes enceintes"""
-        report = get_report_for(self.entity, period)
-        return report.pw_total_distributed_bednets
+    @indicator(1, 'total_structures_in_the_district')
+    @label(u"CTA Nourrisson - Enfant")
+    def stockout_act_children(self, period):
+        children = self.entity.get_children()
+        return MalariaReport.validated.filter(entity__in=children,
+               stockout_act_children=MalariaReport.NO).count()
 
-WIDGETS = [NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD, \
-           EvolutionNbreMILDMoins5ansFemmesenceintes]
+    @indicator(2, 'total_structures_in_the_district')
+    @label(u"CTA Adolescent")
+    def stockout_act_youth(self, period):
+        children = self.entity.get_children()
+        return MalariaReport.validated.filter(entity__in=children,
+               stockout_act_youth=MalariaReport.NO).count()
+
+    @indicator(3, 'total_structures_in_the_district')
+    @label(u"CTA Adulte")
+    def stockout_act_adult(self, period):
+        children = self.entity.get_children()
+        return MalariaReport.validated.filter(entity__in=children,
+               stockout_act_adult=MalariaReport.NO).count()
+
+WIDGETS = [PourcentageStructuresRuptureStockCTADistrict,
+           EvolutionPourcentageStructuresRuptureStockCTA]

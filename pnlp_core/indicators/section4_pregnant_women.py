@@ -8,15 +8,15 @@ from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
-from pnlp_core.indicators.section4 import Hospitalisation
+from pnlp_core.indicators.section4 import GraphDeces, GraphCommun
 
 
-class HospitalisationFemmesEnceintes(IndicatorTable):
-    """ Tableau: Hospitalisation chez les femmes enceintes """
+class DecesFemmesEnceintes(IndicatorTable):
+    """ Décès notifiés chez les femmes enceintes """
 
-    name = u"Tableau 4.1d"
+    name = u"Tableau 15"
     title = u"Femmes enceintes"
-    caption = u"Hospitalisation chez les femmes enceintes"
+    caption = u"Décès notifiés chez les femmes enceintes"
     type = 'table'
 
     default_options = {'with_percentage': True, \
@@ -28,35 +28,16 @@ class HospitalisationFemmesEnceintes(IndicatorTable):
                                               period=period).count() > 0
 
     @reference
-    @indicator(0, 'pw_total_inpatient_all_causes')
-    @label(u"Total des hospitalisations (toutes causes confondues)")
-    def pw_total_inpatient_all_causes(self, period):
+    @indicator(0, 'pw_total_death_all_causes')
+    @label(u"Total des décès toutes causes confondues")
+    def pw_total_death_all_causes(self, period):
         report = get_report_for(self.entity, period)
-        return report.pw_total_inpatient_all_causes
+        return report.pw_total_death_all_causes
 
-    @indicator(1, 'pw_total_inpatient_all_causes')
-    @label(u"Total des hospitalisations pour paludisme grave")
-    def pw_total_malaria_inpatient(self, period):
+    @indicator(1, 'pw_total_death_all_causes')
+    @label(u"Total des décès pour paludisme")
+    def pw_total_malaria_death(self, period):
         report = get_report_for(self.entity, period)
-        return report.pw_total_malaria_inpatient
+        return report.pw_total_malaria_death
 
-
-class ProportionHospitalisationsFemmesEnceintes(Hospitalisation):
-    """ Graphe: Proportion des hospitalisations pour paludisme grave chez les
-
-        femmes enceintes (par rapport aux hospitalisations toutes causes
-        confondues """
-    name = u"Figure 4.1d"
-    caption = u"Proportion des hospitalisations pour paludisme grave chez" \
-              u" les femmes enceintes (par rapport aux hospitalisations" \
-              u" toutes causes confondues)"
-
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
-                       'with_data': True,
-                       'only_percent': True, \
-                       'age': 'pregnant_women'}
-
-WIDGETS = [HospitalisationFemmesEnceintes,
-           ProportionHospitalisationsFemmesEnceintes]
+WIDGETS = [DecesFemmesEnceintes, GraphCommun]

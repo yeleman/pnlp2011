@@ -12,115 +12,114 @@ from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
 
 
-class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
-    """ Tableau: Pourcentage de structures avec Rupture de stock en MILD, TDR,
+class DonneesCPNetTPI(IndicatorTable):
+    """ Tableau: Données sur la CPN et le Traitement Préventif  Intermittent
 
-        SP """
+        (TPI) """
 
-    name = u"Tableau 9"
+    name = u"Tableau 20"
     title = u" "
-    caption = u"Pourcentage de structures avec Rupture de stock en" \
-                u"MILD, TDR, SP"
+    caption = u"Données sur la CPN et le Traitement Préventif" \
+                u" Intermittent(TPI)"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
+    default_options = {'with_percentage': False, \
                        'with_total': False, \
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return True
+        return MalariaReport.validated.filter(entity=self.entity, \
+                                              period=period).count() > 0
 
     @reference
     @indicator(0)
-    @label(u"Nombre total de structures dans le district")
-    def total_structures_in_the_district(self, period):
-        if self.entity.type.slug == 'cscom':
-            return 1
-        else:
-            return self.entity.children.count()
-
-    @indicator(1, 'total_structures_in_the_district')
-    @label(u"Structures avec rupture de stock en CTA Nourrisson - Enfant")
-    def stockout_bednet(self, period):
+    @label(u"Nombre de femmes enceintes reçues en CPN  1")
+    def pw_total_anc1(self, period):
         report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_bednet == MalariaReport.YES)
-        return report.sources.filter(stockout_bednet=MalariaReport.YES).count()
+        return report.pw_total_anc1
 
-    @indicator(2, 'total_structures_in_the_district')
-    @label(u"Structures avec rupture de stock en CTA Adolescent")
-    def stockout_rdt(self, period):
+    @indicator(1)
+    @label(u"Nombre de femmes enceintes ayant reçu la SP1")
+    def pw_total_sp1(self, period):
         report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_bednet == MalariaReport.YES)
-        return report.sources.filter(stockout_bednet=MalariaReport.YES).count()
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_rdt=MalariaReport.YES).count()
+        return report.pw_total_sp1
 
-    @indicator(3, 'total_structures_in_the_district')
-    @label(u"Structures avec rupture de stock en CTA Adulte")
-    def stockout_sp(self, period):
+    @indicator(2)
+    @label(u"Nombre de femmes enceintes ayant reçu la SP2")
+    def pw_total_sp2(self, period):
         report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_bednet == MalariaReport.YES)
-        return report.sources.filter(stockout_bednet=MalariaReport.YES).count()
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_sp=MalariaReport.YES).count()
+        return report.pw_total_sp2
 
 
-class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
-    """ Graphe: Evolution du pourcentage de Structures avec rupture de stock en
+class EvolutionCPN1SP1SP2(IndicatorTable):
+    """ Graphe: Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes"""
 
-        MILD, TDR, SP """
-
-    name = u"Figure 9"
+    name = u"Figure 30"
     title = u" "
-    caption = u"Evolution du pourcentage de Structures avec rupture " \
-                u"de stock en MILD, TDR, SP"
+    caption = u"Evolution de la SP1 et SP2 chez les femmes enceintes"
     type = 'graph'
     graph_type = 'line'
 
-    default_options = {'with_percentage': True, \
+    default_options = {'with_percentage': False, \
                        'with_reference': False, \
                        'with_data': False,
-                       'only_percent': True}
+                       'only_percent': False}
 
     def period_is_valid(self, period):
-        return True
+        return MalariaReport.validated.filter(entity=self.entity, \
+                                              period=period).count() > 0
 
     @reference
     @indicator(0)
-    def total_structures_in_the_district(self, period):
-        if self.entity.type.slug == 'cscom':
-            return 1
-        else:
-            return self.entity.children.count()
-
-    @indicator(1, 'total_structures_in_the_district')
-    @label(u"MILD")
-    def stockout_bednet(self, period):
+    @label(u"Nombre de femmes enceintes reçues en CPN 1")
+    def pw_total_anc1(self, period):
         report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_bednet == MalariaReport.YES)
-        return report.sources.filter(stockout_bednet=MalariaReport.YES).count()
+        return report.pw_total_anc1
 
-    @indicator(2, 'total_structures_in_the_district')
-    @label(u"TDR")
-    def stockout_rdt(self, period):
+    @indicator(1)
+    @label(u"Nombre de femmes enceintes ayant reçu la SP1")
+    def pw_total_sp1(self, period):
         report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_rdt == MalariaReport.YES)
-        return report.sources.filter(stockout_rdt=MalariaReport.YES).count()
+        return report.pw_total_sp1
 
-    @indicator(3, 'total_structures_in_the_district')
-    @label(u"Serum Glucosé 10%")
-    def stockout_sp(self, period):
+    @indicator(2)
+    @label(u"Nombre de femmes enceintes ayant reçu la SP2")
+    def pw_total_sp2(self, period):
         report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_sp == MalariaReport.YES)
-        return report.sources.filter(stockout_sp=MalariaReport.YES).count()
+        return report.pw_total_sp2
 
-WIDGETS = [PourcentageStructuresRuptureStockMILDTDRSP,
-           EvolutionPourcentageStructuresRuptureStockMILDTDRSP]
+
+class NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes(IndicatorTable):
+    """ Graphe: Nombre de femmes enceintes reçues en CPN1 et Nombre de
+
+        MILD distribuées aux femmes enceintes"""
+
+    name = u"Figure 31"
+    title = u" "
+    caption = u"Nombre de femmes enceintes reçues en CPN1 et Nombre " \
+                u"de MILD distribuées aux femmes enceintes"
+    type = 'graph'
+
+    default_options = {'with_percentage': False, \
+                       'with_reference': False, \
+                       'with_data': False,
+                       'only_percent': False}
+
+    def period_is_valid(self, period):
+        return MalariaReport.validated.filter(entity=self.entity, \
+                                              period=period).count() > 0
+
+    @indicator(0)
+    @label(u"Nbre de femmes enceintes reçues en CPN 1")
+    def pw_total_anc1(self, period):
+        report = get_report_for(self.entity, period)
+        return report.pw_total_anc1
+
+    @indicator(1)
+    @label(u"Nbre MILD distribuees aux femmes enceintes")
+    def pw_total_distributed_bednets(self, period):
+        report = get_report_for(self.entity, period)
+        return report.pw_total_distributed_bednets
+
+WIDGETS = [DonneesCPNetTPI, EvolutionCPN1SP1SP2,
+           NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes]

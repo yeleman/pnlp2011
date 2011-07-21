@@ -8,15 +8,15 @@ from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
-from pnlp_core.indicators.section4 import Hospitalisation
+from pnlp_core.indicators.section4 import GraphDeces, GraphCommun
 
 
-class HospitalisationUnderFive(IndicatorTable):
-    """ Tableau: Hospitalisation chez les moins de 5ans """
+class DecesUnderFive(IndicatorTable):
+    """ Tableau: Décès notifiés chez les  moins de 5 ans """
 
-    name = u"Tableau 4.1b"
+    name = u"Tableau 13"
     title = u"Enfants moins de 5 ans"
-    caption = u"Hospitalisation chez les moins de 5ans"
+    caption = u"Décès notifiés  pour le trimestre chez les  moins de 5 ans"
     type = 'table'
 
     default_options = {'with_percentage': True, \
@@ -28,35 +28,16 @@ class HospitalisationUnderFive(IndicatorTable):
                                               period=period).count() > 0
 
     @reference
-    @indicator(0)
-    @label(u"Total des hospitalisations (toutes causes confondues)")
-    def u5_total_inpatient_all_causes(self, period):
+    @indicator(0, 'u5_total_death_all_causes')
+    @label(u"Total des décès toutes causes confondues")
+    def u5_total_death_all_causes(self, period):
         report = get_report_for(self.entity, period)
-        return report.u5_total_inpatient_all_causes
+        return report.u5_total_death_all_causes
 
-    @indicator(1, 'u5_total_inpatient_all_causes')
-    @label(u"Total des hospitalisations pour paludisme grave")
-    def u5_total_malaria_inpatient(self, period):
+    @indicator(1, 'u5_total_death_all_causes')
+    @label(u"Total des décès pour paludisme")
+    def u5_total_malaria_death(self, period):
         report = get_report_for(self.entity, period)
-        return report.u5_total_malaria_inpatient
+        return report.u5_total_malaria_death
 
-
-class ProportionHospitalisationsUnderFive(Hospitalisation):
-    """ Graphe: Proportion des hospitalisations pour paludisme grave chez les
-
-        moins de5 ans (par rapport aux hospitalisations toutes causes
-        confondues) """
-    name = u"Figure 4.1b"
-    caption = u"Proportion des hospitalisations pour paludisme grave chez" \
-              u" les moins de 5 ans (par rapport aux hospitalisations" \
-              u" toutes causes confondues)"
-
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
-                       'with_data': True,
-                       'only_percent': True, \
-                       'age': 'under_five'}
-
-
-WIDGETS = [HospitalisationUnderFive, ProportionHospitalisationsUnderFive]
+WIDGETS = [DecesUnderFive, GraphCommun]

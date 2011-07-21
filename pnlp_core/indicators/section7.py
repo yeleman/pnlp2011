@@ -12,15 +12,15 @@ from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
 
 
-class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
-    """ Tableau: Pourcentage de structures avec Rupture de stock de CTA dans
+class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
+    """ Tableau: Pourcentage de structures avec Rupture de stock en produits
 
-        le district """
+    de prise en charge des cas de paludisme grave """
 
-    name = u"Tableau 7"
+    name = u"Tableau 18"
     title = u" "
-    caption = u"Pourcentage de structures avec Rupture de stock de " \
-                u"CTA dans le district"
+    caption = u"Pourcentage de structures avec rupture de stock en" \
+             "produits de prise en charge des cas de paludisme grave"
     type = 'table'
 
     default_options = {'with_percentage': True, \
@@ -33,86 +33,81 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
     @reference
     @indicator(0)
     @label(u"Nombre total de structures dans le district")
-    def total_structures_in_the_district(self, period):
+    def nombre_total_structures_district(self, period):
         if self.entity.type.slug == 'cscom':
             return 1
         else:
             return self.entity.children.count()
 
-    @indicator(1, 'total_structures_in_the_district')
-    @label(u"Structures avec rupture de stock en CTA Nourrisson - Enfant")
-    def stockout_act_children(self, period):
+    @indicator(1, "nombre_total_structures_district")
+    @label(u"Structures sans rupture de stock d’Artheméter Injectable")
+    def structures_rupture_stock_arthemeter_injectable(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_act_children == MalariaReport.YES)
-        return report.sources.filter(stockout_act_children=MalariaReport.YES) \
+            return int(report.stockout_artemether == MalariaReport.NO)
+        return report.sources.filter(stockout_artemether=MalariaReport.NO) \
                              .count()
 
-    @indicator(2, 'total_structures_in_the_district')
-    @label(u"Structures avec rupture de stock en CTA Adolescent")
-    def stockout_act_youth(self, period):
+    @indicator(2, "nombre_total_structures_district")
+    @label(u"Structures sans rupture de stock de Quinine Injectable")
+    def structures_rupture_stock_Quinine_injectable(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_act_youth == MalariaReport.YES)
-        return report.sources.filter(stockout_act_youth=MalariaReport.YES) \
+            return int(report.stockout_quinine == MalariaReport.NO)
+        return report.sources.filter(stockout_quinine=MalariaReport.NO) \
                              .count()
 
-    @indicator(3, 'total_structures_in_the_district')
-    @label(u"Structures avec rupture de stock en CTA Adulte")
-    def stockout_act_adult(self, period):
+    @indicator(3, "nombre_total_structures_district")
+    @label(u"Structures sans rupture de stock en Sérum Glucosé 10%")
+    def structures_rupture_stock_Serum_Glucose_injectable(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_act_adult == MalariaReport.YES)
-        return report.sources.filter(stockout_act_adult=MalariaReport.YES) \
-                             .count()
+            return int(report.stockout_serum == MalariaReport.NO)
+        return report.sources.filter(stockout_serum=MalariaReport.NO).count()
 
 
-class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
-    """ Graphe: Evolution du pourcentage de Structures avec rupture de stock en
+class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
+    """ Gaphe: Évolution des proportions  de cas de paludisme simple
 
-        CTA """
+        traités par CTA Chez les moins de 5 ans et les 5 ans et plus """
 
-    name = u"Figure 7"
+    name = u"Figure 28"
     title = u" "
-    caption = u"Evolution du pourcentage de Structures avec rupture" \
-                u" de stock en CTA"
+    caption = u"Evolution du pourcentage de structures sans rupture de stock" \
+              u" en produits de prise en charge des cas de paludisme grave"
     type = 'graph'
     graph_type = 'line'
 
-    default_options = {'with_percentage': True, \
+    default_options = {'with_percentage': False, \
                        'with_reference': False, \
-                       'with_data': False,
-                       'only_percent': True}
+                       'with_data': True, \
+                       'only_percent': False}
 
-    def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
+    @indicator(1)
+    @label(u"Arthemeter Injactable")
+    def structures_rupture_stock_arthemeter_injectable(self, period):
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_artemether == MalariaReport.NO)
+        return report.sources.filter(stockout_artemether=MalariaReport.NO) \
+                             .count()
 
-    @reference
-    @indicator(0)
-    def total_structures_in_the_district(self, period):
-        return self.entity.children.count()
+    @indicator(2)
+    @label(u"Quinine Injectable")
+    def structures_rupture_stock_Quinine_injectable(self, period):
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_quinine == MalariaReport.NO)
+        return report.sources.filter(stockout_quinine=MalariaReport.NO) \
+                             .count()
 
-    @indicator(1, 'total_structures_in_the_district')
-    @label(u"CTA Nourrisson - Enfant")
-    def stockout_act_children(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_act_children=MalariaReport.YES).count()
+    @indicator(3)
+    @label(u"Serum Glucosé 10%")
+    def structures_rupture_stock_Serum_Glucose_injectable(self, period):
+        report = get_report_for(self.entity, period)
+        if report.type == MalariaReport.TYPE_SOURCE:
+            return int(report.stockout_serum == MalariaReport.NO)
+        return report.sources.filter(stockout_serum=MalariaReport.NO).count()
 
-    @indicator(2, 'total_structures_in_the_district')
-    @label(u"CTA Adolescent")
-    def stockout_act_youth(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_act_youth=MalariaReport.YES).count()
-
-    @indicator(3, 'total_structures_in_the_district')
-    @label(u"CTA Adulte")
-    def stockout_act_adult(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_act_adult=MalariaReport.YES).count()
-
-WIDGETS = [PourcentageStructuresRuptureStockCTADistrict,
-           EvolutionPourcentageStructuresRuptureStockCTA]
+WIDGETS = [PourcentageStructuresRuptureStockProduitPaluGrave, \
+            EvolutionStructuresRuptureStockProduitPaluGrave]

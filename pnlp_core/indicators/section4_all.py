@@ -8,14 +8,15 @@ from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
-from pnlp_core.indicators.section4 import Hospitalisation
+from pnlp_core.indicators.section4 import GraphDeces, GraphCommun
 
 
-class HospitalisationToutAgeConfondu(IndicatorTable):
-    """ Tableau: Hospitalisation """
-    name = u"Tableau 4.1a"
+class DecesToutAgeConfondu(IndicatorTable):
+    """Tableau: Décès"""
+
+    name = u"Tableau 12"
     title = u"Tout âge confondu"
-    caption = u"Hospitalisation"
+    caption = u"Décès"
     type = 'table'
 
     default_options = {'with_percentage': True, \
@@ -28,26 +29,25 @@ class HospitalisationToutAgeConfondu(IndicatorTable):
 
     @reference
     @indicator(0)
-    @label(u"Total des hospitalisations (toutes causes confondues)")
-    def total_inpatient_all_causes(self, period):
+    @label(u"Total des décès toutes causes confondues")
+    def total_death_all_causes(self, period):
         report = get_report_for(self.entity, period)
-        return report.total_inpatient_all_causes
+        return report.total_death_all_causes
 
-    @indicator(1, 'total_inpatient_all_causes')
-    @label(u"Total des hospitalisations pour paludisme grave")
-    def total_malaria_inpatient(self, period):
+    @indicator(1, 'total_death_all_causes')
+    @label(u"Total des décès pour paludisme")
+    def total_malaria_death(self, period):
         report = get_report_for(self.entity, period)
-        return report.total_malaria_inpatient
+        return report.total_malaria_death
 
 
-class ProportionHospitalisations(Hospitalisation):
-    """ Graphe: Proportion des hospitalisations pour paludisme grave (par
+class ProportionDecesToutAgeConfondu(GraphDeces):
+    """ Graphe: Proportion de décès dû au  paludisme (par rapport aux
 
-        rapport aux hospitalisations toutes causes confondues)"""
-
-    name = u"Figure 4.1a"
-    caption = u"Proportion des hospitalisations pour paludisme grave (par" \
-              u" rapport aux hospitalisations toutes causes confondues)"
+        décès toutes causes confondues) """
+    name = u"Figure 24"
+    caption = u"Proportion de décès dû au  paludisme (par rapport aux " \
+              u"décès toutes causes confondues) "
 
     default_options = {'with_percentage': True, \
                        'with_total': False, \
@@ -57,4 +57,4 @@ class ProportionHospitalisations(Hospitalisation):
                        'age': 'all'}
 
 
-WIDGETS = [HospitalisationToutAgeConfondu, ProportionHospitalisations]
+WIDGETS = [DecesToutAgeConfondu, ProportionDecesToutAgeConfondu, GraphCommun]
