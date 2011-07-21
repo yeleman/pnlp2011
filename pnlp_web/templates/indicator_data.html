@@ -32,29 +32,10 @@ addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "
 <h2 class="pagetitle sub">Section {{ section.id }} – {{ section.label }}{% if sub_section %} / {{ sub_section|pnlpcat }}{% endif %}</h2>
 
 <div id="context">
-<!--
-{% if section.id = '1' %}
-<table>
-<tr><td>Region</td><td>{{ entity|region|default:"" }}</td></tr>
-<tr><td>Disrict</td><td>{{ entity|district|default:"" }}</td></tr>
-<tr><td>Etablissement</td><td>{{ entity.display_full_name }}</td></tr>
-{% if entity.type.slug != 'cscom' %}
-<tr><td>{% if entity.type.slug = 'national' %}Region{% endif %}{% if entity.type.slug = 'region' %}District{% endif %}{% if entity.type.slug = 'district' %}CSCom{% endif %}{{entity.children.count|pluralize}} ({{ entity.children.count }})</td>
-<td>{%for child in entity.children.all %}
-{{ child }} ({{ child.slug }})<br />
-{% endfor %}
-</td></tr>
-{% endif %}
-{% if contact %}
-<tr><td>Contact</td><td>{{ contact.name_access }}{% if contact.phone_number %} – {{ contact.phone_number|phone }}{% endif %}</td></tr>
-{% endif %}
-</table>
-{% endif %}
--->
 
 {% for widget in widgets %}
 {% if widget.type == 'graph' %}
-<h3 class="caption"><strong>{{ widget.name }}</strong> {{ widget.caption }}</h3>
+<h3 class="caption"><strong>{{ widget.name }}.</strong> {{ widget.caption }}</h3>
 <div id="{{ widget.id|concat:forloop.counter0 }}"></div>
 {% else %}
     {% include "indicator_table.html" with table=widget id=widget.id|concat:forloop.counter0 %}

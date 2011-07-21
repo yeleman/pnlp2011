@@ -32,30 +32,21 @@ class Tableau1(IndicatorTable):
         if self.entity.type.slug == 'cscom':
             return 1
         else:
-            return self.entity.children.count()
+            return self.entity.get_descendants()\
+                              .filter(type__slug='cscom').count()
 
     @indicator(1)
     @label(u"Nombre de structures ayant transmis leurs formulaires " \
            u"de collecte dans les délais prévus")
     def number_tautovalide(self, period):
-        print self.entity.reports.filter(created_by=2).count()
-
-        if self.entity.type.slug == 'cscom' and self.entity.reports \
-                                        .filter(created_by=8).count() == 0:
-            return self.entity.children.count()
+        if self.entity.type.slug == 'cscom':
+            descendants = [self.entity]
         else:
-            return 100
+            descendants = self.entity.get_descendants()\
+                                     .filter(type__slug='cscom')
+        return MalariaReport.objects.filter(period=period,
+                                            entity__in=descendants).count()
 
-
-    #~ @indicator(2, 'total_structures_in_the_district')
-    #~ @label(u"SMS")
-    #~ def number_sms(self, period):
-        #~ children = self.entity.get_children()
-        #~ sms = 0
-        #~ for source in self.entity.sources.all():
-            #~ if source.created_by.first_role() == 'cscom':
-                #~ sms += 1
-        #~ return report.sources.filter(created_by)
 
 class Figure1(IndicatorTable):
     name = u"Figure 1"
@@ -63,56 +54,37 @@ class Figure1(IndicatorTable):
     caption = u"Evolution de la promptitude de la notification dans " \
               u"le district"
     type = 'graph'
+    graph_type = 'line'
 
-    default_options = {'with_percentage': False, \
+    default_options = {'with_percentage': True, \
                    'with_total': False, \
                    'with_reference': False, \
-                   'with_data': True,
-                   'only_percent': False}
-
-
-class Tableau2(IndicatorTable):
-    name = u"Tableau 2"
-    title = u" "
-    caption = u"Pourcentage de structures ayant transmis leurs " \
-              u"formulaires de collecte"
-    type = 'table'
-
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': False}
+                   'with_data': False,
+                   'only_percent': True}
 
     def period_is_valid(self, period):
         return True
 
+    @reference
     @indicator(0)
-    @label(u"Nombre total de structures dans le district (nombre de" \
-           u" formulaires de collecte attendu)")
+    @label(u"Nombre total de structures dans le district")
     def total_structures_in_the_district(self, period):
         if self.entity.type.slug == 'cscom':
             return 1
         else:
-            return self.entity.children.count()
+            return self.entity.get_descendants()\
+                              .filter(type__slug='cscom').count()
 
     @indicator(1)
-    @label(u"Nombre de structures ayant transmis leurs formulaires " \
-           u"de collecte")
+    @label(u"% de structures ayant tranmis le formulaire de collecte " \
+           u"dans les délais prévus")
     def number_tautovalide(self, period):
-        return self.entity.reports.count()
+        if self.entity.type.slug == 'cscom':
+            descendants = [self.entity]
+        else:
+            descendants = self.entity.get_descendants()\
+                                     .filter(type__slug='cscom')
+        return MalariaReport.objects.filter(period=period,
+                                            entity__in=descendants).count()
 
-
-class Figure2(IndicatorTable):
-    name = u"Figure 2"
-    title = u""
-    caption = u"Evolution de la complétude de la notification dans " \
-              u"le district"
-    type = 'graph'
-
-    default_options = {'with_percentage': False, \
-                   'with_total': False, \
-                   'with_reference': False, \
-                   'with_data': True,
-                   'only_percent': False}
-
-
-WIDGETS = [Tableau1, Figure1, Tableau2, Figure2]
+WIDGETS = [Tableau1, Figure1]
