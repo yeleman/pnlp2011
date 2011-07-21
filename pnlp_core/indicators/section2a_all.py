@@ -126,7 +126,7 @@ class NbreCasSuspectesTestesConfirmesALL(NbreCasSuspectesTestesConfirmes):
                        'age': 'all'}
 
 
-class Fugure5(NbreCasSuspectesTestesConfirmes):
+class NbreCasSuspectesTestesConfirmes(NbreCasSuspectesTestesConfirmes):
     """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
 
         confirmés) tout âge confondu. """
@@ -143,4 +143,4 @@ class Fugure5(NbreCasSuspectesTestesConfirmes):
                        'age': 'all'}
 
 WIDGETS = [TousCasPaludismeNotifies, ProportionsPaludismeConsultationsTTC, \
-           NbreCasSuspectesTestesConfirmesALL, Fugure5]
+           NbreCasSuspectesTestesConfirmesALL, NbreCasSuspectesTestesConfirmes]

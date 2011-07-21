@@ -125,12 +125,13 @@ class NbreCasSimplesGravesUnderFive(CasSimplesGraves):
               u"de 5 ans "
     graph_type = 'line'
     type = "graph"
-    default_options = {'with_percentage': True, \
+    default_options = {'with_percentage': False, \
                        'with_total': False, \
                        'with_reference': False, \
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': False, \
                        'age': 'under_five'}
 
 WIDGETS = [CasPaludismeEnfantsMoins5ans, NbreTestesConfirmesUnderFive,
-           NbreTestesUnderFive, NbreConfirmesUnderFive]
+           NbreTestesUnderFive, NbreConfirmesUnderFive,
+           NbreCasSimplesGravesUnderFive]
