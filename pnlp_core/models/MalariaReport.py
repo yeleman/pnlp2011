@@ -377,8 +377,7 @@ class MalariaReport(Report):
 
         if sources.count() == 0:
             agg_report.fill_blank()
-
-        agg_report.save()
+            agg_report.save()
 
         for report in sources:
             for key, value in report.to_dict().items():
@@ -393,9 +392,11 @@ class MalariaReport(Report):
                 else:
                     nv = pv + value
                 setattr(agg_report, key, nv)
+            agg_report.save()
+
+        for report in sources:
             agg_report.sources.add(report)
 
-        agg_report.save()
         return agg_report
 
 
