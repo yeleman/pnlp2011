@@ -7,6 +7,7 @@ from datetime import datetime, date, timedelta
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 
 from pnlp_core.data import (time_cscom_over, time_district_over, \
                             time_region_over, current_reporting_period, \
@@ -342,12 +343,13 @@ class EndOfDistrictPeriod(Alert):
 
         # region-only section
         # create national report
+        mali = Entity.objects.get(slug='mali')
         if not self.args.is_district \
            and mali.reports.filter(period=self.args.period).count() == 0:
-            mali = Entity.objects.get(slug='mali')
             rauthor = author if author else Provider.objects.all()[0]
             logger.info(u"Creating National report")
-            report = MalariaReport.create_aggregated(period, mali, rauthor)
+            report = MalariaReport.create_aggregated(self.args.period, \
+                                                     mali, rauthor)
 
             # following only applies to districts (warn regions).
             return
@@ -441,11 +443,8 @@ class Reminder(Alert):
 
         today = date.today()
 
-        try:
-            level = self.args.level
-            time_is_over = eval('time_%s_over' \
-                                % self.args.level)(period=self.args.period)
-        except:
+        level = self.args.level
+        if not level:
             return False
 
         logger.info(u"Level: %s" % level)

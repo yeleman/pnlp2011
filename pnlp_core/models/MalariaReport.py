@@ -11,6 +11,8 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 
 from bolibana_reporting.models import EntityType, Entity, Report, MonthPeriod
 
+import inspect
+
 
 class MalariaReport(Report):
 
@@ -119,6 +121,70 @@ class MalariaReport(Report):
     sources = models.ManyToManyField('MalariaReport', \
                                      verbose_name=_(u"Sources"), \
                                      blank=True, null=True)
+
+    @property
+    def total_consultation_all_causes(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_suspected_malaria_cases(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_simple_malaria_cases(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_severe_malaria_cases(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_tested_malaria_cases(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_confirmed_malaria_cases(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_treated_malaria_cases(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_inpatient_all_causes(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_malaria_inpatient(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_death_all_causes(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_malaria_death(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_anc1(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_sp1(self):
+        return inspect.stack()[0][3]
+
+    @property
+    def total_sp2(self):
+        return inspect.stack()[0][3]
+
+    def total_for_field(self, field):
+        values = []
+        for cat in ('u5', 'o5', 'pw'):
+            fname = '%s_%s' % (cat, field)
+            if hasattr(self, fname):
+                values.append(getattr(fname))
+        return sum(values)
 
     @property
     def mperiod(self):

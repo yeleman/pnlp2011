@@ -7,7 +7,7 @@
 {% block pagetitle %}<h1 class="pagetitle">{% if no_report %}Rapport indisponible{% else %}Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 
-{% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths %}{% endblock %}
+{% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="raw_data"|url:"0" %}{% endblock %}
 
 {% block jqueryonload %}
 $("#submenu select.browser").change(function (event) {

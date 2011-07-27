@@ -1,6 +1,33 @@
 {% load pnlp %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#submenu select.browser").change(function (event) {
+        current_entity = "{{ entity.slug }}";
+        root_entity = "{{ root.slug }}";
+
+        value = $(this).val();
+        if (!value)
+            return;
+
+        if (value != "-1") {
+            url = "{{ base_url }}".replace('0', value);
+        } else {
+
+            select_id = $(this).attr('id');
+            sid = parseInt(select_id.charAt(select_id.length -1));
+            if (sid == 0)
+                url = "{{ base_url }}";
+            else {
+                url = "{{ base_url }}".replace('0', $("#browser_select" + (sid - 1)).val());
+            }
+        }
+
+        location.href = url;
+    });
+});
+</script>
 <div id="submenu">
 {% if content = 'data_browser' %}
-<p><label for="source">Sélectionnez une entité</label><a class="toplevel" href="{% url raw_data %}">{{ root }}</a>{% for select in paths %}{% include "generic_select.html" with class="browser" items=select.elems selected=select.selected novalue="Aucun" id="browser_select"|concat:forloop.counter0 %}{% endfor %}</p>
+<p><label for="source">Sélectionnez une entité</label><a class="toplevel" href="{{ base_url|index:":-1" }}">{{ root }}</a>{% for select in paths %}{% include "generic_select.html" with class="browser" items=select.elems selected=select.selected novalue="Aucun" id="browser_select"|concat:forloop.counter0 %}{% endfor %}</p>
 {% endif %}
 </div>

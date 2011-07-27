@@ -11,11 +11,11 @@ from django.views.generic.simple import direct_to_template
 from pnlp_web import views
 from pnlp_web.decorators import provider_permission
 from settings import STATIC_ROOT
-from bolibana_auth.models import Provider
 
-ENTITY_TIME_REGEX = r'(?P<entity_code>[a-z0-9A-Z\.\_\-]+)/' \
-                     'from(?P<from_m>[0-9]{2})(?P<from_y>[0-9]{4})' \
-                     'to(?P<to_m>[0-9]{2})(?P<to_y>[0-9]{4})'
+RGXP_ENTITY = '(?P<entity_code>[a-zA-Z\#\-\_\.0-9\/]+)'
+RGXP_RECEIPT = '(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)'
+RGXP_PERIOD = '(?P<period_str>[0-9]{6})'
+RGXP_PERIODS = '(?P<period_str>[0-9]{6}-[0-9]{6})'
 
 urlpatterns = patterns('',
     (r'^nosms/', include('nosms.urls')),
@@ -34,14 +34,19 @@ urlpatterns = patterns('',
 
     # district, region
     url(r'^validation/$', views.validation.validation_list, name='validation'),
-    url(r'^validation/do/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.validation.report_do_validation, name='report_do_validation'),
-    url(r'^validation/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.validation.report_validation, name='report_validation'),
+    url(r'^validation/do/'+ RGXP_RECEIPT + '$', views.validation.report_do_validation, name='report_do_validation'),
+    url(r'^validation/'+ RGXP_RECEIPT + '$', views.validation.report_validation, name='report_validation'),
 
     # ALL
-    url(r'^raw_data/(?P<entity_code>[a-zA-Z\#\-\_\.0-9\/]+)/(?P<period_str>[0-9]{6})$', views.raw_data.data_browser, name='raw_data'),
-    url(r'^raw_data/(?P<entity_code>[a-zA-Z\#\-\_\.0-9\/]+)', views.raw_data.data_browser, name='raw_data'),
+    url(r'^raw_data/'+ RGXP_ENTITY +'/'+ RGXP_PERIOD + '$', views.raw_data.data_browser, name='raw_data'),
+    url(r'^raw_data/'+ RGXP_ENTITY +'$', views.raw_data.data_browser, name='raw_data'),
     url(r'^raw_data/$', views.raw_data.data_browser, name='raw_data'),
-    #url(r'^raw_data/excel/(?P<report_receipt>[a-zA-Z\#\-\_\.0-9\/]+)$', views.raw_data.excel_export, name='raw_data_excel'),
+    #url(r'^raw_data/excel/'+ RGXP_RECEIPT + '$', views.raw_data.excel_export, name='raw_data_excel'),
+
+    # Indicator Views
+    url(r'^browse/'+ RGXP_ENTITY +'/'+ RGXP_PERIODS + '$', views.indicators.test_indicators, name='indicator_data'),
+    url(r'^browse/'+ RGXP_ENTITY +'$', views.indicators.test_indicators, name='indicator_data'),
+    url(r'^browse/$', views.indicators.test_indicators, name='indicator_data'),
 
     # ANTIM
     url(r'^users/?$', provider_permission('can_manage_users')(views.providers.ProvidersListView.as_view()), \

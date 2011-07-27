@@ -8,6 +8,7 @@ import locale
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 
 from django.contrib.humanize.templatetags.humanize import intcomma
 
@@ -168,3 +169,27 @@ def number_format(value, value2):
         return u"%s%s" % (value, value2)
     except:
         return value
+
+
+@register.filter(name='url')
+@stringfilter
+def retrieve_url(url_name, arg1=None, arg2=None, arg3=None, arg4=None):
+    args = [arg1, arg2, arg3, arg4]
+    while True:
+        try:
+            args.remove(None)
+        except ValueError:
+            break
+    return reverse(url_name, args=args)
+
+
+@register.filter(name='index')
+@stringfilter
+def string_index(value, index):
+    if not ':' in index:
+        return value[index]
+    pref, sep, suf = index.partition(':')
+    pref = int(pref) if pref else None
+    suf = int(suf) if suf else None
+
+    return value[None:suf]
