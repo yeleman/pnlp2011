@@ -2,6 +2,7 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
+import locale
 import time
 import logging
 from datetime import datetime, timedelta
@@ -11,10 +12,12 @@ from django.core.management.base import BaseCommand, CommandError
 from pnlp_core.data import current_reporting_period
 from pnlp_core.models.alert import (EndOfCSComPeriod, \
                                     EndOfDistrictPeriod, \
-                                    MalariaReportCreated)
+                                    MalariaReportCreated, \
+                                    Reminder)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+locale.setlocale(locale.LC_ALL, settings.DEFAULT_LOCALE)
 
 
 class Command(BaseCommand):
@@ -50,10 +53,20 @@ class Command(BaseCommand):
             logger.info("End of Region reporting period.")
             region.trigger()
 
-        # send reminders:
-        #   district if they have unvalidated reports and before end of period
-        #   region if they have unvalidated reports and before end of period
-        #   cscom if they are in sending period and have not sent
+        cscom_reminder = Reminder.create(period=period, level='cscom')
+        if cscom_reminder.can_trigger():
+            logger.info("CSCom reminder.")
+            cscom_reminder.trigger()
+
+        district_reminder = Reminder.create(period=period, level='district')
+        if district_reminder.can_trigger():
+            logger.info("District reminder.")
+            district_reminder.trigger()
+
+        region_reminder = Reminder.create(period=period, level='region')
+        if region_reminder.can_trigger():
+            logger.info("Region reminder.")
+            region_reminder.trigger()
 
         # last day of month
         #   send SMS+email to hotline so they send units to everybody

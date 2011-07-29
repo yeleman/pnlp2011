@@ -3,7 +3,7 @@
 # maintainer: rgaudin
 
 import logging
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
@@ -271,7 +271,7 @@ class EndOfCSComPeriod(Alert):
         # 3. We are in the next period as P (don't trigger is it's too late)
         return time_cscom_over(period=self.args.period) \
                and self.not_triggered \
-               and period == current_reporting_period()
+               and self.args.period == current_reporting_period()
 
     def action(self):
         """ send SMS to non-sender and to districts
@@ -323,7 +323,7 @@ class EndOfCSComPeriod(Alert):
             if e['unval'] and e['unsent']:
                 msg_unsent = u" %s" % msg_unsent
 
-            message = _(u"[PNLP] %(unval)s%(unsent)") \
+            message = _(u"[PNLP] %(unval)s%(unsent)s") \
                       % {'unval': msg_unval, 'unsent': msg_unsent}
 
             send_sms(to=contact.phone_number, text=message)
@@ -343,8 +343,7 @@ class EndOfCSComPeriod(Alert):
                 except:
                     districts[e.parent.slug] = {'entity': e, \
                                                 'unval': 0, 'unsent': 0}
-                else:
-                    districts[e.parent.slug][cat] += 1
+                districts[e.parent.slug][cat] += 1
         increment(unval, 'unval')
         increment(unsent, 'unsent')
         return districts
@@ -389,7 +388,7 @@ class EndOfDistrictPeriod(Alert):
             time_is_over = time_region_over(period=self.args.period)
         return time_is_over \
                and self.not_triggered \
-               and period == current_reporting_period()
+               and self.args.period == current_reporting_period()
 
     def action(self):
         """ Validate remaining reports and inform region """
@@ -398,7 +397,7 @@ class EndOfDistrictPeriod(Alert):
         try:
             author = Provider.active.get(user__username='autobot')
         except:
-            pass
+            author = None
 
         if self.args.is_district:
             validate_level = 'cscom'
@@ -419,8 +418,12 @@ class EndOfDistrictPeriod(Alert):
 
         # create aggregated reports
         for entity in Entity.objects.filter(type__slug=aggregate_level):
+            if entity.reports.filter(period=self.args.period).count() > 0:
+                continue
             rauthor = contact_for(entity) if not author else author
-            report = MalariaReport.create_aggregated(period, entity, rauthor)
+            logger.info(u"Creating Aggregated report for %s" % entity)
+            report = MalariaReport.create_aggregated(self.args.period, \
+                                                     entity, rauthor)
             # region auto-validates their reports
             if not self.args.is_district:
                 report.status = MalariaReport.STATUS_VALIDATED
@@ -428,9 +431,11 @@ class EndOfDistrictPeriod(Alert):
 
         # region-only section
         # create national report
-        if not self.args.is_district:
+        if not self.args.is_district \
+           and mali.reports.filter(period=self.args.period).count() == 0:
             mali = Entity.objects.get(slug='mali')
             rauthor = author if author else Provider.objects.all()[0]
+            logger.info(u"Creating National report")
             report = MalariaReport.create_aggregated(period, mali, rauthor)
 
             # following only applies to districts (warn regions).
@@ -455,3 +460,156 @@ class EndOfDistrictPeriod(Alert):
                         "CSRef a valider.") % {'nb': nb_reports}
 
             send_sms(to=contact.phone_number, text=message)
+
+
+def level_statistics(period, level):
+    """ district slug indexed hash of {'entity': district, 'unval': x}
+
+        representing the number of unvalidated reports for the district """
+    entities = {}
+    sublevel = 'cscom' if level == 'district' else 'district'
+    unval = [r.entity for r \
+                      in MalariaReport.unvalidated.select_related()\
+                                  .filter(period=period, \
+                                          entity__type__slug=sublevel)]
+
+    for e in unval:
+        try:
+            entities[e.parent.slug]['entity']
+        except:
+            entities[e.parent.slug] = {'entity': e.parent, 'unval': 0}
+        entities[e.parent.slug]['unval'] += 1
+
+    return entities
+
+
+def cscom_without_report(period):
+    """ list of Entity (cscom) which have not sent report """
+    reported = MalariaReport.objects.select_related()\
+                                    .filter(period=period, \
+                                            entity__type__slug='cscom')\
+                                    .values_list('entity__id', flat=True)
+    return list(Entity.objects.filter(~models.Q(pk__in=reported), \
+                                      type__slug='cscom'))
+
+
+class Reminder(Alert):
+
+    """ Reminder of action required
+
+        Every day within action time frame
+        1. send SMS to remind provider
+
+        ARGUMENTS:
+            - period
+            - level (cscom|district|region) """
+
+    class Meta:
+        proxy = True
+
+    def get_alert_id(self):
+        """ should happen once per month only """
+        return u'%s_%s' % (self.args.level, datetime.now().strftime('%d%m%Y'))
+
+    def can_trigger(self, *args, **kwargs):
+        # triggers happens if:
+        # 1. Such alert has not been triggered
+        # 2. Action period is not over
+        # 2. We are in the next period as P
+        try:
+            time_is_over = eval('time_%s_over' \
+                                % self.args.level)(period=self.args.period)
+        except:
+            return False
+        return self.not_triggered \
+               and not time_is_over \
+               and self.args.period == current_reporting_period()
+
+    def action(self):
+        """ Send every reporter with an action left to do a reminder """
+
+        today = date.today()
+
+        try:
+            level = self.args.level
+            time_is_over = eval('time_%s_over' \
+                                % self.args.level)(period=self.args.period)
+        except:
+            return False
+
+        logger.info(u"Level: %s" % level)
+
+        if level == 'cscom':
+            message = _(u"[PNLP] Votre rapport mensuel paludisme est " \
+                        "attendu au plus tard le %(date)s") \
+                      % {'date': date(today.year, \
+                                      today.month, 5).strftime('%x')}
+            for cscom in cscom_without_report(self.args.period):
+                contact = contact_for(cscom, recursive=False)
+                if not contact or not contact.phone_number:
+                    continue
+
+                logger.info(u"Sending cscom text to %s" % contact.phone_number)
+                send_sms(to=contact.phone_number, text=message)
+
+            # end of CSCom section
+            return
+
+        for stat in level_statistics(self.args.period, level).values():
+
+            contact = contact_for(stat['entity'], recursive=False)
+
+            if not contact or not contact.phone_number:
+                continue
+
+            # nothing waiting validation.
+            if not stat['unval']:
+                continue
+
+            logger.info(u"Sending %s text to %s" \
+                        % (level, contact.phone_number))
+
+            message = _(u"[PNLP] Vous avez %(unval)d rapports a valider " \
+                        "au plus tard le %(date)s.") \
+                      % {'unval': stat['unval'], \
+                         'date': date(today.year, \
+                                      today.month, 15).strftime('%x')}
+
+            send_sms(to=contact.phone_number, text=message)
+
+
+class EndOfMonth(Alert):
+
+    """ Warn HOTLINE that new period is starting soon
+
+        Last day of month
+        1. send SMS to HOTLINE
+
+        ARGUMENTS:
+            - period """
+
+    class Meta:
+        proxy = True
+
+    def get_alert_id(self):
+        """ should happen once per month only """
+        return datetime.now().strftime('%m%Y')
+
+    def can_trigger(self, *args, **kwargs):
+        # triggers happens if:
+        # 1. Such alert has not been triggered
+        # 2. We are in the next period as P (don't trigger is it's too late
+        return self.not_triggered \
+               and datetime.now() >= (self.args.period.end_on \
+                                      - timedelta(days=2)) \
+                and self.args.period == current_reporting_period()
+
+    def action(self):
+        """ send SMS to HOTLINE """
+
+        message = _(u"[PNLP] La periode %(period)s va commencer. " \
+                    "Il faut envoyer du credit aux utilisateurs.") \
+                  % {'period': self.args.period.next()\
+                                               .middle().full_name()}
+
+        send_sms(to=settings.HOTLINE_NUMBER, text=message)

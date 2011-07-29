@@ -238,6 +238,13 @@ class MalariaReport(Report):
         self.stockout_rdt = stockout_rdt
         self.stockout_sp = stockout_sp
 
+    def fill_blank(self):
+        self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_overfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_pregnantwomen_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_stockout_data(self.NO, self.NO, self.NO, self.NO, self.NO, \
+                               self.NO, self.NO, self.NO, self.NO)
+
     def to_dict(self):
         d = {}
         for field in self._meta.get_all_field_names():
@@ -315,6 +322,9 @@ class MalariaReport(Report):
                     nv = pv + value
                 setattr(agg_report, key, nv)
             agg_report.sources.add(report)
+
+        if sources.count() == 0:
+            agg_report.fill_blank()
 
         agg_report.save()
         return agg_report

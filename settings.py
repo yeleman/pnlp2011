@@ -192,6 +192,8 @@ LOGGING = {
     }
 }
 
+DEFAULT_LOCALE = 'fr_FR.UTF-8'
+
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 EMAIL_SENDER = 'root@localhost'
