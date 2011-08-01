@@ -37,7 +37,8 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
         if self.entity.type.slug == 'cscom':
             return 1
         else:
-            return self.entity.children.count()
+            return self.entity.get_descendants()\
+                              .filter(type__slug='cscom').count()
 
     @indicator(1, "nombre_total_structures_district")
     @label(u"Structures sans rupture de stock d’Artheméter Injectable")
@@ -84,7 +85,7 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
                        'only_percent': False}
 
     @indicator(1)
-    @label(u"Arthemeter Injactable")
+    @label(u"Arthemeter Injectable")
     def structures_rupture_stock_arthemeter_injectable(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
