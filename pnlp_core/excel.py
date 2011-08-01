@@ -49,42 +49,42 @@ class MalariaExcelForm(ExcelForm):
                                         MalariaReport._meta.get_field(\
                            'pw_total_suspected_malaria_cases').verbose_name), \
 
-    'u5_total_simple_malaria_cases': ExcelFormField('C9', int, \
-                                     MalariaReport._meta.get_field(\
-                              'u5_total_simple_malaria_cases').verbose_name), \
-    'o5_total_simple_malaria_cases': ExcelFormField('E9', int, \
-                                     MalariaReport._meta.get_field(\
-                              'o5_total_simple_malaria_cases').verbose_name), \
-
-    'u5_total_severe_malaria_cases': ExcelFormField('C10', int, \
-                                     MalariaReport._meta.get_field(\
-                              'u5_total_severe_malaria_cases').verbose_name), \
-    'o5_total_severe_malaria_cases': ExcelFormField('E10', int, \
-                                     MalariaReport._meta.get_field(\
-                              'o5_total_severe_malaria_cases').verbose_name), \
-    'pw_total_severe_malaria_cases': ExcelFormField('G10', int, \
-                                     MalariaReport._meta.get_field(\
-                              'pw_total_severe_malaria_cases').verbose_name), \
-
-    'u5_total_tested_malaria_cases': ExcelFormField('C11', int, \
+    'u5_total_tested_malaria_cases': ExcelFormField('C9', int, \
                                      MalariaReport._meta.get_field(\
                               'u5_total_tested_malaria_cases').verbose_name), \
-    'o5_total_tested_malaria_cases': ExcelFormField('E11', int, \
+    'o5_total_tested_malaria_cases': ExcelFormField('E9', int, \
                                      MalariaReport._meta.get_field(\
                               'o5_total_tested_malaria_cases').verbose_name), \
-    'pw_total_tested_malaria_cases': ExcelFormField('G11', int, \
+    'pw_total_tested_malaria_cases': ExcelFormField('G9', int, \
                                      MalariaReport._meta.get_field(\
                               'pw_total_tested_malaria_cases').verbose_name), \
 
-    'u5_total_confirmed_malaria_cases': ExcelFormField('C12', int, \
+    'u5_total_confirmed_malaria_cases': ExcelFormField('C10', int, \
                                         MalariaReport._meta.get_field(\
                            'u5_total_confirmed_malaria_cases').verbose_name), \
-    'o5_total_confirmed_malaria_cases': ExcelFormField('E12', int, \
+    'o5_total_confirmed_malaria_cases': ExcelFormField('E10', int, \
                                         MalariaReport._meta.get_field(\
                            'o5_total_confirmed_malaria_cases').verbose_name), \
-    'pw_total_confirmed_malaria_cases': ExcelFormField('G12', int, \
+    'pw_total_confirmed_malaria_cases': ExcelFormField('G10', int, \
                                         MalariaReport._meta.get_field(\
                            'pw_total_confirmed_malaria_cases').verbose_name), \
+
+    'u5_total_simple_malaria_cases': ExcelFormField('C11', int, \
+                                     MalariaReport._meta.get_field(\
+                              'u5_total_simple_malaria_cases').verbose_name), \
+    'o5_total_simple_malaria_cases': ExcelFormField('E11', int, \
+                                     MalariaReport._meta.get_field(\
+                              'o5_total_simple_malaria_cases').verbose_name), \
+
+    'u5_total_severe_malaria_cases': ExcelFormField('C12', int, \
+                                     MalariaReport._meta.get_field(\
+                              'u5_total_severe_malaria_cases').verbose_name), \
+    'o5_total_severe_malaria_cases': ExcelFormField('E12', int, \
+                                     MalariaReport._meta.get_field(\
+                              'o5_total_severe_malaria_cases').verbose_name), \
+    'pw_total_severe_malaria_cases': ExcelFormField('G12', int, \
+                                     MalariaReport._meta.get_field(\
+                              'pw_total_severe_malaria_cases').verbose_name), \
 
     'u5_total_treated_malaria_cases': ExcelFormField('C13', int, \
                                       MalariaReport._meta.get_field(\
