@@ -4,6 +4,7 @@
 
 from datetime import datetime
 
+import reversion
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -109,7 +110,11 @@ def report_validation(request, report_receipt):
                 new_report = form.save(commit=False)
                 new_report.modified_by = web_provider
                 new_report.modified_on = datetime.now()
-                new_report.save()
+                with reversion.create_revision():
+                    new_report.save()
+                    reversion.set_user(web_provider.user)
+                    #new_report.save()
+                
                 context.update({'saved': True, 'report': new_report})
         else:
             # django form validation errors
@@ -135,7 +140,9 @@ def report_do_validation(request, report_receipt):
     report._status = MalariaReport.STATUS_VALIDATED
     report.modified_by = web_provider
     report.modified_on = datetime.now()
-    report.save()
+    with reversion.create_revision():
+        report.save()
+        reversion.set_user(web_provider.user)
     context.update({'report': report})
 
     messages.info(request, u"Le rapport %(receipt)s de %(entity)s " \

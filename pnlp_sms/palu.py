@@ -5,6 +5,7 @@
 import datetime
 import logging
 
+import reversion
 from django.conf import settings
 
 from bolibana_auth.models import Provider
@@ -316,7 +317,11 @@ def palu(message):
         report.add_overfive_data(*data_browser.data_for_cat('o5'))
         report.add_pregnantwomen_data(*data_browser.data_for_cat('pw'))
         report.add_stockout_data(*data_browser.data_for_cat('so'))
-        report.save()
+        #report.save()
+        with reversion.create_revision():
+            report.save()
+            reversion.set_user(provider.user)
+
     except Exception as e:
         message.respond(error_start + u"Une erreur technique s'est " \
                         u"produite. Reessayez plus tard et " \
