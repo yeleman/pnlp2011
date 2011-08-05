@@ -2,6 +2,8 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
+import inspect
+
 import reversion
 from django.db import models
 from django.db.models.signals import pre_save, post_save
@@ -10,8 +12,6 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 from bolibana_reporting.models import EntityType, Entity, Report, MonthPeriod
-
-import inspect
 
 
 class MalariaReport(Report):
@@ -399,6 +399,10 @@ class MalariaReport(Report):
 
         for report in sources:
             agg_report.sources.add(report)
+
+        with reversion.create_revision():
+            agg_report.save()
+            reversion.set_user(author.user)
 
         return agg_report
 

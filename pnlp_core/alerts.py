@@ -4,6 +4,8 @@
 
 import logging
 from datetime import datetime, date, timedelta
+
+import reversion
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext as _
@@ -16,7 +18,7 @@ from pnlp_core.models import MalariaReport, Alert
 from bolibana_reporting.models import Entity
 from nosms.utils import send_sms
 from bolibana_auth.models import Provider, Access
-from pnlp_core.utils import send_email, full_url
+from pnlp_core.utils import get_autobot, send_email, full_url
 
 logger = logging.getLogger(__name__)
 
@@ -111,7 +113,10 @@ class MalariaReportCreated(Alert):
                 # we now have a national report
                 logger.info(u"Report %s found." % report)
                 report._status = MalariaReport.STATUS_VALIDATED
-                report.save()
+                with reversion.create_revision():
+                    report.save()
+                    reversion.set_user(get_autobot().user)
+                    #report.save()
 
                 # send emails
                 ct, oi = Access.target_data(Entity.objects.get(slug='mali'))
@@ -327,7 +332,13 @@ class EndOfDistrictPeriod(Alert):
             if author:
                 report.modified_by = author
             report.modified_on = datetime.now()
-            report.save()
+            with reversion.create_revision():
+                report.save()
+                if author:
+                    reversion.set_user(author.user)
+                else:
+                    reversion.set_user(get_autobot().user)
+                #report.save()
 
         # create aggregated reports
         for entity in Entity.objects.filter(type__slug=aggregate_level):
@@ -340,7 +351,10 @@ class EndOfDistrictPeriod(Alert):
             # region auto-validates their reports
             if not self.args.is_district:
                 report._status = MalariaReport.STATUS_VALIDATED
-                report.save()
+                #report.save()
+                with reversion.create_revision():
+                    report.save()
+                    reversion.set_user(rauthor.user)
 
         # region-only section
         # create national report

@@ -143,3 +143,7 @@ def clean_phone_number(number):
                             clean_number.partition(get_indicator(clean_number))
         return (indicator, clean_number)
     return (None, clean_number)
+
+def get_autobot(self):
+    from bolibana_auth.models import Provider
+    return Provider.objects.get(user__username='autobot')

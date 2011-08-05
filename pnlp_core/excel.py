@@ -2,7 +2,9 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
+import reversion
 from django.utils.translation import ugettext_lazy as _, ugettext
+
 from bolibana_reporting.excel import (ExcelForm, ExcelFormField, \
                                       ExcelTypeConverter)
 from bolibana_reporting.errors import MissingData, IncorrectReportData
@@ -323,6 +325,9 @@ class MalariaExcelForm(ExcelForm):
         report.add_overfive_data(*self.data_for_cat('o5'))
         report.add_pregnantwomen_data(*self.data_for_cat('pw'))
         report.add_stockout_data(*self.data_for_cat('so'))
-        report.save()
+        with reversion.create_revision():
+            report.save()
+            reversion.set_user(author.user)
+            #report.save()
 
         return report
