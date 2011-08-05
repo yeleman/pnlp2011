@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     'pnlp_web',
     'reversion',
     'django_extensions',
+    'south',
 )
 
 # Logging policy:
