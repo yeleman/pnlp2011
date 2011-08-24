@@ -56,7 +56,7 @@ class IndividualMalariaReportCreated(Alert):
         contact = contact_for(report.entity.parent)
 
         message = u"[PNLP] Le rapport %(receipt)s de %(entity)s " \
-                    "a ete recu. Vous devez le valider." \
+                  u"a ete recu. Vous devez le valider." \
                   % {'receipt': report.receipt, 'entity': report.entity}
 
         if contact.phone_number:
@@ -67,7 +67,7 @@ class IndividualMalariaReportCreated(Alert):
         else:
             send_email(settings.HOTLINE_EMAIL, message, \
                        u"[PNLP] Unable to send report notification " \
-                         "to %(contact)s" \
+                       u"to %(contact)s" \
                        % {'contact': contact.name_access()})
 
 
@@ -220,14 +220,14 @@ class EndOfCSComPeriod(Alert):
 
             if e['unval']:
                 msg_unval = u"%(nb)s de vos CSCom ont envoye leur " \
-                              "rapport. Vous devez les valider avant le 15." \
+                            u"rapport. Vous devez les valider avant le 15." \
                             % {'nb': e['unval']}
             else:
                 msg_unval = u""
 
             if e['unsent']:
                 msg_unsent = u"%(nb)s n'ont pas envoyer leur rapport " \
-                               "mensuel dans les temps!" % {'nb': e['unsent']}
+                             u"mensuel dans les temps!" % {'nb': e['unsent']}
             else:
                 msg_unsent = u""
 
@@ -370,8 +370,8 @@ class EndOfDistrictPeriod(Alert):
                                            entity__parent=region).count()
 
             message = u"[PNLP] La periode de validation CSRef est " \
-                        "terminee. Vous avez %(nb)d rapports de " \
-                        "CSRef a valider." % {'nb': nb_reports}
+                      u"terminee. Vous avez %(nb)d rapports de " \
+                      u"CSRef a valider." % {'nb': nb_reports}
 
             send_sms(to=contact.phone_number, text=message)
 
@@ -452,7 +452,7 @@ class Reminder(Alert):
 
         if level == 'cscom':
             message = u"[PNLP] Votre rapport mensuel paludisme est " \
-                        "attendu au plus tard le %(date)s" \
+                      u"attendu au plus tard le %(date)s" \
                       % {'date': date(today.year, \
                                       today.month, 5).strftime('%x')}
             for cscom in cscom_without_report(self.args.period):
@@ -483,7 +483,7 @@ class Reminder(Alert):
             dom = 15 if level == 'district' else 25
 
             message = u"[PNLP] Vous avez %(unval)d rapports a valider " \
-                        "au plus tard le %(date)s." \
+                      u"au plus tard le %(date)s." \
                       % {'unval': stat['unval'], \
                          'date': date(today.year, \
                                       today.month, dom).strftime('%x')}
@@ -521,7 +521,7 @@ class EndOfMonth(Alert):
         """ send SMS to HOTLINE """
 
         message = u"[PNLP] La periode %(period)s va commencer. " \
-                    "Il faut envoyer du credit aux utilisateurs." \
+                  u"Il faut envoyer du credit aux utilisateurs." \
                   % {'period': self.args.period.next()\
                                                .full_name()}
 
