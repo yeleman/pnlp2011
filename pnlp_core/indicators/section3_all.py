@@ -8,7 +8,7 @@ from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
-from pnlp_core.indicators.section4 import Hospitalisation
+from pnlp_core.indicators.section3 import Hospitalisation
 
 
 class HospitalisationToutAgeConfondu(IndicatorTable):

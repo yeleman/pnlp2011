@@ -37,7 +37,8 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
         if self.entity.type.slug == 'cscom':
             return 1
         else:
-            return self.entity.children.count()
+            return self.entity.get_descendants()\
+                              .filter(type__slug='cscom').count()
 
     @indicator(1, "nombre_total_structures_district")
     @label(u"Structures sans rupture de stock d’Artheméter Injectable")
