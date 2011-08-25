@@ -85,7 +85,7 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
                        'only_percent': False}
 
     @indicator(1)
-    @label(u"Arthemeter Injactable")
+    @label(u"Arthemeter Injectable")
     def structures_rupture_stock_arthemeter_injectable(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
