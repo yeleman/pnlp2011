@@ -12,7 +12,7 @@ from pnlp_core.data import current_reporting_period, contact_for
 from pnlp_core.indicators.common import get_report_for
 
 
-class Tableau1(IndicatorTable):
+class TableauPromptitudeRapportage(IndicatorTable):
     name = u"Tableau 1"
     title = u" "
     caption = u"Pourcentage de structures ayant transmis leurs" \
@@ -48,7 +48,7 @@ class Tableau1(IndicatorTable):
                                             entity__in=descendants).count()
 
 
-class Figure1(IndicatorTable):
+class FigurePromptitudeRapportage(IndicatorTable):
     name = u"Figure 1"
     title = u""
     caption = u"Evolution de la promptitude de la notification dans " \
@@ -87,4 +87,4 @@ class Figure1(IndicatorTable):
         return MalariaReport.objects.filter(period=period,
                                             entity__in=descendants).count()
 
-WIDGETS = [Tableau1, Figure1]
+WIDGETS = [TableauPromptitudeRapportage, FigurePromptitudeRapportage]
