@@ -10,7 +10,7 @@ from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
-from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes
+from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes,
 
 
 class TousCasPaludismeNotifies(IndicatorTable):
@@ -126,14 +126,14 @@ class NbreCasSuspectesTestesConfirmesALL(NbreCasSuspectesTestesConfirmes):
                        'age': 'all'}
 
 
-class NbreCasSuspectesTestesConfirmes(NbreCasSuspectesTestesConfirmes):
+class NbreCasSuspectesTestesConfirmes(CasSimplesGraves):
     """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
 
         confirmés) tout âge confondu. """
 
     name = u"Figure 5"
-    caption = u"Nombre de cas de paludisme (cas suspects, " \
-              u"cas testés, cas confirmés) tout âge confondu."
+    caption = u"Nombre de cas de paludisme par mois  (cas confirmés," \
+              u" cas simples, cas graves) tout âge confondu."
 
     default_options = {'with_percentage': False, \
                        'with_total': False, \
