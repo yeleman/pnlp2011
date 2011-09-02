@@ -181,7 +181,7 @@ def format_percent(value, precision=2, french=True):
 @register.filter(name='percentraw')
 @stringfilter
 def format_percent_us(value, precision=2, french=True):
-    return format_percent(value, precision, french=False)[:-1]
+    return format_percent(value, precision, french=False)[:-1].replace(',', '.')
 
 
 def get_parent_by_type(entity, type):

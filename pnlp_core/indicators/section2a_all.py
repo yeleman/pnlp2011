@@ -10,7 +10,7 @@ from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
-from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes,
+from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes, CasSimplesGraves
 
 
 class TousCasPaludismeNotifies(IndicatorTable):
