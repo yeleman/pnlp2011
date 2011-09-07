@@ -15,7 +15,7 @@
     <h2>Délai de validation expiré</h2>
     <p>La période de validation pour le mois de <strong>{{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</strong> est expirée.</p>
     {% if level = 'district' %}
-    <p>Vous pouvez valider les rapports des CSCom entre le 1<sup>er</sup> et le 5 du mois suivant.</p>
+    <p>Vous pouvez valider les rapports des Établissement entre le 1<sup>er</sup> et le 5 du mois suivant.</p>
     {% else %}
     <p>Vous pouvez valider les rapports des CSRéf entre le 1<sup>er</sup> et le 15 du mois suivant.</p>
     {% endif %}
@@ -35,7 +35,7 @@
     <h2>Rapports en attente de validation</h2>
     {% if not_validated %}
     <table id="not_validated" class="background">
-    <tr><th>CSCom</th><th>Reçu le</th><th>Contact</th><th>Téléphone</th></tr>
+    <tr><th>Établissement</th><th>Reçu le</th><th>Contact</th><th>Téléphone</th></tr>
     {% for entity, report in not_validated %}
     <tr><td><a href="{% url report_validation report.receipt %}">{{ entity.name }}</a></td><td>{{ report.created_on }}</td><td>{{ report.created_by.name_access }}</td><td>{{ report.created_by.phone_number|phone }}</td></tr>
     {% endfor %}
@@ -49,13 +49,13 @@
     <p>Il y a <strong>{{ not_sent|length }} rapports</strong> en attente.</p>
     <p>Il est de votre responsabilité de contacter les personnes concernés afin que la transmission ait lieu dans les temps.</p>
     <table class="background">
-    <tr><th>CSCom</th><th>Contact</th><th>Téléphone</th></tr>
+    <tr><th>Établissement</th><th>Contact</th><th>Téléphone</th></tr>
     {% for entity, contact in not_sent %}
     <tr><td>{{ entity.name }}</td><td>{{ contact.name_access }}</td><td>{{ contact.phone_number|phone }}</td></tr>
     {% endfor %}
     </table>
     {% if level = 'district' %}
-    <p>Les rapports de CSCom non reçu à temps seront rejetés et donc non comptabilisés.</p>
+    <p>Les rapports de Établissement non reçu à temps seront rejetés et donc non comptabilisés.</p>
     {% endif %}
     {% else %}
     <p>Tous les rapports ont été envoyés.</p>

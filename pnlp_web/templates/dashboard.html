@@ -19,29 +19,29 @@
 <tr><th>Étape en cours</th><td>{{ current_stage|stage }}</td></tr>
 <tr><th>SMS reçus / envoyés en juin 2011</th><td>{{ current_sms.0 }} / {{ current_sms.1 }}</td></tr>
 <tr><th>SMS reçus / envoyés en juillet 2011</th><td>{{ current_reporting_sms.0 }} / {{ current_reporting_sms.1 }}</td></tr>
-<tr><th>CSCom enregistrés dans le système</th><td>{{ total_cscom }}</td></tr>
+<tr><th>Établissement enregistrés dans le système</th><td>{{ total_cscom }}</td></tr>
 </table>
 
 <h2>Avancement de la collecte/transmission</h2>
 <table class="center">
-<tr><th>CSCom ayant envoyés leur rapport</th><td>{{ received_cscom_reports }}</td></tr>
+<tr><th>Établissement ayant envoyés leur rapport</th><td>{{ received_cscom_reports }}</td></tr>
 <tr><th>Rapports primaires validés</th><td>{{ cscom_reports_validated }}</td></tr>
 <tr><th>Rapports de districts validés</th><td>{{ district_reports_validated }}</td></tr>
 <tr><th>Taux de rapportage</th><td class="reporting_rate {{ reporting_rate|rate_class }}">{{ reporting_rate|percent:2 }}</td></tr>
 </table>
 
 {% if time_cscom_over %}
-<h2>CSCom n'ayant pas transmis les données ce mois-ci</h2>
+<h2>Établissement n'ayant pas transmis les données ce mois-ci</h2>
 {% if cscom_missed_report %}
     <p>Ce mois-ci, <strong>{{ cscom_missed_report_count }} CSCom{{ cscom_missed_report_count|pluralize }}</strong> n'ont pas transmis.{% if cscom_missed_report_count > 20 %} Seuls les 20 premiers sont affichés ci-dessous.{% endif %}</p>
     <table class="center">
-    <tr><th>CSCom</th><th class="center">Code</th><th class="center">Contact</th><th class="center">Téléphone</th></tr>
+    <tr><th>Établissement</th><th class="center">Code</th><th class="center">Contact</th><th class="center">Téléphone</th></tr>
     {% for entity, contact in cscom_missed_report %}
     <tr><td class="left">{{ entity.display_name }}</td><td>{{ entity.slug }}</td><td>{{ contact.name_access}}</td><td>{{ contact.phone_number|phone }}</td></tr>
     {% endfor %}
     </table>
 {% else %}
-<p>Tous les CSComs ont transmis les données à temps. Bravo!</p>
+<p>Tous les Établissements ont transmis les données à temps. Bravo!</p>
 {% endif %}
 {% endif %}
 

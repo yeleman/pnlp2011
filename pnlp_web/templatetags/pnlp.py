@@ -68,6 +68,8 @@ def formcategories(value):
 @register.filter(name='reporttype')
 @stringfilter
 def report_type_verbose(value):
+    if value == Report.TYPE_SOURCE.__str__():
+        return u"Primaire"
     for v, name in Report.TYPES:
         if v.__str__() == value:
             return name
