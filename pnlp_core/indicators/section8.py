@@ -20,7 +20,7 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
     name = u"Tableau 19"
     title = u" "
     caption = u"Pourcentage de structures sans rupture de stock en" \
-                u"MILD, TDR, SP"
+                u" MILD, TDR, SP"
     type = 'table'
 
     default_options = {'with_percentage': True, \
@@ -40,7 +40,7 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
             return self.entity.children.count()
 
     @indicator(1, 'total_structures_in_the_district')
-    @label(u"Structures sans rupture de stock en CTA Nourrisson - Enfant")
+    @label(u"Structures sans rupture de stock de MILD")
     def stockout_bednet(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
@@ -48,7 +48,8 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
         return report.sources.filter(stockout_bednet=MalariaReport.NO).count()
 
     @indicator(2, 'total_structures_in_the_district')
-    @label(u"Structures sans rupture de stock en CTA Adolescent")
+    @label(u"Structures sans rupture de stock de Test de Dépistage " \
+           u"Rapide (TDR)")
     def stockout_rdt(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
@@ -59,7 +60,8 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
                stockout_rdt=MalariaReport.NO).count()
 
     @indicator(3, 'total_structures_in_the_district')
-    @label(u"Structures sans rupture de stock en CTA Adulte")
+    @label(u"Structures sans rupture de stock en Sulfadoxine "\
+           u"Pyriméthamine (SP)")
     def stockout_sp(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
@@ -115,7 +117,7 @@ class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
         return report.sources.filter(stockout_rdt=MalariaReport.NO).count()
 
     @indicator(3, 'total_structures_in_the_district')
-    @label(u"Serum Glucosé 10%")
+    @label(u"SP")
     def stockout_sp(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
