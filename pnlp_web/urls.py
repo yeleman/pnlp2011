@@ -98,6 +98,8 @@ urlpatterns = patterns('',
      url(r'^about/$', direct_to_template, \
          {'template': 'about.html'}, name='about'),
 
+     url(r'^annuaire/$', views.annuaire.annuaire_cscom, name='annuaire'),
+
     # CSCOM credit
      url(r'^malitel/$', direct_to_template, \
          {'template': 'malitel.html'}, name='malitel'),

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load babel %}
+{% load pnlp %}
+
+{% block title %}Accueil{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Système d'information de routine sur le Paludisme</h1>{% endblock %}
+
+{% block content %}
+
+    <form action="" method="post">{% csrf_token %}
+        <table>
+            <tr>
+                <td title= "">{{form.role.label}} {{form.role.errors}}{{form.role}}</td>
+                <td title= "">{{form.entity.label}} {{form.entity.errors}}{{form.entity}}</td>
+                <td><input class= "buttons" type="submit" value="ok"/></td>
+            </tr>
+        </table>
+    </form>
+    <table class="background">
+    <tr><th>Accès</th><th>Entité</th><th>Prénom</th><th>nom</th><th>email</th><th>Téléphone</th></tr>
+    {% for entity, contact in contact_entity %}
+    <tr><td>{{ contact.first_role}}</td><td>{{ entity.name }}</td><td>{{ contact.get_first_name}}</td><td>{{ contact.get_last_name}}</td><td>{{ contact.get_email}}</td><td>{{ contact.phone_number|phone }}</td></tr>
+    {% endfor %}
+    </table>
+{% endblock %}
