@@ -40,7 +40,7 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
             return self.entity.children.count()
 
     @indicator(1, 'total_structures_in_the_district')
-    @label(u"Structures asans rupture de stock en CTA Nourrisson - Enfant")
+    @label(u"Structures sans rupture de stock en CTA Nourrisson - Enfant")
     def stockout_act_children(self, period):
         report = get_report_for(self.entity, period)
         if report.type == MalariaReport.TYPE_SOURCE:
