@@ -15,7 +15,7 @@ from bolibana_reporting.models import Entity
 class annuaireForm(forms.Form):
 
     role = forms.ChoiceField(label=ugettext_lazy(u"Role"), \
-                             choices=[(role.slug, role.name) \
+                             choices=[('', _(u"All"))] + [(role.slug, role.name) \
                                       for role in Role.objects.all() \
                                                       .order_by('name')])
     entity = TreeNodeChoiceField(queryset=Entity.tree.all(), \

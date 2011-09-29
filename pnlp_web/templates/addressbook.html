@@ -9,17 +9,17 @@
     <table>
         <tr>
         <form action="" method="post">{% csrf_token %}
-            <td title= "">{{form.role.label}} {{form.role}}</td>
-            <td title= "">{{form.entity.label}} {{form.entity}}</td>
+            <td>{{form.role.label}} {{form.role}}</td>
+            <td>{{form.entity.label}} {{form.entity}}</td>
             <td><input class= "buttons" type="submit" value="ok"/></td>
             </form>
         </tr>
     </table>
     {% if contacts %}
         <table>
-        <tr><th>Accès</th><th>Entité</th><th>Prénom</th><th>nom</th><th>email</th><th>Téléphone</th></tr>
+        <tr><th>Entité</th><th>nom</th><th>Prénom</th><th>email</th><th>Téléphone</th><th>Accès</th></tr>
         {% for contact in contacts %}
-        <tr><td>{{ contact.name}}</td><td>{{ contact.first_access.target }}</td><td>{{ contact.get_first_name}}</td><td>{{ contact.get_last_name}}</td><td>{{ contact.get_email}}</td><td>{{ contact.phone_number|phone }}</td></tr>
+        <tr><td>{{ contact.first_access.target }}</td><td>{{ contact.get_last_name}}</td><td>{{ contact.get_first_name}}</td><td>{{ contact.get_email}}</td><td>{{ contact.phone_number|phone }}</td><td>{{ contact.first_access}}</td></tr>
         {% endfor %}
         </table>
     {%endif%}
