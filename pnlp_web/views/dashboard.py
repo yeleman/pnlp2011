@@ -181,3 +181,28 @@ def dashboard(request):
                 'regions_missed_report': regions_missed_report})
 
     return render(request, 'dashboard.html', context)
+
+
+class DateForm(forms.Form):
+    import datetime
+    date = forms.DateField(initial=datetime.date.today)
+
+def change_date(request):
+
+    context = {}
+
+    if request.method == 'POST':
+        form = DateForm(request.POST)
+        if form.is_valid():
+            import subprocess
+            subprocess.call(['sudo', 'date', form.cleaned_data.get('date').strftime('%m%d%H%M%Y')])
+            context.update({'success': True})
+        else:
+            pass
+        print form
+    else:
+        form = DateForm()
+
+    context.update({'form': form})
+
+    return render(request, 'date.html', context)

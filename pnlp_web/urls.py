@@ -121,4 +121,7 @@ urlpatterns = patterns('',
              'django.views.static.serve',
              {'document_root': MEDIA_ROOT, 'show_indexes': True}, \
              name='media'),
+
+    # demo purposes
+    url(r'^date/?$', views.dashboard.change_date, name='date'),
 )
