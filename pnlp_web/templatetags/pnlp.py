@@ -241,3 +241,7 @@ def provider_has_permission(provider, perm_slug=None):
         return provider.has_permission(perm_slug)
     except:
         return False
+
+@register.filter(name='sorted')
+def data_sort(data):
+    return sorted(data)
