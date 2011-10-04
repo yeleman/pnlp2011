@@ -195,7 +195,7 @@ def change_date(request):
         form = DateForm(request.POST)
         if form.is_valid():
             import subprocess
-            subprocess.call(['sudo', 'date', form.cleaned_data.get('date').strftime('%m%d%H%M%Y')])
+            subprocess.call(['sudo', 'date', form.cleaned_data.get('date').strftime('%m%d1200%Y')])
             context.update({'success': True})
         else:
             pass

@@ -4,7 +4,7 @@
 <form action="{% url date %}" method="post">
 {% csrf_token %}
 <table>
-<tr><td>Date (format MM/JJ/AAAA)</td><td>{{form.date}}</td></tr>
+<tr><td>Date (format JJ/MM/AAAA)</td><td>{{form.date}}</td></tr>
 {% if form.errors %}<tr><td>Erreur</td><td>{{ form.errors.date.0 }}</td></tr>{% endif %}
 {% if success %}<tr><td>Confirmation</td><td>La date a été changée pour <em>{% now "j E Y" %}</em>.</td></tr>{% endif %}
 </table>
