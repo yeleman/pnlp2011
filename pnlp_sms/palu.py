@@ -84,6 +84,19 @@ def entity_for(provider):
 
 
 def nosms_handler(message):
+    def main_palu_handler(message):
+        if message.text.lower().startswith('palu '):
+            if message.text.lower().startswith('palu passwd'):
+                return palu_passwd(message)
+            elif message.text.lower().strip() == 'palu aide':
+                return palu_help(message, True)
+            elif message.text.lower().startswith('palu aide'):
+                return palu_help(message)
+            else:
+                return palu(message)
+        else:
+            return False
+
     if main_palu_handler(message):
         message.status = Message.STATUS_PROCESSED
         message.save()
@@ -91,20 +104,6 @@ def nosms_handler(message):
         return True
     logger.info(u"[NOT HANDLED] msg : %s" % message)
     return False
-
-
-def main_palu_handler(message):
-    if message.text.lower().startswith('palu '):
-        if message.text.lower().startswith('palu passwd'):
-            return palu_passwd(message)
-        elif message.text.lower().strip() == 'palu aide':
-            return palu_help(message, True)
-        elif message.text.lower().startswith('palu aide'):
-            return palu_help(message)
-        else:
-            return palu(message)
-    else:
-        return False
 
 
 def palu_help(message, nousername=False):
