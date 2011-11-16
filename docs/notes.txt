@@ -1,0 +1,16 @@
+
+
+* SMTP debug server
+python -m smtpd -n -c DebuggingServer localhost:1025
+
+date `python -c "import datetime; print datetime.datetime.now().strftime('0630%H%M%Y')"`
+
+find /var/www/cache -type f -mtime +10 | xargs -r rm
+
+* processes:
+
+- web server
+- ./manage.py pnlp_daily_tasks
+- ./manage.py nosmsmlopp
+- ./gammu_kannel.py 
+

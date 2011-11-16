@@ -1,0 +1,24 @@
+[gammu]
+connection=at115200
+port=/dev/ttyPNLP
+
+[smsd]
+Service = sql
+Driver = native_mysql
+#LogFile = syslog
+User = pnlpsms
+Password = pnlpsms
+Host = localhost
+Database = pnlpsms
+debuglevel = 255
+logfile = /tmp/smsd.log
+CheckSecurity = 0
+CheckBattery = 0
+CheckSignal = 0
+ResetFrequency = 0
+HardResetFrequency = 0
+DeliveryReport = no
+RunOnReceive = /home/pnlp/src/pnlp2011/manage_env.py incoming
+
+[exclude_smsc]
++22366700050

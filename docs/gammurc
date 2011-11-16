@@ -1,0 +1,4 @@
+
+[gammu]
+port = /dev/ttyPNLP
+connection = at115200

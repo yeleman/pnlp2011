@@ -1,0 +1,3 @@
+
+# MultiTech Modem (serial version) over a Prolific USB/serial adapter
+kernel=="ttyUSB*", SYSFS{idVendor}=="067b", SYSFS{idProduct}=="2303", SYMLINK="ttyPNLP"

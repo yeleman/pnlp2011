@@ -1,15 +1,10 @@
-#<VirtualHost pnlp.sante.gov.ml:443>
-#
-#    SSLEngine On
-#    SSLCertificateFile /etc/apache2/ssl/server.crt
-#    SSLCertificateKeyFile /etc/apache2/ssl/server.key
-#
-#    ServerName pnlp.sante.gov.ml
-#    Redirect permanent / https://pnlp.sante.gov.ml
-#</VirtualHost>
+<VirtualHost *:80>
+    ServerName pnlp.yeleman.com
+    Redirect permanent / https://pnlp.yeleman.com
+</VirtualHost>
 
-<VirtualHost pnlp.sante.gov.ml:80>
-    ServerName pnlp.sante.gov.ml
+<VirtualHost pnlp.yeleman.com:443>
+    ServerName pnlp.yeleman.com
 
     DocumentRoot /home/pnlp/src/pnlp2011
 
@@ -134,5 +129,10 @@
         Order allow,deny
         Allow from all
     </Directory>
+
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/ssl/pnlp.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/pnlp.key
+    SSLCertificateChainFile /etc/apache2/ssl/pnlp.ca
 
 </VirtualHost>
