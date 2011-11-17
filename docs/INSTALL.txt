@@ -53,8 +53,8 @@ Deployment Installation
     ./configure
     make
     make install
-    ln -s /home/pnlp/src/gammu-1.30.0/contrib/init/gammu-smsd.lsb /etc/init.d/smsd
-    update-rc.d smsd defaults
+    ln -s /home/pnlp/src/gammu-1.30.0/contrib/init/gammu-smsd.lsb /etc/init.d/gammu-smsd
+    update-rc.d gammu-smsd defaults
 
     -> /etc/gammu-smsdrc
     -> /etc/gammurc
@@ -147,3 +147,27 @@ Deployment Installation
         50 7 * * * /sbin/start nosmsloop
         0 20 * * * /sbin/stop gammu_kannel
         0 7  * * * /sbin/start gammu_kannel
+
+* /etc/sudoers.d/pnlpdate
+pnlp ALL= NOPASSWD: /bin/date
+pnlp ALL= NOPASSWD: /usr/sbin/ntpdate-debian
+
+pnlp ALL= NOPASSWD: /usr/bin/gammu-smsd
+pnlp ALL= NOPASSWD: /usr/bin/service
+gammu ALL= NOPASSWD: /usr/bin/gammu-smsd
+gammu ALL= NOPASSWD: /usr/bin/service
+
+* Kalkun
+wget -O kalkun.tar.gz -c http://sourceforge.net/projects/kalkun/files/kalkun/0.3/kalkun_0.3.tar.gz/download
+tar xf kalkun.tar.gz
+apt-get install php5-cgi
+a2enmod cgi
+a2enmod cgid
+cd /etc/apache2/mods-enabled
+ln -sf ../mods-available/actions.load
+ln -sf ../mods-available/actions.conf
+-> /etc/apache2/mods-available/actions.conf
+<IfModule mod_actions.c>
+Action application/x-httpd-php /cgi-bin/php5
+</IfModule>
+
