@@ -7,9 +7,9 @@ from datetime import datetime
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 
-from bolibana_reporting.excel import IncorrectReportData, MissingData
+from bolibana.reporting.excel import IncorrectReportData, MissingData
 from pnlp_core.excel import MalariaExcelForm
-from pnlp_web.decorators import provider_permission
+from bolibana.web.decorators import provider_permission
 from pnlp_core.data import provider_can
 
 

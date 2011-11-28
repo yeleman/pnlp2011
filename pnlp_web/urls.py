@@ -9,7 +9,8 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
 
 from pnlp_web import views
-from pnlp_web.decorators import provider_permission
+from bolibana.web import views as bviews
+from bolibana.web.decorators import provider_permission
 from settings import STATIC_ROOT, MEDIA_ROOT
 
 RGXP_ENTITY = '(?P<entity_code>[a-zA-Z0-9\-\_]+)'
@@ -23,7 +24,7 @@ urlpatterns = patterns('',
     (r'^nosms/', include('nosms.urls')),
 
     url(r'^/?$', views.dashboard.dashboard, name='index'),
-    url(r'^profile/$', views.profile.edit_profile, name='profile'),
+    url(r'^profile/$', bviews.profile.edit_profile, name='profile'),
 
     # login
     url(r'^login/$', 'django.contrib.auth.views.login', \
@@ -67,29 +68,29 @@ urlpatterns = patterns('',
 
     # ANTIM : USERS
     url(r'^users/?$', \
-        provider_permission('can_manage_users')(views.providers. \
+        provider_permission('can_manage_users')(bviews.providers. \
                                                 ProvidersListView.as_view()), \
         name='list_users'),
-    url(r'^users/add$', views.providers.add_edit_user, name='add_user'),
+    url(r'^users/add$', bviews.providers.add_edit_user, name='add_user'),
     url(r'^users/edit/(?P<user_id>[0-9]+)$', \
-        views.providers.add_edit_user, name='edit_user'),
+        bviews.providers.add_edit_user, name='edit_user'),
     url(r'^users/disable/(?P<user_id>[0-9]+)$', \
-        views.providers.enable_disable_user, name='disable_user', \
+        bviews.providers.enable_disable_user, name='disable_user', \
         kwargs={'activate': False}),
     url(r'^users/enable/(?P<user_id>[0-9]+)$', \
-        views.providers.enable_disable_user, name='enable_user', \
+        bviews.providers.enable_disable_user, name='enable_user', \
         kwargs={'activate': True}),
     url(r'^users/new_password/(?P<user_id>[0-9]+)$', \
-        views.providers.password_user, name='password_user'),
+        bviews.providers.password_user, name='password_user'),
 
     # ANTIM : ENTITIES
     url(r'^entities/?$', \
-        provider_permission('can_manage_entities')(views.entities. \
+        provider_permission('can_manage_entities')(bviews.entities. \
                                                 EntitiesListView.as_view()), \
         name='list_entities'),
-    url(r'^entities/add$', views.entities.add_edit_entity, name='add_entity'),
+    url(r'^entities/add$', bviews.entities.add_edit_entity, name='add_entity'),
     url(r'^entities/edit/(?P<entity_id>[0-9]+)$', \
-        views.entities.add_edit_entity, name='edit_entity'),
+        bviews.entities.add_edit_entity, name='edit_entity'),
 
     # static web pages
      url(r'^support/$', views.dashboard.contact, name='support'),
@@ -98,7 +99,7 @@ urlpatterns = patterns('',
      url(r'^about/$', direct_to_template, \
          {'template': 'about.html'}, name='about'),
 
-     url(r'^annuaire/$', views.addressbook.addressbook, name='addressbook'),
+     url(r'^annuaire/$', bviews.addressbook.addressbook, name='addressbook'),
 
     # CSCOM credit
      url(r'^malitel/$', direct_to_template, \

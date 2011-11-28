@@ -14,8 +14,8 @@ from pnlp_core.data import (MalariaDataHolder, \
                             entities_path, \
                             provider_can_or_403, \
                             current_reporting_period, contact_for)
-from pnlp_web.decorators import provider_required, provider_permission
-from bolibana_reporting.models import Entity, MonthPeriod, Report
+from bolibana.web.decorators import provider_required, provider_permission
+from bolibana.models import Entity, MonthPeriod, Report
 
 
 def import_path(name):

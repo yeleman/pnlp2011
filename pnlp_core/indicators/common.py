@@ -3,7 +3,7 @@
 # maintainer: rgaudin
 
 from pnlp_core.models import MalariaReport
-from bolibana_reporting.indicators import NoSourceData
+from bolibana.reporting.indicators import NoSourceData
 
 
 def get_report_for(entity, period, validated=True):

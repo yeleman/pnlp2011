@@ -108,9 +108,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'babeldjango.middleware.LocaleMiddleware',
-    'pnlp_web.middleware.Http500Middleware',
-    'pnlp_web.middleware.Http404Middleware',
-    'pnlp_web.middleware.Http403Middleware',
+    'bolibana.web.middleware.Http500Middleware',
+    'bolibana.web.middleware.Http404Middleware',
+    'bolibana.web.middleware.Http403Middleware',
 )
 
 ROOT_URLCONF = 'pnlp2011.urls'
@@ -133,8 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'babeldjango',
     'nosms',
-    'bolibana_reporting',
-    'bolibana_auth',
+    'bolibana',
     'pnlp_core',
     'pnlp_sms',
     'pnlp_web',
@@ -230,10 +229,10 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
-    "pnlp_web.context_processors.add_provider",
-    "pnlp_web.context_processors.add_level")
+    "bolibana.web.context_processors.add_provider",
+    "bolibana.web.context_processors.add_level")
 
-AUTH_PROFILE_MODULE = 'bolibana_auth.Provider'
+AUTH_PROFILE_MODULE = 'bolibana.Provider'
 
 # loads custom settings from a separate file
 try:

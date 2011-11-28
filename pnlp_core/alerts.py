@@ -15,10 +15,10 @@ from pnlp_core.data import (time_cscom_over, time_district_over, \
                             time_region_over, current_reporting_period, \
                             contact_for)
 from pnlp_core.models import MalariaReport, Alert
-from bolibana_reporting.models import Entity
+from bolibana.models import Entity
 from nosms.utils import send_sms
-from bolibana_auth.models import Provider, Access
-from pnlp_core.utils import get_autobot, send_email, full_url
+from bolibana.models import Provider, Access
+from bolibana.tools.utils import get_autobot, send_email, full_url
 
 logger = logging.getLogger(__name__)
 

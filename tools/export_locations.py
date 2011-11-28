@@ -4,7 +4,7 @@
 
 import sys
 
-from bolibana_reporting.models import Entity, EntityType
+from bolibana.models import Entity, EntityType
 
 
 def export_locations(csv_file):
@@ -40,7 +40,7 @@ def export_locations(csv_file):
         #anc = u",".join([e.display_name() for e in entity.get_ancestors(include_self=True)[1:]])
         anc = u",".join([e.display_name() for e in get_ancestors(entity, include_self=True)[1:]])
 
-        
+
 
         if entity.type.slug == 'district':
             anc += ','

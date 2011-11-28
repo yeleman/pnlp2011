@@ -7,8 +7,8 @@ from datetime import datetime, date, timedelta
 from django import forms
 from django.utils.translation import ugettext as _
 
-from bolibana_auth.models import Access, Provider
-from bolibana_reporting.models import MonthPeriod
+from bolibana.models import Access, Provider
+from bolibana.models import MonthPeriod
 from pnlp_core.models.MalariaReport import MalariaReport
 
 
@@ -211,7 +211,7 @@ def entity_children(entity):
 
 def provider_can(permission, provider, entity=None):
     """ bolean if(not) provider has permission on entity or descendants """
-    from bolibana_auth.models import Permission
+    from bolibana.models import Permission
 
     for access in provider.access.all():
         if access.role.permissions.filter(slug=permission).count() > 0:
@@ -229,7 +229,7 @@ def provider_can(permission, provider, entity=None):
 
 def provider_can_or_403(permission, provider, entity):
     """ returns provider_can() or raise Http403 """
-    from pnlp_web.http import Http403
+    from bolibana.web.http import Http403
     if provider_can(permission, provider, entity):
         return True
     else:

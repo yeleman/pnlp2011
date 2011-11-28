@@ -5,10 +5,10 @@
 import reversion
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-from bolibana_reporting.excel import (ExcelForm, ExcelFormField, \
+from bolibana.reporting.excel import (ExcelForm, ExcelFormField, \
                                       ExcelTypeConverter)
-from bolibana_reporting.errors import MissingData, IncorrectReportData
-from bolibana_reporting.models import Period, MonthPeriod, Entity
+from bolibana.reporting.errors import MissingData, IncorrectReportData
+from bolibana.models import Period, MonthPeriod, Entity
 from pnlp_core.models import MalariaReport
 from pnlp_core.validators import MalariaReportValidator
 

@@ -5,9 +5,9 @@
 from datetime import date
 
 from django.utils.translation import ugettext as _
-from bolibana_reporting.validator import DataValidator
-from bolibana_reporting.errors import MissingData, IncorrectReportData
-from bolibana_reporting.models import Entity, EntityType, MonthPeriod
+from bolibana.reporting.validator import DataValidator
+from bolibana.reporting.errors import MissingData, IncorrectReportData
+from bolibana.models import Entity, EntityType, MonthPeriod
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import provider_can, time_cscom_over
 

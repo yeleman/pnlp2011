@@ -1,4 +1,4 @@
-{% load pnlp %}
+{% load bolibana %}
 {% if web_provider.is_authenticated %}
     <ul>
     {% if web_provider|has_permission:'can_submit_report_via_excel' %}<li {% if category = 'upload' %}class="hover"{% endif %}><a href="{% url upload %}">Saisie</a></li>{% endif %}

@@ -8,8 +8,8 @@ import logging
 import reversion
 from django.conf import settings
 
-from bolibana_auth.models import Provider
-from bolibana_reporting.models import Entity, MonthPeriod
+from bolibana.models import Provider
+from bolibana.models import Entity, MonthPeriod
 from pnlp_core.validators import MalariaReportValidator
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import contact_for

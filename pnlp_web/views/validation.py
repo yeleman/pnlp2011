@@ -20,7 +20,7 @@ from pnlp_core.data import (provider_entity, current_reporting_period, \
                              time_cscom_over, time_district_over, \
                              time_region_over)
 
-from pnlp_web.decorators import provider_required, provider_permission
+from bolibana.web.decorators import provider_required, provider_permission
 from pnlp_core.models import MalariaReport
 from pnlp_core.validators import MalariaReportValidator
 from pnlp_core.data import provider_can_or_403
@@ -114,7 +114,7 @@ def report_validation(request, report_receipt):
                     new_report.save()
                     reversion.set_user(web_provider.user)
                     #new_report.save()
-                
+
                 context.update({'saved': True, 'report': new_report})
         else:
             # django form validation errors

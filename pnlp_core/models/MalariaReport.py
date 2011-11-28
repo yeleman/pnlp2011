@@ -11,12 +11,12 @@ from django.contrib import admin
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-from bolibana_reporting.models import EntityType, Entity, Report, MonthPeriod
+from bolibana.models import EntityType, Entity, Report, MonthPeriod
 
 
 class MalariaReport(Report):
 
-    """ Complies with bolibana_reporting.DataBrowser """
+    """ Complies with bolibana.reporting.DataBrowser """
 
     YES = 'Y'
     NO = 'N'

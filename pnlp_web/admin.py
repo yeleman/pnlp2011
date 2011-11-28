@@ -6,10 +6,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from bolibana_reporting.models import Entity, EntityType, Period
-from bolibana_reporting.admin import EntityAdmin, EntityTypeAdmin, PeriodAdmin
-from bolibana_auth.models import Role, Permission, Access, Provider
-from bolibana_auth.admin import (RoleAdmin, PermissionAdmin, \
+from bolibana.models import Entity, EntityType, Period
+from bolibana.admin import EntityAdmin, EntityTypeAdmin, PeriodAdmin
+from bolibana.models import Role, Permission, Access, Provider
+from bolibana.admin import (RoleAdmin, PermissionAdmin, \
                                  AccessAdmin, ProviderAdmin)
 from pnlp_core.models import MalariaReport
 from pnlp_core.models.alert import Alert

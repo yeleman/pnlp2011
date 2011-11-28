@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load babel %}
-{% load pnlp %}
+{% load bolibana %}
 
 {% block title %}{% if no_report %}Rapport indisponible{% else %}Données brutes du rapport {{ report.receipt }}{% endif %}{% endblock %}
 {% block pagetitle %}<h1 class="pagetitle">{% if no_report %}Rapport indisponible{% else %}Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}

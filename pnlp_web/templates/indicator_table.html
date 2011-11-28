@@ -1,4 +1,4 @@
-{% load babel %}{% load pnlp %}
+{% load babel %}{% load bolibana %}
 <table id="{{ id }}" class="center">
 <caption><strong>{{ table.name }}.</strong> {{ table.caption }}</caption>
 <tr><th rowspan="2">{{ table.title }}</th>{% for p in table.periods %}<th{% if table.options.with_percentage %} colspan="2"{% endif %} class="center">{{ p.middle|datefmt:"MMMM YYYY" }}</th>{% endfor %}{% if table.options.with_total %}<th class="center">Total</th>{% endif %}</tr>

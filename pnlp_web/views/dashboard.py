@@ -9,8 +9,8 @@ from django.shortcuts import render, RequestContext, redirect
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.conf import settings
 
-from pnlp_web.decorators import provider_required
-from pnlp_core.utils import send_email
+from bolibana.web.decorators import provider_required
+from bolibana.tools.utils import send_email
 
 
 def contact_choices(contacts):
@@ -102,7 +102,7 @@ def dashboard(request):
     category = 'dashboard'
     context = {}
 
-    from bolibana_reporting.models import Entity
+    from bolibana.models import Entity
     from pnlp_core.models import MalariaReport
     from pnlp_core.data import (current_period, \
                                 current_reporting_period, current_stage, \

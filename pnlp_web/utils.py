@@ -6,7 +6,7 @@ import random
 
 from django.contrib.auth.models import ContentType
 
-from bolibana_auth.models import Access, Role
+from bolibana.models import Access, Role
 
 proverbs = [
     ('bm', u"dɔlɔ tɛ bɔ bɛɛ ka fɔ la", \
@@ -42,7 +42,7 @@ def get_level_for(provider):
                   Access.objects.get(role=Role.objects.get(slug='guest'), \
                   object_id=1, \
                   content_type=ContentType.objects.get(\
-                               app_label='bolibana_reporting', model='entity'))
+                               app_label='bolibana', model='entity'))
 
     return best_access.target.type.slug
 

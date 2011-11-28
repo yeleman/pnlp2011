@@ -17,8 +17,8 @@ from pnlp_core.data import (MalariaDataHolder, \
                             provider_can_or_403, \
                             current_reporting_period)
 
-from bolibana_reporting.models import Entity, MonthPeriod
-from pnlp_web.decorators import provider_required, provider_permission
+from bolibana.models import Entity, MonthPeriod
+from bolibana.web.decorators import provider_required, provider_permission
 from pnlp_core.models import MalariaReport
 from pnlp_core.validators import MalariaReportValidator
 from pnlp_core.exports import report_as_excel

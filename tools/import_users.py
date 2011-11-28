@@ -4,9 +4,9 @@
 
 import sys
 
-from bolibana_auth.models import Role, Provider, Access
-from bolibana_auth.utils import username_from_name, random_password
-from bolibana_reporting.models import Entity
+from bolibana.models import Role, Provider, Access
+from bolibana.auth.utils import username_from_name, random_password
+from bolibana.models import Entity
 
 
 def import_users(csv_file):
@@ -67,7 +67,7 @@ def import_users(csv_file):
             errors.append(line)
             continue
         access = Access.find_by(role, entity)
-        
+
         # forge username
         username = username_from_name(fname, lname)
         # generate password
@@ -90,7 +90,7 @@ def import_users(csv_file):
         provider.last_name = lname
         provider.email = email
         # only update if not None to preserve uniqueness
-        
+
         if phone_number and pcount == 0:
             provider.phone_number = phone_number
 

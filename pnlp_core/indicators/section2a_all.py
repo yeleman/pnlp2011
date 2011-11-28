@@ -4,8 +4,8 @@
 
 from django.utils.translation import ugettext as _
 
-from bolibana_reporting.models import Entity
-from bolibana_reporting.indicators import (IndicatorTable, NoSourceData, \
+from bolibana.models import Entity
+from bolibana.reporting.indicators import (IndicatorTable, NoSourceData, \
                                            reference, indicator, label, blank)
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import current_reporting_period

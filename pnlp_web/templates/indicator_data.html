@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load babel %}
-{% load pnlp %}
+{% load bolibana %}
 
 {% block title %}Indicateurs{% endblock %}
 {% block pagetitle %}<h1 class="pagetitle">Données de {{ entity.display_full_name }}, {% if speriod == eperiod %}{{ speriod.middle|datefmt:"MMMM yyyy" }}{% else %}{{ speriod.middle|datefmt:"MMMM yyyy" }} à {{ eperiod.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
