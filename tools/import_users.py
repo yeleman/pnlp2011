@@ -94,6 +94,9 @@ def import_users(csv_file):
         if phone_number and pcount == 0:
             provider.phone_number = phone_number
 
+        if phone2:
+            provider.phone_number_extra = phone2
+
         provider.save()
 
         line = u"%(ent)s,%(role)s,%(fname)s,%(lname)s,%(user)s,%(pass)s,%(passenc)s\n" % {'ent': entity, 'role': role, 'fname': provider.first_name, 'lname': provider.last_name, 'user': username, 'pass': password, 'passenc': provider.user.password}
