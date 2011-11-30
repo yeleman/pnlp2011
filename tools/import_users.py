@@ -31,12 +31,12 @@ def import_users(csv_file):
 
         # convert name to unicode for django & .title()
         try:
-            fname = unicode(fname, 'utf-8')
+            fname = unicode(fname.strip(), 'utf-8').title()
         except:
             pass
 
         try:
-            lname = unicode(lname, 'utf-8')
+            lname = unicode(lname.strip(), 'utf-8').title()
         except:
             pass
 
@@ -96,7 +96,7 @@ def import_users(csv_file):
 
         provider.save()
 
-        line = u"%(ent)s,%(role)s,%(fname)s,%(lname)s,%(user)s,%(pass)s\n" % {'ent': entity, 'role': role, 'fname': provider.first_name, 'lname': provider.last_name, 'user': username, 'pass': password}
+        line = u"%(ent)s,%(role)s,%(fname)s,%(lname)s,%(user)s,%(pass)s,%(passenc)s\n" % {'ent': entity, 'role': role, 'fname': provider.first_name, 'lname': provider.last_name, 'user': username, 'pass': password, 'passenc': provider.user.password}
         succ.write(line.encode('utf-8'))
         print(provider.name_access())
     f.close()

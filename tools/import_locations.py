@@ -7,7 +7,7 @@ import sys
 from bolibana.models import Entity, EntityType
 
 
-def import_locations(csv_file):
+def import_locations(csv_file, use_code=False):
     """ creates Entity object off a CSV filename
 
     CSV FORMAT:
@@ -28,8 +28,11 @@ def import_locations(csv_file):
 
         # retrieve parent object if address is provided
         try:
-            parent_id = int(parent_address[4:])
-            parent = Entity.objects.get(id=parent_id)
+            if use_code:
+                parent = Entity.objects.get(slug=parent_address)
+            else:
+                parent_id = int(parent_address[4:])
+                parent = Entity.objects.get(id=parent_id)
         except ValueError:
             parent = None
 

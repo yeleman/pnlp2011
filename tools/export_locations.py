@@ -6,12 +6,18 @@ import sys
 
 from bolibana.models import Entity, EntityType
 
+def type_code(entity):
+    c = entity.type.slug
+    return c[0].upper()
 
-def export_locations(csv_file):
+def export_locations(csv_file, compat_import=False):
     """ Export Entity objects into a CSV file
 
     CSV FORMAT:
-    REGION, DISTRICT, CSCOM, CODE, TYPE """
+    REGION, DISTRICT, CSCOM, CODE, TYPE
+
+    NAME, CODE, TYPE CODE (N,R,D,C), PARENT NAME, PARENT_ADDRESS
+    """
 
     errors = []
 
@@ -29,8 +35,9 @@ def export_locations(csv_file):
     first = True
     f = open(csv_file, 'w')
 
-    header = u"Région,District,Unité sanitaire,Code,Niveau\n"
-    f.write(header.encode('utf-8'))
+    if not compat_import:
+        header = u"Région,District,Unité sanitaire,Code,Niveau\n"
+        f.write(header.encode('utf-8'))
 
     for entity in Entity.objects.all().order_by('parent'):
 
@@ -47,6 +54,10 @@ def export_locations(csv_file):
         if entity.type.slug == 'region':
             anc += ',,'
         line = u"%(anc)s,%(code)s,%(type)s\n" % {'anc': anc, 'code': entity.slug, 'type': entity.type}
+
+        if compat_import:
+
+            line = "%(nam)s,%(cod)s,%(typ)s,%(par)s,%(parcode)s" % {'nam': entity.name.title(), 'cod': entity.slug, 'typ': type_code(entity), 'par': entity.parent.name.title(), 'parcode': entity.parent.slug}
 
         f.write(line.encode('utf-8'))
         print(entity)
