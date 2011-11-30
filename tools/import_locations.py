@@ -33,7 +33,7 @@ def import_locations(csv_file, use_code=False):
             else:
                 parent_id = int(parent_address[4:])
                 parent = Entity.objects.get(id=parent_id)
-        except ValueError:
+        except:
             parent = None
 
         # retrieve type from code

@@ -57,7 +57,7 @@ def export_locations(csv_file, compat_import=False):
 
         if compat_import:
 
-            line = "%(nam)s,%(cod)s,%(typ)s,%(par)s,%(parcode)s" % {'nam': entity.name.title(), 'cod': entity.slug, 'typ': type_code(entity), 'par': entity.parent.name.title(), 'parcode': entity.parent.slug}
+            line = "%(nam)s,%(cod)s,%(typ)s,%(par)s,%(parcode)s\n" % {'nam': entity.name.title(), 'cod': entity.slug, 'typ': type_code(entity), 'par': entity.parent.name.title(), 'parcode': entity.parent.slug}
 
         f.write(line.encode('utf-8'))
         print(entity)
