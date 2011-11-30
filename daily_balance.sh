@@ -1,8 +1,6 @@
 #!/bin/bash
 
-#DEST="pnlp@yeleman.com,moussacoulibaly@sante.gov.ml"
-
-DEST="reg@yeleman.com"
+DEST="pnlp@yeleman.com,moussacoulibaly@sante.gov.ml"
 
 NOW=`date +%c`
 export BALANCE_STR=`/home/pnlp/src/nosms/ussd.sh "*101#"`
