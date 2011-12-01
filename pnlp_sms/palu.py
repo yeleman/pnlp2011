@@ -4,6 +4,7 @@
 
 import datetime
 import logging
+import locale
 
 import reversion
 from django.conf import settings
@@ -19,6 +20,7 @@ from nosms.utils import send_sms
 
 
 logger = logging.getLogger(__name__)
+locale.setlocale(locale.LC_ALL, settings.DEFAULT_LOCALE)
 
 
 class MalariaDataHolder(object):
