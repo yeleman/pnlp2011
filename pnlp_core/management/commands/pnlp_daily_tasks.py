@@ -8,6 +8,7 @@ import logging
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from django.utils import translation
 
 from pnlp_core.data import current_reporting_period
 from pnlp_core.alerts import (EndOfCSComPeriod, \
@@ -23,6 +24,8 @@ locale.setlocale(locale.LC_ALL, settings.DEFAULT_LOCALE)
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
+
+        translation.activate(settings.DEFAULT_LOCALE)
 
         logger.info("Launching PNLP daily tasks script")
 
@@ -74,3 +77,5 @@ class Command(BaseCommand):
         if eom.can_trigger():
             logger.info("End of Month.")
             eom.trigger()
+
+        translation.deactivate()
