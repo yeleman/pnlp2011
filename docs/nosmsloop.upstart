@@ -7,5 +7,5 @@ stop on starting shutdown
 
 console output
 
-exec sudo -u pnlp /home/pnlp/src/pnlp2011/virtual-manage.sh nosmsloop
+exec sudo -u pnlp /home/pnlp/src/pnlp2011/virtual-manage.sh nosms_outgoing
 respawn
