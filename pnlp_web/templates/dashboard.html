@@ -17,8 +17,8 @@
 <tr><th>Mois en cours</th><td>{{ current_period.middle|datefmt:"MMMM yyyy" }}</td></tr>
 <tr><th>Période de collecte en cours</th><td>{{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</td></tr>
 <tr><th>Étape en cours</th><td>{{ current_stage|stage }}</td></tr>
-<tr><th>SMS reçus / envoyés en juin 2011</th><td>{{ current_sms.0 }} / {{ current_sms.1 }}</td></tr>
-<tr><th>SMS reçus / envoyés en juillet 2011</th><td>{{ current_reporting_sms.0 }} / {{ current_reporting_sms.1 }}</td></tr>
+<tr><th>SMS reçus / envoyés en {{ current_period.middle|datefmt:"MMMM yyyy" }}</th><td>{{ current_sms.0 }} / {{ current_sms.1 }}</td></tr>
+<tr><th>SMS reçus / envoyés en {{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</th><td>{{ current_reporting_sms.0 }} / {{ current_reporting_sms.1 }}</td></tr>
 <tr><th>Établissement enregistrés dans le système</th><td>{{ total_cscom }}</td></tr>
 </table>
 
