@@ -113,8 +113,7 @@ def dashboard(request):
         from nosms.models import Message
         messages = Message.objects.filter(date__gte=period.start_on, \
                                           date__lte=period.end_on)
-        received = Message.objects\
-                          .filter(direction=Message.DIRECTION_INCOMING).count()
+        received = messages.filter(direction=Message.DIRECTION_INCOMING).count()
         sent = messages.filter(direction=Message.DIRECTION_OUTGOING).count()
         return (received, sent)
 
