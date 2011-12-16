@@ -342,7 +342,8 @@ class EndOfDistrictPeriod(Alert):
 
         # create aggregated reports
         for entity in Entity.objects.filter(type__slug=aggregate_level):
-            if entity.reports.filter(period=self.args.period).count() > 0:
+            if entity.pnlp_core_malariareport_reports\
+                     .filter(period=self.args.period).count() > 0:
                 continue
             rauthor = contact_for(entity) if not author else author
             logger.info(u"Creating Aggregated report for %s" % entity)
@@ -360,7 +361,8 @@ class EndOfDistrictPeriod(Alert):
         # create national report
         mali = Entity.objects.get(slug='mali')
         if not self.args.is_district \
-           and mali.reports.filter(period=self.args.period).count() == 0:
+           and mali.pnlp_core_malariareport_reports\
+                   .filter(period=self.args.period).count() == 0:
             rauthor = author if author else Provider.objects.all()[0]
             logger.info(u"Creating National report")
             report = MalariaReport.create_aggregated(self.args.period, \
