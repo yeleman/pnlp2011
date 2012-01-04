@@ -102,8 +102,7 @@ urlpatterns = patterns('',
      url(r'^annuaire/$', bviews.addressbook.addressbook, name='addressbook'),
 
     # CSCOM credit
-     url(r'^malitel/$', direct_to_template, \
-         {'template': 'malitel.html'}, name='malitel'),
+     url(r'^malitel/$', views.malitel.malitel_list, name='malitel'),
 
     # development only
     url(r'^static/admin/(?P<path>.*)$',
