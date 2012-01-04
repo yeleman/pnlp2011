@@ -10,9 +10,12 @@ from django.shortcuts import render
 
 def malitel_list(request):
     context = {'category': 'malitel'}
-    entities = Entity.objects.filter(Q(parent__slug='maci') | Q(parent__slug='nion'))
-    for entity in entities:
-        entity.contact = contact_for(entity).phone_number
+    entities = []
+    for entity in Entity.objects.filter(Q(parent__slug='maci') | Q(parent__slug='nion')):
+        pn = contact_for(entity).phone_number
+        if '624175' in pn:
+            entities.append({'name': entity, 'contact': pn})
+    entities.sort(key=lambda x: x['contact'])
     context.update({'entities': entities})
 
     return render(request, 'malitel.html', context)

@@ -17,7 +17,7 @@ td {  width: 25%; }
 <table>
     <tr><th>Numéro téléphone</th><th>CSCom</th><th>OK ?</th></tr>
     {% for entity in entities %}
-        <tr><td>{{ entity.contact|phone }}</td><td>{{entity}}</td><td></td></tr>
+        <tr><td>{{ entity.contact|phone }}</td><td>{{entity.name}}</td><td></td></tr>
     {% endfor %}
 </table>
 </div>
