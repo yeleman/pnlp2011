@@ -18,6 +18,8 @@ def stats(month, year):
                  'tomi': u"Tominian",
                  'baro': u"Baroueli",
                  'san': u"San",
-                 'maci': u"Macina"}.items():
+                 'maci': u"Macina",
+                 'com4': u"BKO CIV",
+                 'com5': u"BKO CV"}.items():
         d = data(s, period)
         print(u"%s\t%d\t%d\t%f" % (n, d[0], d[1], d[2]))

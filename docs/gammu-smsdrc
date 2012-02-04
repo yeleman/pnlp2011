@@ -1,6 +1,6 @@
 [gammu]
 connection=at115200
-port=/dev/ttyPNLP
+device=/dev/ttyPNLP
 
 [smsd]
 Service = sql
@@ -10,15 +10,20 @@ User = pnlpsms
 Password = pnlpsms
 Host = localhost
 Database = pnlpsms
-debuglevel = 255
+debuglevel = 4
 logfile = /tmp/smsd.log
+LoopSleep = 10
 CheckSecurity = 0
 CheckBattery = 0
 CheckSignal = 0
-ResetFrequency = 0
-HardResetFrequency = 0
-DeliveryReport = no
+ResetFrequency = 1800
+HardResetFrequency = 86400
+DeliveryReport = log
+MultipartTimeout = 1800
 RunOnReceive = /home/pnlp/src/pnlp2011/manage_env.py nosms_smsd_incoming
 
 [exclude_smsc]
 +22366700050
+
+
+

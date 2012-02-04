@@ -72,16 +72,14 @@ Deployment Installation
         export WORKON_HOME=~/src/envs
         source /usr/local/bin/virtualenvwrapper.sh
     logout / login
-    mkvirtualenv pnlp
+    mkvirtualenv --system-site-packages pnlp
     cd ~/src
     git clone git://github.com/yeleman/nosms.git
-    git clone git://github.com/yeleman/bolibana_auth.git
-    git clone git://github.com/yeleman/bolibana_reporting.git
+    git clone git://github.com/yeleman/bolibana.git
     git clone git://github.com/yeleman/pnlp2011.git
     cdsitepackages
     ln -s ~/src/nosms .
-    ln -s ~/src/bolibana_auth .
-    ln -s ~/src/bolibana_reporting .
+    ln -s ~/src/bolibana .
     ln -s ~/src/pnlp2011 .
     ln -s ~/src/pnlp2011/pnlp_core .
     ln -s ~/src/pnlp2011/pnlp_web .
@@ -136,17 +134,17 @@ Deployment Installation
 
 * Cron Jobs:
     - [pnlp] crontab -e
-       #m h  dom mon dow   command
-        0 8 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
-        0 10 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
-        0 12 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
-        0 14 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
-        0 16 * * * ~/src/pnlp2011/virtual-manage.sh pnlp_daily_tasks
-    - [root] contab -e
-        45 7 * * * /sbin/stop nosmsloop
-        50 7 * * * /sbin/start nosmsloop
-        0 20 * * * /sbin/stop gammu_kannel
-        0 7  * * * /sbin/start gammu_kannel
+    #m h  dom mon dow   command
+    0 8 * * * /home/pnlp/src/env/pnlp/bin/python /home/pnlp/src/pnlp2011/manage.py pnlp_daily_tasks
+    0 10 * * * /home/pnlp/src/env/pnlp/bin/python /home/pnlp/src/pnlp2011/manage.py pnlp_daily_tasks
+    0 12 * * * /home/pnlp/src/env/pnlp/bin/python /home/pnlp/src/pnlp2011/manage.py pnlp_daily_tasks
+    0 14 * * * /home/pnlp/src/env/pnlp/bin/python /home/pnlp/src/pnlp2011/manage.py pnlp_daily_tasks
+    0 16 * * * /home/pnlp/src/env/pnlp/bin/python /home/pnlp/src/pnlp2011/manage.py pnlp_daily_tasks
+- [root] contab -e
+45 7 * * * /sbin/stop nosmsloop
+50 7 * * * /sbin/start nosmsloop
+0 20 * * * /sbin/stop gammu_kannel
+0 7  * * * /sbin/start gammu_kannel
 
 * /etc/sudoers.d/pnlpdate
 pnlp ALL= NOPASSWD: /bin/date

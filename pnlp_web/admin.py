@@ -41,6 +41,6 @@ admin.site.register(Role, RoleAdmin)
 admin.site.register(Access, AccessAdmin)
 admin.site.register(Permission, PermissionAdmin)
 
-admin.site.register(Message, MessageAdmin)
+#admin.site.register(Message, MessageAdmin)
 
 admin.site.register(Alert, AlertAdmin)

@@ -438,7 +438,7 @@ class Reminder(Alert):
         proxy = True
 
     def get_alert_id(self):
-        """ should happen once per month only """
+        """ should happen once per day only """
         return u'%s_%s' % (self.args.level, datetime.now().strftime('%d%m%Y'))
 
     def can_trigger(self, *args, **kwargs):
