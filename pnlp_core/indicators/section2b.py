@@ -128,7 +128,7 @@ class EvolutionProportionCasPaludismeSimpleTraitesu5O51(IndicatorTable):
                 u"simple traités par CTA Chez les moins de 5 ans" \
                  u"et les 5 ans et plus"
     type = 'graph'
-    graph_type = 'line'
+    graph_type = 'spline'
     default_options = {'with_percentage': False, \
                        'with_reference': False, \
                        'with_data': True, \

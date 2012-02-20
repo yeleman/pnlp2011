@@ -56,7 +56,7 @@ class GraphCommun(IndicatorTable):
     caption = u"Evolution du nombre de décès dû au paludisme Chez les moins " \
               u"de 5 ans, les 5 ans et plus et les femmes enceintes"
     type = 'graph'
-    graph_type = 'line'
+    graph_type = 'spline'
 
     default_options = {'with_percentage': False, \
                        'with_total': False, \

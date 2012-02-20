@@ -101,7 +101,7 @@ class CasTestes(IndicatorTable):
 
     name = u" "
     caption = u" "
-    graph_type = 'line'
+    graph_type = 'spline'
     type = "graph"
     default_options = {'with_percentage': True, \
                        'with_total': False, \
@@ -136,7 +136,7 @@ class CasConfirmes(IndicatorTable):
 
     name = u" "
     caption = u" "
-    graph_type = 'line'
+    graph_type = 'spline'
     type = "graph"
     default_options = {'with_percentage': True, \
                        'with_total': False, \

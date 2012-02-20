@@ -54,7 +54,7 @@ class FigurePromptitudeRapportage(IndicatorTable):
     caption = u"Evolution de la promptitude de la notification dans " \
               u"le district"
     type = 'graph'
-    graph_type = 'line'
+    graph_type = 'spline'
 
     default_options = {'with_percentage': True, \
                    'with_total': False, \

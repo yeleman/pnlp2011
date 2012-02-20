@@ -91,7 +91,7 @@ class EvolutionTestesFemmesEnceintes(CasTestes):
     name = u"Figure 15"
     caption = u"Evolution de la proportion des cas testés parmi les" \
               u"cas suspects chez les femmes enceintes. "
-    graph_type = 'line'
+    graph_type = 'spline'
     default_options = {'with_percentage': True, \
                        'with_total': False, \
                        'with_reference': False, \
@@ -108,7 +108,7 @@ class EvolutionConfirmesFemmesEnceintes(CasConfirmes):
     name = u"Figure 16"
     caption = u"Evolution de la proportion des cas confirmés parmi " \
               u"les cas testés  chez les femmes enceintes"
-    graph_type = 'line'
+    graph_type = 'spline'
     default_options = {'with_percentage': True, \
                        'with_total': False, \
                        'with_reference': False, \

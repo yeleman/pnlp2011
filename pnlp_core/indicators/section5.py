@@ -57,7 +57,7 @@ class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable):
     caption = u"Evolution du nombre de MILD distribuées aux moins de " \
                 u"5 ans et femmes enceintes"
     type = 'graph'
-    graph_type = 'line'
+    graph_type = 'spline'
 
     default_options = {'with_percentage': False, \
                        'with_reference': True, \

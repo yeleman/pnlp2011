@@ -87,7 +87,7 @@ class NbreTestesUnderFive(CasTestes):
     name = u"Figure 7"
     caption = u"Evolution de la proportion des cas testés parmi les cas " \
               u"suspects chez les moins de 5 ans"
-    graph_type = 'line'
+    graph_type = 'spline'
     type = "graph"
     default_options = {'with_percentage': True, \
                        'with_total': False, \
@@ -105,7 +105,7 @@ class NbreConfirmesUnderFive(CasConfirmes):
     name = u"Figure 8"
     caption = u" Evolution de la proportion des cas confirmés parmi les " \
               u"cas testés  chez les moins de 5 ans"
-    graph_type = 'line'
+    graph_type = 'spline'
     type = "graph"
     default_options = {'with_percentage': True, \
                        'with_total': False, \
@@ -123,7 +123,7 @@ class NbreCasSimplesGravesUnderFive(CasSimplesGraves):
     name = u"Figure 9"
     caption = u"Proportion de cas simples et cas graves chez les moins " \
               u"de 5 ans "
-    graph_type = 'line'
+    graph_type = 'spline'
     type = "graph"
     default_options = {'with_percentage': False, \
                        'with_total': False, \

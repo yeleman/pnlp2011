@@ -77,7 +77,7 @@ class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
     caption = u"Evolution du pourcentage de Structures sans rupture de " \
               u"stock en CTA"
     type = 'graph'
-    graph_type = 'line'
+    graph_type = 'spline'
 
     default_options = {'with_percentage': True, \
                        'with_reference': False, \

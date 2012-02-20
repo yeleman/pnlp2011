@@ -77,7 +77,7 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
     caption = u"Evolution du pourcentage de structures sans rupture de stock" \
               u" en produits de prise en charge des cas de paludisme grave"
     type = 'graph'
-    graph_type = 'line'
+    graph_type = 'spline'
 
     default_options = {'with_percentage': False, \
                        'with_reference': False, \

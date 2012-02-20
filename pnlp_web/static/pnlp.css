@@ -376,6 +376,15 @@ caption strong, h3.caption strong {
 #content #context > table {
   width: 823px;
 }
+#content #context div.indicatorwrapper {
+  margin-bottom: 1em;
+  padding: 2px;
+  width: 650px;
+  overflow: auto;
+}
+#content #context div.indicatorwrapper table {
+  margin-bottom: 0;
+}
 th {
   background: none repeat scroll 0 0 #88d16f;
   color: #ffffff;

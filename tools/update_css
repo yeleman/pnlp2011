@@ -4,12 +4,12 @@
 
 LESS_PATH=0
 LESS_FILE=0
-for file in `find ~ -name 'less.js'`
+for file in `find ~/src -name 'less.js'`
 do
         LESS_PATH="$file/bin"
 done
 
-for file in `find ~ -name 'pnlp.less'`
+for file in `find ~/src -name 'pnlp.less'`
 do
         LESS_FILE=$file
 done

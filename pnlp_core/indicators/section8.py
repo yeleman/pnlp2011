@@ -82,7 +82,7 @@ class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
     caption = u"Evolution du pourcentage de Structures sans rupture de stock" \
               u" en MILD, TDR, SP"
     type = 'graph'
-    graph_type = 'line'
+    graph_type = 'spline'
 
     default_options = {'with_percentage': True, \
                        'with_reference': False, \

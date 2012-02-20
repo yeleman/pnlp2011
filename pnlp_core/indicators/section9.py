@@ -58,7 +58,7 @@ class EvolutionCPN1SP1SP2(IndicatorTable):
     title = u" "
     caption = u"Evolution de la SP1 et SP2 chez les femmes enceintes"
     type = 'graph'
-    graph_type = 'line'
+    graph_type = 'spline'
 
     default_options = {'with_percentage': False, \
                        'with_reference': False, \

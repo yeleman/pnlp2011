@@ -3,11 +3,9 @@
 # maintainer: rgaudin
 
 import locale
-import time
 import logging
-from datetime import datetime, timedelta
 from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.utils import translation
 
 from pnlp_core.data import current_reporting_period
@@ -15,6 +13,8 @@ from pnlp_core.alerts import (EndOfCSComPeriod, \
                                     EndOfDistrictPeriod, \
                                     MalariaReportCreated, \
                                     Reminder, EndOfMonth)
+from bolibana.models import MonthPeriod
+from pnlp_core.models import MalariaReport
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -29,8 +29,12 @@ class Command(BaseCommand):
 
         logger.info(u"Launching PNLP daily tasks script")
 
-        now = datetime.now()
         period = current_reporting_period()
+
+        logger.info(u"Remove orphan periods")
+        [p.delete() for p 
+                    in MonthPeriod.objects.all()
+                    if MalariaReport.objects.filter(period=p).count() == 0]
 
         # if new incoming report
         report = MalariaReportCreated.create(period=period, persit=False)
