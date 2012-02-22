@@ -9,31 +9,40 @@ from django.shortcuts import render, RequestContext, redirect
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.conf import settings
 
+from nosms.models import Message
 from bolibana.web.decorators import provider_required
 from bolibana.tools.utils import send_email
 from pnlp_core.models import MalariaReport
 from bolibana.models import Entity
-from tools.stats import *
-from pnlp_core.data import current_reporting_period
+from pnlp_core.data import current_reporting_period, contact_for
 
 
+def nb_reports_for(entity, period):
+    nb_rec = MalariaReport.objects.filter(entity__parent=entity,
+                                          period=period).count()
+    if entity.type.slug == 'district':
+        nb_ent = entity.get_children().count()
+        sms = []
+    else:
+        nb_ent = 1
+        number = contact_for(entity, True).phone_number
+        if not number.startswith('+223'):
+          number = '+223' + number
+        sms = Message.incoming.filter(date__gte=period.start_on,
+                                      date__lte=period.end_on,
+                                      identity=number)
+    percent = float(nb_rec) / nb_ent
+    return {'entity': entity, 'nb_received': nb_rec,
+            'nb_expected': nb_ent,
+            'received_rate': percent,
+            'sms': sms}
 
 def contact_choices(contacts):
     """ returns (a[0], a[1] for a in a list """
     # SUPPORT_CONTACTS contains slug, name, email
     # we need only slug, name for contact form.
     return [(slug, name) for slug, name, email in settings.SUPPORT_CONTACTS]
-def received_reports(period, type_):
-    return MalariaReport.objects.filter(period=period, entity__type__slug=type_)
 
-def reports_validated(period, type_):
-    return MalariaReport.validated.filter(period=period, \
-                                       entity__type__slug=type_)
-
-def reporting_rate(period, entity):
-    return float(MalariaReport.validated.filter(period=period, \
-                 entity__parent=entity).count()) \
-        / Entity.objects.filter(parent__slug=entity.slug).count()
 
 
 class ContactForm(forms.Form):
@@ -114,33 +123,30 @@ def contact(request):
 @provider_required
 def transmission(request):
     """ stats of transmission """
+    context = {'category': 'transmission'}
 
     period = current_reporting_period()
-    received_cscom_reports = received_reports(period, 'cscom')
-    category = 'transmission'
-    rate_dict = {}
-    children_dict = {}
+
+    def entity_dict(entity):
+        entity_dict = nb_reports_for(entity, period)
+        entity_dict.update({'children': []})
+        return entity_dict
+    
+    entities = []
     for entity in Entity.objects.filter(type__slug='district'):
-        children = entity.get_children()
-        cscom_missed_report = children.exclude(id__in=[r.entity.id \
-                                       for r \
-                                       in received_cscom_reports])\
-                      .order_by('name')
-        rep, ent, percent = data(entity.slug, period)
 
-        rate_dict.update({'%s' % entity.display_full_name(): percent})
-        children_dict.update({'%s' % entity.display_full_name(): \
-                              cscom_missed_report})
+        if MalariaReport.objects.filter(period=period, entity=entity).count():
+            continue
 
-    cscom_missed_report = \
-        Entity.objects.filter(type__slug='cscom')\
-                      .exclude(id__in=[r.entity.id \
-                                       for r \
-                                       in received_cscom_reports])\
-                      .order_by('name')
-        
-    context = {'received_cscom_reports': received_cscom_reports,
-               'rate_dict': rate_dict, 'children_dict': children_dict}
+        edata = entity_dict(entity)
+        edata['children'] = [entity_dict(e) \
+                             for e in entity.get_children() \
+                             if not MalariaReport.objects.filter(period=period, entity=e).count()]
+
+        entities.append(edata)
+
+    context.update({'entities': entities})
+
     return render(request, 'transmission.html', context)
 
 @provider_required
@@ -160,6 +166,18 @@ def dashboard(request):
         received = messages.filter(direction=Message.DIRECTION_INCOMING).count()
         sent = messages.filter(direction=Message.DIRECTION_OUTGOING).count()
         return (received, sent)
+
+    def received_reports(period, type_):
+        return MalariaReport.objects.filter(period=period, entity__type__slug=type_)
+
+    def reports_validated(period, type_):
+        return MalariaReport.validated.filter(period=period, \
+                                       entity__type__slug=type_)
+
+    def reporting_rate(period, entity):
+        return float(MalariaReport.validated.filter(period=period, \
+                 entity__parent=entity).count()) \
+        / Entity.objects.filter(parent__slug=entity.slug).count()
 
     current_period = current_period()
     period = current_reporting_period()
