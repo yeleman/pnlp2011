@@ -11,6 +11,11 @@ from django.conf import settings
 
 from bolibana.web.decorators import provider_required
 from bolibana.tools.utils import send_email
+from pnlp_core.models import MalariaReport
+from bolibana.models import Entity
+from tools.stats import *
+from pnlp_core.data import current_reporting_period
+
 
 
 def contact_choices(contacts):
@@ -18,6 +23,17 @@ def contact_choices(contacts):
     # SUPPORT_CONTACTS contains slug, name, email
     # we need only slug, name for contact form.
     return [(slug, name) for slug, name, email in settings.SUPPORT_CONTACTS]
+def received_reports(period, type_):
+    return MalariaReport.objects.filter(period=period, entity__type__slug=type_)
+
+def reports_validated(period, type_):
+    return MalariaReport.validated.filter(period=period, \
+                                       entity__type__slug=type_)
+
+def reporting_rate(period, entity):
+    return float(MalariaReport.validated.filter(period=period, \
+                 entity__parent=entity).count()) \
+        / Entity.objects.filter(parent__slug=entity.slug).count()
 
 
 class ContactForm(forms.Form):
@@ -95,7 +111,37 @@ def contact(request):
     context.update({'form': form})
 
     return render(request, 'contact.html', context)
+@provider_required
+def transmission(request):
+    """ stats of transmission """
 
+    period = current_reporting_period()
+    received_cscom_reports = received_reports(period, 'cscom')
+    category = 'transmission'
+    rate_dict = {}
+    children_dict = {}
+    for entity in Entity.objects.filter(type__slug='district'):
+        children = entity.get_children()
+        cscom_missed_report = children.exclude(id__in=[r.entity.id \
+                                       for r \
+                                       in received_cscom_reports])\
+                      .order_by('name')
+        rep, ent, percent = data(entity.slug, period)
+
+        rate_dict.update({'%s' % entity.display_full_name(): percent})
+        children_dict.update({'%s' % entity.display_full_name(): \
+                              cscom_missed_report})
+
+    cscom_missed_report = \
+        Entity.objects.filter(type__slug='cscom')\
+                      .exclude(id__in=[r.entity.id \
+                                       for r \
+                                       in received_cscom_reports])\
+                      .order_by('name')
+        
+    context = {'received_cscom_reports': received_cscom_reports,
+               'rate_dict': rate_dict, 'children_dict': children_dict}
+    return render(request, 'transmission.html', context)
 
 @provider_required
 def dashboard(request):
@@ -103,12 +149,10 @@ def dashboard(request):
     context = {}
 
     from bolibana.models import Entity
-    from pnlp_core.models import MalariaReport
-    from pnlp_core.data import (current_period, \
-                                current_reporting_period, current_stage, \
+    from pnlp_core.data import (current_period, current_stage, \
                                 time_cscom_over, time_district_over, \
                                 time_region_over, contact_for)
-
+    
     def sms_received_sent_by_period(period):
         from nosms.models import Message
         messages = Message.objects.filter(date__gte=period.start_on, \
@@ -132,14 +176,9 @@ def dashboard(request):
                     'time_district_over': time_district_over(period),
                     'time_region_over': time_region_over(period)})
 
-    received_cscom_reports = \
-        MalariaReport.objects.filter(period=period, entity__type__slug='cscom')
-    cscom_reports_validated = \
-        MalariaReport.validated.filter(period=period, \
-                                       entity__type__slug='cscom')
-    district_reports_validated = \
-        MalariaReport.validated.filter(period=period, \
-                                       entity__type__slug='district')
+    received_cscom_reports = received_reports(period, 'cscom')
+    cscom_reports_validated = reports_validated(period, 'cscom')
+    district_reports_validated = reports_validated(period, 'district')
     reporting_rate = \
         float(MalariaReport.validated.filter(period=period).count()) \
         / Entity.objects.count()

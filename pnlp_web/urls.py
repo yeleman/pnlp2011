@@ -67,6 +67,7 @@ urlpatterns = patterns('',
         name='indicator_data'),
 
     # ANTIM : USERS
+    url(r'^transmission/$', views.dashboard.transmission, name='transmission'),
     url(r'^users/?$', \
         provider_permission('can_manage_users')(bviews.providers. \
                                                 ProvidersListView.as_view()), \
