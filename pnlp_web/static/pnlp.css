@@ -211,6 +211,28 @@ ul#user-menu li a {
 }
 ul#user-menu li:hover a {
   color: #88d16f;
+}ul#trans-menu {
+  background-color: #30363c;
+  top: 0;
+  position: absolute;
+  list-style-type: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+ul#trans-menu li {
+  display: inline;
+  color: #f8f8f8;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  font-size: 85%;
+}
+ul#trans-menu li a {
+  color: #f8f8f8;
+}
+ul#trans-menu li:hover a {
+  color: #88d16f;
 }
 #logo {
   left: 30px;

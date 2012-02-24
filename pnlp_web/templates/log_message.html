@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load babel %}
+{% load bolibana %}
+
+{% block title %}Messages{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Système d'information de routine sur le Paludisme</h1>{% endblock %}
+{% block submenu %}{% include "submenutrans.html" %}{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+function toggleme(slug) {
+	$('.sms_' + slug).toggle();
+}
+</script>
+
+<div id="context">
+
+	<h2>Messages</h2>
+
+	<table>
+	<caption>Aperçu de l'état d'avancement de la collecte et de la transmission des données.</caption>
+	<tr><th>Date</th><th>Numéro/Contact</th><th>texte</th></tr>
+	{% for message in all_sms %}
+	<tr><td>{{ message.date }}</td><td class="center">{% if message.direction = message.INCOMING %}>>{% else %}<<{% endif %}&nbsp;{{ message.identity|phone }}</td><td{% if message.status = message.STATUS_ERROR %} class="warning"{% endif %}>{{ message.text }}</td></tr>
+
+	{% endfor %}
+	</table>
+	</div>
+
+{% endblock %}

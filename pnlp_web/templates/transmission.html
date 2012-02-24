@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load babel %}
+{% load bolibana %}
+
+{% block title %}Transmission{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Système d'information de routine sur le Paludisme</h1>{% endblock %}
+{% block submenu %}{% include "submenutrans.html" %}{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+function toggleme(slug) {
+	$('.sms_' + slug).toggle();
+}
+</script>
+
+<div id="context">
+
+	<h2>Suivi Transmission</h2>
+
+	<table>
+	<caption>Aperçu de l'état d'avancement de la collecte et de la transmission des données.</caption>
+	<tr><th>District</th><th>Taux de rapportage</th><th>Reçus / Attendus</th></tr>
+	{% for district in entities %}
+	<tr><th>{{ district.entity }}</th><td class="center"><strong>{{ district.received_rate|percent:2 }}</strong></td><td>{{ district.nb_received}}/{{ district.nb_expected}}</td></td></tr>
+	{% if district.children %}
+		{% for center in district.children %}
+		<tr><td>{{ center.entity }}</th><td colspan="2" class="center" onclick="javascript:toggleme('{{center.entity.slug}}');">{% if center.sms|length %}<strong>{{ center.sms|length }} SMS</strong>{% else %}-{% endif %}</td></tr>
+		{% for sms in center.sms %}
+		<tr style="display: none;" class="sms_{{ center.entity.slug }}"><td colspan="3">{{ sms.date }} : {{ sms.text }}</td></tr>{% endfor %}
+		{% endfor %}
+	{% endif %}
+
+	{% endfor %}
+	</table>
+	</div>
+
+{% endblock %}

@@ -66,6 +66,11 @@ urlpatterns = patterns('',
     url(r'^browse/$', views.indicators.indicator_browser, \
         name='indicator_data'),
 
+    # ANTIM : Transmission
+    url(r'^transmission/$', views.transmission.transmission, name='transmission'),
+    url(r'^log_message/$', views.transmission.log_message, name='log_message'),
+    url(r'^report_validated/$', views.transmission.report_validated, name='report_validated'),
+
     # ANTIM : USERS
     url(r'^users/?$', \
         provider_permission('can_manage_users')(bviews.providers. \

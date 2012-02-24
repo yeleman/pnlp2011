@@ -1,0 +1,10 @@
+{% load bolibana %}
+<div id="submenu">
+
+	<ul id="trans-menu">
+		<li {% if category = 'transmission' %}class="hover"{% endif %}><a href="{% url transmission %}">Données primaires</a> </li>
+		<li {% if category = 'report_validated' %}class="hover"{% endif %}><a href="{% url report_validated %}">Rapports validés</a> </li>
+		<li {% if category = 'log_message' %}class="hover"{% endif %}><a href="{% url log_message %}">Messages</a></li>
+    </ul>
+
+</div>
