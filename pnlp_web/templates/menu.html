@@ -5,7 +5,7 @@
     {% if web_provider|has_permission:'can_validate_report' %}<li {% if category = 'validation' %}class="hover"{% endif %}><a href="{% url validation %}">Validation</a></li>{% endif %}
     {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if category = 'raw_data' %}class="hover"{% endif %}><a href="{% url raw_data %}">Données brutes</a></li>{% endif %}
     {% if web_provider|has_permission:'can_view_indicator_data' %}<li {% if category = 'indicator_data' %}class="hover"{% endif %}><a href="{% url indicator_data %}">Données analysées</a></li>{% endif %}
-    {% if web_provider|has_permission:'can_manage_users' %}<li {% if category = 'users' %}class="hover"{% endif %}><a href="{% url list_users %}">Utilisateurs</a></li>{% endif %}
+    {% if web_provider|has_permission:'can_manage_users' %}<li {% if category = 'users' %}class="hover"{% endif %}><a href="{% url list_users %}">Utilisateurs</a></li><li {% if category = 'users' %}class="hover"{% endif %}><a href="{% url transmission %}">transmission</a></li>{% endif %}
     {% if web_provider|has_permission:'can_manage_entities' %}<li {% if category = 'entities' %}class="hover"{% endif %}><a href="{% url list_entities %}">Établissements</a></li>{% endif %}
     <li {% if category = 'addressbook' %}class="hover"{% endif %}><a href="{% url addressbook %}">Annuaire</a></li>
     </ul>

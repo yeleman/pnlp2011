@@ -13,7 +13,6 @@ from nosms.models import Message
 from bolibana.web.decorators import provider_required
 from bolibana.tools.utils import send_email
 from pnlp_core.models import MalariaReport
-from bolibana.models import Entity
 from pnlp_core.data import current_reporting_period, contact_for
 
 
@@ -120,34 +119,6 @@ def contact(request):
     context.update({'form': form})
 
     return render(request, 'contact.html', context)
-@provider_required
-def transmission(request):
-    """ stats of transmission """
-    context = {'category': 'transmission'}
-
-    period = current_reporting_period()
-
-    def entity_dict(entity):
-        entity_dict = nb_reports_for(entity, period)
-        entity_dict.update({'children': []})
-        return entity_dict
-    
-    entities = []
-    for entity in Entity.objects.filter(type__slug='district'):
-
-        if MalariaReport.objects.filter(period=period, entity=entity).count():
-            continue
-
-        edata = entity_dict(entity)
-        edata['children'] = [entity_dict(e) \
-                             for e in entity.get_children() \
-                             if not MalariaReport.objects.filter(period=period, entity=e).count()]
-
-        entities.append(edata)
-
-    context.update({'entities': entities})
-
-    return render(request, 'transmission.html', context)
 
 @provider_required
 def dashboard(request):
