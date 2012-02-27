@@ -639,6 +639,15 @@ button.download {
     color: @green;
 }
 
+#submenu p.transmissionsub {
+    padding-top:10px;
+}
+
+#submenu p.transmissionsub a {
+    color: @white;
+    font-weight: normal;
+}
+
 select.browser {
 background-color: white;
     color: @text-button;
@@ -849,4 +858,19 @@ background-color: white;
 
 input.hidden {
     display: block;
+}
+
+#context table td.outgoingsms, #context table td.incomingsms {
+    background-repeat: no-repeat;
+    background-position: 5px 18px;
+    padding-left: 25px;
+}
+
+#context table td.outgoingsms {
+    background-image: @monitor_png;
+
+}
+
+#context table td.incomingsms {
+    background-image: @phone_png;
 }
