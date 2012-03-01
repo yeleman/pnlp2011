@@ -4,7 +4,7 @@
 
 
 from django.shortcuts import render
-from bolibana.web.decorators import provider_required
+from bolibana.web.decorators import provider_permission
 from pnlp_core.data import current_period, current_reporting_period
 from pnlp_core.models import MalariaReport
 from dashboard import nb_reports_for
