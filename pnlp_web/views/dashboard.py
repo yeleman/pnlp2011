@@ -33,7 +33,7 @@ def nb_reports_for(entity, period):
         incoming_sms = Message.incoming.filter(date__gte=next_period.start_on,
                                       date__lte=next_period.end_on,
                                       identity=number)
-        all_sms = Message.objects.filter(date__gte=next_periodnext_period.start_on,
+        all_sms = Message.objects.filter(date__gte=next_period.start_on,
                                       date__lte=next_period.end_on,
                                       identity=number)
     percent = float(nb_rec) / nb_ent
