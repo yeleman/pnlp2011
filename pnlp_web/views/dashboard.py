@@ -23,19 +23,26 @@ def nb_reports_for(entity, period):
     if entity.type.slug == 'district':
         nb_ent = entity.get_children().count()
         sms = []
+        incoming_sms = None
+        all_sms = None
     else:
         nb_ent = 1
         number = contact_for(entity, True).phone_number
         if not number.startswith('+223'):
           number = '+223' + number
-        sms = Message.objects.filter(date__gte=next_period.start_on,
-                                      date__lte=next_period.end_on,
+        incoming_sms = Message.incoming.filter(date__gte=period.start_on,
+                                      date__lte=period.end_on,
+                                      identity=number)
+        all_sms = Message.objects.filter(date__gte=period.start_on,
+                                      date__lte=period.end_on,
                                       identity=number)
     percent = float(nb_rec) / nb_ent
+    print incoming_sms
     return {'entity': entity, 'nb_received': nb_rec,
             'nb_expected': nb_ent,
             'received_rate': percent,
-            'sms': sms}
+            'incoming_sms': incoming_sms,
+            'all_sms': all_sms}
 
 def contact_choices(contacts):
     """ returns (a[0], a[1] for a in a list """
