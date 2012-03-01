@@ -37,7 +37,8 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
         if self.entity.type.slug == 'cscom':
             return 1
         else:
-            return self.entity.children.count()
+            return self.entity.get_descendants()\
+                              .filter(type__slug='cscom').count()
 
     @indicator(1, 'total_structures_in_the_district')
     @label(u"Structures sans rupture de stock de MILD")

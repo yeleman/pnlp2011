@@ -16,15 +16,18 @@ function toggleme(slug) {
 <div id="context">
 
 	<h2>Messages</h2>
+	{% if all_sms %}
+		<table>
+		<caption>Aperçu de l'état d'avancement de la collecte et de la transmission des données.</caption>
+		<tr><th>Date</th><th>Numéro/Contact</th><th>texte</th></tr>
+		{% for message in all_sms %}
+		<tr><td>{{ message.date }}</td><td class="center {% if message.direction = message.DIRECTION_INCOMING %}incoming{% else %}outgoing{% endif %}sms">{{ message.identity|phone }}</td><td{% if message.status = message.STATUS_ERROR %} class="warning"{% endif %}>{{ message.text }}</td></tr>
 
-	<table>
-	<caption>Aperçu de l'état d'avancement de la collecte et de la transmission des données.</caption>
-	<tr><th>Date</th><th>Numéro/Contact</th><th>texte</th></tr>
-	{% for message in all_sms %}
-	<tr><td>{{ message.date }}</td><td class="center {% if message.direction = message.DIRECTION_INCOMING %}incoming{% else %}outgoing{% endif %}sms">{{ message.identity|phone }}</td><td{% if message.status = message.STATUS_ERROR %} class="warning"{% endif %}>{{ message.text }}</td></tr>
-
-	{% endfor %}
-	</table>
+		{% endfor %}
+		</table>
+	{% else %}
+		<p>il n'ya pas de messages<p>
+	{% endif %}
 	</div>
 
 {% endblock %}

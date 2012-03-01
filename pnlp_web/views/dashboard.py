@@ -19,6 +19,7 @@ from pnlp_core.data import current_reporting_period, contact_for
 def nb_reports_for(entity, period):
     nb_rec = MalariaReport.objects.filter(entity__parent=entity,
                                           period=period).count()
+    next_period = period.next()
     if entity.type.slug == 'district':
         nb_ent = entity.get_children().count()
         sms = []
@@ -27,8 +28,8 @@ def nb_reports_for(entity, period):
         number = contact_for(entity, True).phone_number
         if not number.startswith('+223'):
           number = '+223' + number
-        sms = Message.incoming.filter(date__gte=period.start_on,
-                                      date__lte=period.end_on,
+        sms = Message.incoming.filter(date__gte=next_period.start_on,
+                                      date__lte=next_period.end_on,
                                       identity=number)
     percent = float(nb_rec) / nb_ent
     return {'entity': entity, 'nb_received': nb_rec,

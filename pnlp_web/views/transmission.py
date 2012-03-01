@@ -19,7 +19,7 @@ def sms_for_period(period):
         return messages
 
 
-@provider_required
+@provider_permission('can_monitor_transmission')
 def transmission(request):
     """ stats of transmission """
     context = {'category': 'transmission'}
@@ -50,7 +50,7 @@ def transmission(request):
     return render(request, 'transmission.html', context)
 
 
-@provider_required
+@provider_permission('can_monitor_transmission')
 def log_message(request):
     """ Display all messages """
     context = {'category': 'log_message'}
@@ -79,15 +79,17 @@ def nb_reports_unvalidated_for(entity, period):
             'validation_rate': percent}
 
 
-@provider_required
+@provider_permission('can_monitor_transmission')
 def report_unvalidated(request):
-    context = {'category': 'transmission'}
-    period = current_reporting_period()
+    """ stats of validation """
 
     def entity_dict(entity):
         entity_dict = nb_reports_unvalidated_for(entity, period)
         entity_dict.update({'children': []})
         return entity_dict
+
+    context = {'category': 'transmission'}
+    period = current_reporting_period()
 
     entities = []
     for entity in Entity.objects.filter(type__slug='district'):
