@@ -28,7 +28,7 @@ def nb_reports_for(entity, period):
         number = contact_for(entity, True).phone_number
         if not number.startswith('+223'):
           number = '+223' + number
-        sms = Message.incoming.filter(date__gte=next_period.start_on,
+        sms = Message.objects.filter(date__gte=next_period.start_on,
                                       date__lte=next_period.end_on,
                                       identity=number)
     percent = float(nb_rec) / nb_ent
