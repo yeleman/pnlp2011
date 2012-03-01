@@ -341,7 +341,6 @@ def palu(message):
     try:
         to = contact_for(report.entity.parent).phone_number
     except:
-        raise
         to = None
     if not to:
         return True
