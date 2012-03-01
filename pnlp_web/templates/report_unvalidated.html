@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load babel %}
+{% load bolibana %}
+
+{% block title %}Rapport non validé{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Système d'information de routine sur le Paludisme</h1>{% endblock %}
+{% block submenu %}{% include "submenutrans.html" %}{% endblock %}
+
+{% block content %}
+
+<div id="context">
+
+	<h2>Rapports non validés</h2>
+
+	<table>
+	<caption>Aperçu de l'état d'avancement de la validation des Rapports par districts.</caption>
+	<tr><th>District/CSCOM</th><th>Taux de validation</th><th>Validés / Total de rapports</th></tr>
+	{% for entity in entities %}
+		<tr><th>{{ entity.entity }}</th><td class="center"><strong>{{ entity.validation_rate|percent:2 }}</strong></td><td>{{ entity.nb_valideted}}/{{ entity.nb_expected}}</td></td></tr>
+		{% if entity.children %}
+			{% for center in entity.children %}
+			<tr><td>{{ center }}</th><td colspan="2" class="center"></td></tr>
+			{% endfor %}
+		{% endif %}
+	{% endfor %}
+	</table>
+	</div>
+
+{% endblock %}
