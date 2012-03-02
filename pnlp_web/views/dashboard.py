@@ -19,7 +19,8 @@ from pnlp_core.data import current_reporting_period, contact_for
 def nb_reports_for(entity, period):
     nb_rec = MalariaReport.objects.filter(entity__parent=entity,
                                           period=period).count()
-    next_period = period.next()
+    next_period = period.previous()
+    print next_period
     if entity.type.slug == 'district':
         nb_ent = entity.get_children().count()
         sms = []
@@ -29,7 +30,7 @@ def nb_reports_for(entity, period):
         nb_ent = 1
         number = contact_for(entity, True).phone_number
         if not number.startswith('+223'):
-          number = '+223' + number
+            number = '+223' + number
         incoming_sms = Message.incoming.filter(date__gte=next_period.start_on,
                                       date__lte=next_period.end_on,
                                       identity=number)
@@ -44,12 +45,12 @@ def nb_reports_for(entity, period):
             'incoming_sms': incoming_sms,
             'all_sms': all_sms}
 
+
 def contact_choices(contacts):
     """ returns (a[0], a[1] for a in a list """
     # SUPPORT_CONTACTS contains slug, name, email
     # we need only slug, name for contact form.
     return [(slug, name) for slug, name, email in settings.SUPPORT_CONTACTS]
-
 
 
 class ContactForm(forms.Form):
@@ -128,6 +129,7 @@ def contact(request):
 
     return render(request, 'contact.html', context)
 
+
 @provider_required
 def dashboard(request):
     category = 'dashboard'
@@ -137,17 +139,19 @@ def dashboard(request):
     from pnlp_core.data import (current_period, current_stage, \
                                 time_cscom_over, time_district_over, \
                                 time_region_over, contact_for)
-    
+
     def sms_received_sent_by_period(period):
         from nosms.models import Message
         messages = Message.objects.filter(date__gte=period.start_on, \
                                           date__lte=period.end_on)
-        received = messages.filter(direction=Message.DIRECTION_INCOMING).count()
+        received = messages.filter(direction=Message.DIRECTION_INCOMING) \
+                           .count()
         sent = messages.filter(direction=Message.DIRECTION_OUTGOING).count()
         return (received, sent)
 
     def received_reports(period, type_):
-        return MalariaReport.objects.filter(period=period, entity__type__slug=type_)
+        return MalariaReport.objects.filter(period=period, \
+                                            entity__type__slug=type_)
 
     def reports_validated(period, type_):
         return MalariaReport.validated.filter(period=period, \
@@ -222,6 +226,7 @@ class DateForm(forms.Form):
     import datetime
     date = forms.DateField(initial=datetime.date.today)
 
+
 def change_date(request):
 
     context = {}
@@ -230,7 +235,8 @@ def change_date(request):
         form = DateForm(request.POST)
         if form.is_valid():
             import subprocess
-            subprocess.call(['sudo', 'date', form.cleaned_data.get('date').strftime('%m%d1200%Y')])
+            subprocess.call(['sudo', 'date', form.cleaned_data.get('date') \
+                                                 .strftime('%m%d1200%Y')])
             context.update({'success': True})
         else:
             pass

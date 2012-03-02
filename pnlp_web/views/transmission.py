@@ -13,9 +13,10 @@ from bolibana.models import Entity
 
 def sms_for_period(period):
         from nosms.models import Message
-        messages = Message.objects.filter(date__gte=period.start_on, \
-                                          date__lte=period.end_on).all() \
-                                  .order_by('-date')
+        previous_period = period.previous()
+        messages = Message.objects.filter(date__gte=previous_period.start_on,\
+                                          date__lte=previous_period.end_on)\
+                                  .all().order_by('-date')
         return messages
 
 
@@ -53,19 +54,38 @@ def transmission(request):
 @provider_permission('can_monitor_transmission')
 def log_message(request):
     """ Display all messages """
+
+    def name_phone(sms):
+        """ Search name provider """
+        from bolibana.models import Provider
+
+        if len(sms.identity.split('+223')) == 2:
+            indicatif, phone = sms.identity.split('+223')
+        else:
+            phone = sms.identity.split('+223')[0]
+
+        provider = Provider.objects \
+                       .filter(user__provider__phone_number__contains=phone)
+        return provider
+
     context = {'category': 'log_message'}
+
     all_sms = sms_for_period(current_period())
+    for sms in all_sms:
+        if name_phone(sms):
+            sms.provider = name_phone(sms)[0].name
+
     context.update({'all_sms': all_sms})
     return render(request, 'log_message.html', context)
 
 
 def nb_reports_unvalidated_for(entity, period):
+    """ report unvalidated """
     nb_val = MalariaReport.validated.filter(entity__parent=entity,
                                               period=period).count()
     if entity.type.slug == 'district':
         nb_ent = len([e for e in entity.get_children() \
-            if MalariaReport.objects.filter(period=period, entity=e)\
-                            .count()])
+            if MalariaReport.objects.filter(period=period, entity=e).count()])
     else:
         nb_ent = 1
 
@@ -96,7 +116,7 @@ def report_unvalidated(request):
         edata = entity_dict(entity)
         edata['children'] = [e for e in entity.get_children() \
                                if MalariaReport.unvalidated \
-                               .filter(period=period, entity=e).count()]
+                                    .filter(period=period, entity=e).count()]
         entities.append(edata)
 
     context.update({'entities': entities})
