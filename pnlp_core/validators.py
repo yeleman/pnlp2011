@@ -188,11 +188,13 @@ class MalariaReportValidator(DataValidator):
             if entity \
             and MalariaReport.objects.filter(entity=entity, \
                                              period=period).count() > 0:
+                report = MalariaReport.objects.get(entity=entity, period=period)
                 self.errors.add(_(u"There is already a report for " \
                                   "that HC (%(entity)s) and that " \
                                   "period (%(period)s)") % \
                                   {'entity': entity.display_full_name(), \
-                                   'period': period.name()}, 'period')
+                                   'period': period.name()}
+                                   + u" Recu: %s." % report.receipt, 'period')
 
         # User can create such report
         if self.options.author:
