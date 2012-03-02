@@ -73,7 +73,7 @@ def log_message(request):
     all_sms = sms_for_period(current_period())
     for sms in all_sms:
         if name_phone(sms):
-            sms.provider = name_phone(sms)[0].name
+            sms.provider = name_phone(sms)[0]
 
     context.update({'all_sms': all_sms})
     return render(request, 'log_message.html', context)
