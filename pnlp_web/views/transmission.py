@@ -13,7 +13,7 @@ from bolibana.models import Entity
 
 def sms_for_period(period):
         from nosms.models import Message
-        previous_period = period.previous()
+        previous_period = period
         messages = Message.objects.filter(date__gte=previous_period.start_on,\
                                           date__lte=previous_period.end_on)\
                                   .all().order_by('-date')

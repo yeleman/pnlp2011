@@ -19,7 +19,7 @@ from pnlp_core.data import current_reporting_period, contact_for
 def nb_reports_for(entity, period):
     nb_rec = MalariaReport.objects.filter(entity__parent=entity,
                                           period=period).count()
-    next_period = period.previous()
+    next_period = period.next()
     print next_period
     if entity.type.slug == 'district':
         nb_ent = entity.get_children().count()
@@ -38,7 +38,6 @@ def nb_reports_for(entity, period):
                                       date__lte=next_period.end_on,
                                       identity=number)
     percent = float(nb_rec) / nb_ent
-    print incoming_sms
     return {'entity': entity, 'nb_received': nb_rec,
             'nb_expected': nb_ent,
             'received_rate': percent,
@@ -240,7 +239,6 @@ def change_date(request):
             context.update({'success': True})
         else:
             pass
-        print form
     else:
         form = DateForm()
 
