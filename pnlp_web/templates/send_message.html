@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load babel %}
+{% load bolibana %}
+
+{% block title %}Messages{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Système d'information de routine sur le Paludisme</h1>{% endblock %}
+{% block submenu %}{% include "submenutrans.html" %}{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+function toggleme(num) {
+	$('#dest_num input').attr('value', num);
+}
+</script>
+
+<div id="context">
+    <table>
+        <tr>
+            <td><label>provider</label></td>
+            <td>
+                <select name="alou" onchange="javascript:toggleme(this.value);">
+                    {% for name, num in all_providers %}
+                    <option value={{num}} >{{name}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <form action="" method="post">{% csrf_token %}
+            <td>{{form.number.label}}</td> 
+            <td id="dest_num">{{form.number}}</td>
+        </tr>
+        <tr>
+            <td>{{form.text.label}}</td>
+            <td>{{form.text}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input class= "buttons" type="submit" value="Envoyer"/></td>
+            </form>
+        </tr>
+    </table>
+	</div>
+
+{% endblock %}

@@ -70,6 +70,7 @@ urlpatterns = patterns('',
     url(r'^transmission/$', views.transmission.transmission, name='transmission'),
     url(r'^log_message/$', views.transmission.log_message, name='log_message'),
     url(r'^report_unvalidated/$', views.transmission.report_unvalidated, name='report_unvalidated'),
+    url(r'^send_message/$', views.transmission.send_message, name='send_message'),
 
     # ANTIM : USERS
     url(r'^users/?$', \

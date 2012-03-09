@@ -3,7 +3,7 @@
 # maintainer: alou
 
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from bolibana.web.decorators import provider_permission
 from pnlp_core.data import current_period, current_reporting_period
 from pnlp_core.models import MalariaReport
@@ -121,3 +121,39 @@ def report_unvalidated(request):
 
     context.update({'entities': entities})
     return render(request, 'report_unvalidated.html', context)
+
+
+def send_message(request):
+    from django import forms
+    from bolibana.models import Provider
+    from nosms.models import Message
+
+    class MessageForm(forms.Form):
+        number = forms.CharField(label=(u"Numero"))
+        text = forms.CharField(widget=forms.Textarea(), label=(u"Texte"))
+
+        def clean_text(self):
+            return self.cleaned_data.get('text')[:150]
+
+    form = MessageForm()
+
+    providers = Provider.objects.filter(phone_number__isnull=False)
+    all_providers = []
+    for pr in providers:
+        all_providers.append(("%s %s %s" % (pr.name(), pr.first_access(), \
+                                            pr.phone_number), pr.phone_number))
+        if pr.phone_number_extra:
+            all_providers.append(("%s %s %s" % (pr.name(), pr.first_access(), \
+                             pr.phone_number_extra), pr.phone_number_extra))
+
+    if request.method == "POST":
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = Message()
+            message.identity = form.cleaned_data.get('number')
+            message.text = form.cleaned_data.get('text')
+            message.save()
+            return redirect("log_message")
+
+    context = {'form': form, 'all_providers': all_providers}
+    return render(request, 'send_message.html', context)
