@@ -6,6 +6,7 @@ from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.shortcuts import render, redirect, get_object_or_404
 
+from pnlp_core.models import MalariaReport
 from pnlp_core.data import (MalariaDataHolder, \
                             MalariaReportForm, \
                             most_accurate_report, \
@@ -57,7 +58,11 @@ def indicator_browser(request, entity_code=None, period_str=None, \
                           .filter(start_on__lte=period.start_on)\
                           .order_by('start_on')
 
-    all_periods = all_anterior_periods(current_reporting_period())
+    all_periods = list(all_anterior_periods(current_reporting_period()).all())
+    if not MalariaReport.validated.filter(entity=entity,
+                                          period=current_reporting_period()) \
+                                  .count():
+        all_periods.remove(current_reporting_period())
 
     # retrieve Periods from string
     # if period_string include innexistant periods -> 404.

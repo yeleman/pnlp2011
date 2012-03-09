@@ -150,7 +150,7 @@ class MalariaReportValidator(DataValidator):
         # NO PAST
         period = MonthPeriod.find_create_from(year=self.get('year'), \
                                                   month=self.get('month'))
-        if time_cscom_over(period):
+        if time_cscom_over(period) and not self.options.bulk_import:
             self.errors.add(_(u"The reporting time frame for that " \
                               "period (%(period)s) is over.") \
                             % {'period': period}, 'period')
@@ -199,7 +199,8 @@ class MalariaReportValidator(DataValidator):
         # User can create such report
         if self.options.author:
             if not provider_can('can_submit_report', \
-                                self.options.author, entity):
+                                self.options.author, entity) \
+               and not self.options.bulk_import:
                 self.errors.add(_(u"You don't have permission to send " \
                                   "a report for that " \
                                   "location (%(loc)s).") \
