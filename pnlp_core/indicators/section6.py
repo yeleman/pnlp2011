@@ -2,14 +2,11 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from django.utils.translation import ugettext as _
 
-from bolibana.models import Entity
-from bolibana.reporting.indicators import (IndicatorTable, NoSourceData, \
-                                           reference, indicator, label)
+from bolibana.reporting.indicators import (IndicatorTable, reference, \
+                                           indicator, label)
 from pnlp_core.models import MalariaReport
-from pnlp_core.data import current_reporting_period
-from pnlp_core.indicators.common import get_report_for
+from pnlp_core.indicators.common import nb_stockout
 
 
 class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
@@ -37,34 +34,26 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
         if self.entity.type.slug == 'cscom':
             return 1
         else:
-            return self.entity.children.count()
+            return self.entity.get_descendants()\
+                              .filter(type__slug='cscom').count()
 
     @indicator(1, 'total_structures_in_the_district')
     @label(u"Structures sans rupture de stock en CTA Nourrisson - Enfant")
     def stockout_act_children(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_act_children == MalariaReport.NO)
-        return report.sources.filter(stockout_act_children=MalariaReport.NO) \
-                             .count()
+        nb_act_children = nb_stockout(self.entity, period, 'act_children')
+        return nb_act_children
 
     @indicator(2, 'total_structures_in_the_district')
     @label(u"Structures sans rupture de stock en CTA Adolescent")
     def stockout_act_youth(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_act_youth == MalariaReport.NO)
-        return report.sources.filter(stockout_act_youth=MalariaReport.NO) \
-                             .count()
+        nb_act_youth = nb_stockout(self.entity, period, 'act_youth')
+        return nb_act_youth
 
     @indicator(3, 'total_structures_in_the_district')
     @label(u"Structures sans rupture de stock en CTA Adulte")
     def stockout_act_adult(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_act_adult == MalariaReport.NO)
-        return report.sources.filter(stockout_act_adult=MalariaReport.NO) \
-                             .count()
+        nb_act_adult = nb_stockout(self.entity, period, 'act_adult')
+        return nb_act_adult
 
 
 class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
@@ -96,23 +85,20 @@ class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
     @indicator(1, 'total_structures_in_the_district')
     @label(u"CTA Nourrisson - Enfant")
     def stockout_act_children(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_act_children=MalariaReport.NO).count()
+        nb_act_children = nb_stockout(self.entity, period, 'act_children')
+        return nb_act_children
 
     @indicator(2, 'total_structures_in_the_district')
     @label(u"CTA Adolescent")
     def stockout_act_youth(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_act_youth=MalariaReport.NO).count()
+        nb_act_youth = nb_stockout(self.entity, period, 'act_youth')
+        return nb_act_youth
 
     @indicator(3, 'total_structures_in_the_district')
     @label(u"CTA Adulte")
     def stockout_act_adult(self, period):
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_act_adult=MalariaReport.NO).count()
+        nb_act_adult = nb_stockout(self.entity, period, 'act_adult')
+        return nb_act_adult
 
 WIDGETS = [PourcentageStructuresRuptureStockCTADistrict,
            EvolutionPourcentageStructuresRuptureStockCTA]

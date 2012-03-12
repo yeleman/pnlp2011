@@ -2,13 +2,9 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from django.utils.translation import ugettext as _
 
-from bolibana.models import Entity
-from bolibana.reporting.indicators import (IndicatorTable, NoSourceData, \
-                                           reference, indicator, label)
+from bolibana.reporting.indicators import IndicatorTable, indicator, label
 from pnlp_core.models import MalariaReport
-from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
 
 
@@ -61,7 +57,8 @@ class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable):
 
     default_options = {'with_percentage': False, \
                        'with_reference': True, \
-                       'with_data': True}
+                       'with_data': True,
+                       'only_percent': False}
 
     def period_is_valid(self, period):
         """Periode valide"""

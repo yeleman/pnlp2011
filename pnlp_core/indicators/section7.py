@@ -2,14 +2,10 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from django.utils.translation import ugettext as _
 
-from bolibana.models import Entity
-from bolibana.reporting.indicators import (IndicatorTable, NoSourceData, \
+from bolibana.reporting.indicators import (IndicatorTable, \
                                            reference, indicator, label)
-from pnlp_core.models import MalariaReport
-from pnlp_core.data import current_reporting_period
-from pnlp_core.indicators.common import get_report_for
+from pnlp_core.indicators.common import nb_stockout
 
 
 class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
@@ -43,28 +39,20 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
     @indicator(1, "nombre_total_structures_district")
     @label(u"Structures sans rupture de stock d’Artheméter Injectable")
     def structures_rupture_stock_arthemeter_injectable(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_artemether == MalariaReport.NO)
-        return report.sources.filter(stockout_artemether=MalariaReport.NO) \
-                             .count()
+        nb_artemether = nb_stockout(self.entity, period, 'artemether')
+        return nb_artemether
 
     @indicator(2, "nombre_total_structures_district")
     @label(u"Structures sans rupture de stock de Quinine Injectable")
     def structures_rupture_stock_Quinine_injectable(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_quinine == MalariaReport.NO)
-        return report.sources.filter(stockout_quinine=MalariaReport.NO) \
-                             .count()
+        nb_quinine = nb_stockout(self.entity, period, 'quinine')
+        return nb_quinine
 
     @indicator(3, "nombre_total_structures_district")
     @label(u"Structures sans rupture de stock en Sérum Glucosé 10%")
     def structures_rupture_stock_Serum_Glucose_injectable(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_serum == MalariaReport.NO)
-        return report.sources.filter(stockout_serum=MalariaReport.NO).count()
+        nb_serum = nb_stockout(self.entity, period, 'serum')
+        return nb_serum
 
 
 class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
@@ -81,34 +69,26 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
 
     default_options = {'with_percentage': False, \
                        'with_reference': False, \
-                       'with_data': True, \
+                       'with_data': False,
                        'only_percent': False}
 
     @indicator(1)
     @label(u"Arthemeter Injectable")
     def structures_rupture_stock_arthemeter_injectable(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_artemether == MalariaReport.NO)
-        return report.sources.filter(stockout_artemether=MalariaReport.NO) \
-                             .count()
+        nb_artemether = nb_stockout(self.entity, period, 'artemether')
+        return nb_artemether
 
     @indicator(2)
     @label(u"Quinine Injectable")
     def structures_rupture_stock_Quinine_injectable(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_quinine == MalariaReport.NO)
-        return report.sources.filter(stockout_quinine=MalariaReport.NO) \
-                             .count()
+        nb_quinine = nb_stockout(self.entity, period, 'quinine')
+        return nb_quinine
 
     @indicator(3)
     @label(u"Serum Glucosé 10%")
     def structures_rupture_stock_Serum_Glucose_injectable(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_serum == MalariaReport.NO)
-        return report.sources.filter(stockout_serum=MalariaReport.NO).count()
+        nb_serum = nb_stockout(self.entity, period, 'serum')
+        return nb_serum
 
 WIDGETS = [PourcentageStructuresRuptureStockProduitPaluGrave, \
             EvolutionStructuresRuptureStockProduitPaluGrave]

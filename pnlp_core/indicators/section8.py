@@ -2,14 +2,10 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from django.utils.translation import ugettext as _
 
-from bolibana.models import Entity
-from bolibana.reporting.indicators import (IndicatorTable, NoSourceData, \
+from bolibana.reporting.indicators import (IndicatorTable, \
                                            reference, indicator, label)
-from pnlp_core.models import MalariaReport
-from pnlp_core.data import current_reporting_period
-from pnlp_core.indicators.common import get_report_for
+from pnlp_core.indicators.common import nb_stockout
 
 
 class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
@@ -43,34 +39,22 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
     @indicator(1, 'total_structures_in_the_district')
     @label(u"Structures sans rupture de stock de MILD")
     def stockout_bednet(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_bednet == MalariaReport.NO)
-        return report.sources.filter(stockout_bednet=MalariaReport.NO).count()
+        nb_bednet = nb_stockout(self.entity, period, 'bednet')
+        return nb_bednet
 
     @indicator(2, 'total_structures_in_the_district')
     @label(u"Structures sans rupture de stock de Test de Dépistage " \
            u"Rapide (TDR)")
     def stockout_rdt(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_bednet == MalariaReport.NO)
-        return report.sources.filter(stockout_bednet=MalariaReport.NO).count()
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_rdt=MalariaReport.NO).count()
+        nb_rdt = nb_stockout(self.entity, period, 'rdt')
+        return nb_rdt
 
     @indicator(3, 'total_structures_in_the_district')
     @label(u"Structures sans rupture de stock en Sulfadoxine "\
            u"Pyriméthamine (SP)")
     def stockout_sp(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_bednet == MalariaReport.NO)
-        return report.sources.filter(stockout_bednet=MalariaReport.NO).count()
-        children = self.entity.get_children()
-        return MalariaReport.validated.filter(entity__in=children,
-               stockout_sp=MalariaReport.NO).count()
+        nb_sp = nb_stockout(self.entity, period, 'sp')
+        return nb_sp
 
 
 class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
@@ -104,26 +88,20 @@ class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
     @indicator(1, 'total_structures_in_the_district')
     @label(u"MILD")
     def stockout_bednet(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_bednet == MalariaReport.NO)
-        return report.sources.filter(stockout_bednet=MalariaReport.NO).count()
+        nb_bednet = nb_stockout(self.entity, period, 'bednet')
+        return nb_bednet
 
     @indicator(2, 'total_structures_in_the_district')
     @label(u"TDR")
     def stockout_rdt(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_rdt == MalariaReport.NO)
-        return report.sources.filter(stockout_rdt=MalariaReport.NO).count()
+        nb_rdt = nb_stockout(self.entity, period, 'rdt')
+        return nb_rdt
 
     @indicator(3, 'total_structures_in_the_district')
     @label(u"SP")
     def stockout_sp(self, period):
-        report = get_report_for(self.entity, period)
-        if report.type == MalariaReport.TYPE_SOURCE:
-            return int(report.stockout_sp == MalariaReport.NO)
-        return report.sources.filter(stockout_sp=MalariaReport.NO).count()
+        nb_sp = nb_stockout(self.entity, period, 'sp')
+        return nb_sp
 
 WIDGETS = [PourcentageStructuresRuptureStockMILDTDRSP,
            EvolutionPourcentageStructuresRuptureStockMILDTDRSP]

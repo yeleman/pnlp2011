@@ -2,15 +2,12 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from django.utils.translation import ugettext as _
-
-from bolibana.models import Entity
-from bolibana.reporting.indicators import (IndicatorTable, NoSourceData, \
-                                           reference, indicator, label, blank)
+from bolibana.reporting.indicators import (IndicatorTable, reference, \
+                                            indicator, label)
 from pnlp_core.models import MalariaReport
-from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
-from pnlp_core.indicators.section2 import NbreCasSuspectesTestesConfirmes, CasSimplesGraves
+from pnlp_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes,\
+                                          CasSimplesGraves)
 
 
 class TousCasPaludismeNotifies(IndicatorTable):
@@ -61,13 +58,13 @@ class TousCasPaludismeNotifies(IndicatorTable):
         report = get_report_for(self.entity, period)
         return report.total_confirmed_malaria_cases
 
-    @indicator(5, 'total_suspected_malaria_cases')
+    @indicator(5, 'total_confirmed_malaria_cases')
     @label(u". Cas simples")
     def total_simple_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.total_simple_malaria_cases
 
-    @indicator(6, 'total_suspected_malaria_cases')
+    @indicator(6, 'total_confirmed_malaria_cases')
     @label(u". Cas graves")
     def total_severe_malaria_cases(self, period):
         report = get_report_for(self.entity, period)

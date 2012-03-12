@@ -37,3 +37,14 @@ def report_attr_age(report, attribute, age_code='all'):
 def find_report_attr_age(entity, period, attribute, age_code='all'):
     report = get_report_for(entity, period)
     return report_attr_age(report, attribute, age_code)
+
+
+def nb_stockout(entity, period, product):
+    nb_stockout = 0
+    for report in MalariaReport.objects.filter(type=MalariaReport.TYPE_SOURCE,
+                                               period=period):
+        if (getattr(report, 'stockout_%s' % product) == report.NO
+            and (entity in report.entity.get_ancestors()
+            or entity == report.entity)):
+            nb_stockout += 1
+    return nb_stockout

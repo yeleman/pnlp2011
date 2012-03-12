@@ -20,7 +20,6 @@ def nb_reports_for(entity, period):
     nb_rec = MalariaReport.objects.filter(entity__parent=entity,
                                           period=period).count()
     next_period = period.next()
-    print next_period
     if entity.type.slug == 'district':
         nb_ent = entity.get_children().count()
         sms = []

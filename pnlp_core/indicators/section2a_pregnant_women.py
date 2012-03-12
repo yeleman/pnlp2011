@@ -2,11 +2,10 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from bolibana.models import Entity
-from bolibana.reporting.indicators import (IndicatorTable, NoSourceData, \
-                                           reference, indicator, label, blank)
+
+from bolibana.reporting.indicators import (IndicatorTable, \
+                                           reference, indicator, label)
 from pnlp_core.models import MalariaReport
-from pnlp_core.data import current_reporting_period
 from pnlp_core.indicators.common import get_report_for
 from pnlp_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes,\
                                             CasTestes, CasConfirmes)
@@ -35,15 +34,15 @@ class CasPaludismeFemmesEnceintes(IndicatorTable):
         report = get_report_for(self.entity, period)
         return report.pw_total_suspected_malaria_cases
 
-    @indicator(1, 'pw_total_tested_malaria_cases')
+    @indicator(1, 'pw_total_suspected_malaria_cases')
     @label(u"Total des cas suspects testés (GE et/ou TDR)")
     def pw_total_tested_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.pw_total_tested_malaria_cases
 
     @label(u"Nombre de cas suspects testés qui sont confirmés par" \
-           u"GE ou TDR(cas graves)")
-    @indicator(2, 'pw_total_suspected_malaria_cases')
+           u" GE ou TDR(cas graves)")
+    @indicator(2, 'pw_total_tested_malaria_cases')
     def pw_total_severe_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.pw_total_severe_malaria_cases
