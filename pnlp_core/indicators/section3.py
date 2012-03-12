@@ -2,14 +2,11 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from django.utils.translation import ugettext as _
 
-from bolibana.models import Entity
-from bolibana.reporting.indicators import (IndicatorTable, NoSourceData, \
+from bolibana.reporting.indicators import (IndicatorTable, \
                                            reference, indicator, label)
 from pnlp_core.models import MalariaReport
-from pnlp_core.data import current_reporting_period
-from pnlp_core.indicators.common import get_report_for, find_report_attr_age
+from pnlp_core.indicators.common import find_report_attr_age
 
 
 class Hospitalisation(IndicatorTable):
