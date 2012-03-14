@@ -17,9 +17,9 @@
     </table>
     {% if contacts %}
         <table>
-        <tr><th>Entité</th><th>nom</th><th>Prénom</th><th>email</th><th>Téléphone</th><th>Accès</th></tr>
+        <tr><th>nom</th><th>Prénom</th><th>email</th><th>Téléphone</th><th>Accès</th></tr>
         {% for contact in contacts %}
-        <tr><td>{{ contact.first_access.target }}</td><td>{{ contact.get_last_name}}</td><td>{{ contact.get_first_name}}</td><td>{{ contact.get_email}}</td><td>{{ contact.phone_number|phone }}</td><td>{{ contact.first_access}}</td></tr>
+        <tr><td>{{contact.get_last_name}}</td><td>{{contact.get_first_name}}</td><td>{{contact.get_email}}</td><td>{{contact.phone_number|phone}}{% if contact.phone_number_extra %}<br />{{contact.phone_number_extra|phone}}{% endif %}</td><td>{{contact.first_access}}</td></tr>
         {% endfor %}
         </table>
     {%endif%}
