@@ -90,21 +90,18 @@ class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
     @label(u"MILD")
     def stockout_bednet(self, period):
         nb_bednet = nb_stockout(self.entity, period, 'bednet')
-        print("BN: %d" % nb_bednet)
         return nb_bednet
 
     @indicator(2, 'total_structures_in_the_district')
     @label(u"TDR")
     def stockout_rdt(self, period):
         nb_rdt = nb_stockout(self.entity, period, 'rdt')
-        print("RDT: %d" % nb_rdt)
         return nb_rdt
 
     @indicator(3, 'total_structures_in_the_district')
     @label(u"SP")
     def stockout_sp(self, period):
         nb_sp = nb_stockout(self.entity, period, 'sp')
-        print("SP: %d" % nb_sp)
         return nb_sp
 
 WIDGETS = [PourcentageStructuresRuptureStockMILDTDRSP,
