@@ -67,24 +67,33 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
     type = 'graph'
     graph_type = 'spline'
 
-    default_options = {'with_percentage': False, \
+    default_options = {'with_percentage': True, \
                        'with_reference': False, \
                        'with_data': False,
-                       'only_percent': False}
+                       'only_percent': True}
 
-    @indicator(1)
+    @reference
+    @indicator(0)
+    def total_structures_in_the_district(self, period):
+        if self.entity.type.slug == 'cscom':
+            return 1
+        else:
+            return self.entity.get_descendants()\
+                              .filter(type__slug='cscom').count()
+
+    @indicator(1, 'total_structures_in_the_district')
     @label(u"Arthemeter Injectable")
     def structures_rupture_stock_arthemeter_injectable(self, period):
         nb_artemether = nb_stockout(self.entity, period, 'artemether')
         return nb_artemether
 
-    @indicator(2)
+    @indicator(2, 'total_structures_in_the_district')
     @label(u"Quinine Injectable")
     def structures_rupture_stock_Quinine_injectable(self, period):
         nb_quinine = nb_stockout(self.entity, period, 'quinine')
         return nb_quinine
 
-    @indicator(3)
+    @indicator(3, 'total_structures_in_the_district')
     @label(u"Serum Glucosé 10%")
     def structures_rupture_stock_Serum_Glucose_injectable(self, period):
         nb_serum = nb_stockout(self.entity, period, 'serum')
