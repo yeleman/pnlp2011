@@ -16,9 +16,9 @@ function toggleme(num) {
 <div id="context">
     <table>
         <tr>
-            <td><label>provider</label></td>
+            <td><label>Utilisateur</label></td>
             <td>
-                <select name="alou" onchange="javascript:toggleme(this.value);">
+                <select name="provider" onchange="javascript:toggleme(this.value);">
                     {% for name, num in all_providers %}
                     <option value={{num}} >{{name}}</option>
                     {% endfor %}

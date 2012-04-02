@@ -129,7 +129,7 @@ def send_message(request):
     from nosms.models import Message
 
     class MessageForm(forms.Form):
-        number = forms.CharField(label=(u"Numero"))
+        number = forms.CharField(label=(u"Numéro"))
         text = forms.CharField(widget=forms.Textarea(), label=(u"Texte"))
 
         def clean_text(self):
