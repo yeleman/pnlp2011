@@ -71,7 +71,7 @@ Deployment Installation
     Add to end of file:
         export WORKON_HOME=~/src/envs
         source /usr/local/bin/virtualenvwrapper.sh
-    logout / login
+    logout / login 
     mkvirtualenv --system-site-packages pnlp
     cd ~/src
     git clone git://github.com/yeleman/nosms.git
