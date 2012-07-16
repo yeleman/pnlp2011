@@ -438,7 +438,20 @@ class Reminder(Alert):
 
     def get_alert_id(self):
         """ should happen once per day only """
-        return u'%s_%s' % (self.args.level, datetime.now().strftime('%d%m%Y'))
+        now = datetime.now()
+        # CSCOM: send 2 SMS: 1st, 4th, 5th
+        if self.args.level == 'cscom':
+            if now.day <= 3:
+                fmt = now.strftime('01%m%Y')
+            else:
+                fmt = now.strftime('04%m%Y')
+        # DISTICT: send 1 SMS: 6th
+        elif self.args.level == 'district':
+            fmt = now.strftime('10%m%Y')
+        # REGION: send 1 SMS: 16th
+        elif self.args.level == 'region':
+            fmt = now.strftime('20%m%Y')
+        return u'%s_%s' % (self.args.level, fmt)
 
     def can_trigger(self, *args, **kwargs):
         # triggers happens if:
@@ -450,7 +463,9 @@ class Reminder(Alert):
                                 % self.args.level)(period=self.args.period)
         except:
             return False
+        now = datetime.now()
         return self.not_triggered \
+               and now.day >= int(self.get_alert_id()[-8:-6]) \
                and not time_is_over \
                and self.args.period == current_reporting_period()
 
@@ -473,6 +488,9 @@ class Reminder(Alert):
             for cscom in cscom_without_report(self.args.period):
                 contact = contact_for(cscom, recursive=False)
                 if not contact or not contact.phone_number:
+                    continue
+                # CSCOM: only cellphone transmiting ones.
+                if not cscom.parent.slug in ('nion', 'maci'):
                     continue
 
                 logger.info(u"Sending cscom text to %s" % contact.phone_number)
