@@ -132,7 +132,7 @@ INSTALLED_APPS = (
     # pnlp2011 specific apps
     'django.contrib.humanize',
     'babeldjango',
-    'nosms',
+    'nosmsd',
     'bolibana',
     'pnlp_core',
     'pnlp_sms',
@@ -233,6 +233,8 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     "bolibana.web.context_processors.add_level")
 
 AUTH_PROFILE_MODULE = 'bolibana.Provider'
+
+DATABASE_ROUTERS = ['nosmsd.django_routers.NoSMSdRouter']
 
 # loads custom settings from a separate file
 try:

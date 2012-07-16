@@ -15,9 +15,6 @@ from pnlp_core.models import MalariaReport
 from pnlp_core.models.alert import Alert
 from pnlp_core.admin import MalariaReportAdmin, AlertAdmin
 
-from nosms.models import Message
-from nosms.admin import MessageAdmin
-
 
 class ProviderUserStacked(admin.StackedInline):
     model = Provider
@@ -40,7 +37,5 @@ admin.site.register(Provider, ProviderAdmin)
 admin.site.register(Role, RoleAdmin)
 admin.site.register(Access, AccessAdmin)
 admin.site.register(Permission, PermissionAdmin)
-
-#admin.site.register(Message, MessageAdmin)
 
 admin.site.register(Alert, AlertAdmin)

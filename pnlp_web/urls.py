@@ -5,7 +5,7 @@
 import os
 
 from django.contrib import admin
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls.defaults import patterns, url
 from django.views.generic.simple import direct_to_template
 
 from pnlp_web import views
@@ -21,7 +21,6 @@ RGXP_SECTION = 'section(?P<section_index>[0-9]{1,2}[ab]{0,1})'
 RGXP_SUBSECTION = '(?P<sub_section>[a-z\_]+)'
 
 urlpatterns = patterns('',
-    (r'^nosms/', include('nosms.urls')),
 
     url(r'^/?$', views.dashboard.dashboard, name='index'),
     url(r'^profile/$', bviews.profile.edit_profile, name='profile'),

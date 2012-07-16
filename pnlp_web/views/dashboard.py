@@ -4,12 +4,11 @@
 
 from django import forms
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, RequestContext, redirect
+from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.conf import settings
 
-from nosms.models import Message
+from nosmsd.models import Inbox, SentItems
 from bolibana.web.decorators import provider_required
 from bolibana.tools.utils import send_email
 from pnlp_core.models import MalariaReport
@@ -22,7 +21,6 @@ def nb_reports_for(entity, period):
     next_period = period.next()
     if entity.type.slug == 'district':
         nb_ent = entity.get_children().count()
-        sms = []
         incoming_sms = None
         all_sms = None
     else:
@@ -30,12 +28,12 @@ def nb_reports_for(entity, period):
         number = contact_for(entity, True).phone_number
         if not number.startswith('+223'):
             number = '+223' + number
-        incoming_sms = Message.incoming.filter(date__gte=next_period.start_on,
-                                      date__lte=next_period.end_on,
-                                      identity=number)
-        all_sms = Message.objects.filter(date__gte=next_period.start_on,
-                                      date__lte=next_period.end_on,
-                                      identity=number)
+        incoming_sms = Inbox.objects.filter(receivingdatetime__gte=next_period.start_on,
+                                            receivingdatetime__lte=next_period.end_on,
+                                            sendernumber=number)
+        all_sms = SentItems.objects.filter(sendingdatetime__gte=next_period.start_on,
+                                           sendingdatetime__lte=next_period.end_on,
+                                           destinationnumber=number)
     percent = float(nb_rec) / nb_ent
     return {'entity': entity, 'nb_received': nb_rec,
             'nb_expected': nb_ent,
@@ -77,7 +75,7 @@ class ContactForm(forms.Form):
 
 def contact(request):
     category = 'contact'
-    context = {}
+    context = {'category': category}
 
     try:
         web_provider = request.user.get_profile()
@@ -131,20 +129,20 @@ def contact(request):
 @provider_required
 def dashboard(request):
     category = 'dashboard'
-    context = {}
+    context = {'category': category}
 
     from bolibana.models import Entity
     from pnlp_core.data import (current_period, current_stage, \
                                 time_cscom_over, time_district_over, \
-                                time_region_over, contact_for)
+                                time_region_over)
 
     def sms_received_sent_by_period(period):
-        from nosms.models import Message
-        messages = Message.objects.filter(date__gte=period.start_on, \
-                                          date__lte=period.end_on)
-        received = messages.filter(direction=Message.DIRECTION_INCOMING) \
-                           .count()
-        sent = messages.filter(direction=Message.DIRECTION_OUTGOING).count()
+        received = Inbox.objects.filter(receivingdatetime__gte=period.start_on,
+                                        receivingdatetime__lte=period.end_on) \
+                                .count()
+        sent = SentItems.objects.filter(sendingdatetime__gte=period.start_on,
+                                        sendingdatetime__lte=period.end_on) \
+                                .count()
         return (received, sent)
 
     def received_reports(period, type_):

@@ -12,11 +12,19 @@ from bolibana.models import Entity
 
 
 def sms_for_period(period):
-        from nosms.models import Message
+        from nosmsd.models import Inbox, SentItems
         previous_period = period
-        messages = Message.objects.filter(date__gte=previous_period.start_on,\
-                                          date__lte=previous_period.end_on)\
-                                  .all().order_by('-date')
+
+        inbox = Inbox.objects.filter(receivingdatetime__gte=previous_period.start_on,
+                                     receivingdatetime__lte=previous_period.end_on)\
+                                .all().order_by('-receivingdatetime')
+
+        sent = SentItems.objects.filter(sendingdatetime__gte=previous_period.start_on,
+                                        sendingdatetime__lte=previous_period.end_on)\
+                                .all().order_by('-sendingdatetime')
+        messages = list(inbox) + list(sent)
+
+        sorted(messages, key=lambda msg: msg.date)
         return messages
 
 

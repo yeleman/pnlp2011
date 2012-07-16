@@ -27,7 +27,7 @@ function toggleme(slug) {
 		{% for center in district.children %}
 		<tr><td>{{ center.entity }}</th><td colspan="2" class="center" onclick="javascript:toggleme('{{center.entity.slug}}');">{% if center.incoming_sms|length %}<strong>{{ center.incoming_sms|length }} SMS</strong>{% else %}-{% endif %}</td></tr>
 		{% for sms in center.all_sms %}
-		<tr style="display: none;" class="sms_{{ center.entity.slug }}"><td colspan="3">{{ sms.date }} : {{ sms.text }}</td></tr>{% endfor %}
+		<tr style="display: none;" class="sms_{{ center.entity.slug }}"><td colspan="3">{{ sms.date }} : {{ sms.content }}</td></tr>{% endfor %}
 		{% endfor %}
 	{% endif %}
 

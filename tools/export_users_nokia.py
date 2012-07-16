@@ -2,10 +2,7 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-import sys
-
 from bolibana.models import Provider
-from nosms.utils import send_sms
 
 
 def filter_pilot_cscom(provider):

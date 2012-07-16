@@ -15,8 +15,7 @@ from pnlp_core.validators import MalariaReportValidator
 from pnlp_core.models import MalariaReport
 from pnlp_core.data import contact_for
 
-from nosms.models import Message
-from nosms.utils import send_sms
+from nosmsd.utils import send_sms
 
 
 logger = logging.getLogger(__name__)
@@ -88,25 +87,45 @@ def entity_for(provider):
 
 def nosms_handler(message):
     def main_palu_handler(message):
-        if message.text.lower().startswith('palu '):
-            if message.text.lower().startswith('palu passwd'):
+        if message.content.lower().startswith('palu '):
+            if message.content.lower().startswith('palu passwd'):
                 return palu_passwd(message)
-            elif message.text.lower().strip() == 'palu aide':
+            elif message.content.lower().strip() == 'palu aide':
                 return palu_help(message, True)
-            elif message.text.lower().startswith('palu aide'):
+            elif message.content.lower().startswith('palu aide'):
                 return palu_help(message)
+            elif message.content.lower().startswith('palu test'):
+                return palu_test(message)
+            elif message.content.lower().startswith('palu echo'):
+                return palu_echo(message)
             else:
                 return palu(message)
         else:
             return False
 
     if main_palu_handler(message):
-        message.status = Message.STATUS_PROCESSED
+        message.status = message.STATUS_PROCESSED
         message.save()
         logger.info(u"[HANDLED] msg: %s" % message)
         return True
     logger.info(u"[NOT HANDLED] msg : %s" % message)
     return False
+
+
+def palu_test(message, **kwargs):
+    try:
+        code, msg = message.content.split('palu test')
+    except:
+        msg = ''
+
+    message.respond(u"Received on %(date)s: %(msg)s" \
+                    % {'date': datetime.datetime.now(), 'msg': msg})
+    return True
+
+
+def palu_echo(message, **kwargs):
+    message.respond(kwargs['args'])
+    return True
 
 
 def palu_help(message, nousername=False):
@@ -117,10 +136,10 @@ def palu_help(message, nousername=False):
         hotline = '65731076'
 
     if nousername:
-        kw1, kw2 = message.text.strip().lower().split()
+        kw1, kw2 = message.content.strip().lower().split()
         username = None
     else:
-        kw1, kw2, uusername = message.text.strip().lower().split()
+        kw1, kw2, uusername = message.content.strip().lower().split()
         try:
             username = uusername.split(':')[1]
         except:
@@ -145,8 +164,7 @@ def palu_help(message, nousername=False):
         text_message = u"[DEMANDE AIDE] %(provider)s de %(entity)s." \
                        % {'provider': provider, 'entity': entity_for(provider)}
 
-    m = Message(identity=hotline, text=text_message)
-    m.send()
+    send_sms(hotline, text_message)
     return True
 
 
@@ -154,7 +172,7 @@ def palu_passwd(message):
     error_start = u"Impossible de changer votre mot de passe. "
     try:
         kw1, kw2, username, \
-        old_password, new_password = message.text.strip().lower().split()
+        old_password, new_password = message.content.strip().lower().split()
     except ValueError:
         message.respond(error_start + u"Le format du SMS est incorrect.")
         return True
@@ -233,7 +251,7 @@ def palu(message):
         'stockout_act_children', 'stockout_act_youth', 'stockout_act_adult', \
         'stockout_artemether', 'stockout_quinine', 'stockout_serum', \
         'stockout_bednet', 'stockout_rdt', 'stockout_sp']
-        args_values = message.text.strip().lower().split()
+        args_values = message.content.strip().lower().split()
         arguments = dict(zip(args_names, args_values))
     except ValueError:
         # failure to split means we proabably lack a data or more
@@ -329,7 +347,7 @@ def palu(message):
                         u"produite. Reessayez plus tard et " \
                         u"contactez ANTIM si le probleme persiste.")
         logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
-                     % (message.text, e))
+                     % (message.content, e))
         return True
 
     message.respond(u"[SUCCES] Le rapport de %(cscom)s pour %(period)s "

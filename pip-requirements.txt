@@ -10,3 +10,4 @@ BabelDjango==0.2.2
 python-dateutil==2.0
 South==0.7.3
 django-mptt==0.5.1
+nosmsd

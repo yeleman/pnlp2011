@@ -8,7 +8,6 @@ from datetime import datetime, date, timedelta
 import reversion
 from django.db import models
 from django.conf import settings
-from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 
 from pnlp_core.data import (time_cscom_over, time_district_over, \
@@ -16,7 +15,7 @@ from pnlp_core.data import (time_cscom_over, time_district_over, \
                             contact_for)
 from pnlp_core.models import MalariaReport, Alert
 from bolibana.models import Entity
-from nosms.utils import send_sms
+from nosmsd.utils import send_sms
 from bolibana.models import Provider, Access
 from bolibana.tools.utils import get_autobot, send_email, full_url
 

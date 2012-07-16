@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+# encoding=utf-8
+
+NOSMSD_HANDLER = 'pnlp_sms.palu.nosms_handler'
+NOSMSD_GETTEXT = True
+NOSMSD_GETTEXT_LOCALE = 'fr_FR.UTF-8'
+
+NOSMSD_DATABASE = {'type': 'MySQL', 'name': 'pnlpsms'}
+NOSMSD_DATABASE_OPTIONS = {'user': 'pnlpsms', 'passwd': 'pnlpsms',
+                           'host': 'localhost', 'use_unicode': True}
