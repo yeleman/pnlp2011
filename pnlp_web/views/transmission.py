@@ -134,7 +134,7 @@ def report_unvalidated(request):
 def send_message(request):
     from django import forms
     from bolibana.models import Provider
-    from nosms.models import Message
+    from nosmsd.utils import send_sms
 
     class MessageForm(forms.Form):
         number = forms.CharField(label=(u"Numéro"))
@@ -157,10 +157,9 @@ def send_message(request):
     if request.method == "POST":
         form = MessageForm(request.POST)
         if form.is_valid():
-            message = Message()
-            message.identity = form.cleaned_data.get('number')
-            message.text = form.cleaned_data.get('text')
-            message.save()
+            send_sms(form.cleaned_data.get('number'),
+                     form.cleaned_data.get('text'))
+
             return redirect("log_message")
 
     context = {'form': form, 'all_providers': all_providers}
