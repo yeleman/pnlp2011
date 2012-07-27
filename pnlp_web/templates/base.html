@@ -57,13 +57,15 @@
 </body>
 <script type="text/javascript" src="{% url static 'jquery-1.6.2.min.js' %}"></script>
 <script type="text/javascript" src="{% url static 'pnlp.js' %}"></script>
-{% if category == 'indicator_data' %}<script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>{% endif %}
+{% if category == 'indicator_data' %}<script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>
+<script type="text/javascript" src="{% url static 'exporting.js' %}"></script>{% endif %}
 <script type="text/javascript">
 $(document).ready(function(){
     addMessagesClickEvent();
     addLogoClickEvent('{% url index %}');
     {% block jqueryonload %}{% endblock %}
-    {% if category != 'indicator_data' %}addJavascript("{% url static 'highcharts.js' %}", 'head');addJavascript("{% url static 'exporting.js' %}", 'head');{% endif %}
+    {% if category != 'indicator_data' %}addJavascript("{% url static 'highcharts.js' %}", 'head');
+                                         addJavascript("{% url static 'exporting.js' %}", 'head');{% endif %}
 });
 </script>
 </html>
