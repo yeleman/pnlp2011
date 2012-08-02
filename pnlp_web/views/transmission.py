@@ -24,7 +24,7 @@ def sms_for_period(period):
                                 .all().order_by('-sendingdatetime')
         messages = list(inbox) + list(sent)
 
-        return sorted(messages, key=lambda msg: msg.date)
+        return sorted(messages, key=lambda msg: msg.date, reverse=True)
 
 
 @provider_permission('can_monitor_transmission')
