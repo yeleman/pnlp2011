@@ -257,7 +257,7 @@ class EndOfCSComPeriod(Alert):
                 try:
                     districts[e.parent.slug][cat]
                 except:
-                    districts[e.parent.slug] = {'entity': e, \
+                    districts[e.parent.slug] = {'entity': e.parent, \
                                                 'unval': 0, 'unsent': 0}
                 districts[e.parent.slug][cat] += 1
         increment(unval, 'unval')
