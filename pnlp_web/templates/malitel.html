@@ -16,11 +16,12 @@ td {  width: 25%; }
 </style>
 <div id="context">
 <table>
-    <tr><th>Numéro téléphone</th><th>CSCom</th><th>OK ?</th></tr>
+    <tr><th>CSCom</th><th>Numéro téléphone</th><th>OK ?</th></tr>
     {% for entity in entities %}
-        <tr><td>{{ entity.contact|phone }}</td><td>{{entity.name}}</td><td></td></tr>
+        <tr><td>{{entity.name}}</td><td>{{ entity.contact|phone }}</td><td></td></tr>
     {% endfor %}
 </table>
+<h2>*111*100*numero*11111#</h2>
 </div>
 {% endblock %}
 
