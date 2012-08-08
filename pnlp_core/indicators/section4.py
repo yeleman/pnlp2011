@@ -36,7 +36,7 @@ class GraphDeces(IndicatorTable):
                                self.options.age)
 
     @indicator(1, "total_death_all_causes")
-    @label(u"% Deces du au paludisme")
+    @label(u"% Décès du au paludisme")
     def total_malaria_death(self, period):
         return find_report_attr_age(self.entity, period, \
                                'total_malaria_death', \
@@ -85,7 +85,7 @@ class GraphCommun(IndicatorTable):
         return report.u5_total_malaria_death
 
     @indicator(3, "total_death_all_causes")
-    @label(u"Femmes encentes")
+    @label(u"Femmes enceintes")
     def pw_total_malaria_death(self, period):
         report = get_report_for(self.entity, period)
         return report.pw_total_malaria_death

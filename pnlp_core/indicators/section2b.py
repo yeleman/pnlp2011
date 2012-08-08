@@ -105,7 +105,7 @@ class EvolutionProportionCasPaludismeSimpleTraitesU5O5(IndicatorTable):
                        'only_percent': False}
 
     @indicator(0)
-    @label(u"Nbre de cas traités par CTA chez les mois de 5 ans")
+    @label(u"Nbre de cas traités par CTA chez les moins de 5 ans")
     def u5_total_treated_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_treated_malaria_cases
@@ -135,7 +135,7 @@ class EvolutionProportionCasPaludismeSimpleTraitesu5O51(IndicatorTable):
                        'only_percent': False}
 
     @indicator(0)
-    @label(u"Nbre de cas traités par CTA chez les mois de 5 ans")
+    @label(u"Nbre de cas traités par CTA chez les moins de 5 ans")
     def u5_total_treated_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_treated_malaria_cases
