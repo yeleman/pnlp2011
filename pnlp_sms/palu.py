@@ -178,7 +178,7 @@ def palu_passwd(message):
         return True
 
     try:
-        provider = Provider.objects.get(user__username=username)
+        provider = Provider.active.get(user__username=username)
     except Provider.DoesNotExist:
         message.respond(error_start + u"Ce nom d'utilisateur (%s) " \
                                       u"n'existe pas." % username)
@@ -275,7 +275,7 @@ def palu(message):
 
     # check credentials
     try:
-        provider = Provider.objects.get(user__username=arguments['username'])
+        provider = Provider.active.get(user__username=arguments['username'])
     except Provider.DoesNotExist:
         message.respond(error_start + u"Ce nom d'utilisateur " +
                                       u"(%s) n'existe pas." % \

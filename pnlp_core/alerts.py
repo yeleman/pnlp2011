@@ -362,7 +362,7 @@ class EndOfDistrictPeriod(Alert):
         if not self.args.is_district \
            and mali.pnlp_core_malariareport_reports\
                    .filter(period=self.args.period).count() == 0:
-            rauthor = author if author else Provider.objects.all()[0]
+            rauthor = author if author else get_autobot()
             logger.info(u"Creating National report")
             report = MalariaReport.create_aggregated(self.args.period, \
                                                      mali, rauthor)
