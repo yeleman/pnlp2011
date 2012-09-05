@@ -13,14 +13,13 @@ from bolibana.models import Entity
 
 def sms_for_period(period):
         from nosmsd.models import Inbox, SentItems
-        previous_period = period
 
-        inbox = Inbox.objects.filter(receivingdatetime__gte=previous_period.start_on,
-                                     receivingdatetime__lte=previous_period.end_on)\
+        inbox = Inbox.objects.filter(receivingdatetime__gte=period.start_on,
+                                     receivingdatetime__lte=period.end_on)\
                                 .all().order_by('-receivingdatetime')
 
-        sent = SentItems.objects.filter(sendingdatetime__gte=previous_period.start_on,
-                                        sendingdatetime__lte=previous_period.end_on)\
+        sent = SentItems.objects.filter(sendingdatetime__gte=period.start_on,
+                                        sendingdatetime__lte=period.end_on)\
                                 .all().order_by('-sendingdatetime')
         messages = list(inbox) + list(sent)
 
