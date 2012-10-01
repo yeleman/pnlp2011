@@ -3,8 +3,8 @@
 # maintainer: rgaudin
 
 
-from bolibana.reporting.indicators import (IndicatorTable, \
-                                           reference, indicator, label)
+from bolibana.reporting.indicators import (IndicatorTable, reference, \
+                                           indicator, label)
 from pnlp_core.models import MalariaReport
 from pnlp_core.indicators.common import get_report_for
 from pnlp_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes,\

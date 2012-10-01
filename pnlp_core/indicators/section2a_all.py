@@ -46,7 +46,7 @@ class TousCasPaludismeNotifies(IndicatorTable):
         report = get_report_for(self.entity, period)
         return report.total_suspected_malaria_cases
 
-    @indicator(3, 'total_consultation_all_causes')
+    @indicator(3, 'total_suspected_malaria_cases')
     @label(u"Total des cas suspects testés (GE et/ou TDR)")
     def total_tested_malaria_cases(self, period):
         report = get_report_for(self.entity, period)

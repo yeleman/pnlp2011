@@ -27,9 +27,9 @@ def sms_for_period(period):
 
 
 @provider_permission('can_monitor_transmission')
-def transmission(request):
+def monitoring_transmission(request):
     """ stats of transmission """
-    context = {'category': 'transmission'}
+    context = {'category': 'monitoring_transmission'}
 
     period = current_reporting_period()
 
@@ -54,7 +54,7 @@ def transmission(request):
 
     context.update({'entities': entities})
 
-    return render(request, 'transmission.html', context)
+    return render(request, 'monitoring_transmission.html', context)
 
 
 @provider_permission('can_monitor_transmission')
