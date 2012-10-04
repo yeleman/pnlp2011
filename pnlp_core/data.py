@@ -2,7 +2,7 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 
 from django import forms
 from django.utils.translation import ugettext as _
@@ -164,7 +164,7 @@ def current_stage():
 def contact_for(entity, recursive=True):
     """ contact person for an entity. first found at level or sup levels """
     ct, oi = Access.target_data(entity)
-    providers = Provider.objects\
+    providers = Provider.active\
                         .filter(access__in=Access.objects\
                                                  .filter(content_type=ct, \
                                                          object_id=oi))
