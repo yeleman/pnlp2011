@@ -93,14 +93,16 @@ def report_validation(request, report_receipt):
             data_browser.set('author', report.created_by.name())
 
             # create validator and fire
-            validator = MalariaReportValidator(data_browser, data_only=True)
+            validator = MalariaReportValidator(data_browser, data_only=True,
+                                          is_editing=True,
+                                          level=web_provider.first_role().slug)
             validator.errors.reset()
             try:
                 validator.validate()
             except Exception as e:
-                logger.error(u"Exception on form validation. " \
-                             "Report %(id)d with %(e)r" \
-                             % {'id': report.id, 'e': e})
+                print(u"Exception on form validation. "
+                      u"Report %(id)d with %(e)r" % {'id': report.id, 'e': e})
+                raise
             if validator.errors.count() > 0:
                 # validation errors
                 context.update({'all_errors': validator.errors.all(True)})

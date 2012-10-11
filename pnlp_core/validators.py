@@ -9,7 +9,8 @@ from bolibana.reporting.validator import DataValidator
 from bolibana.reporting.errors import MissingData, IncorrectReportData
 from bolibana.models import Entity, EntityType, MonthPeriod
 from pnlp_core.models import MalariaReport
-from pnlp_core.data import provider_can, time_cscom_over
+from pnlp_core.data import (provider_can, time_cscom_over,
+                            time_district_over, time_region_over)
 
 
 class MalariaReportValidator(DataValidator):
@@ -150,7 +151,18 @@ class MalariaReportValidator(DataValidator):
         # NO PAST
         period = MonthPeriod.find_create_from(year=self.get('year'), \
                                                   month=self.get('month'))
-        if time_cscom_over(period) and not self.options.bulk_import:
+
+        if self.options.is_editing:
+            if self.options.level == 'district':
+                time_over = time_district_over
+            elif self.options.level == 'region':
+                time_over = time_region_over
+            else:
+                time_over = time_cscom_over
+        else:
+            time_over = time_cscom_over
+
+        if time_over(period) and not self.options.bulk_import:
             self.errors.add(_(u"The reporting time frame for that " \
                               "period (%(period)s) is over.") \
                             % {'period': period}, 'period')
