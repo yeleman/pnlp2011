@@ -70,6 +70,15 @@ class GrapheConfirmes(CasConfirmes):
                        'with_data': True,
                        'only_percent': True}
 
+    @indicator(0)
+    @label(u"% des cas confirmés chez les moins de 5 ans")
+    def u5_total_confirmed_malaria_cases(self, period):
+        return super(GrapheConfirmes, self).u5_total_confirmed_malaria_cases(period)
+
+    @indicator(1)
+    @label(u"% des cas confirmés chez Tout âge confondu")
+    def total_confirmed_malaria_cases(self, period):
+        return super(GrapheConfirmes, self).total_confirmed_malaria_cases(period)
 
 class NbreHospitalisationDeces(IndicatorTable):
     """ Tableau: Données sur l'hospitalisation et le decès pour paludisme chez
@@ -192,7 +201,8 @@ class DecesPalu(IndicatorTable):
 
     name = u"Tableau 24"
     title = u" "
-    caption = u"Pourcentage de decès pour paludisme chez les moins de 5 ans"
+    caption = u"Pourcentage de decès pour paludisme chez les moins de 5 ans" \
+              u" Bamako/Segou"
     type = 'table'
 
     default_options = {'with_percentage': True, \
