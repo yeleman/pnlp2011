@@ -64,7 +64,7 @@ class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
     name = u"Figure 27"
     title = u" "
     caption = u"Evolution du pourcentage de Structures sans rupture de " \
-              u"stock en CTA"
+              u"stock en CTA (Nourrisson-Enfant, Adolescent, Adulte"
     type = 'graph'
     graph_type = 'spline'
 

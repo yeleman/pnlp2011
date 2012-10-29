@@ -44,18 +44,18 @@ class CasPaludismeEnfantsOverFive(IndicatorTable):
     @indicator(2, 'o5_total_tested_malaria_cases')
     @label(u"Nombre de cas suspects testés qui sont confirmés par  " \
            u"GE ou TDR")
-    def u5_total_confirmed_malaria_cases(self, period):
+    def o5_total_confirmed_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_confirmed_malaria_cases
 
-    @indicator(3, 'u5_total_confirmed_malaria_cases')
+    @indicator(3, 'o5_total_confirmed_malaria_cases')
     @label(u". Cas simples")
     def o5_total_simple_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_simple_malaria_cases
 
     @label(u". Cas graves")
-    @indicator(4, 'u5_total_confirmed_malaria_cases')
+    @indicator(4, 'o5_total_confirmed_malaria_cases')
     def u5_total_severe_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_severe_malaria_cases

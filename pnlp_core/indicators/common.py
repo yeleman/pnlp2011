@@ -17,6 +17,36 @@ def get_report_for(entity, period, validated=True):
         raise NoSourceData
 
 
+def get_report_for_element(report, element):
+    return report[element]
+
+
+def get_report_for_slug(entity, period, validated=True):
+    """ MalariaReport for slug entity and period or raise NoSourceData """
+    try:
+        if validated:
+            return MalariaReport.validated.get(entity__slug=entity.slug,
+                                               period=period)
+        else:
+            return MalariaReport.unvalidated.get(entity__slug=entity.slug,
+                                                 period=period)
+    except MalariaReport.DoesNotExist:
+        raise NoSourceData
+
+
+def get_report_national(period, validated=True):
+    """ MalariaReport for slug entity and period or raise NoSourceData """
+    try:
+        if validated:
+            return MalariaReport.validated.get(entity__slug="mali",
+                                               period=period)
+        else:
+            return MalariaReport.unvalidated.get(entity__slug="mali",
+                                                 period=period)
+    except MalariaReport.DoesNotExist:
+        raise NoSourceData
+
+
 def report_attr_age(report, attribute, age_code='all'):
     age_prefix = ''
     age_prefix1 = ''
@@ -41,7 +71,7 @@ def report_attr_age(report, attribute, age_code='all'):
         attr1 = '%s_%s' % (age_prefix1, attribute)
         attr2 = '%s_%s' % (age_prefix2, attribute)
         return getattr(report, attr1), getattr(report, attr2)
-    
+
     return getattr(report, attr)
 
 
