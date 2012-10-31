@@ -70,12 +70,12 @@ class GrapheConfirmes(CasConfirmes):
                        'with_data': True,
                        'only_percent': True}
 
-    @indicator(0)
+    @indicator(0, 'u5_total_tested_malaria_cases')
     @label(u"% des cas confirmés chez les moins de 5 ans")
     def u5_total_confirmed_malaria_cases(self, period):
         return super(GrapheConfirmes, self).u5_total_confirmed_malaria_cases(period)
 
-    @indicator(1)
+    @indicator(1, 'total_tested_malaria_cases')
     @label(u"% des cas confirmés chez Tout âge confondu")
     def total_confirmed_malaria_cases(self, period):
         return super(GrapheConfirmes, self).total_confirmed_malaria_cases(period)
@@ -123,6 +123,7 @@ class GrapheNbreHospitalisationDeces(NbreHospitalisationDeces):
     caption = u"Nombre d'hospitalisation et décès pour paludisme chez les" \
               u" moins de 5 ans"
     type = 'graph'
+    graph_type = 'spline'
 
     default_options = {'with_percentage': False, \
                        'with_reference': False, \
@@ -192,6 +193,16 @@ class GrapheDecesPaluToutCauses(DecesPaluToutCauses):
                        'with_reference': False, \
                        'with_data': True,
                        'only_percent': True}
+
+    @indicator(0, 'u5_total_death_all_causes_ref')
+    @label(u"% décès pour paludisme chez les moins de 5 ans")
+    def u5_total_malaria_death(self, period):
+        return super(GrapheDecesPaluToutCauses, self).u5_total_malaria_death(period)
+
+    @indicator(1, 'total_death_all_causes')
+    @label(u"% décès toutes causes confondues chez les moins de 5 ans")
+    def u5_total_death_all_causes_num(self, period):
+        return super(GrapheDecesPaluToutCauses, self).u5_total_death_all_causes_num(period)
 
 
 class DecesPalu(IndicatorTable):
@@ -283,6 +294,18 @@ class GrapheDecesPalu(DecesPalu):
                        'with_data': True,
                        'only_percent': True}
 
+    @indicator(0, 'bamako_total_malaria_death')
+    @label(u"% décès pour paludisme chez les 5 ans à Bamako")
+    def bamako_u5_total_malaria_death(self, period):
+        return super(GrapheDecesPalu, self).bamako_u5_total_malaria_death(period)
+
+    @indicator(1, 'segou_total_malaria_death')
+    @label(u"% décès pour paludisme chez les 5 ans à Ségou")
+    def segou_u5_total_malaria_death(self, period):
+        return super(GrapheDecesPalu, self).segou_u5_total_malaria_death(period)
+
+
+
 
 class CasTestesConfirmes(IndicatorTable):
     """ Tableau: Pourcentage de cas de suspect testés et pourcentage de cas de
@@ -340,6 +363,16 @@ class GrapheCasTestesConfirmes(CasTestesConfirmes):
                        'with_data': True,
                        'only_percent': True}
 
+    @indicator(0)
+    @label(u"% des cas suspects testés")
+    def total_tested_malaria_cases(self, period):
+        return super(GrapheCasTestesConfirmes, self).total_tested_malaria_cases(period)
+
+    @indicator(1, 'total_tested_malaria_cases')
+    @label(u"% cas confirmés")
+    def total_confirmed_malaria_cases(self, period):
+        return super(GrapheCasTestesConfirmes, self).total_confirmed_malaria_cases(period)
+
 
 class NbreConsultationCasSuspect(IndicatorTable):
     """ Tableau: Pourcentage de cas de suspect testés et pourcentage de cas de
@@ -360,7 +393,7 @@ class NbreConsultationCasSuspect(IndicatorTable):
         return MalariaReport.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
-    @indicator(0)
+    @indicator(0, 'total_suspected_malaria_cases')
     @label(u"Total consultation(toutes causes)")
     def total_consultation_all_causes(self, period):
         report = get_report_for(self.entity, period)

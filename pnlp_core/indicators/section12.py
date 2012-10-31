@@ -30,7 +30,6 @@ class PromptitudeRapportageSegouBamako(IndicatorTable):
     @label(u"Structures à Bamako")
     def total_structures_in_bamako(self, period):
         entity = Entity.objects.get(slug='bamako')
-
         return entity.get_descendants()\
                                  .filter(type__slug='cscom').count()
 
@@ -40,26 +39,23 @@ class PromptitudeRapportageSegouBamako(IndicatorTable):
         entity = Entity.objects.get(slug='bamako')
         descendants = entity.get_descendants()\
                                  .filter(type__slug='cscom')
-
         return MalariaReport.objects.filter(period=period,
                                             entity__in=descendants).count()
 
     @reference
     @indicator(2, 'total_structures_in_segou')
-    @label(u"Structures à Bamako")
+    @label(u"Structures à Ségou")
     def total_structures_in_segou(self, period):
         entity = Entity.objects.get(slug='segou')
-
         return entity.get_descendants()\
                                  .filter(type__slug='cscom').count()
 
     @indicator(3, 'total_structures_in_segou')
-    @label(u"Segou")
+    @label(u"Ségou")
     def number_tautovalide_segou(self, period):
         entity = Entity.objects.get(slug='segou')
         descendants = entity.get_descendants()\
                                  .filter(type__slug='cscom')
-
         return MalariaReport.objects.filter(period=period,
                                             entity__in=descendants).count()
 
@@ -77,6 +73,18 @@ class FigurePromptitudeRapportageSegouBamako(PromptitudeRapportageSegouBamako):
                        'with_reference': False, \
                        'with_data': True,
                        'only_percent': True}
+
+    @indicator(0, 'total_structures_in_bamako')
+    @label(u"% de structures ayant transmis à Bamako")
+    def number_tautovalide_bamako(self, period):
+        return super(FigurePromptitudeRapportageSegouBamako,
+                     self).number_tautovalide_bamako(period)
+
+    @indicator(1, 'total_structures_in_segou')
+    @label(u"% de structures ayant transmis à Ségou")
+    def number_tautovalide_segou(self, period):
+        return super(FigurePromptitudeRapportageSegouBamako,
+                     self).number_tautovalide_segou(period)
 
 
 class PromptitudeNionoMacinaAutres(IndicatorTable):
@@ -107,7 +115,7 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
 
     @indicator(1, 'total_structures_in_niono')
     @label(u"structures ayant transmis à Niono")
-    def number_tautovalide_bamako(self, period):
+    def number_tautovalide_niono(self, period):
         entity = Entity.objects.get(slug='nion')
         descendants = entity.get_descendants()\
                                  .filter(type__slug='cscom')
@@ -126,7 +134,7 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
 
     @indicator(3, 'total_structures_in_macina')
     @label(u"structures ayant transmis à Macina")
-    def number_tautovalide_segou(self, period):
+    def number_tautovalide_macina(self, period):
         entity = Entity.objects.get(slug='maci')
         descendants = entity.get_descendants()\
                                  .filter(type__slug='cscom')
@@ -210,6 +218,24 @@ class GraphePromptitudeNionoMacinaAutres(PromptitudeNionoMacinaAutres):
                        'with_reference': False, \
                        'with_data': True,
                        'only_percent': True}
+
+    @indicator(0, 'total_structures_in_niono')
+    @label(u"% de structures ayant transmis à Niono")
+    def number_tautovalide_niono(self, period):
+        return super(GraphePromptitudeNionoMacinaAutres,
+                     self).number_tautovalide_niono(period)
+
+    @indicator(1, 'total_structures_in_macina')
+    @label(u"% de structures ayant transmis à Macina")
+    def number_tautovalide_macina(self, period):
+        return super(GraphePromptitudeNionoMacinaAutres,
+                     self).number_tautovalide_macina(period)
+
+    @indicator(2, 'other_structures')
+    @label(u"% de structures ayant transmis dans les 8 autres districts")
+    def other_structures1(self, period):
+        return super(GraphePromptitudeNionoMacinaAutres,
+                     self).other_structures1(period)
 
 
 WIDGETS = [PromptitudeRapportageSegouBamako,

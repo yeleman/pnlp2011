@@ -66,6 +66,15 @@ class GrapheCTAMILD(CTAMILD):
                        'with_data': True,
                        'only_percent': True}
 
+    @indicator(0, 'pw_total_anc1')
+    @label(u"% de femmes enceintes reçu en CPN ayant reçu la MILD")
+    def pw_total_distributed_bednets(self, period):
+        return super(GrapheCTAMILD, self).pw_total_distributed_bednets(period)
+
+    @indicator(1, 'pw_total_anc1')
+    @label(u"% de femmes enceintes reçu en CPN ayant reçu la SP2")
+    def pw_total_sp2(self, period):
+        return super(GrapheCTAMILD, self).pw_total_sp2(period)
 
 class TraitesCTA(IndicatorTable):
     """ Tableau: Données sur la CPN et le Traitement Préventif  Intermittent
@@ -101,7 +110,7 @@ class TraitesCTA(IndicatorTable):
             return report.total_simple_malaria_cases
 
     @indicator(1, 'bamako_total_simple_malaria_cases')
-    @label(u"cas paludisme traités par CTA à Bamako")
+    @label(u"% cas paludisme traités par CTA à Bamako")
     def bamako_total_treated_malaria_cases(self, period):
         if self.entity.type.slug == 'cscom' or \
            self.entity.type.slug == 'district':
@@ -129,7 +138,7 @@ class TraitesCTA(IndicatorTable):
             return report.total_simple_malaria_cases
 
     @indicator(3, 'segou_total_simple_malaria_cases')
-    @label(u"cas paludisme traités par CTA à Ségou")
+    @label(u"% cas paludisme traités par CTA à Ségou")
     def segou_total_treated_malaria_cases(self, period):
         if self.entity.type.slug == 'cscom' or \
            self.entity.type.slug == 'district':
@@ -155,8 +164,8 @@ class GrapheTraitesCTA(TraitesCTA):
 
     default_options = {'with_percentage': True, \
                        'with_reference': False, \
-                       'with_data': True,
-                       'only_percent': False}
+                       'with_data': False,
+                       'only_percent': True}
 
 
 class PourcentageCTATDRMILD(IndicatorTable):
@@ -235,6 +244,21 @@ class GraphePourcentageCTATDRMILD(PourcentageCTATDRMILD):
                        'with_reference': False, \
                        'with_data': True,
                        'only_percent': True}
+
+    @indicator(0, 'total_structures_in_the_district')
+    @label(u"% de structures sans Rupture de stock de CTA")
+    def stockout_act(self, period):
+        return super(GraphePourcentageCTATDRMILD, self).stockout_act(period)
+
+    @indicator(1, 'total_structures_in_the_district')
+    @label(u"% de structures sans Rupture de stock de TDR")
+    def stockout_rdt(self, period):
+        return super(GraphePourcentageCTATDRMILD, self).stockout_rdt(period)
+
+    @indicator(2, 'total_structures_in_the_district')
+    @label(u"% de structures sans Rupture de stock de MILD")
+    def stockout_bednet(self, period):
+        return super(GraphePourcentageCTATDRMILD, self).stockout_bednet(period)
 
 WIDGETS = [CTAMILD, GrapheCTAMILD, TraitesCTA,
            GrapheTraitesCTA, PourcentageCTATDRMILD,
