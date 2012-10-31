@@ -151,30 +151,42 @@ class DecesPaluToutCauses(IndicatorTable):
                                               period=period).count() > 0
 
     @reference
-    @indicator(0, 'u5_total_death_all_causes_ref')
+    @indicator(0, 'u5_total_consultation_all_causes')
+    @label(u"Total consultation chez les moins de 5 ans")
+    def u5_total_consultation_all_causes(self, period):
+        report = get_report_for(self.entity, period)
+        return report.u5_total_consultation_all_causes
+
+    @indicator(1, 'u5_total_consultation_all_causes')
     @label(u"décès toutes causes confondues chez les moins de 5 ans")
-    def u5_total_death_all_causes_ref(self, period):
+    def u5_total_death_all_causes(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_death_all_causes
 
-    @indicator(1, 'u5_total_death_all_causes_ref')
+    @indicator(2, 'u5_total_death_all_causes')
     @label(u"décès pour paludisme chez les moins de 5 ans")
     def u5_total_malaria_death(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_malaria_death
 
     @reference
-    @indicator(2, 'total_death_all_causes')
-    @label(u"Total des décès toutes causes confondues chez tout âge")
-    def total_death_all_causes(self, period):
+    @indicator(3, 'o5_total_consultation_all_causes')
+    @label(u"Total consultation chez les 5 ans et plus")
+    def o5_total_consultation_all_causes(self, period):
         report = get_report_for(self.entity, period)
-        return report.total_death_all_causes
+        return report.o5_total_consultation_all_causes
 
-    @indicator(3, 'total_death_all_causes')
-    @label(u"décès toutes causes confondues chez les moins de 5 ans")
-    def u5_total_death_all_causes_num(self, period):
+    @indicator(4, 'o5_total_consultation_all_causes')
+    @label(u"décès toutes causes confondues chez les 5 ans et plus")
+    def o5_total_death_all_causes(self, period):
         report = get_report_for(self.entity, period)
-        return report.u5_total_death_all_causes
+        return report.o5_total_death_all_causes
+
+    @indicator(5, 'o5_total_death_all_causes')
+    @label(u"décès pour paludisme chez les 5 ans et plus")
+    def o5_total_malaria_death(self, period):
+        report = get_report_for(self.entity, period)
+        return report.o5_total_malaria_death
 
 
 class GrapheDecesPaluToutCauses(DecesPaluToutCauses):
@@ -191,18 +203,32 @@ class GrapheDecesPaluToutCauses(DecesPaluToutCauses):
 
     default_options = {'with_percentage': True, \
                        'with_reference': False, \
-                       'with_data': True,
+                       'with_data': False,
                        'only_percent': True}
 
-    @indicator(0, 'u5_total_death_all_causes_ref')
+    @indicator(0, 'u5_total_consultation_all_causes')
+    @label(u"% décès toutes causes confondues chez les moins de 5 ans")
+    def u5_total_death_all_causes(self, period):
+        return super(GrapheDecesPaluToutCauses,
+                     self).u5_total_death_all_causes(period)
+
+    @indicator(1, 'u5_total_death_all_causes')
     @label(u"% décès pour paludisme chez les moins de 5 ans")
     def u5_total_malaria_death(self, period):
-        return super(GrapheDecesPaluToutCauses, self).u5_total_malaria_death(period)
+        return super(GrapheDecesPaluToutCauses,
+                     self).u5_total_malaria_death(period)
 
-    @indicator(1, 'total_death_all_causes')
-    @label(u"% décès toutes causes confondues chez les moins de 5 ans")
-    def u5_total_death_all_causes_num(self, period):
-        return super(GrapheDecesPaluToutCauses, self).u5_total_death_all_causes_num(period)
+    @indicator(2, 'o5_total_consultation_all_causes')
+    @label(u"% décès toutes causes confondues chez les 5 ans et plus")
+    def o5_total_death_all_causes(self, period):
+        return super(GrapheDecesPaluToutCauses,
+                     self).o5_total_death_all_causes(period)
+
+    @indicator(3, 'o5_total_death_all_causes')
+    @label(u"% décès pour paludisme chez les 5 ans et plus")
+    def o5_total_malaria_death(self, period):
+        return super(GrapheDecesPaluToutCauses,
+                     self).o5_total_malaria_death(period)
 
 
 class DecesPalu(IndicatorTable):
