@@ -162,3 +162,22 @@ function addJQEventForHelpNavigation() {
         elem.addClass("helpon");
     });
 }
+
+
+function adjustMaxValueFor(serie) {
+    new_max = 100;
+
+    for (i=0; i< serie.series.length; i++) {
+        for (y=0; y<serie.series[i].data.length; y++) {
+            if (serie.series[i].data[y].y > new_max)
+                new_max = serie.series[i].data[y].y;
+        }
+    }
+
+    if (new_max > 100) {
+        for (i=0; i<serie.yAxis.length;i++) {
+            serie.yAxis[i].options.max = new_max;
+        }
+        serie.redraw();
+    }
+}

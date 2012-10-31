@@ -1,5 +1,5 @@
 {% load babel %}{% load bolibana %}PERCENT = {% if graph.options.only_percent %}'%'{% else %}''{% endif %};
-{{ id}} = new Highcharts.Chart(
+{{ id }} = new Highcharts.Chart(
         {chart: {renderTo: '{{ id }}', defaultSeriesType: '{{ graph.graph_type }}', backgroundColor: '#ebebeb', },
         legend: {}, title: {text: null},
         xAxis: {categories: [{% for p in graph.periods %}'{{ p.middle|graph_date_fmt:graph.periods }}',{% endfor %}]},
@@ -10,3 +10,6 @@
                       column: {animation: false, enableMouseTracking: false, dataLabels: {enabled: true, formatter: function() {if (this.y === null) { return "n/a" } else { return '' + this.y.toString().replace('.', ',') + PERCENT;} }} }},
         exporting: {enabled: true}, credits: {enabled: true, text: "© PNLP – {{ eperiod.middle|datefmt:"MMMM yyyy" }}", href: null},
       });
+{% if graph.options.only_percent %}
+adjustMaxValueFor({{ id }});
+{% endif %}

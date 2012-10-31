@@ -3,7 +3,7 @@
 # maintainer: rgaudin
 
 from bolibana.reporting.indicators import (IndicatorTable, \
-                                           reference, indicator, label)
+                                           reference, indicator, label, hidden)
 from pnlp_core.models import MalariaReport
 from pnlp_core.indicators.common import (get_report_national, get_report_for,
                                          get_report_for_element,
@@ -206,6 +206,7 @@ class GrapheDecesPaluToutCauses(DecesPaluToutCauses):
                        'with_data': False,
                        'only_percent': True}
 
+    @hidden
     @indicator(0, 'u5_total_consultation_all_causes')
     @label(u"% décès toutes causes confondues chez les moins de 5 ans")
     def u5_total_death_all_causes(self, period):
@@ -218,6 +219,7 @@ class GrapheDecesPaluToutCauses(DecesPaluToutCauses):
         return super(GrapheDecesPaluToutCauses,
                      self).u5_total_malaria_death(period)
 
+    @hidden
     @indicator(2, 'o5_total_consultation_all_causes')
     @label(u"% décès toutes causes confondues chez les 5 ans et plus")
     def o5_total_death_all_causes(self, period):
