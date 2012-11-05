@@ -31,9 +31,14 @@ def nb_reports_for(entity, period):
         incoming_sms = Inbox.objects.filter(receivingdatetime__gte=next_period.start_on,
                                             receivingdatetime__lte=next_period.end_on,
                                             sendernumber=number)
-        all_sms = SentItems.objects.filter(sendingdatetime__gte=next_period.start_on,
+        sent_sms = SentItems.objects.filter(sendingdatetime__gte=next_period.start_on,
                                            sendingdatetime__lte=next_period.end_on,
                                            destinationnumber=number)
+        if incoming_sms.count() != sent_sms.count():
+            all_sms = list(incoming_sms) + list(sent_sms)
+        else:
+            all_sms = sent_sms
+
     percent = float(nb_rec) / nb_ent
     return {'entity': entity, 'nb_received': nb_rec,
             'nb_expected': nb_ent,
