@@ -50,3 +50,17 @@ HOTLINE_EMAIL = "pnlp@yeleman.com"
 USE_HTTPS = True
 
 SUPPORT_CONTACTS = []
+
+CACHES = {
+    'dummy': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    },
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'none'
+    },
+    'memcached': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
