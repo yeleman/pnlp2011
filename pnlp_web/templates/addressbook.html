@@ -22,5 +22,17 @@
         <tr><td>{{contact.get_last_name}}</td><td>{{contact.get_first_name}}</td><td>{{contact.get_email}}</td><td>{{contact.phone_number|phone}}{% if contact.phone_number_extra %}<br />{{contact.phone_number_extra|phone}}{% endif %}</td><td>{{contact.first_access}}</td></tr>
         {% endfor %}
         </table>
-    {%endif%}
+
+        <table>
+            <tr><th colspan="3">Envoi SMS</th></tr>
+            <tr>
+            <form action="/adressbook_send_sms/" method="post">{% csrf_token %}
+                <input type="hidden" name='role' value={{form.role.value}}></input>
+                <input  type="hidden" name='entity' value={{form.entity.value}}></input>
+                <td>{{form_msg.text.label}}</td> <td>{{form_msg.text}}</td>
+                <td><input class= "buttons" type="submit" value="send"></td>
+            </form>
+            </tr>
+        </table>
+    {% endif %}
 {% endblock %}

@@ -3,12 +3,16 @@
 # maintainer: alou
 
 
+from django.contrib import messages
 from django.shortcuts import render, redirect
+
 from bolibana.web.decorators import provider_permission
+from bolibana.models import Entity
+
 from pnlp_core.data import current_period, current_reporting_period
 from pnlp_core.models import MalariaReport
+
 from dashboard import nb_reports_for
-from bolibana.models import Entity
 
 
 def sms_for_period(period):
@@ -21,9 +25,9 @@ def sms_for_period(period):
         sent = SentItems.objects.filter(sendingdatetime__gte=period.start_on,
                                         sendingdatetime__lte=period.end_on)\
                                 .all().order_by('-sendingdatetime')
-        messages = list(inbox) + list(sent)
+        list_messages = list(inbox) + list(sent)
 
-        return sorted(messages, key=lambda msg: msg.date, reverse=True)
+        return sorted(list_messages, key=lambda msg: msg.date, reverse=True)
 
 
 @provider_permission('can_monitor_transmission')
@@ -129,6 +133,7 @@ def report_unvalidated(request):
     return render(request, 'report_unvalidated.html', context)
 
 
+@provider_permission('can_monitor_transmission')
 def send_message(request):
     from django import forms
     from bolibana.models import Provider
@@ -157,7 +162,7 @@ def send_message(request):
         if form.is_valid():
             send_sms(form.cleaned_data.get('number'),
                      form.cleaned_data.get('text'))
-
+            messages.success(request, (u"SMS envoié"))
             return redirect("log_message")
 
     context = {'form': form, 'all_providers': all_providers}

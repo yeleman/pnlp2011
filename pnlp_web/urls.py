@@ -108,6 +108,7 @@ urlpatterns = patterns('',
          {'template': 'about.html'}, name='about'),
 
      url(r'^annuaire/$', bviews.addressbook.addressbook, name='addressbook'),
+     url(r'^adressbook_send_sms/$', bviews.addressbook.adressbook_send_sms, name='sms'),
 
     # CSCOM credit
      url(r'^malitel/$', views.malitel.malitel_list, name='malitel'),
