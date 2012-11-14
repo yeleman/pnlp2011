@@ -30,7 +30,7 @@
                 <input type="hidden" name='role' value={{form.role.value}}></input>
                 <input  type="hidden" name='entity' value={{form.entity.value}}></input>
                 <td>{{form_msg.text.label}}</td> <td>{{form_msg.text}}</td>
-                <td><input class= "buttons" type="submit" value="send"></td>
+                <td><input class= "buttons" type="submit" value="Envoyer" onclick="javascript:return confirm('Vous allez envoyer {{ contacts.count }} SMS');"></td>
             </form>
             </tr>
         </table>
