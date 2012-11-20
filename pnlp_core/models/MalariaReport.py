@@ -7,11 +7,10 @@ import inspect
 import reversion
 from django.db import models
 from django.db.models.signals import pre_save, post_save
-from django.contrib import admin
 from django.dispatch import receiver
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import ugettext_lazy as _
 
-from bolibana.models import EntityType, Entity, Report, MonthPeriod
+from bolibana.models import EntityType, Report, MonthPeriod
 
 
 class MalariaReport(Report):
@@ -366,6 +365,7 @@ class MalariaReport(Report):
 
     def validate(self):
         """ runs MalariaReportValidator """
+        from pnlp_core.validators import MalariaReportValidator
         validator = MalariaReportValidator(self)
         validator.validate()
         return validator.errors
