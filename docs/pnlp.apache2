@@ -19,9 +19,9 @@
     WSGIDaemonProcess prod user=pnlp group=pnlp threads=25 display-name=pnlp-wsgi
     WSGIProcessGroup prod
 
-    Alias /robots.txt /home/pnlp/src/pnlp2011/pnlp_web/static/robots.txt
-    Alias /favicon.ico /home/pnlp/src/pnlp2011/pnlp_web/static/images/favicon.ico
-    Alias /static/ /home/pnlp/src/pnlp2011/pnlp_web/static/
+    Alias /robots.txt /home/pnlp/src/pnlp2011/snisi_web/static/robots.txt
+    Alias /favicon.ico /home/pnlp/src/pnlp2011/snisi_web/static/images/favicon.ico
+    Alias /static/ /home/pnlp/src/pnlp2011/snisi_web/static/
 
     Alias /admin_static/ /home/pnlp/src/envs/pnlp/lib/python2.6/site-packages/django/contrib/admin/media/
     Alias /media/ /home/pnlp/src/pnlp2011/media/
@@ -45,7 +45,7 @@
             AddDescription "GZIP compressed archive" .Z .z .gz .zip
             AddDescription "RAR compressed archive" .rar
             AddDescription "TAR compressed archive" .tar
-            AddDescription "ZIP compressed archive" .zip 
+            AddDescription "ZIP compressed archive" .zip
             AddDescription "Windows executable file" .exe
             AddDescription "Common Gateway Interface" .cgi
             AddDescription "Joint Photographics Experts Group" .jpg .jpeg .jpe
@@ -81,7 +81,7 @@
 
     </Directory>
 
-    <Directory /home/pnlp/src/pnlp2011/pnlp_web/static/>
+    <Directory /home/pnlp/src/pnlp2011/snisi_web/static/>
         AllowOverride All
         Order deny,allow
         Allow from all
@@ -123,7 +123,7 @@
 
     # Make sure proxies don't deliver the wrong content
     Header append Vary User-Agent env=!dont-vary
-    </Location> 
+    </Location>
 
     # main mod_wsgi directive
     WSGIScriptAlias / /home/pnlp/src/pnlp2011/django.wsgi

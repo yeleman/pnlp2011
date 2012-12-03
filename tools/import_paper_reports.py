@@ -6,9 +6,10 @@ import os
 import shutil
 import pprint
 
-from pnlp_core.excel import MalariaExcelForm
+from snisi_core.excel import MalariaExcelForm
 from bolibana.tools.utils import get_autobot
 from bolibana.reporting.excel import IncorrectReportData
+
 
 def submit_excel_file(filepath, author, success='success', error='error'):
 
@@ -45,6 +46,7 @@ def submit_excel_file(filepath, author, success='success', error='error'):
     err_f.close()
     return False
 
+
 def import_all(src_folder):
     author = get_autobot()
     success_dir = 'success'
@@ -60,8 +62,9 @@ def import_all(src_folder):
         submit_excel_file(os.path.join(src_folder, fname),
                           author, success_dir, error_dir)
 
+
 def cleanup_db():
-    from pnlp_core.models import MalariaReport, Alert
+    from snisi_core.models import MalariaReport, Alert
 
     # CIV, VY (all)
     MalariaReport.objects.filter(entity__parent__slug='bamako').delete()

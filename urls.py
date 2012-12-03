@@ -10,8 +10,8 @@ from django.views.generic.simple import direct_to_template
 from django.contrib import admin
 from settings import STATIC_ROOT, MEDIA_ROOT
 
-from pnlp_web import urls as pnlp_urls
-from pnlp_web import views
+from snisi_web import urls as snisi_urls
+from snisi_web import views
 
 admin.autodiscover()
 
@@ -41,7 +41,7 @@ if hasattr(settings, 'SYSTEM_CLOSED') and settings.SYSTEM_CLOSED:
     )
 else:
     urlpatterns = patterns('',
-        url(r'', include(pnlp_urls)),
+        url(r'', include(snisi_urls)),
         url(r'^admin/', include(admin.site.urls)),
     )
 
