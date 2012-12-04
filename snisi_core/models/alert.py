@@ -27,7 +27,7 @@ class Options(dict, object):
 class Alert(models.Model):
 
     class Meta:
-        app_label = 'snisi_core'
+        app_label = 'pnlp_core'
 
     alert_id = models.CharField(max_length=100, primary_key=True)
     created = models.DateTimeField(_(u"created"), auto_now_add=True)

@@ -22,7 +22,7 @@ class MalariaReport(Report):
     YESNO = ((YES, _(u"Yes")), (NO, _(u"No")))
 
     class Meta:
-        app_label = 'snisi_core'
+        app_label = 'pnlp_core'
         verbose_name = _(u"Malaria Report")
         verbose_name_plural = _(u"Malaria Reports")
         unique_together = ('period', 'entity', 'type')
