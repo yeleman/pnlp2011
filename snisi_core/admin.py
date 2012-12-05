@@ -78,3 +78,45 @@ class AlertAdmin(admin.ModelAdmin):
 
     list_display = ('__unicode__', 'alert_id', 'content_type', 'created')
     list_filter = ('content_type',)
+
+
+class ChildrenMortalityReportAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'reporting_location', 'name', 'periods')
+    list_filter = ('periods',)
+
+
+class PregnancyReportAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'reporting_location', 'periods')
+    list_filter = ('periods',)
+
+
+class MaternalMortalityReportAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'periods')
+    list_filter = ('periods',)
+
+
+class RHCommoditiesReportAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'periods')
+    list_filter = ('periods',)
+
+
+class ProvidedServicesReportAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'periods')
+    list_filter = ('periods',)
+
+
+class BirthReportAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'periods')
+    list_filter = ('periods',)
+
+
+class EpidemiologyReportAdmin(admin.ModelAdmin):
+
+    list_display = ('__unicode__', 'periods')
+    list_filter = ('periods',)
