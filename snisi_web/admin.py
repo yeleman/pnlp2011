@@ -12,8 +12,23 @@ from bolibana.models import Role, Permission, Access, Provider
 from bolibana.admin import (RoleAdmin, PermissionAdmin, \
                                  AccessAdmin, ProviderAdmin)
 from snisi_core.models import MalariaReport
+from snisi_core.models import ChildrenMortalityReport
+from snisi_core.models import PregnancyReport
+from snisi_core.models import MaternalMortalityReport
+from snisi_core.models import RHCommoditiesReport
+from snisi_core.models import ProvidedServicesReport
+from snisi_core.models import BirthReport
+from snisi_core.models import EpidemiologyReport
+
 from snisi_core.models.alert import Alert
-from snisi_core.admin import MalariaReportAdmin, AlertAdmin
+from snisi_core.admin import (MalariaReportAdmin, AlertAdmin,
+                                ChildrenMortalityReportAdmin,
+                                PregnancyReportAdmin,
+                                MaternalMortalityReportAdmin,
+                                RHCommoditiesReportAdmin,
+                                ProvidedServicesReportAdmin,
+                                BirthReportAdmin,
+                                EpidemiologyReportAdmin,)
 
 
 class ProviderUserStacked(admin.StackedInline):
@@ -30,6 +45,13 @@ admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 
 admin.site.register(MalariaReport, MalariaReportAdmin)
+admin.site.register(ChildrenMortalityReport, ChildrenMortalityReportAdmin)
+admin.site.register(PregnancyReport, PregnancyReportAdmin)
+admin.site.register(MaternalMortalityReport, MaternalMortalityReportAdmin)
+admin.site.register(RHCommoditiesReport, RHCommoditiesReportAdmin)
+admin.site.register(ProvidedServicesReport, ProvidedServicesReportAdmin)
+admin.site.register(BirthReport, BirthReportAdmin)
+admin.site.register(EpidemiologyReport, EpidemiologyReportAdmin)
 admin.site.register(Period, PeriodAdmin)
 admin.site.register(Entity, EntityAdmin)
 admin.site.register(EntityType, EntityTypeAdmin)

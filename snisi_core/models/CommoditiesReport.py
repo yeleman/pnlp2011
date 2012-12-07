@@ -65,7 +65,7 @@ class RHCommoditiesReport(Report):
                   (SUPPLIES_NOT_PROVIDED, _(u"No")))
 
     class Meta:
-        app_label = 'pnlp_core'
+        app_label = 'snisi_core'
         verbose_name = _(u"RH Commodities Report")
         verbose_name_plural = _(u"RH Commodities Reports")
         unique_together = ('period', 'entity', 'type')

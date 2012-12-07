@@ -1,13 +1,13 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
         # Removing unique constraint on 'MalariaReport', fields ['period', 'entity', 'type']
         db.delete_unique('snisi_core_malariareport', ['period_id', 'entity_id', 'type'])
 
@@ -56,6 +56,60 @@ class Migration(SchemaMigration):
             ('other_notifiable_disease_death', self.gf('django.db.models.fields.IntegerField')()),
         ))
         db.send_create_signal('snisi_core', ['EpidemiologyReport'])
+
+        # Adding model 'RHCommoditiesReport'
+        db.create_table('snisi_core_rhcommoditiesreport', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('_status', self.gf('django.db.models.fields.PositiveIntegerField')(default=1)),
+            ('type', self.gf('django.db.models.fields.PositiveIntegerField')()),
+            ('receipt', self.gf('django.db.models.fields.CharField')(unique=True, max_length=30, blank=True)),
+            ('period', self.gf('django.db.models.fields.related.ForeignKey')(related_name='snisi_core_rhcommoditiesreport_reports', to=orm['bolibana.Period'])),
+            ('entity', self.gf('django.db.models.fields.related.ForeignKey')(related_name='snisi_core_rhcommoditiesreport_reports', to=orm['bolibana.Entity'])),
+            ('created_by', self.gf('django.db.models.fields.related.ForeignKey')(related_name='snisi_core_rhcommoditiesreport_reports', to=orm['bolibana.Provider'])),
+            ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('modified_by', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['bolibana.Provider'], null=True, blank=True)),
+            ('modified_on', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('family_planning', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('delivery_services', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('male_condom', self.gf('django.db.models.fields.IntegerField')()),
+            ('female_condom', self.gf('django.db.models.fields.IntegerField')()),
+            ('oral_pills', self.gf('django.db.models.fields.IntegerField')()),
+            ('injectable', self.gf('django.db.models.fields.IntegerField')()),
+            ('iud', self.gf('django.db.models.fields.IntegerField')()),
+            ('implants', self.gf('django.db.models.fields.IntegerField')()),
+            ('female_sterilization', self.gf('django.db.models.fields.IntegerField')()),
+            ('male_sterilization', self.gf('django.db.models.fields.IntegerField')()),
+            ('amoxicillin_ij', self.gf('django.db.models.fields.IntegerField')()),
+            ('amoxicillin_cap_gel', self.gf('django.db.models.fields.IntegerField')()),
+            ('amoxicillin_suspension', self.gf('django.db.models.fields.IntegerField')()),
+            ('azithromycine_tab', self.gf('django.db.models.fields.IntegerField')()),
+            ('azithromycine_suspension', self.gf('django.db.models.fields.IntegerField')()),
+            ('benzathine_penicillin', self.gf('django.db.models.fields.IntegerField')()),
+            ('cefexime', self.gf('django.db.models.fields.IntegerField')()),
+            ('clotrimazole', self.gf('django.db.models.fields.IntegerField')()),
+            ('ergometrine_tab', self.gf('django.db.models.fields.IntegerField')()),
+            ('ergometrine_vials', self.gf('django.db.models.fields.IntegerField')()),
+            ('iron', self.gf('django.db.models.fields.IntegerField')()),
+            ('folate', self.gf('django.db.models.fields.IntegerField')()),
+            ('iron_folate', self.gf('django.db.models.fields.IntegerField')()),
+            ('magnesium_sulfate', self.gf('django.db.models.fields.IntegerField')()),
+            ('metronidazole', self.gf('django.db.models.fields.IntegerField')()),
+            ('oxytocine', self.gf('django.db.models.fields.IntegerField')()),
+            ('ceftriaxone_500', self.gf('django.db.models.fields.IntegerField')()),
+            ('ceftriaxone_1000', self.gf('django.db.models.fields.IntegerField')()),
+        ))
+        db.send_create_signal('snisi_core', ['RHCommoditiesReport'])
+
+        # Adding M2M table for field sources on 'RHCommoditiesReport'
+        db.create_table('snisi_core_rhcommoditiesreport_sources', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('from_rhcommoditiesreport', models.ForeignKey(orm['snisi_core.rhcommoditiesreport'], null=False)),
+            ('to_rhcommoditiesreport', models.ForeignKey(orm['snisi_core.rhcommoditiesreport'], null=False))
+        ))
+        db.create_unique('snisi_core_rhcommoditiesreport_sources', ['from_rhcommoditiesreport_id', 'to_rhcommoditiesreport_id'])
+
+        # Adding unique constraint on 'RHCommoditiesReport', fields ['period', 'entity', 'type']
+        db.create_unique('snisi_core_rhcommoditiesreport', ['period_id', 'entity_id', 'type'])
 
         # Adding model 'ChildrenMortalityReport'
         db.create_table('snisi_core_childrenmortalityreport', (
@@ -107,6 +161,26 @@ class Migration(SchemaMigration):
             ('source', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True)),
         ))
         db.send_create_signal('snisi_core', ['MaternalMortalityReport'])
+
+        # Adding model 'PregnancyReport'
+        db.create_table('snisi_core_pregnancyreport', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('created_by', self.gf('django.db.models.fields.related.ForeignKey')(related_name='snisi_core_pregnancyreport_reports', to=orm['bolibana.Provider'])),
+            ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('modified_by', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['bolibana.Provider'], null=True, blank=True)),
+            ('modified_on', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('reporting_location', self.gf('django.db.models.fields.related.ForeignKey')(related_name='pregnancy_reported_in', to=orm['bolibana.Entity'])),
+            ('householder_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('mother_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('dob', self.gf('django.db.models.fields.DateField')()),
+            ('dob_auto', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('pregnancy_age', self.gf('django.db.models.fields.IntegerField')(max_length=2)),
+            ('expected_delivery_date', self.gf('django.db.models.fields.DateField')()),
+            ('delivery_date', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
+            ('pregnancy_result', self.gf('django.db.models.fields.IntegerField')(max_length=1)),
+            ('source', self.gf('django.db.models.fields.CharField')(max_length=1, null=True, blank=True)),
+        ))
+        db.send_create_signal('snisi_core', ['PregnancyReport'])
 
         # Adding model 'ProvidedServicesReport'
         db.create_table('snisi_core_providedservicesreport', (
@@ -178,9 +252,11 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        
         # Removing unique constraint on 'ProvidedServicesReport', fields ['period', 'entity', 'type']
         db.delete_unique('snisi_core_providedservicesreport', ['period_id', 'entity_id', 'type'])
+
+        # Removing unique constraint on 'RHCommoditiesReport', fields ['period', 'entity', 'type']
+        db.delete_unique('snisi_core_rhcommoditiesreport', ['period_id', 'entity_id', 'type'])
 
         # Adding model 'MalariaReport'
         db.create_table('snisi_core_malariareport', (
@@ -265,6 +341,12 @@ class Migration(SchemaMigration):
         # Deleting model 'EpidemiologyReport'
         db.delete_table('snisi_core_epidemiologyreport')
 
+        # Deleting model 'RHCommoditiesReport'
+        db.delete_table('snisi_core_rhcommoditiesreport')
+
+        # Removing M2M table for field sources on 'RHCommoditiesReport'
+        db.delete_table('snisi_core_rhcommoditiesreport_sources')
+
         # Deleting model 'ChildrenMortalityReport'
         db.delete_table('snisi_core_childrenmortalityreport')
 
@@ -273,6 +355,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'MaternalMortalityReport'
         db.delete_table('snisi_core_maternalmortalityreport')
+
+        # Deleting model 'PregnancyReport'
+        db.delete_table('snisi_core_pregnancyreport')
 
         # Deleting model 'ProvidedServicesReport'
         db.delete_table('snisi_core_providedservicesreport')
@@ -330,7 +415,7 @@ class Migration(SchemaMigration):
             'parent': ('mptt.fields.TreeForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': "orm['bolibana.Entity']"}),
             'phone_number': ('django.db.models.fields.CharField', [], {'max_length': '12', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '15', 'db_index': 'True'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '15'}),
             'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'entities'", 'to': "orm['bolibana.EntityType']"})
         },
@@ -338,7 +423,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'EntityType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '15', 'db_index': 'True'})
+            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '15'})
         },
         'bolibana.period': {
             'Meta': {'unique_together': "(('start_on', 'end_on', 'period_type'),)", 'object_name': 'Period'},
@@ -349,7 +434,7 @@ class Migration(SchemaMigration):
         },
         'bolibana.permission': {
             'Meta': {'object_name': 'Permission'},
-            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'primary_key': 'True', 'db_index': 'True'})
+            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'primary_key': 'True'})
         },
         'bolibana.provider': {
             'Meta': {'object_name': 'Provider'},
@@ -365,7 +450,7 @@ class Migration(SchemaMigration):
             'level': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['bolibana.Permission']", 'null': 'True', 'blank': 'True'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '15', 'primary_key': 'True', 'db_index': 'True'})
+            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '15', 'primary_key': 'True'})
         },
         'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
@@ -466,6 +551,24 @@ class Migration(SchemaMigration):
             'reporting_location': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'maternal_reported_in'", 'to': "orm['bolibana.Entity']"}),
             'source': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'})
         },
+        'snisi_core.pregnancyreport': {
+            'Meta': {'object_name': 'PregnancyReport'},
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'snisi_core_pregnancyreport_reports'", 'to': "orm['bolibana.Provider']"}),
+            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'delivery_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'dob': ('django.db.models.fields.DateField', [], {}),
+            'dob_auto': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'expected_delivery_date': ('django.db.models.fields.DateField', [], {}),
+            'householder_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['bolibana.Provider']", 'null': 'True', 'blank': 'True'}),
+            'modified_on': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'mother_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'pregnancy_age': ('django.db.models.fields.IntegerField', [], {'max_length': '2'}),
+            'pregnancy_result': ('django.db.models.fields.IntegerField', [], {'max_length': '1'}),
+            'reporting_location': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pregnancy_reported_in'", 'to': "orm['bolibana.Entity']"}),
+            'source': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'})
+        },
         'snisi_core.providedservicesreport': {
             'Meta': {'unique_together': "(('period', 'entity', 'type'),)", 'object_name': 'ProvidedServicesReport'},
             '_status': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'}),
@@ -500,6 +603,48 @@ class Migration(SchemaMigration):
             'returning_client': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'sources': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['snisi_core.ProvidedServicesReport']", 'null': 'True', 'blank': 'True'}),
             'total_hiv_test': ('django.db.models.fields.PositiveIntegerField', [], {}),
+            'type': ('django.db.models.fields.PositiveIntegerField', [], {})
+        },
+        'snisi_core.rhcommoditiesreport': {
+            'Meta': {'unique_together': "(('period', 'entity', 'type'),)", 'object_name': 'RHCommoditiesReport'},
+            '_status': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'}),
+            'amoxicillin_cap_gel': ('django.db.models.fields.IntegerField', [], {}),
+            'amoxicillin_ij': ('django.db.models.fields.IntegerField', [], {}),
+            'amoxicillin_suspension': ('django.db.models.fields.IntegerField', [], {}),
+            'azithromycine_suspension': ('django.db.models.fields.IntegerField', [], {}),
+            'azithromycine_tab': ('django.db.models.fields.IntegerField', [], {}),
+            'benzathine_penicillin': ('django.db.models.fields.IntegerField', [], {}),
+            'cefexime': ('django.db.models.fields.IntegerField', [], {}),
+            'ceftriaxone_1000': ('django.db.models.fields.IntegerField', [], {}),
+            'ceftriaxone_500': ('django.db.models.fields.IntegerField', [], {}),
+            'clotrimazole': ('django.db.models.fields.IntegerField', [], {}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'snisi_core_rhcommoditiesreport_reports'", 'to': "orm['bolibana.Provider']"}),
+            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'delivery_services': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'entity': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'snisi_core_rhcommoditiesreport_reports'", 'to': "orm['bolibana.Entity']"}),
+            'ergometrine_tab': ('django.db.models.fields.IntegerField', [], {}),
+            'ergometrine_vials': ('django.db.models.fields.IntegerField', [], {}),
+            'family_planning': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'female_condom': ('django.db.models.fields.IntegerField', [], {}),
+            'female_sterilization': ('django.db.models.fields.IntegerField', [], {}),
+            'folate': ('django.db.models.fields.IntegerField', [], {}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'implants': ('django.db.models.fields.IntegerField', [], {}),
+            'injectable': ('django.db.models.fields.IntegerField', [], {}),
+            'iron': ('django.db.models.fields.IntegerField', [], {}),
+            'iron_folate': ('django.db.models.fields.IntegerField', [], {}),
+            'iud': ('django.db.models.fields.IntegerField', [], {}),
+            'magnesium_sulfate': ('django.db.models.fields.IntegerField', [], {}),
+            'male_condom': ('django.db.models.fields.IntegerField', [], {}),
+            'male_sterilization': ('django.db.models.fields.IntegerField', [], {}),
+            'metronidazole': ('django.db.models.fields.IntegerField', [], {}),
+            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['bolibana.Provider']", 'null': 'True', 'blank': 'True'}),
+            'modified_on': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'oral_pills': ('django.db.models.fields.IntegerField', [], {}),
+            'oxytocine': ('django.db.models.fields.IntegerField', [], {}),
+            'period': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'snisi_core_rhcommoditiesreport_reports'", 'to': "orm['bolibana.Period']"}),
+            'receipt': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30', 'blank': 'True'}),
+            'sources': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['snisi_core.RHCommoditiesReport']", 'null': 'True', 'blank': 'True'}),
             'type': ('django.db.models.fields.PositiveIntegerField', [], {})
         },
         'snisi_core.uentity': {
