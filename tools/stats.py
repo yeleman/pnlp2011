@@ -1,13 +1,13 @@
 #/usr/bin/env python
 
 from bolibana.models import *
-from pnlp_core.models import *
+from snisi_core.models import *
 
 def data(slug, period):
     rep = MalariaReport.objects.filter(entity__parent__slug=slug, period=period).count()
     ent = Entity.objects.get(slug=slug).get_children().count()
     percent = float(rep) / ent
-    return (rep, ent, percent) 
+    return (rep, ent, percent)
 
 def stats(month, year):
     period = Period.find_create_from(month=month, year=year)

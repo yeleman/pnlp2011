@@ -1,0 +1,282 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: snisi_web\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-01 11:49+0000\n"
+"PO-Revision-Date: 2011-07-14 19:26-0000\n"
+"Last-Translator: renaud gaudin <reg@yeleman.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Basepath: ../../../\n"
+
+#: templates/base.html:24
+msgid "Edit your informations"
+msgstr "Modifier vos informations"
+
+#: templates/base.html:25
+msgid "Log out"
+msgstr "Se déconnecter"
+
+#: templates/base.html:25
+msgid "Disconnect"
+msgstr "Déconnecter"
+
+#: templates/base.html:27 templates/login_django.html:27
+msgid "Log in"
+msgstr "S'identifier"
+
+#: templates/base.html:29
+msgid "View Help Topics"
+msgstr "Voir les page d'aide"
+
+#: templates/base.html:29
+msgid "Help"
+msgstr "Aide"
+
+#: templates/base.html:38
+msgid "Informative Messages. Click to hide."
+msgstr "Messages d'information. Cliquez pour les faire disparaître."
+
+#: templates/base.html:50
+msgid "Contact Us"
+msgstr "Contactez nous"
+
+#: templates/base.html:50
+msgid "Contact"
+msgstr "Contact"
+
+#: templates/base.html:51
+msgid "About PNLP"
+msgstr "À propos du PNLP"
+
+#: templates/base.html:51
+msgid "About"
+msgstr "À propos"
+
+#: templates/edit_profile.html:4 templates/edit_profile.html.py:5
+msgid "My Profile"
+msgstr "Mon profil"
+
+#: templates/edit_profile.html:8
+msgid "My personnal informations"
+msgstr "Mes informations personnelles"
+
+#: templates/edit_profile.html:19 templates/edit_profile.html.py:26
+msgid "Change password"
+msgstr "Changer de mot de passe"
+
+#: templates/login_django.html:10
+msgid "Unable to log you in with this username and password."
+msgstr "Impossible de vous identifier avec cet identifiant et ce mot de passe."
+
+#: templates/login_django.html:22
+msgid "Username"
+msgstr "Identifiant"
+
+#: templates/login_django.html:24
+msgid "Password"
+msgstr "Mot de passe"
+
+#: views/dashboard.py:27
+msgid "Your Name"
+msgstr "Votre nom"
+
+#: views/dashboard.py:29
+msgid "Your e-mail address"
+msgstr "Votre adresse e-mail"
+
+#: views/dashboard.py:31
+msgid "Your phone number"
+msgstr "Votre numéro de téléphone"
+
+#: views/dashboard.py:33
+msgid "Subject"
+msgstr "Objet"
+
+#: views/dashboard.py:36
+msgid "Recipient"
+msgstr "Destinataire"
+
+#: views/dashboard.py:38
+msgid "Choose PNLP for operational requests and ANTIM for technical ones."
+msgstr ""
+"Choisissez PNLP pour les demandes opérationnelles et ANTIM pour celles "
+"techniques."
+
+#: views/dashboard.py:43
+msgid "Your request"
+msgstr "Votre requête"
+
+#: views/dashboard.py:79
+msgid "Support request sent."
+msgstr "Demande d'assistance envoyée."
+
+#: views/dashboard.py:82
+msgid "Unable to send request. Please try again later."
+msgstr "Impossible d'envoyer la demande. Merci de réessayer plus tard."
+
+#: views/indicators.py:82
+#, python-format
+msgid "Requested period interval (%(period_str)s) includes inexistant periods."
+msgstr ""
+"L'interval demandée (%(period_str)s) contient des périodes inexistantes."
+
+#: views/indicators.py:129
+msgid "This section does not exist."
+msgstr "Cette section n'existe pas."
+
+#: views/raw_data.py:67
+msgid "No report for that period"
+msgstr "Aucun rapport pour cette période"
+
+#~ msgid ""
+#~ "The credentials you are using to log in are not valid. Please contact "
+#~ "ANTIM."
+#~ msgstr ""
+#~ "Les identifiants que vous utilisez ne sont pas valides. Merci de "
+#~ "contacter l'ANTIM."
+
+#~ msgid "(%(ind)s) %(num)s"
+#~ msgstr "(%(ind)s) %(num)s"
+
+#~ msgid "Children Under 5yo."
+#~ msgstr "Enfants de moins de 5ans"
+
+#~ msgid "Children Over 5yo."
+#~ msgstr "Enfants de 5ans et plus"
+
+#~ msgid "Pregnant Women"
+#~ msgstr "Femmes enceintes"
+
+#~ msgid "Reporting"
+#~ msgstr "Rapport"
+
+#~ msgid "Collect / Data Entry"
+#~ msgstr "Remplissage / Collecte"
+
+#~ msgid "Stock outs"
+#~ msgstr "Rupture de stocks"
+
+#~ msgid "All Age"
+#~ msgstr "Tout âge confondu"
+
+#~ msgid "Default"
+#~ msgstr "Autres"
+
+#~ msgid "Data Collection"
+#~ msgstr "Collecte + transmission CSCom"
+
+#~ msgid "District Validation"
+#~ msgstr "Validation niveau district"
+
+#~ msgid "Region Validation"
+#~ msgstr "Validation niveau région"
+
+#~ msgid "National Analysis"
+#~ msgstr "Analyse niveau national"
+
+#~ msgid "Entity %(entity)s updated."
+#~ msgstr "Établissement %(entity)s mis à jour."
+
+#~ msgid "Entity %(entity)s created."
+#~ msgstr "L'établissement %(entity)s a été créé."
+
+#~ msgid "First Name"
+#~ msgstr "Prénom"
+
+#~ msgid "Last Name"
+#~ msgstr "Nom"
+
+#~ msgid "E-mail Address"
+#~ msgstr "Adresse e-mail"
+
+#~ msgid "Phone Number"
+#~ msgstr "Nº de téléphone"
+
+#~ msgid "New Password"
+#~ msgstr "Nouveau mot de passe"
+
+#~ msgid "Confirm New Password"
+#~ msgstr "Confirmer le nouveau mot de passe"
+
+#~ msgid "You must confirm your password"
+#~ msgstr "Vous devez confirmer votre mot de passe"
+
+#~ msgid "Your passwords do not match"
+#~ msgstr "Les deux mots de passe ne correspondent pas"
+
+#~ msgid "Profile details updated."
+#~ msgstr "Profil mis à jour."
+
+#~ msgid "Password updated."
+#~ msgstr "Mot de passe mis à jour."
+
+#~ msgid "User ID"
+#~ msgstr "ID Utilisateur"
+
+#~ msgid "Role"
+#~ msgstr "Rôle"
+
+#~ msgid "Entity"
+#~ msgstr "Établissement"
+
+#~ msgid "Phone number already taken by %(provider)s"
+#~ msgstr "Ce numéro de téléphone est déjà associé à %(provider)s"
+
+#~ msgid "An e-mail containing the password has been sent to %(email)s"
+#~ msgstr "Un e-mail contenant le mot de passe a été envoyé à %(email)s"
+
+#~ msgid ""
+#~ "Unable to send e-mail to %(email)s. Please record and forward the "
+#~ "password: %(pass)s"
+#~ msgstr ""
+#~ "Impossible d'envoyer un e-mail à %(email)s. Merci de noter et transmettre "
+#~ "le mot de passe: %(pass)s"
+
+#~ msgid "Please record and forward the generated password: %(pass)s"
+#~ msgstr ""
+#~ "Merci de noter et transmettre à la personne concerné son mot de passe: "
+#~ "%(pass)s"
+
+#~ msgid "There is no Provider account with ID #%(id)d"
+#~ msgstr "Il n'y a as de compte utilisateur avec l'ID #%(id)d"
+
+#~ msgid "Requested status is same as current user status."
+#~ msgstr "Le statut demandé est identique au statut actuel."
+
+#~ msgid "%(provider)s status has been changed to %(status)s"
+#~ msgstr "Le compte %(provider)s est désormais %(status)s"
+
+#~ msgid "active"
+#~ msgstr "actif"
+
+#~ msgid "inactive"
+#~ msgstr "inactif"
+
+#~ msgid "Access Denied!"
+#~ msgstr "Accès refusé !"
+
+#~ msgid "Access Denied"
+#~ msgstr "Accès refusé"
+
+#~ msgid "Home"
+#~ msgstr "Accueil"
+
+#~ msgid "Dashboard"
+#~ msgstr "Tableau de bord"
+
+#~ msgid "Logged out!"
+#~ msgstr "Déconnecté !"
+
+#~ msgid "You have been disconnected."
+#~ msgstr "Vous avez été déconnecté."

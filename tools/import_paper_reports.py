@@ -6,7 +6,7 @@ import os
 import shutil
 import pprint
 
-from pnlp_core.excel import MalariaExcelForm
+from snisi_core.excel import MalariaExcelForm
 from bolibana.tools.utils import get_autobot
 from bolibana.reporting.excel import IncorrectReportData
 
@@ -61,7 +61,7 @@ def import_all(src_folder):
                           author, success_dir, error_dir)
 
 def cleanup_db():
-    from pnlp_core.models import MalariaReport, Alert
+    from snisi_core.models import MalariaReport, Alert
 
     # CIV, VY (all)
     MalariaReport.objects.filter(entity__parent__slug='bamako').delete()

@@ -134,9 +134,9 @@ INSTALLED_APPS = (
     'babeldjango',
     'nosmsd',
     'bolibana',
-    'pnlp_core',
-    'pnlp_sms',
-    'pnlp_web',
+    'snisi_core',
+    'snisi_sms',
+    'snisi_web',
     'reversion',
     'django_extensions',
     'south',
@@ -206,7 +206,7 @@ LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-NOSMS_HANDLER = 'pnlp_sms.palu.nosms_handler'
+NOSMS_HANDLER = 'snisi_sms.palu.nosms_handler'
 NOSMS_TRANSPORT_HOST = 'localhost'
 NOSMS_TRANSPORT_PORT = 13013
 #NOSMS_TRANSPORT_USERNAME = None

@@ -4,7 +4,7 @@
 
 ''' Common nosmsd handler for PNLP & UNFPA projects on same modem '''
 
-from pnlp_sms.palu import nosms_handler as pnlp_handler
+from snisi_sms.palu import nosms_handler as pnlp_handler
 from unfpa_sms import nosms_handler as unfpa_handler
 
 

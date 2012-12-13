@@ -10,8 +10,8 @@ from django.views.generic.simple import direct_to_template
 from django.contrib import admin
 from settings import STATIC_ROOT, MEDIA_ROOT
 
-from pnlp_web import urls as pnlp_urls
-from pnlp_web import views
+from snisi_web import urls as pnlp_urls
+from snisi_web import views
 
 admin.autodiscover()
 

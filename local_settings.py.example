@@ -28,9 +28,9 @@ LANGUAGE_CODE = 'fr-fr'
 MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
 MEDIA_URL = ''
 
-import pnlp_web
+import snisi_web
 STATIC_ROOT = os.path.join(os.path.dirname( \
-                                 os.path.abspath(pnlp_web.__file__)), 'static')
+                                 os.path.abspath(snisi_web.__file__)), 'static')
 STATIC_URL = '/static/'
 
 #ADMIN_MEDIA_PREFIX = '/admin_static/'
