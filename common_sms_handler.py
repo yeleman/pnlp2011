@@ -4,14 +4,16 @@
 
 ''' Common nosmsd handler for PNLP & UNFPA projects on same modem '''
 
-from snisi_sms.palu import nosms_handler as pnlp_handler
-from unfpa_sms import nosms_handler as unfpa_handler
+from snisi_sms.malaria.malaria import malaria_handler
+from snisi_sms.reproduction import dead_persons_handler
+from snisi_sms.epidemiology import epidemiology_handler
 
 
 def common_nosmsd_handler(message):
 
-    keywords = {'palu': pnlp_handler,
-                'fnuap': unfpa_handler}
+    keywords = {'palu': malaria_handler,
+                'fnuap': dead_persons_handler,
+                'epid': epidemiology_handler}
 
     for keyword, handler in keywords.items():
         if message.content.lower().startswith(keyword):
