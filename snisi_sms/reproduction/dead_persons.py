@@ -3,9 +3,9 @@
 # vim: ai ts=4 sts=4 et sw=4 nu
 
 
-from unfpa_core.models import MaternalMortalityReport, ChildrenMortalityReport
+from snisi_core.models import MaternalMortalityReport, ChildrenMortalityReport
 from bolibana.models import Entity, MonthPeriod
-from snisi.common import (contact_for, resp_error, resp_error_dob,
+from snisi_sms.common import (contact_for, resp_error, resp_error_dob,
                     resp_error_provider, parse_age_dob,
                      resp_error_date, date_is_old)
 

@@ -8,7 +8,6 @@ import re
 
 from django.conf import settings
 
-from snisi_sms.common import modem_test, modem_echo
 from epidemiology import epidemiology
 
 logger = logging.getLogger(__name__)
@@ -20,9 +19,7 @@ def epidemiology_handler(message):
     def main_epid_handler(message):
         keyword = 'epid'
         commands = {
-            'epid': epidemiology,
-            'test': epid_test,
-            'echo': epid_echo}
+            'epid': epidemiology}
 
         if message.content.lower().startswith('fnuap '):
             for cmd_id, cmd_target in commands.items():
@@ -46,10 +43,3 @@ def epidemiology_handler(message):
     logger.info(u"[NOT HANDLED] msg : %s" % message)
     return False
 
-
-def epid_test(message, **kwargs):
-    return modem_test(message)
-
-
-def epid_echo(message, **kwargs):
-    return modem_echo(message)

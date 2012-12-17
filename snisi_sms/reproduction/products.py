@@ -5,9 +5,9 @@
 from django.db import IntegrityError
 
 from snisi_core.models import RHCommoditiesReport
-from snisi_web.views.data import current_period
+from snisi_core.data import current_period
 from bolibana.models import Entity, MonthPeriod
-from common import contact_for, resp_error, resp_error_provider
+from snisi_sms.common import contact_for, resp_error, resp_error_provider
 
 
 YESNOAVAIL = {

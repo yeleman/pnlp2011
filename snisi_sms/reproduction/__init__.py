@@ -8,7 +8,6 @@ import re
 
 from django.conf import settings
 
-from snisi_sms.common import modem_test, modem_echo
 from dead_persons import unfpa_dead_pregnant_woman, unfpa_dead_children_under5
 from products import unfpa_monthly_product_stockouts
 
@@ -23,9 +22,7 @@ def dead_persons_handler(message):
         commands = {
             'dpw': unfpa_dead_pregnant_woman,
             'du5': unfpa_dead_children_under5,
-            'mps': unfpa_monthly_product_stockouts,
-            'test': unfpa_test,
-            'echo': unfpa_echo}
+            'mps': unfpa_monthly_product_stockouts}
 
         if message.content.lower().startswith('fnuap '):
             for cmd_id, cmd_target in commands.items():
@@ -49,10 +46,3 @@ def dead_persons_handler(message):
     logger.info(u"[NOT HANDLED] msg : %s" % message)
     return False
 
-
-def unfpa_test(message, **kwargs):
-    return modem_test(message)
-
-
-def unfpa_echo(message, **kwargs):
-    return modem_echo(message)

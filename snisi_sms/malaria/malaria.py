@@ -85,7 +85,7 @@ def entity_for(provider):
         return entity
 
 
-def nosms_handler(message):
+def malaria_handler(message):
     def main_palu_handler(message):
         if message.content.lower().startswith('palu '):
             if message.content.lower().startswith('palu passwd'):
@@ -94,10 +94,6 @@ def nosms_handler(message):
                 return palu_help(message, True)
             elif message.content.lower().startswith('palu aide'):
                 return palu_help(message)
-            elif message.content.lower().startswith('palu test'):
-                return palu_test(message)
-            elif message.content.lower().startswith('palu echo'):
-                return palu_echo(message)
             else:
                 return palu(message)
         else:
@@ -110,22 +106,6 @@ def nosms_handler(message):
         return True
     logger.info(u"[NOT HANDLED] msg : %s" % message)
     return False
-
-
-def palu_test(message, **kwargs):
-    try:
-        code, msg = message.content.split('palu test')
-    except:
-        msg = ''
-
-    message.respond(u"Received on %(date)s: %(msg)s" \
-                    % {'date': datetime.datetime.now(), 'msg': msg})
-    return True
-
-
-def palu_echo(message, **kwargs):
-    message.respond(kwargs['args'])
-    return True
 
 
 def palu_help(message, nousername=False):

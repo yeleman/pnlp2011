@@ -178,11 +178,13 @@ class AggregatedMaternalMortalityReport(Report):
 
     indiv_sources = models.ManyToManyField('MaternalMortalityReport',
                                            verbose_name=_(u"Indiv. Sources"),
-                                           blank=True, null=True)
+                                           blank=True, null=True,
+                                           related_name='indiv_agg_children_mortality_reports')
 
     agg_sources = models.ManyToManyField('MaternalMortalityReport',
                                          verbose_name=_(u"Aggr. Sources"),
-                                         blank=True, null=True)
+                                         blank=True, null=True,
+                                         related_name='aggregated_agg_children_mortality_reports')
 
     @classmethod
     def start(cls, period, entity, author, \

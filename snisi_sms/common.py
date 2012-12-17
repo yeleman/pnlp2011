@@ -79,7 +79,7 @@ def date_is_old(reporting_date):
         raise ValueError(u"Le %s est passé il y a plus 30 jours" % reporting_date)
 
 
-def modem_test(message, **kwargs):
+def test(message, **kwargs):
     try:
         code, msg = message.content.split()
     except:
@@ -90,6 +90,6 @@ def modem_test(message, **kwargs):
     return True
 
 
-def modem_echo(message, **kwargs):
+def echo(message, **kwargs):
     message.respond(kwargs['args'])
     return True

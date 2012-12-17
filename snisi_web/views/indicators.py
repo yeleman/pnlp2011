@@ -7,16 +7,11 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import render, redirect, get_object_or_404
 
 from snisi_core.models import MalariaReport
-from snisi_core.data import (MalariaDataHolder, \
-                            MalariaReportForm, \
-                            most_accurate_report, \
-                            raw_data_periods_for, \
-                            provider_entity, \
-                            entities_path, \
+from snisi_core.data import (entities_path, \
                             provider_can_or_403, \
                             current_reporting_period, contact_for)
-from bolibana.web.decorators import provider_required, provider_permission
-from bolibana.models import Entity, MonthPeriod, Report
+from bolibana.web.decorators import provider_permission
+from bolibana.models import Entity, MonthPeriod
 
 
 def import_path(name):
