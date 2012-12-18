@@ -4,9 +4,13 @@
 
 import reversion
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import pre_save, post_save
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 from bolibana.models import Entity, IndividualReport, Report
+
+from common import pre_save_report, post_save_report
 
 
 class PeriodManager(models.Manager):
@@ -51,7 +55,7 @@ class MaternalMortalityReport(IndividualReport):
                     CAUSE_OTHER: u"Other"}
 
     class Meta:
-        app_label = 'unfpa_core'
+        app_label = 'snisi_core'
         verbose_name = _(u"Maternal Mortality Report")
         verbose_name_plural = _(u"Maternal Mortality Reports")
 
@@ -98,7 +102,7 @@ reversion.register(MaternalMortalityReport)
 class AggregatedMaternalMortalityReport(Report):
 
     class Meta:
-        app_label = 'unfpa_core'
+        app_label = 'snisi_core'
         verbose_name = _(u"Aggregated Maternal Mortality Report")
         verbose_name_plural = _(u"Aggregated Maternal Mortality Reports")
 
@@ -179,12 +183,12 @@ class AggregatedMaternalMortalityReport(Report):
     indiv_sources = models.ManyToManyField('MaternalMortalityReport',
                                            verbose_name=_(u"Indiv. Sources"),
                                            blank=True, null=True,
-                                           related_name='indiv_agg_children_mortality_reports')
+                                           related_name='indiv_agg_maternal_mortality_reports')
 
-    agg_sources = models.ManyToManyField('MaternalMortalityReport',
+    agg_sources = models.ManyToManyField('AggregatedMaternalMortalityReport',
                                          verbose_name=_(u"Aggr. Sources"),
                                          blank=True, null=True,
-                                         related_name='aggregated_agg_children_mortality_reports')
+                                         related_name='aggregated_agg_maternal_mortality_reports')
 
     @classmethod
     def start(cls, period, entity, author, \
@@ -532,3 +536,8 @@ class AggregatedMaternalMortalityReport(Report):
         report.cause_miscarriage += instance.cause_miscarriage
         report.cause_abortion += instance.cause_abortion
         report.cause_other += instance.cause_other
+
+receiver(pre_save, sender=AggregatedMaternalMortalityReport)(pre_save_report)
+receiver(post_save, sender=AggregatedMaternalMortalityReport)(post_save_report)
+
+reversion.register(AggregatedMaternalMortalityReport)

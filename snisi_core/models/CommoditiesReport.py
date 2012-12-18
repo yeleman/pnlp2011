@@ -14,6 +14,8 @@ from bolibana.models import Report, MonthPeriod
 from bolibana.models.Report import ValidationMixin
 from bolibana.tools.utils import generate_receipt
 
+from common import pre_save_report, post_save_report
+
 
 class FPMethodManager(models.Manager):
 
@@ -153,10 +155,6 @@ class RHCommoditiesReport(Report):
                                       u"Quantity in hand "
                                       u"(tablets) or -1."))
 
-    sources = models.ManyToManyField('RHCommoditiesReport', \
-                                     verbose_name=_(u"Sources"), \
-                                     blank=True, null=True)
-
     objects = StockoutManager()
     fp_stockout = FPMethodManager()
 
@@ -182,11 +180,41 @@ class RHCommoditiesReport(Report):
 
         return report
 
-    def fill_blank(self):
-        pass
+    @classmethod
+    def data_fields(cls):
+        return ['family_planning',
+                'delivery_services',
+                'male_condom',
+                'female_condom',
+                'oral_pills',
+                'injectable',
+                'iud',
+                'implants',
+                'female_sterilization',
+                'male_sterilization',
+                'amoxicillin_ij',
+                'amoxicillin_cap_gel',
+                'amoxicillin_suspension',
+                'azithromycine_tab',
+                'azithromycine_suspension',
+                'benzathine_penicillin',
+                'cefexime',
+                'clotrimazole',
+                'ergometrine_tab',
+                'ergometrine_vials',
+                'iron',
+                'folate',
+                'iron_folate',
+                'magnesium_sulfate',
+                'metronidazole',
+                'oxytocine',
+                'ceftriaxone_500',
+                'ceftriaxone_1000']
 
     def to_dict(self):
         d = {}
+        for field in self.data_fields():
+            d[field] = getattr(self, field)
         return d
 
     @classmethod
@@ -206,40 +234,9 @@ class RHCommoditiesReport(Report):
 
     @classmethod
     def create_aggregated(cls, period, entity, author, *args, **kwargs):
-        agg_report = cls.start(period, entity, author,
-                               type=Report.TYPE_AGGREGATED, *args, **kwargs)
-
-        sources = RHCommoditiesReport.validated\
-                                     .filter(period=period,
-                                             entity__in=entity.get_children())
-
-        if sources.count() == 0:
-            agg_report.fill_blank()
-            agg_report.save()
-
-        for report in sources:
-            for key, value in report.to_dict().items():
-                pv = getattr(agg_report, key)
-                if not pv:
-                    nv = value
-                elif pv in (cls.YES, cls.NO):
-                    if pv == cls.YES:
-                        nv = pv
-                    else:
-                        nv = value
-                else:
-                    nv = pv + value
-                setattr(agg_report, key, nv)
-            agg_report.save()
-
-        for report in sources:
-            agg_report.sources.add(report)
-
-        with reversion.create_revision():
-            agg_report.save()
-            reversion.set_user(author.user)
-
-        return agg_report
+        return AggregatedRHCommoditiesReport.create_from(period,
+                                                         entity, author,
+                                                         *args, **kwargs)
 
     def fp_stockout_3methods(self):
         w = 0
@@ -250,22 +247,281 @@ class RHCommoditiesReport(Report):
                 w += 1
         return w >= 3
 
-
-@receiver(pre_save, sender=RHCommoditiesReport)
-def pre_save_report(sender, instance, **kwargs):
-    """ change _status property of Report on save() at creation """
-    if instance._status == instance.STATUS_UNSAVED:
-        instance._status = instance.STATUS_CLOSED
-    # following will allow us to detect failure in registration
-    if not instance.receipt:
-        instance.receipt = 'NO_RECEIPT'
-
-
-@receiver(post_save, sender=RHCommoditiesReport)
-def post_save_report(sender, instance, **kwargs):
-    """ generates the receipt """
-    if instance.receipt == 'NO_RECEIPT':
-        instance.receipt = sender.generate_receipt(instance)
-        instance.save()
+receiver(pre_save, sender=RHCommoditiesReport)(pre_save_report)
+receiver(post_save, sender=RHCommoditiesReport)(post_save_report)
 
 reversion.register(RHCommoditiesReport)
+
+
+class AggregatedRHCommoditiesReport(Report):
+
+    class Meta:
+        app_label = 'snisi_core'
+        verbose_name = _(u"Aggregated RH Commodities Report")
+        verbose_name_plural = _(u"Aggregated RH Commodities Reports")
+        unique_together = ('period', 'entity', 'type')
+
+    # Services offered
+    family_planning_provided = models.IntegerField()
+    delivery_services_provided = models.IntegerField()
+
+    # Modern contraceptive methods providded at the SDP
+    male_condom_provided = models.IntegerField()
+    male_condom_available = models.IntegerField()
+    female_condom_provided = models.IntegerField()
+    female_condom_available = models.IntegerField()
+    oral_pills_provided = models.IntegerField()
+    oral_pills_available = models.IntegerField()
+    injectable_provided = models.IntegerField()
+    injectable_available = models.IntegerField()
+    iud_provided = models.IntegerField()
+    iud_available = models.IntegerField()
+    implants_provided = models.IntegerField()
+    implants_available = models.IntegerField()
+
+    female_sterilization_available = models.IntegerField()
+    female_sterilization_provided = models.IntegerField()
+
+    male_sterilization_available = models.IntegerField()
+    male_sterilization_provided = models.IntegerField()
+
+    # Availability of live-saving maternal/RH medecine
+    amoxicillin_ij_provided = models.IntegerField()
+    amoxicillin_ij_available = models.IntegerField()
+    amoxicillin_cap_gel_provided = models.IntegerField()
+    amoxicillin_cap_gel_available = models.IntegerField()
+    amoxicillin_suspension_provided = models.IntegerField()
+    amoxicillin_suspension_available = models.IntegerField()
+    azithromycine_tab_provided = models.IntegerField()
+    azithromycine_tab_available = models.IntegerField()
+    azithromycine_suspension_provided = models.IntegerField()
+    azithromycine_suspension_available = models.IntegerField()
+    benzathine_penicillin_provided = models.IntegerField()
+    benzathine_penicillin_available = models.IntegerField()
+    cefexime_provided = models.IntegerField()
+    cefexime_available = models.IntegerField()
+    clotrimazole_provided = models.IntegerField()
+    clotrimazole_available = models.IntegerField()
+    ergometrine_tab_provided = models.IntegerField()
+    ergometrine_tab_available = models.IntegerField()
+    ergometrine_vials_provided = models.IntegerField()
+    ergometrine_vials_available = models.IntegerField()
+    iron_provided = models.IntegerField()
+    iron_available = models.IntegerField()
+    folate_provided = models.IntegerField()
+    folate_available = models.IntegerField()
+    iron_folate_provided = models.IntegerField()
+    iron_folate_available = models.IntegerField()
+    magnesium_sulfate_provided = models.IntegerField()
+    magnesium_sulfate_available = models.IntegerField()
+    metronidazole_provided = models.IntegerField()
+    metronidazole_available = models.IntegerField()
+    oxytocine_provided = models.IntegerField()
+    oxytocine_available = models.IntegerField()
+
+    ceftriaxone_500_provided = models.IntegerField()
+    ceftriaxone_500_available = models.IntegerField()
+    ceftriaxone_1000_provided = models.IntegerField()
+    ceftriaxone_1000_available = models.IntegerField()
+
+    indiv_sources = models.ManyToManyField('RHCommoditiesReport',
+                                           verbose_name=_(u"Indiv. Sources"),
+                                           blank=True, null=True,
+                                           related_name='indiv_agg_rhcommodities_reports')
+
+    agg_sources = models.ManyToManyField('AggregatedRHCommoditiesReport',
+                                         verbose_name=_(u"Aggr. Sources"),
+                                         blank=True, null=True,
+                                         related_name='aggregated_agg_rhcommodities_reports')
+
+    @property
+    def mperiod(self):
+        """ casted period to MonthPeriod """
+        mp = self.period
+        mp.__class__ = MonthPeriod
+        return mp
+
+    @classmethod
+    def start(cls, period, entity, author, \
+               type=Report.TYPE_AGGREGATED, *args, **kwargs):
+        """ creates a report object with meta data only. Object not saved """
+        report = cls(period=period, entity=entity, created_by=author, \
+                     modified_by=author, _status=cls.STATUS_CREATED, \
+                     type=type)
+        for arg, value in kwargs.items():
+            try:
+                setattr(report, arg, value)
+            except AttributeError:
+                pass
+
+        return report
+
+    def fill_blank(self):
+        for field in self.to_dict().keys():
+            setattr(self, field, 0)
+
+    @classmethod
+    def data_fields(cls):
+        return ['family_planning_provided',
+                'delivery_services_provided',
+                'male_condom_provided',
+                'male_condom_available',
+                'female_condom_provided',
+                'female_condom_available',
+                'oral_pills_provided',
+                'oral_pills_available',
+                'injectable_provided',
+                'injectable_available',
+                'iud_provided',
+                'iud_available',
+                'implants_provided',
+                'implants_available',
+                'female_sterilization_available',
+                'female_sterilization_provided',
+                'male_sterilization_available',
+                'male_sterilization_provided',
+                'amoxicillin_ij_provided',
+                'amoxicillin_ij_available',
+                'amoxicillin_cap_gel_provided',
+                'amoxicillin_cap_gel_available',
+                'amoxicillin_suspension_provided',
+                'amoxicillin_suspension_available',
+                'azithromycine_tab_provided',
+                'azithromycine_tab_available',
+                'azithromycine_suspension_provided',
+                'azithromycine_suspension_available',
+                'benzathine_penicillin_provided',
+                'benzathine_penicillin_available',
+                'cefexime_provided',
+                'cefexime_available',
+                'clotrimazole_provided',
+                'clotrimazole_available',
+                'ergometrine_tab_provided',
+                'ergometrine_tab_available',
+                'ergometrine_vials_provided',
+                'ergometrine_vials_available',
+                'iron_provided',
+                'iron_available',
+                'folate_provided',
+                'folate_available',
+                'iron_folate_provided',
+                'iron_folate_available',
+                'magnesium_sulfate_provided',
+                'magnesium_sulfate_available',
+                'metronidazole_provided',
+                'metronidazole_available',
+                'oxytocine_provided',
+                'oxytocine_available',
+                'ceftriaxone_500_provided',
+                'ceftriaxone_500_available',
+                'ceftriaxone_1000_provided',
+                'ceftriaxone_1000_available']
+
+    def to_dict(self):
+        d = {}
+        for field in self.data_fields():
+            d[field] = getattr(self, field)
+        return d
+
+    @classmethod
+    def generate_receipt(cls, instance):
+        return generate_receipt(instance, fix='-PA', add_random=True)
+
+    def get(self, slug):
+        """ [data browser] returns data for a slug variable """
+        return getattr(self, slug)
+
+    def field_name(self, slug):
+        """ [data browser] returns name of field for a slug variable """
+        return self._meta.get_field(slug).verbose_name
+
+    def validate(self):
+        return {}
+
+    @classmethod
+    def create_from(cls, period, entity, author):
+
+        # create empty
+        agg_report = cls.start(entity, period, author)
+
+        # find list of sources
+        indiv_sources = RHCommoditiesReport \
+                            .objects \
+                            .filter(period=period,
+                                    entity__in=entity.get_children())
+        agg_sources = cls.objects.filter(period=period,
+                                         entity__in=entity.get_children())
+
+        sources = list(indiv_sources) + list(agg_sources)
+
+        # loop on all sources
+        for source in sources:
+            if isinstance(source, RHCommoditiesReport):
+                cls.update_instance_with_indiv(agg_report, source)
+            elif isinstance(source, cls):
+                cls.update_instance_with_agg(agg_report, source)
+
+        # keep a record of all sources
+        for report in indiv_sources:
+            agg_report.indiv_sources.add(report)
+
+        for report in agg_sources:
+            agg_report.agg_sources.add(report)
+
+        with reversion.create_revision():
+            agg_report.save()
+            reversion.set_user(author.user)
+
+        return agg_report
+
+    @classmethod
+    def update_instance_with_indiv(cls, report, instance):
+
+        for field in instance.data_fields():
+            if field in ('family_planning', 'delivery_services'):
+                if getattr(instance, field):
+                    agg_field = u'%s_provided' % field
+                    setattr(report, agg_field,
+                            getattr(report, agg_field, 0) + 1)
+            elif field in ('female_sterilization', 'male_sterilization'):
+
+                if getattr(instance, field, instance.SUPPLIES_NOT_PROVIDED) \
+                    in (instance.SUPPLIES_AVAILABLE,
+                        instance.SUPPLIES_NOT_AVAILABLE):
+
+                    prov_field = u'%s_provided' % field
+                    setattr(report, prov_field,
+                            getattr(report, prov_field, 0) + 1)
+
+                    if getattr(instance, field,
+                               instance.SUPPLIES_NOT_PROVIDED) == \
+                        instance.SUPPLIES_AVAILABLE:
+
+                        avail_field = u'%s_available' % field
+                        setattr(report, avail_field,
+                            getattr(report, avail_field, 0) + 1)
+            else:
+                if getattr(instance, field, instance.NOT_PROVIDED) != \
+                    instance.NOT_PROVIDED:
+
+                    prov_field = u'%s_provided' % field
+                    setattr(report, prov_field,
+                            getattr(report, prov_field, 0) + 1)
+
+                    if getattr(instance, field, instance.NOT_PROVIDED) > 0:
+                        avail_field = u'%s_available' % field
+                        setattr(report, avail_field,
+                            getattr(report, avail_field, 0) + 1)
+
+    @classmethod
+    def update_instance_with_agg(cls, report, instance):
+
+        for field in cls.data_fields():
+            setattr(report, field,
+                    getattr(report, field, 0) + getattr(instance, field, 0))
+
+
+receiver(pre_save, sender=AggregatedRHCommoditiesReport)(pre_save_report)
+receiver(post_save, sender=AggregatedRHCommoditiesReport)(post_save_report)
+
+reversion.register(AggregatedRHCommoditiesReport)
