@@ -12,9 +12,9 @@ from bolibana.models import Role, Permission, Access, Provider
 from bolibana.admin import (RoleAdmin, PermissionAdmin, \
                                  AccessAdmin, ProviderAdmin)
 from snisi_core.models import (MalariaReport, MaternalMortalityReport,
-                                BirthReport, RHCommoditiesReport,
-                                ProvidedServicesReport, ChildrenMortalityReport,
-                                PregnancyReport, EpidemiologyReport)
+                                RHCommoditiesReport,
+                                ChildrenMortalityReport,
+                                EpidemiologyReport)
 from snisi_core.models.alert import Alert
 from snisi_core.admin import MalariaReportAdmin, AlertAdmin
 
@@ -45,8 +45,4 @@ admin.site.register(Alert, AlertAdmin)
 admin.site.register(MaternalMortalityReport)
 admin.site.register(ChildrenMortalityReport)
 admin.site.register(RHCommoditiesReport)
-admin.site.register(ProvidedServicesReport)
-admin.site.register(BirthReport)
-admin.site.register(PregnancyReport)
-admin.site.register(UEntity)
 admin.site.register(EpidemiologyReport)
