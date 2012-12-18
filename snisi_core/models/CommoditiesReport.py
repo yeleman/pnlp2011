@@ -14,7 +14,8 @@ from bolibana.models import Report, MonthPeriod
 from bolibana.models.Report import ValidationMixin
 from bolibana.tools.utils import generate_receipt
 
-from common import pre_save_report, post_save_report
+from common import (pre_save_report, post_save_report, report_create_from
+                    aggregated_model_report_pre_save)
 
 
 class FPMethodManager(models.Manager):
@@ -262,67 +263,67 @@ class AggregatedRHCommoditiesReport(Report):
         unique_together = ('period', 'entity', 'type')
 
     # Services offered
-    family_planning_provided = models.IntegerField()
-    delivery_services_provided = models.IntegerField()
+    family_planning_provided = models.PositiveIntegerField()
+    delivery_services_provided = models.PositiveIntegerField()
 
     # Modern contraceptive methods providded at the SDP
-    male_condom_provided = models.IntegerField()
-    male_condom_available = models.IntegerField()
-    female_condom_provided = models.IntegerField()
-    female_condom_available = models.IntegerField()
-    oral_pills_provided = models.IntegerField()
-    oral_pills_available = models.IntegerField()
-    injectable_provided = models.IntegerField()
-    injectable_available = models.IntegerField()
-    iud_provided = models.IntegerField()
-    iud_available = models.IntegerField()
-    implants_provided = models.IntegerField()
-    implants_available = models.IntegerField()
+    male_condom_provided = models.PositiveIntegerField()
+    male_condom_available = models.PositiveIntegerField()
+    female_condom_provided = models.PositiveIntegerField()
+    female_condom_available = models.PositiveIntegerField()
+    oral_pills_provided = models.PositiveIntegerField()
+    oral_pills_available = models.PositiveIntegerField()
+    injectable_provided = models.PositiveIntegerField()
+    injectable_available = models.PositiveIntegerField()
+    iud_provided = models.PositiveIntegerField()
+    iud_available = models.PositiveIntegerField()
+    implants_provided = models.PositiveIntegerField()
+    implants_available = models.PositiveIntegerField()
 
-    female_sterilization_available = models.IntegerField()
-    female_sterilization_provided = models.IntegerField()
+    female_sterilization_available = models.PositiveIntegerField()
+    female_sterilization_provided = models.PositiveIntegerField()
 
-    male_sterilization_available = models.IntegerField()
-    male_sterilization_provided = models.IntegerField()
+    male_sterilization_available = models.PositiveIntegerField()
+    male_sterilization_provided = models.PositiveIntegerField()
 
     # Availability of live-saving maternal/RH medecine
-    amoxicillin_ij_provided = models.IntegerField()
-    amoxicillin_ij_available = models.IntegerField()
-    amoxicillin_cap_gel_provided = models.IntegerField()
-    amoxicillin_cap_gel_available = models.IntegerField()
-    amoxicillin_suspension_provided = models.IntegerField()
-    amoxicillin_suspension_available = models.IntegerField()
-    azithromycine_tab_provided = models.IntegerField()
-    azithromycine_tab_available = models.IntegerField()
-    azithromycine_suspension_provided = models.IntegerField()
-    azithromycine_suspension_available = models.IntegerField()
-    benzathine_penicillin_provided = models.IntegerField()
-    benzathine_penicillin_available = models.IntegerField()
-    cefexime_provided = models.IntegerField()
-    cefexime_available = models.IntegerField()
-    clotrimazole_provided = models.IntegerField()
-    clotrimazole_available = models.IntegerField()
-    ergometrine_tab_provided = models.IntegerField()
-    ergometrine_tab_available = models.IntegerField()
-    ergometrine_vials_provided = models.IntegerField()
-    ergometrine_vials_available = models.IntegerField()
-    iron_provided = models.IntegerField()
-    iron_available = models.IntegerField()
-    folate_provided = models.IntegerField()
-    folate_available = models.IntegerField()
-    iron_folate_provided = models.IntegerField()
-    iron_folate_available = models.IntegerField()
-    magnesium_sulfate_provided = models.IntegerField()
-    magnesium_sulfate_available = models.IntegerField()
-    metronidazole_provided = models.IntegerField()
-    metronidazole_available = models.IntegerField()
-    oxytocine_provided = models.IntegerField()
-    oxytocine_available = models.IntegerField()
+    amoxicillin_ij_provided = models.PositiveIntegerField()
+    amoxicillin_ij_available = models.PositiveIntegerField()
+    amoxicillin_cap_gel_provided = models.PositiveIntegerField()
+    amoxicillin_cap_gel_available = models.PositiveIntegerField()
+    amoxicillin_suspension_provided = models.PositiveIntegerField()
+    amoxicillin_suspension_available = models.PositiveIntegerField()
+    azithromycine_tab_provided = models.PositiveIntegerField()
+    azithromycine_tab_available = models.PositiveIntegerField()
+    azithromycine_suspension_provided = models.PositiveIntegerField()
+    azithromycine_suspension_available = models.PositiveIntegerField()
+    benzathine_penicillin_provided = models.PositiveIntegerField()
+    benzathine_penicillin_available = models.PositiveIntegerField()
+    cefexime_provided = models.PositiveIntegerField()
+    cefexime_available = models.PositiveIntegerField()
+    clotrimazole_provided = models.PositiveIntegerField()
+    clotrimazole_available = models.PositiveIntegerField()
+    ergometrine_tab_provided = models.PositiveIntegerField()
+    ergometrine_tab_available = models.PositiveIntegerField()
+    ergometrine_vials_provided = models.PositiveIntegerField()
+    ergometrine_vials_available = models.PositiveIntegerField()
+    iron_provided = models.PositiveIntegerField()
+    iron_available = models.PositiveIntegerField()
+    folate_provided = models.PositiveIntegerField()
+    folate_available = models.PositiveIntegerField()
+    iron_folate_provided = models.PositiveIntegerField()
+    iron_folate_available = models.PositiveIntegerField()
+    magnesium_sulfate_provided = models.PositiveIntegerField()
+    magnesium_sulfate_available = models.PositiveIntegerField()
+    metronidazole_provided = models.PositiveIntegerField()
+    metronidazole_available = models.PositiveIntegerField()
+    oxytocine_provided = models.PositiveIntegerField()
+    oxytocine_available = models.PositiveIntegerField()
 
-    ceftriaxone_500_provided = models.IntegerField()
-    ceftriaxone_500_available = models.IntegerField()
-    ceftriaxone_1000_provided = models.IntegerField()
-    ceftriaxone_1000_available = models.IntegerField()
+    ceftriaxone_500_provided = models.PositiveIntegerField()
+    ceftriaxone_500_available = models.PositiveIntegerField()
+    ceftriaxone_1000_provided = models.PositiveIntegerField()
+    ceftriaxone_1000_available = models.PositiveIntegerField()
 
     indiv_sources = models.ManyToManyField('RHCommoditiesReport',
                                            verbose_name=_(u"Indiv. Sources"),
@@ -440,39 +441,8 @@ class AggregatedRHCommoditiesReport(Report):
 
     @classmethod
     def create_from(cls, period, entity, author):
-
-        # create empty
-        agg_report = cls.start(entity, period, author)
-
-        # find list of sources
-        indiv_sources = RHCommoditiesReport \
-                            .objects \
-                            .filter(period=period,
-                                    entity__in=entity.get_children())
-        agg_sources = cls.objects.filter(period=period,
-                                         entity__in=entity.get_children())
-
-        sources = list(indiv_sources) + list(agg_sources)
-
-        # loop on all sources
-        for source in sources:
-            if isinstance(source, RHCommoditiesReport):
-                cls.update_instance_with_indiv(agg_report, source)
-            elif isinstance(source, cls):
-                cls.update_instance_with_agg(agg_report, source)
-
-        # keep a record of all sources
-        for report in indiv_sources:
-            agg_report.indiv_sources.add(report)
-
-        for report in agg_sources:
-            agg_report.agg_sources.add(report)
-
-        with reversion.create_revision():
-            agg_report.save()
-            reversion.set_user(author.user)
-
-        return agg_report
+        return report_create_from(cls, period, entity,
+                                  author, indiv_cls=RHCommoditiesReport)
 
     @classmethod
     def update_instance_with_indiv(cls, report, instance):
@@ -522,6 +492,8 @@ class AggregatedRHCommoditiesReport(Report):
 
 
 receiver(pre_save, sender=AggregatedRHCommoditiesReport)(pre_save_report)
+receiver(pre_save,
+         sender=AggregatedRHCommoditiesReport)(aggregated_model_report_pre_save)
 receiver(post_save, sender=AggregatedRHCommoditiesReport)(post_save_report)
 
 reversion.register(AggregatedRHCommoditiesReport)
