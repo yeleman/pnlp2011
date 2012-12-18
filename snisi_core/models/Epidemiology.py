@@ -12,6 +12,8 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 from bolibana.models import Report, WeekPeriod
 from bolibana.tools.utils import generate_receipt
 
+from common import pre_save_report, post_save_report
+
 
 class EpidemiologyReport(Report):
 
@@ -53,6 +55,10 @@ class EpidemiologyReport(Report):
     other_notifiable_disease_case = models.IntegerField(_(u"Autres MADOS cas"))
     other_notifiable_disease_death = models.IntegerField(_(u"Autres MADOS décès"))
 
+    sources = models.ManyToManyField('EpidemiologyReport', \
+                                     verbose_name=_(u"Sources"), \
+                                     blank=True, null=True)
+
     @property
     def wperiod(self):
         """ casted period to WeekPeriod """
@@ -82,15 +88,23 @@ class EpidemiologyReport(Report):
         return report
 
     def fill_blank(self):
-        pass
+        for field in self.to_dict().keys():
+            setattr(self, field, 0)
 
     def to_dict(self):
         d = {}
+        for field in self._meta.get_all_field_names():
+            try:
+                if not field.endswith('case') and not field.endswith('death'):
+                    continue
+            except:
+                continue
+            d[field] = getattr(self, field)
         return d
 
     @classmethod
     def generate_receipt(cls, instance):
-        return generate_receipt(instance, fix='E', add_random=True)
+        return generate_receipt(instance, fix='-E', add_random=True)
 
     def get(self, slug):
         """ [data browser] returns data for a slug variable """
@@ -121,11 +135,6 @@ class EpidemiologyReport(Report):
                 pv = getattr(agg_report, key)
                 if not pv:
                     nv = value
-                elif pv in (cls.YES, cls.NO):
-                    if pv == cls.YES:
-                        nv = pv
-                    else:
-                        nv = value
                 else:
                     nv = pv + value
                 setattr(agg_report, key, nv)
@@ -141,21 +150,7 @@ class EpidemiologyReport(Report):
         return agg_report
 
 
-@receiver(pre_save, sender=EpidemiologyReport)
-def pre_save_report(sender, instance, **kwargs):
-    """ change _status property of Report on save() at creation """
-    if instance._status == instance.STATUS_UNSAVED:
-        instance._status = instance.STATUS_CLOSED
-    # following will allow us to detect failure in registration
-    if not instance.receipt:
-        instance.receipt = 'NO_RECEIPT'
-
-
-@receiver(post_save, sender=EpidemiologyReport)
-def post_save_report(sender, instance, **kwargs):
-    """ generates the receipt """
-    if instance.receipt == 'NO_RECEIPT':
-        instance.receipt = sender.generate_receipt(instance)
-        instance.save()
+receiver(pre_save, sender=EpidemiologyReport)(pre_save_report)
+receiver(post_save, sender=EpidemiologyReport)(post_save_report)
 
 reversion.register(EpidemiologyReport)

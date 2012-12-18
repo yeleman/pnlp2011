@@ -4,9 +4,13 @@
 
 import reversion
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import pre_save, post_save
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 from bolibana.models import Entity, IndividualReport, Report
+
+from common import pre_save_report, post_save_report
 
 
 class PeriodManager(models.Manager):
@@ -61,7 +65,7 @@ class ChildrenMortalityReport(IndividualReport):
         )
 
     class Meta:
-        app_label = 'unfpa_core'
+        app_label = 'snisi_core'
         verbose_name = _(u"Children Mortality Report")
         verbose_name_plural = _(u"Children Mortality Reports")
 
@@ -101,7 +105,7 @@ reversion.register(ChildrenMortalityReport)
 class AggregatedChildrenMortalityReport(Report):
 
     class Meta:
-        app_label = 'unfpa_core'
+        app_label = 'snisi_core'
         verbose_name = _(u"Aggregated Children Mortality Report")
         verbose_name_plural = _(u"Aggregated Children Mortality Reports")
 
@@ -141,7 +145,7 @@ class AggregatedChildrenMortalityReport(Report):
                                            blank=True, null=True,
                                            related_name='indiv_agg_children_mortality_reports')
 
-    agg_sources = models.ManyToManyField('ChildrenMortalityReport',
+    agg_sources = models.ManyToManyField('AggregatedChildrenMortalityReport',
                                          verbose_name=_(u"Aggr. Sources"),
                                          blank=True, null=True,
                                          related_name='aggregated_agg_children_mortality_reports')
@@ -323,3 +327,8 @@ class AggregatedChildrenMortalityReport(Report):
         report.cause_death_red_eye += instance.cause_death_red_eye
         report.cause_death_eat_refusal += instance.cause_death_eat_refusal
         report.cause_death_other += instance.cause_death_other
+
+receiver(pre_save, sender=AggregatedChildrenMortalityReport)(pre_save_report)
+receiver(post_save, sender=AggregatedChildrenMortalityReport)(post_save_report)
+
+reversion.register(AggregatedChildrenMortalityReport)
