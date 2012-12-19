@@ -14,7 +14,7 @@ from bolibana.models import Report, MonthPeriod
 from bolibana.models.Report import ValidationMixin
 from bolibana.tools.utils import generate_receipt
 
-from common import (pre_save_report, post_save_report, report_create_from
+from common import (pre_save_report, post_save_report, report_create_from,
                     aggregated_model_report_pre_save)
 
 
