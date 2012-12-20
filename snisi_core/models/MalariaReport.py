@@ -211,14 +211,21 @@ class MalariaReportIface(object):
 
     def to_dict(self):
         d = {}
-        for field in self._meta.get_all_field_names():
-            try:
-                if not field.split('_')[0] in ('u5', 'o5', 'pw', 'stockout'):
-                    continue
-            except:
-                continue
+        for field in self.data_field():
             d[field] = getattr(self, field)
         return d
+
+    @classmethod
+    def data_field(cls):
+        fields = []
+        for field in cls._meta.get_all_field_names():
+            try:
+                if field.split('_')[0] in ('u5', 'o5', 'pw', 'stockout'):
+                    fields.append(field)
+            except:
+                continue
+        fields.append('is_late')
+        return fields
 
     @classmethod
     def generate_receipt(cls, instance):
@@ -372,6 +379,9 @@ class MalariaReport(Report, MalariaReportIface):
     stockout_rdt = models.CharField(_(u"RDTs"), max_length=1, choices=YESNO)
     stockout_sp = models.CharField(_(u"SPs"), max_length=1, choices=YESNO)
 
+    is_late = models.BooleanField(default=False,
+                                  verbose_name=_(u"Is Late?"))
+
     sources = models.ManyToManyField('MalariaReport', \
                                      verbose_name=_(u"Sources"), \
                                      blank=True, null=True)
@@ -510,6 +520,8 @@ class AggregatedMalariaReport(Report, MalariaReportIface):
     stockout_rdt = models.PositiveIntegerField(_(u"RDTs"))
     stockout_sp = models.PositiveIntegerField(_(u"SPs"))
 
+    nb_prompt = models.PositiveIntegerField()
+
     indiv_sources = models.ManyToManyField('MalariaReport',
                                            verbose_name=_(u"Indiv. Sources"),
                                            blank=True, null=True,
@@ -551,6 +563,11 @@ class AggregatedMalariaReport(Report, MalariaReportIface):
                         avail_field = u'%s_available' % field
                         setattr(report, avail_field,
                             getattr(report, avail_field, 0) + 1)
+            elif field == 'is_late':
+                prompt_field = 'nb_prompt'
+                if not getattr(instance, field):
+                    setattr(report, prompt_field,
+                    getattr(report, prompt_field, 0) + 1)
             else:
                 if getattr(instance, field, instance.NOT_PROVIDED) != \
                     instance.NOT_PROVIDED:

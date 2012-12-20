@@ -156,6 +156,9 @@ class RHCommoditiesReport(Report):
                                       u"Quantity in hand "
                                       u"(tablets) or -1."))
 
+    is_late = models.BooleanField(default=False,
+                                  verbose_name=_(u"Is Late?"))
+
     objects = StockoutManager()
     fp_stockout = FPMethodManager()
 
@@ -210,7 +213,8 @@ class RHCommoditiesReport(Report):
                 'metronidazole',
                 'oxytocine',
                 'ceftriaxone_500',
-                'ceftriaxone_1000']
+                'ceftriaxone_1000',
+                'is_late']
 
     def to_dict(self):
         d = {}
@@ -325,6 +329,8 @@ class AggregatedRHCommoditiesReport(Report):
     ceftriaxone_1000_provided = models.PositiveIntegerField()
     ceftriaxone_1000_available = models.PositiveIntegerField()
 
+    nb_prompt = models.PositiveIntegerField()
+
     indiv_sources = models.ManyToManyField('RHCommoditiesReport',
                                            verbose_name=_(u"Indiv. Sources"),
                                            blank=True, null=True,
@@ -416,7 +422,8 @@ class AggregatedRHCommoditiesReport(Report):
                 'ceftriaxone_500_provided',
                 'ceftriaxone_500_available',
                 'ceftriaxone_1000_provided',
-                'ceftriaxone_1000_available']
+                'ceftriaxone_1000_available',
+                'nb_prompt']
 
     def to_dict(self):
         d = {}
@@ -470,6 +477,11 @@ class AggregatedRHCommoditiesReport(Report):
                         avail_field = u'%s_available' % field
                         setattr(report, avail_field,
                             getattr(report, avail_field, 0) + 1)
+            elif field == 'is_late':
+                prompt_field = 'nb_prompt'
+                if not getattr(instance, field):
+                    setattr(report, prompt_field,
+                    getattr(report, prompt_field, 0) + 1)
             else:
                 if getattr(instance, field, instance.NOT_PROVIDED) != \
                     instance.NOT_PROVIDED:
