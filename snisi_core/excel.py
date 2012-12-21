@@ -3,14 +3,15 @@
 # maintainer: rgaudin
 
 import reversion
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import ugettext_lazy as _
 
 from bolibana.reporting.excel import (ExcelForm, ExcelFormField, \
                                       ExcelTypeConverter)
-from bolibana.reporting.errors import MissingData, IncorrectReportData
-from bolibana.models import Period, MonthPeriod, Entity
+from bolibana.reporting.errors import MissingData
+from bolibana.models import MonthPeriod, Entity
 from snisi_core.models import MalariaReport
 from snisi_core.validators import MalariaReportValidator
+from snisi_core.data import time_is_prompt
 
 
 class MalariaExcelForm(ExcelForm):
@@ -315,11 +316,14 @@ class MalariaExcelForm(ExcelForm):
         """ creates and save a MalariaReport based on current data_browser
 
         No check nor validation is performed """
+
         period = MonthPeriod.find_create_from(year=self.get('year'), \
                                               month=self.get('month'))
+        is_late = not time_is_prompt(period)
         entity = Entity.objects.get(slug=self.get('hc'), type__slug='cscom')
         report = MalariaReport.start(period, entity, author, \
-                                     type=MalariaReport.TYPE_SOURCE)
+                                     type=MalariaReport.TYPE_SOURCE, \
+                                     is_late=is_late)
 
         report.add_underfive_data(*self.data_for_cat('u5'))
         report.add_overfive_data(*self.data_for_cat('o5'))

@@ -93,11 +93,12 @@ class MalariaReportIface(object):
 
     @classmethod
     def start(cls, period, entity, author, \
-               type=Report.TYPE_SOURCE, *args, **kwargs):
+               type=Report.TYPE_SOURCE, is_late=False, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
         report = cls(period=period, entity=entity, created_by=author, \
                      modified_by=author, _status=cls.STATUS_CREATED, \
                      type=type)
+        report.is_late = is_late
         for arg, value in kwargs.items():
             try:
                 setattr(report, arg, value)

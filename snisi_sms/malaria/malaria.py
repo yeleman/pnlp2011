@@ -13,7 +13,7 @@ from bolibana.models import Provider
 from bolibana.models import Entity, MonthPeriod
 from snisi_core.validators import MalariaReportValidator
 from snisi_core.models import MalariaReport
-from snisi_core.data import contact_for
+from snisi_core.data import contact_for, time_is_prompt
 
 from nosmsd.utils import send_sms
 
@@ -306,12 +306,15 @@ def palu(message):
 
     # create the report
     try:
+
         period = MonthPeriod.find_create_from(year=data_browser.get('year'), \
                                               month=data_browser.get('month'))
+        is_late = not time_is_prompt(period)
         entity = Entity.objects.get(slug=data_browser.get('hc'), \
                                     type__slug='cscom')
         report = MalariaReport.start(period, entity, provider, \
-                                     type=MalariaReport.TYPE_SOURCE)
+                                     type=MalariaReport.TYPE_SOURCE, \
+                                     is_late=is_late)
 
         report.add_underfive_data(*data_browser.data_for_cat('u5'))
         report.add_overfive_data(*data_browser.data_for_cat('o5'))
@@ -323,6 +326,8 @@ def palu(message):
             reversion.set_user(provider.user)
 
     except Exception as e:
+        print time_is_prompt()
+        raise
         message.respond(error_start + u"Une erreur technique s'est " \
                         u"produite. Reessayez plus tard et " \
                         u"contactez ANTIM si le probleme persiste.")

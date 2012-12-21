@@ -6,8 +6,8 @@ from datetime import date
 
 from django.utils.translation import ugettext as _
 from bolibana.reporting.validator import DataValidator
-from bolibana.reporting.errors import MissingData, IncorrectReportData
-from bolibana.models import Entity, EntityType, MonthPeriod
+from bolibana.reporting.errors import MissingData
+from bolibana.models import Entity, MonthPeriod
 from snisi_core.models import MalariaReport
 from snisi_core.data import (provider_can, time_cscom_over,
                             time_district_over, time_region_over)

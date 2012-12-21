@@ -6,7 +6,6 @@ from datetime import datetime
 
 import reversion
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 from snisi_core.data import (provider_entity, current_reporting_period, \
@@ -20,7 +19,7 @@ from snisi_core.data import (provider_entity, current_reporting_period, \
                              time_cscom_over, time_district_over, \
                              time_region_over)
 
-from bolibana.web.decorators import provider_required, provider_permission
+from bolibana.web.decorators import provider_permission
 from snisi_core.models import MalariaReport
 from snisi_core.validators import MalariaReportValidator
 from snisi_core.data import provider_can_or_403

@@ -224,7 +224,7 @@ class RHCommoditiesReport(Report):
 
     @classmethod
     def generate_receipt(cls, instance):
-        return generate_receipt(instance, fix='P', add_random=True)
+        return generate_receipt(instance, fix='-P', add_random=True)
 
     def get(self, slug):
         """ [data browser] returns data for a slug variable """

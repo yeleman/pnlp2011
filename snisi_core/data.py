@@ -127,7 +127,12 @@ def time_over_by_delta(delta, period=current_period()):
 
 def time_cscom_over(period=current_period()):
     """ time_over_by_delta() with cscom delta """
-    return time_over_by_delta(timedelta(days=6), period)
+    return time_over_by_delta(timedelta(days=11), period)
+
+
+def time_is_prompt(period=current_period()):
+    """ """
+    return not time_over_by_delta(timedelta(days=6), period)
 
 
 def time_district_over(period=current_period()):

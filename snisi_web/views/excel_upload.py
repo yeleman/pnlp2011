@@ -5,12 +5,10 @@
 from datetime import datetime
 
 from django.shortcuts import render
-from django.utils.translation import ugettext as _
 
-from bolibana.reporting.excel import IncorrectReportData, MissingData
+from bolibana.reporting.excel import IncorrectReportData
 from snisi_core.excel import MalariaExcelForm
 from bolibana.web.decorators import provider_permission
-from snisi_core.data import provider_can
 
 
 def handle_uploaded_file(f):

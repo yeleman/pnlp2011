@@ -2,17 +2,13 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from django.contrib import messages
 from django.http import Http404
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.utils.translation import ugettext as _
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 
-from snisi_core.data import (MalariaDataHolder, \
-                            MalariaReportForm, \
-                            most_accurate_report, \
+from snisi_core.data import (MalariaReportForm, \
                             raw_data_periods_for, \
-                            provider_entity, \
                             entities_path, \
                             provider_can_or_403, \
                             current_reporting_period)
@@ -20,7 +16,6 @@ from snisi_core.data import (MalariaDataHolder, \
 from bolibana.models import Entity, MonthPeriod
 from bolibana.web.decorators import provider_required, provider_permission
 from snisi_core.models import MalariaReport
-from snisi_core.validators import MalariaReportValidator
 from snisi_core.exports import report_as_excel
 
 
