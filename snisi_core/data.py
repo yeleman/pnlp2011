@@ -131,7 +131,7 @@ def time_cscom_over(period=current_period()):
 
 
 def time_is_prompt(period=current_period()):
-    """ """
+    """ returns True if it is in time """
     return not time_over_by_delta(timedelta(days=6), period)
 
 
@@ -216,7 +216,6 @@ def entity_children(entity):
 
 def provider_can(permission, provider, entity=None):
     """ bolean if(not) provider has permission on entity or descendants """
-    from bolibana.models import Permission
 
     for access in provider.access.all():
         if access.role.permissions.filter(slug=permission).count() > 0:
