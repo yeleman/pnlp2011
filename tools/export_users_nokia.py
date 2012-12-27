@@ -66,6 +66,5 @@ def export_users(csv_file, provider_filter=filter_none):
         except Exception as e:
             print(u"Error: %s - %s" % (provider, e))
 
-
     f.close()
     print(count)

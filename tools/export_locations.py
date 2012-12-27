@@ -4,11 +4,13 @@
 
 import sys
 
-from bolibana.models import Entity, EntityType
+from bolibana.models import Entity
+
 
 def type_code(entity):
     c = entity.type.slug
     return c[0].upper()
+
 
 def export_locations(csv_file, compat_import=False):
     """ Export Entity objects into a CSV file
@@ -18,8 +20,6 @@ def export_locations(csv_file, compat_import=False):
 
     NAME, CODE, TYPE CODE (N,R,D,C), PARENT NAME, PARENT_ADDRESS
     """
-
-    errors = []
 
     #def region_for(e):
     def get_ancestors(entity, include_self=True):
@@ -32,7 +32,6 @@ def export_locations(csv_file, compat_import=False):
         ancestors.reverse()
         return ancestors
 
-    first = True
     f = open(csv_file, 'w')
 
     if not compat_import:
@@ -44,10 +43,7 @@ def export_locations(csv_file, compat_import=False):
         if not entity.parent:
             continue
 
-        #anc = u",".join([e.display_name() for e in entity.get_ancestors(include_self=True)[1:]])
         anc = u",".join([e.display_name() for e in get_ancestors(entity, include_self=True)[1:]])
-
-
 
         if entity.type.slug == 'district':
             anc += ','
