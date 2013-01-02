@@ -261,6 +261,7 @@ def palu(message):
                                       u"(%s) n'existe pas." % \
                                       arguments['username'])
         return True
+
     if not provider.check_password(arguments['password']):
         message.respond(error_start + u"Votre mot de passe est incorrect.")
         return True
@@ -306,7 +307,6 @@ def palu(message):
 
     # create the report
     try:
-
         period = MonthPeriod.find_create_from(year=data_browser.get('year'), \
                                               month=data_browser.get('month'))
         is_late = not time_is_prompt(period)
@@ -326,8 +326,6 @@ def palu(message):
             reversion.set_user(provider.user)
 
     except Exception as e:
-        print time_is_prompt()
-        raise
         message.respond(error_start + u"Une erreur technique s'est " \
                         u"produite. Reessayez plus tard et " \
                         u"contactez ANTIM si le probleme persiste.")

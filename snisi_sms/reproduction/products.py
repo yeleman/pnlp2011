@@ -2,12 +2,15 @@
 # -*- coding: utf-8 -*-
 # vim: ai ts=4 sts=4 et sw=4 nu
 
-from django.db import IntegrityError
+import datetime
+import logging
+import reversion
 
 from snisi_core.models import RHCommoditiesReport
-from snisi_core.data import current_period
+from snisi_core.data import time_is_prompt
 from bolibana.models import Entity, MonthPeriod
-from snisi_sms.common import contact_for, resp_error, resp_error_provider
+from snisi_core.validators import RHCommoditiesReportValidator
+from snisi_sms.common import contact_for
 
 
 YESNOAVAIL = {
@@ -16,10 +19,66 @@ YESNOAVAIL = {
     '2': RHCommoditiesReport.SUPPLIES_NOT_AVAILABLE,
 }
 
+logger = logging.getLogger(__name__)
+
+
+class RHCommoditiesDataHolder(object):
+
+    def get(self, slug):
+        return getattr(self, slug)
+
+    def field_name(self, slug):
+        return RHCommoditiesReport._meta.get_field(slug).verbose_name
+
+    def set(self, slug, data):
+        try:
+            setattr(self, slug, data)
+        except AttributeError:
+            exec 'self.%s = None' % slug
+            setattr(self, slug, data)
+
+    def fields_for(self):
+        fields = ['family_planning', \
+                    'delivery_services', \
+                    'male_condom', \
+                    'female_condom', \
+                    'oral_pills', \
+                    'injectable', \
+                    'iud', \
+                    'implants', \
+                    'female_sterilization', \
+                    'male_sterilization', \
+                    'amoxicillin_ij', \
+                    'amoxicillin_cap_gel', \
+                    'amoxicillin_suspension', \
+                    'azithromycine_tab', \
+                    'azithromycine_suspension', \
+                    'benzathine_penicillin', \
+                    'cefexime', \
+                    'clotrimazole', \
+                    'ergometrine_tab', \
+                    'ergometrine_vials', \
+                    'iron', \
+                    'folate', \
+                    'iron_folate', \
+                    'magnesium_sulfate', \
+                    'metronidazole', \
+                    'oxytocine', \
+                    'ceftriaxone_500', \
+                    'ceftriaxone_1000']
+
+        return fields
+
+    def data_for_cat(self, as_dict=False):
+        data = []
+        for field in self.fields_for():
+            data.append(self.get(field))
+        return data
+
 
 def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
     """  Incomming:
-            fnuap mps family_planning delivery_services male_condom
+            fnuap mps year month family_planning delivery_services male_condom
             female_condom oral_pills injectable iud implants
             female_sterilization male_sterilization
             amoxicillin_ij amoxicillin_cap_gel
@@ -35,41 +94,48 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
             [SUCCES] Le rapport de name a ete enregistre.
             or [ERREUR] message """
 
+    # common start of error message
+    error_start = u"Impossible d'enregistrer le rapport. "
+
     try:
         # -1 represente le non disponible
         args = args.replace("-", "-1")
-        reporting_year, reporting_month, location_of_sdp, family_planning, \
-        delivery_services, male_condom, female_condom,\
-        oral_pills, injectable, iud, implants, female_sterilization, \
-        male_sterilization, amoxicillin_ij, amoxicillin_cap_gel, \
-        amoxicillin_suspension, azithromycine_tab, azithromycine_suspension, \
-        benzathine_penicillin, cefexime, clotrimazole, ergometrine_tab, \
-        ergometrine_vials, iron, folate, iron_folate, magnesium_sulfate, \
-        metronidazole, oxytocine, ceftriaxone_500, ceftriaxone_1000, \
-        comment = args.split()
+        args_names = ['reporting_year',
+        'reporting_month',
+        'location_of_sdp',
+        'family_planning',
+        'delivery_services',
+        'male_condom',
+        'female_condom',
+        'oral_pills',
+        'injectable',
+        'iud',
+        'implants',
+        'female_sterilization',
+        'male_sterilization',
+        'amoxicillin_ij',
+        'amoxicillin_cap_gel',
+        'amoxicillin_suspension',
+        'azithromycine_tab',
+        'azithromycine_suspension',
+        'benzathine_penicillin',
+        'cefexime',
+        'clotrimazole',
+        'ergometrine_tab',
+        'ergometrine_vials',
+        'iron',
+        'folate',
+        'iron_folate',
+        'magnesium_sulfate',
+        'metronidazole',
+        'oxytocine',
+        'ceftriaxone_500',
+        'ceftriaxone_1000',
+        'comment']
+        args_values = args.split()
+        arguments = dict(zip(args_names, args_values))
     except:
-        return resp_error(message, u"le rapport")
-
-    try:
-        period = MonthPeriod.find_create_from(year=int(reporting_year),
-                                              month=int(reporting_month))
-    except:
-        message.respond(u"La periode (%s %s) n'est pas valide" %
-                        (reporting_month, reporting_year))
-        return True
-
-    if period != current_period().previous():
-        message.respond(u"La periode (%s %s) n'est pas valide, "
-                        u"elle doit etre %s" % (reporting_month,
-                                                reporting_year,
-                                                current_period().previous()))
-        return True
-
-    # Entity code
-    try:
-        entity = Entity.objects.get(slug=location_of_sdp)
-    except Entity.DoesNotExist:
-        message.respond(u"Le code %s n'existe pas" % location_of_sdp)
+        message.respond(error_start + u" Le format du SMS est incorrect.")
         return True
 
     def check_int(val):
@@ -78,68 +144,85 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
         except:
             return -1
 
-    try:
-        comment = comment.replace(u"_", u" ")
-    except:
-        comment = u""
-
-    contact = contact_for(message.identity)
-
-    report = RHCommoditiesReport()
-
-    if contact:
-        report.created_by = contact
-    else:
-        return resp_error_provider(message)
-
-    report.type = 0
-    report.period = period
-    report.entity = entity
-    report.family_planning = check_int(family_planning)
-    report.delivery_services = check_int(delivery_services)
-    report.male_condom = check_int(male_condom)
-    report.female_condom = check_int(female_condom)
-    report.oral_pills = check_int(oral_pills)
-    report.injectable = check_int(injectable)
-    report.iud = check_int(iud)
-    report.implants = check_int(implants)
-    report.female_sterilization = YESNOAVAIL.get(female_sterilization,
-                                    RHCommoditiesReport.SUPPLIES_NOT_PROVIDED)
-    report.male_sterilization = YESNOAVAIL.get(male_sterilization,
-                                    RHCommoditiesReport.SUPPLIES_NOT_PROVIDED)
-    report.amoxicillin_ij = check_int(amoxicillin_ij)
-    report.amoxicillin_cap_gel = check_int(amoxicillin_cap_gel)
-    report.amoxicillin_suspension = check_int(amoxicillin_suspension)
-    report.azithromycine_tab = check_int(azithromycine_tab)
-    report.azithromycine_suspension = check_int(azithromycine_suspension)
-    report.benzathine_penicillin = check_int(benzathine_penicillin)
-    report.cefexime = check_int(cefexime)
-    report.clotrimazole = check_int(clotrimazole)
-    report.ergometrine_tab = check_int(ergometrine_tab)
-    report.ergometrine_vials = check_int(ergometrine_vials)
-    report.iron = check_int(iron)
-    report.folate = check_int(folate)
-    report.iron_folate = check_int(iron_folate)
-    report.magnesium_sulfate = check_int(magnesium_sulfate)
-    report.metronidazole = check_int(metronidazole)
-    report.oxytocine = check_int(oxytocine)
-
-    report.ceftriaxone_500 = check_int(ceftriaxone_500)
-    report.ceftriaxone_1000 = check_int(ceftriaxone_1000)
-    report.comment = check_int(comment)
-    report._status = report.STATUS_VALIDATED
+    # convert form-data to int or bool respectively
+    for key, value in arguments.items():
+        if not key in ['location_of_sdp', 'location_of_sdp', 'reporting_year',
+                       'reporting_month']:
+            arguments[key] = check_int(value)
 
     try:
-        report.save()
-        message.respond(u"[SUCCES] Le rapport de %(cscom)s pour %(period)s "
-                        u"a ete enregistre. "
-                        u"Le No de recu est #%(receipt)s."
-                        % {'cscom': report.entity.display_full_name(),
-                           'period': report.period,
-                           'receipt': report.receipt})
-    except IntegrityError:
-        message.respond(u"[ERREUR] il ya deja un rapport pour cette periode")
+        arguments['comment'] = arguments['comment'].replace(u"_", u" ")
     except:
-        message.respond(u"[ERREUR] Le rapport n est pas enregiste")
+        arguments['comment'] = u""
+
+    provider = contact_for(message.identity)
+    if not provider:
+        message.respond(error_start + u"Aucun utilisateur ne possede ce " \
+                                      u"numero de telephone")
+        return True
+
+    # now we have well formed and authenticated data.
+    # let's check for business-logic errors.
+
+    # create a data holder for validator
+    data_browser = RHCommoditiesDataHolder()
+
+    # feed data holder with sms provided data
+    for key, value in arguments.items():
+        data_browser.set(key, value)
+
+    data_browser.set('entity', arguments['location_of_sdp'])
+    today = datetime.date.today()
+    data_browser.set('fillin_day', today.day)
+    data_browser.set('fillin_month', today.month)
+    data_browser.set('fillin_year', today.year)
+    data_browser.set('author', provider.name())
+
+    # create validator and fire
+    validator = RHCommoditiesReportValidator(data_browser, author=provider)
+
+    validator.errors.reset()
+    try:
+        validator.validate()
+    except AttributeError as e:
+        message.respond(error_start + e.__str__())
+        return True
+    errors = validator.errors
+    # return first error to user
+    if errors.count() > 0:
+        message.respond(error_start + errors.all()[0])
+        return True
+
+    try:
+        period = MonthPeriod.find_create_from(year=int(data_browser \
+                                            .get('reporting_year')), \
+                                              month=int(data_browser \
+                                            .get('reporting_month')))
+        is_late = not time_is_prompt(period)
+        entity = Entity.objects.get(slug=data_browser.get('location_of_sdp'), \
+                                    type__slug='cscom')
+        # create the report
+        report = RHCommoditiesReport.start(period, entity, provider, \
+                                         type=RHCommoditiesReport.TYPE_SOURCE, \
+                                         is_late=is_late)
+
+        report.add_data(*data_browser.data_for_cat())
+        with reversion.create_revision():
+            report.save()
+            reversion.set_user(provider.user)
+    except Exception as e:
+        message.respond(error_start + u"Une erreur technique s'est " \
+                        u"produite. Reessayez plus tard et " \
+                        u"contactez ANTIM si le probleme persiste.")
+        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
+                     % (message.content, e))
+        return True
+
+    message.respond(u"[SUCCES] Le rapport de %(cscom)s pour %(period)s "
+                    u"a ete enregistre. "
+                    u"Le No de recu est #%(receipt)s."
+                    % {'cscom': report.entity.display_full_name(),
+                       'period': report.period,
+                       'receipt': report.receipt})
 
     return True

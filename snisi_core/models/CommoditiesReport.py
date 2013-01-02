@@ -162,6 +162,63 @@ class RHCommoditiesReport(Report):
     objects = StockoutManager()
     fp_stockout = FPMethodManager()
 
+    def add_data(self, family_planning, \
+                                delivery_services, \
+                                male_condom, \
+                                female_condom, \
+                                oral_pills, \
+                                injectable, \
+                                iud, \
+                                implants, \
+                                female_sterilization, \
+                                male_sterilization, \
+                                amoxicillin_ij, \
+                                amoxicillin_cap_gel, \
+                                amoxicillin_suspension, \
+                                azithromycine_tab, \
+                                azithromycine_suspension, \
+                                benzathine_penicillin, \
+                                cefexime, \
+                                clotrimazole, \
+                                ergometrine_tab, \
+                                ergometrine_vials, \
+                                iron, \
+                                folate, \
+                                iron_folate, \
+                                magnesium_sulfate, \
+                                metronidazole, \
+                                oxytocine, \
+                                ceftriaxone_500, \
+                                ceftriaxone_1000):
+        self.family_planning = family_planning
+        self.delivery_services = delivery_services
+        self.male_condom = male_condom
+        self.female_condom = female_condom
+        self.oral_pills = oral_pills
+        self.injectable = injectable
+        self.iud = iud
+        self.implants = implants
+        self.female_sterilization = female_sterilization
+        self.male_sterilization = male_sterilization
+        self.amoxicillin_ij = amoxicillin_ij
+        self.amoxicillin_cap_gel = amoxicillin_cap_gel
+        self.amoxicillin_suspension = amoxicillin_suspension
+        self.azithromycine_tab = azithromycine_tab
+        self.azithromycine_suspension = azithromycine_suspension
+        self.benzathine_penicillin = benzathine_penicillin
+        self.cefexime = cefexime
+        self.clotrimazole = clotrimazole
+        self.ergometrine_tab = ergometrine_tab
+        self.ergometrine_vials = ergometrine_vials
+        self.iron = iron
+        self.folate = folate
+        self.iron_folate = iron_folate
+        self.magnesium_sulfate = magnesium_sulfate
+        self.metronidazole = metronidazole
+        self.oxytocine = oxytocine
+        self.ceftriaxone_500 = ceftriaxone_500
+        self.ceftriaxone_1000 = ceftriaxone_1000
+
     @property
     def mperiod(self):
         """ casted period to MonthPeriod """
@@ -171,11 +228,12 @@ class RHCommoditiesReport(Report):
 
     @classmethod
     def start(cls, period, entity, author, \
-               type=Report.TYPE_SOURCE, *args, **kwargs):
+               type=Report.TYPE_SOURCE, is_late=False, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
         report = cls(period=period, entity=entity, created_by=author, \
                      modified_by=author, _status=cls.STATUS_CREATED, \
                      type=type)
+        report.is_late = is_late
         for arg, value in kwargs.items():
             try:
                 setattr(report, arg, value)
