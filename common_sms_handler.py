@@ -6,7 +6,7 @@
 
 from snisi_sms.malaria.malaria import malaria_handler
 from snisi_sms.reproduction import dead_persons_handler
-from snisi_sms.epidemiology import epidemiology_handler
+from snisi_sms.epidemiology.epidemiology import epidemiology_handler
 
 
 def common_nosmsd_handler(message):

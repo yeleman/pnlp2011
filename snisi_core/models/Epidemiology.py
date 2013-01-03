@@ -59,6 +59,51 @@ class EpidemiologyReport(Report):
                                      verbose_name=_(u"Sources"), \
                                      blank=True, null=True)
 
+    def add_data(self, acute_flaccid_paralysis_case, \
+                                acute_flaccid_paralysis_death, \
+                                influenza_a_h1n1_case, \
+                                influenza_a_h1n1_death, \
+                                cholera_case, \
+                                cholera_death, \
+                                red_diarrhea_case, \
+                                red_diarrhea_death, \
+                                measles_case, \
+                                measles_death, \
+                                yellow_fever_case, \
+                                yellow_fever_death, \
+                                neonatal_tetanus_case, \
+                                neonatal_tetanus_death, \
+                                meningitis_case, \
+                                meningitis_death, \
+                                rabies_case, \
+                                rabies_death, \
+                                acute_measles_diarrhea_case, \
+                                acute_measles_diarrhea_death, \
+                                other_notifiable_disease_case, \
+                                other_notifiable_disease_death):
+        self.acute_flaccid_paralysis_case = acute_flaccid_paralysis_case
+        self.acute_flaccid_paralysis_death = acute_flaccid_paralysis_death
+        self.influenza_a_h1n1_case = influenza_a_h1n1_case
+        self.influenza_a_h1n1_death = influenza_a_h1n1_death
+        self.cholera_case = cholera_case
+        self.cholera_death = cholera_death
+        self.red_diarrhea_case = red_diarrhea_case
+        self.red_diarrhea_death = red_diarrhea_death
+        self.measles_case = measles_case
+        self.measles_death = measles_death
+        self.yellow_fever_case = yellow_fever_case
+        self.yellow_fever_death = yellow_fever_death
+        self.neonatal_tetanus_case = neonatal_tetanus_case
+        self.neonatal_tetanus_death = neonatal_tetanus_death
+        self.meningitis_case = meningitis_case
+        self.meningitis_death = meningitis_death
+        self.rabies_case = rabies_case
+        self.rabies_death = rabies_death
+        self.acute_measles_diarrhea_case = acute_measles_diarrhea_case
+        self.acute_measles_diarrhea_death = acute_measles_diarrhea_death
+        self.other_notifiable_disease_case = other_notifiable_disease_case
+        self.other_notifiable_disease_death = other_notifiable_disease_death
+
     @property
     def wperiod(self):
         """ casted period to WeekPeriod """
