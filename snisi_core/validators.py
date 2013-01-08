@@ -313,7 +313,7 @@ class RHCommoditiesReportValidator(DataValidator):
 
 class EpidemiologyReportValidator(DataValidator):
 
-    """ Monthly RHCommodities Routine Report from CSCOM data validation """
+    """ Monthly Epidemiology Routine Report from CSCOM data validation """
 
     def validate(self):
         """ Test whether attached data matches PNLP's logic requirements """
@@ -450,6 +450,138 @@ class EpidemiologyReportValidator(DataValidator):
                                   {'entity': entity.display_full_name(), \
                                    'period': period.name()}
                                    + u" Recu: %s." % report.receipt, 'period')
+
+        # User can create such report
+        if self.options.author:
+            if not provider_can('can_submit_report', \
+                                self.options.author, entity) \
+               and not self.options.bulk_import:
+                self.errors.add(_(u"You don't have permission to send " \
+                                  "a report for that " \
+                                  "location (%(loc)s).") \
+                                % {'loc': entity.display_full_name()})
+
+
+from snisi_sms.common import parse_age_dob, date_is_old
+
+
+class ChildrenMortalityReportValidator(DataValidator):
+    """ """
+
+    def validate(self):
+        """ """
+
+        # reporting location
+        try:
+            Entity.objects.get(slug=self.get('reporting_location'))
+        except Entity.DoesNotExist:
+            self.errors.add(_(u"The entity code (%(code)s) does not " \
+                              "match any HC.") % {'code': \
+                                                  self.get('reporting_location')}, \
+                                                  'period')
+
+        # DOB (YYYY-MM-DD) or age (11a/11m)
+        try:
+            dob, dob_auto = parse_age_dob(str(self.get('age_or_dob')))
+        except:
+            self.errors.add(_(u"[ERREUR] la date de naissance n'est pas valide."))
+
+        # reccord date
+        try:
+            reccord_date, _reccord_date = parse_age_dob(self.get('reccord_date'))
+        except:
+            self.errors.add(_(u"[Date de visite] la date n'est pas valide."))
+
+        try:
+            date_is_old(reccord_date)
+        except ValueError, e:
+            self.errors.add(_(u"[ERREUR] %s" % e))
+
+        # Date of Death, YYYY-MM-DD
+        try:
+            parse_age_dob(self.get('dod_text'), True)
+        except:
+            self.errors.add(_(u"[ERREUR] la date de décès n'est pas valide"))
+
+        # Place of death, entity code
+        try:
+            entity = Entity.objects.get(slug=self.get('death_location'))
+        except Entity.DoesNotExist:
+            self.errors.add(_(u"The entity code (%(code)s) does not " \
+                              "match any HC.") % {'code': \
+                                                  self.get('death_location')}, \
+                                                  'period')
+
+        # User can create such report
+        if self.options.author:
+            if not provider_can('can_submit_report', \
+                                self.options.author, entity) \
+               and not self.options.bulk_import:
+                self.errors.add(_(u"You don't have permission to send " \
+                                  "a report for that " \
+                                  "location (%(loc)s).") \
+                                % {'loc': entity.display_full_name()})
+
+
+class MaternalMortalityReportValidator(DataValidator):
+    """ """
+
+    def validate(self):
+        """ """
+
+        # reporting location
+        try:
+            Entity.objects.get(slug=self.get('reporting_location'))
+        except Entity.DoesNotExist:
+            self.errors.add(_(u"The entity code (%(code)s) does not " \
+                              "match any HC.") % {'code': \
+                                                  self.get('reporting_location')}, \
+                                                  'period')
+
+        # DOB (YYYY-MM-DD) or age (11a/11m)
+        try:
+            dob, dob_auto = parse_age_dob(str(self.get('age_or_dob')))
+        except:
+            self.errors.add(_(u"[ERREUR] la date de naissance n'est pas valide."))
+
+        # reccord date
+        try:
+            reccord_date, _reccord_date = parse_age_dob(self.get('reccord_date'))
+        except:
+            self.errors.add(_(u"[Date de visite] la date n'est pas valide."))
+
+        try:
+            date_is_old(reccord_date)
+        except ValueError, e:
+            self.errors.add(_(u"[ERREUR] %s" % e))
+
+        # Nb of living children
+        try:
+            int(self.get('living_children_text'))
+        except:
+            self.errors.add(_(u"le nombre d'enfants vivant du defunt"))
+
+        # Nb of dead children
+        try:
+            int(self.get('dead_children'))
+        except:
+            self.errors.add(_(u"le nombre d'enfants morts de la"
+                                   u" personne decedee"))
+
+        # Date of Death, YYYY-MM-DD
+        try:
+            parse_age_dob(self.get('dod_text'), True)
+        except:
+            self.errors.add(_(u"[ERREUR] la date de décès n'est pas valide"))
+
+        # Place of death, entity code
+        try:
+            entity = Entity.objects.get(slug=self.get('death_location'))
+        except Entity.DoesNotExist:
+            self.errors.add(_(u"The entity code (%(code)s) does not " \
+                              "match any HC.") % {'code': \
+                                                  self.get('death_location')}, \
+                                                  'period')
 
         # User can create such report
         if self.options.author:

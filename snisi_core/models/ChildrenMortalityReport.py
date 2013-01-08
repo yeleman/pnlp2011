@@ -94,10 +94,40 @@ class ChildrenMortalityReport(IndividualReport):
     objects = models.Manager()
     periods = PeriodManager()
 
+    def add_data(self, \
+                                name, \
+                                sex, \
+                                dob, \
+                                dob_auto, \
+                                dod, \
+                                death_place, \
+                                cause_of_death):
+        self.name = name
+        self.sex = sex
+        self.dob = dob
+        self.dob_auto = dob_auto
+        self.dod = dod
+        self.death_place = death_place
+        self.cause_of_death = cause_of_death
+
     def __unicode__(self):
         return ugettext(u"%(name)s/%(dod)s"
                 % {'name': self.name.title(),
                    'dod': self.dod.strftime('%d-%m-%Y')})
+
+    @classmethod
+    def start(cls, reporting_location, death_location, author, *args, **kwargs):
+        """ creates a report object with meta data only. Object not saved """
+        report = cls(reporting_location=reporting_location, \
+                     death_location=death_location, created_by=author, \
+                     modified_by=author)
+        for arg, value in kwargs.items():
+            try:
+                setattr(report, arg, value)
+            except AttributeError:
+                pass
+
+        return report
 
 reversion.register(ChildrenMortalityReport)
 

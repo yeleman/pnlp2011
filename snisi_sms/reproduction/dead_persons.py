@@ -2,13 +2,19 @@
 # -*- coding: utf-8 -*-
 # vim: ai ts=4 sts=4 et sw=4 nu
 
+import logging
+import reversion
+import locale
 
+from django.conf import settings
 from snisi_core.models import MaternalMortalityReport, ChildrenMortalityReport
-from bolibana.models import Entity, MonthPeriod
-from snisi_sms.common import (contact_for, resp_error, resp_error_dob,
-                    resp_error_provider, parse_age_dob,
-                     resp_error_date, date_is_old)
+from snisi_core.validators import (ChildrenMortalityReportValidator, \
+                                   MaternalMortalityReportValidator)
+from bolibana.models import Entity
+from snisi_sms.common import contact_for, parse_age_dob
 
+logger = logging.getLogger(__name__)
+locale.setlocale(locale.LC_ALL, settings.DEFAULT_LOCALE)
 SEX = {
     'm': ChildrenMortalityReport.MALE,
     'f': ChildrenMortalityReport.FEMALE
@@ -46,27 +52,41 @@ DEATH_CAUSES_U5 = {
 }
 
 
-def resp_error_reporting_location(message, code):
-    message.respond(u"[ERREUR] Le Lieu de rapportage %s n'existe pas."
-                                                               % code)
-    return True
+class MaternalMortalityDataHolder(object):
 
+    def get(self, slug):
+        return getattr(self, slug)
 
-def resp_error_death_location(message, code):
-    message.respond(u"[ERREUR] Le lieu du deces %s n'existe pas."
-                                                               % code)
-    return True
+    def field_name(self, slug):
+        return ChildrenMortalityReport._meta.get_field(slug).verbose_name
 
+    def set(self, slug, data):
+        try:
+            setattr(self, slug, data)
+        except AttributeError:
+            exec 'self.%s = None' % slug
+            setattr(self, slug, data)
 
-def resp_error_dod(message):
-    message.respond(u"[ERREUR] La date de décès n'est pas valide")
-    return True
+    def fields_for(self):
+        fields = ['name', \
+                    'dob', \
+                    'dob_auto', \
+                    'dod', \
+                    'death_location', \
+                    'living_children', \
+                    'dead_children', \
+                    'pregnant', \
+                    'pregnancy_weeks', \
+                    'pregnancy_related_death', \
+                    'cause_of_death']
 
+        return fields
 
-def resp_success(message, name):
-    message.respond(u"[SUCCES] Le rapport de deces de %(name)s a"
-                    u" ete enregistre." % {'name': name})
-    return True
+    def data_for_cat(self, as_dict=False):
+        data = []
+        for field in self.fields_for():
+            data.append(self.get(field))
+        return data
 
 
 def unfpa_dead_pregnant_woman(message, args, sub_cmd, **kwargs):
@@ -76,116 +96,147 @@ def unfpa_dead_pregnant_woman(message, args, sub_cmd, **kwargs):
                       living_children_text dead_children_text pregnant_text
                       pregnancy_weeks_text pregnancy_related_death_text
             exemple: 'fnuap dpw f 20120524 bana kona_diarra 20120524 20120524
-                       bana 1 0 0 - 0 m'
+                      bana 1 0 0 - 0 m'
 
          Outgoing:
             [SUCCES] Le rapport de deces name a ete enregistre.
             or [ERREUR] message """
 
+    # common start of error message
+    error_start = u"Impossible d'enregistrer le rapport. "
     try:
-        profile, reccord_date, reporting_location_code, name, age_or_dob, \
-        dod_text, death_location_code, living_children_text, \
-        dead_children_text, pregnant_text, pregnancy_weeks_text, \
-        pregnancy_related_death_text, cause_of_death_text = args.split()
+        args_names = ['profile',
+        'reccord_date',
+        'reporting_location',
+        'name',
+        'age_or_dob',
+        'dod_text',
+        'death_location',
+        'living_children_text',
+        'dead_children',
+        'pregnant_text',
+        'pregnancy_weeks_text',
+        'pregnancy_related_death_text',
+        'cause_of_death']
+        args_values = args.split()
+        arguments = dict(zip(args_names, args_values))
     except:
-        return resp_error(message, u"le rapport")
-
-    # Entity code
-    try:
-        reporting_location = Entity.objects.get(slug=reporting_location_code)
-    except Entity.DoesNotExist:
-        return resp_error_reporting_location(message, reporting_location_code)
-
-    # DOB (YYYY-MM-DD) or age (11y/11m)
-    try:
-        dob, dob_auto = parse_age_dob(age_or_dob)
-    except:
-        return resp_error_dob(message)
-
-    # reccord date
-    try:
-        reccord_date, _reccord_date = parse_age_dob(reccord_date)
-    except:
-        return resp_error_date(message)
-
-    try:
-        date_is_old(reccord_date)
-    except ValueError, e:
-        message.respond(u"[ERREUR] %s" % e)
+        message.respond(error_start + u" Le format du SMS est incorrect.")
         return True
 
-    MonthPeriod.find_create_from(year=reccord_date.year,
-                                 month=reccord_date.month)
+    # convert form-data to int or bool respectively
+    for key, value in arguments.items():
+        if key == 'name':
+            arguments[key] = value.replace('_', ' ')
+        if key == 'cause_of_death':
+            arguments[key] = DEATH_CAUSES_MAT.get(arguments[key],
+                                     MaternalMortalityReport.CAUSE_OTHER)
+        if key == 'pregnancy_weeks_text':
+            try:
+                arguments[key] = int(value)
+            except:
+                arguments[key] = 0
 
-    # Date of Death, YYYY-MM-DD
-    try:
-        dod = parse_age_dob(dod_text, True)
-    except:
-        return resp_error_dod(message)
+    # create a data holder for validator
+    data_browser = MaternalMortalityDataHolder()
 
-    # Place of death, entity code
-    try:
-        death_location = Entity.objects.get(slug=death_location_code)
-    except Entity.DoesNotExist:
-        return resp_error_death_location(message, death_location_code)
-
-    # Nb of living children
-    try:
-        living_children = int(living_children_text)
-    except:
-        return resp_error(message, u"le nombre d'enfants vivant du defunt")
-
-    # Nb of dead children
-    try:
-        dead_children = int(dead_children_text)
-    except:
-        return resp_error(message, u"le nombre d'enfants morts de la"
-                                   u" personne decedee")
-
-    # was she pregnant (0/1)
-    pregnant = bool(int(pregnant_text))
-
-    # Nb of weeks of pregnancy (or 0)
-    try:
-        pregnancy_weeks = int(pregnancy_weeks_text)
-    except:
-        pregnancy_weeks = None
-
-    # Pregnancy related death? (0/1)
-    pregnancy_related_death = bool(int(pregnancy_related_death_text))
-
-    contact = contact_for(message.identity)
-
-    report = MaternalMortalityReport()
-
-    if contact:
-        report.created_by = contact
-    else:
-        resp_error_provider(message)
-
-    report.reporting_location = reporting_location
-    report.name = name.replace('_', ' ')
-    report.dob = dob
-    report.dob_auto = dob_auto
-    report.dod = dod
-    report.death_location = death_location
-    report.living_children = living_children
-    report.dead_children = dead_children
-    report.pregnant = pregnant
-    report.pregnancy_weeks = pregnancy_weeks
-    report.pregnancy_related_death = pregnancy_related_death
-    report.cause_of_death = DEATH_CAUSES_MAT.get(cause_of_death_text,
-                                        MaternalMortalityReport.CAUSE_OTHER)
-
-    try:
-        report.save()
-        report.created_on = reccord_date
-        report.save()
-    except:
-        message.respond(u"[ERREUR] Le rapport n est pas enregiste")
+    # feed data holder with sms provided data
+    for key, value in arguments.items():
+        data_browser.set(key, value)
+    provider = contact_for(message.identity)
+    if not provider:
+        message.respond(error_start + u"Aucun utilisateur ne possede ce " \
+                                      u"numero de telephone")
         return True
 
-    return resp_success(message, report.name)
+    data_browser.set('reporting_location', arguments['reporting_location'])
+    data_browser.set('death_location', arguments['death_location'])
+
+    data_browser.set('author', provider.name())
+    data_browser.set('pregnant', bool(int(arguments['pregnant_text'])))
+
+    data_browser.set('pregnancy_weeks', \
+                     int(arguments['pregnancy_weeks_text']))
+
+    data_browser.set('pregnancy_related_death', \
+                     bool(int(arguments['pregnancy_related_death_text'])))
+
+    # create validator and fire
+    validator = MaternalMortalityReportValidator(data_browser, author=provider)
+
+    validator.errors.reset()
+    try:
+        validator.validate()
+    except AttributeError as e:
+        message.respond(error_start + e.__str__())
+        return True
+
+    errors = validator.errors
+    # return first error to user
+    if errors.count() > 0:
+        message.respond(error_start + errors.all()[0])
+        return True
+
+    try:
+        dob, dob_auto = parse_age_dob(arguments['age_or_dob'])
+        dod = parse_age_dob(arguments['dod_text'], True)
+        reporting_location = Entity.objects.get(slug=data_browser \
+                                           .get('reporting_location'))
+        death_location = Entity.objects.get(slug=data_browser \
+                                           .get('death_location'))
+        data_browser.set('dob', dob)
+        data_browser.set('dob_auto', dob_auto)
+        data_browser.set('dod', dod)
+        data_browser.set('living_children', arguments['living_children_text'])
+        report = MaternalMortalityReport.start(reporting_location, \
+                                               death_location, provider)
+        report.add_data(*data_browser.data_for_cat())
+        with reversion.create_revision():
+            report.save()
+            reversion.set_user(provider.user)
+
+    except Exception as e:
+        message.respond(error_start + u"Une erreur technique s'est " \
+                        u"produite. Reessayez plus tard et " \
+                        u"contactez ANTIM si le probleme persiste.")
+        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
+                     % (message.content, e))
+        return True
+    message.respond(u"[SUCCES] Le rapport de deces de %(name)s a"
+                    u" ete enregistre." % {'name': report.name})
+
+
+class ChildrenMortalityDataHolder(object):
+
+    def get(self, slug):
+        return getattr(self, slug)
+
+    def field_name(self, slug):
+        return ChildrenMortalityReport._meta.get_field(slug).verbose_name
+
+    def set(self, slug, data):
+        try:
+            setattr(self, slug, data)
+        except AttributeError:
+            exec 'self.%s = None' % slug
+            setattr(self, slug, data)
+
+    def fields_for(self):
+        fields = ['name', \
+                    'sex', \
+                    'dob', \
+                    'dob_auto', \
+                    'dod', \
+                    'death_place', \
+                    'cause_of_death']
+
+        return fields
+
+    def data_for_cat(self, as_dict=False):
+        data = []
+        for field in self.fields_for():
+            data.append(self.get(field))
+        return data
 
 
 def unfpa_dead_children_under5(message, args, sub_cmd, **kwargs):
@@ -198,78 +249,93 @@ def unfpa_dead_children_under5(message, args, sub_cmd, **kwargs):
             [SUCCES] Le rapport de deces name a ete enregistre.
             or [ERREUR] message """
 
+    # common start of error message
+    error_start = u"Impossible d'enregistrer le rapport. "
     try:
-        profile, reccord_date, reporting_location_code, name, sex, \
-        age_or_dob, dod_text, death_location_code, \
-        place_death, cause_of_death_text = args.split()
+        args_names = ['profile',
+        'reccord_date',
+        'reporting_location',
+        'name',
+        'sex',
+        'age_or_dob',
+        'dod_text',
+        'death_location',
+        'death_place',
+        'cause_of_death']
+        args_values = args.split()
+        arguments = dict(zip(args_names, args_values))
     except:
-        return resp_error(message, u"l'enregistrement de rapport "
-                                   u" des moins de 5ans")
+        message.respond(error_start + u" Le format du SMS est incorrect.")
+        return True
+    # convert form-data to int or bool respectively
+    for key, value in arguments.items():
+        if key == 'name':
+            arguments[key] = value.replace('_', ' ')
+        if key == 'sex':
+            arguments[key] = SEX.get(arguments[key],
+                                     ChildrenMortalityReport.MALE)
+        if key == 'place_death':
+            arguments[key] = DEATHPLACE.get(arguments[key],
+                                     ChildrenMortalityReport.OTHER)
+        if key == 'cause_of_death_text':
+            arguments[key] = DEATH_CAUSES_U5.get(arguments[key],
+                                     ChildrenMortalityReport.CAUSE_OTHER)
 
-    # Entity code
-    try:
-        reporting_location = Entity.objects.get(slug=reporting_location_code)
-    except Entity.DoesNotExist:
-        return resp_error_reporting_location(message, reporting_location_code)
+    # create a data holder for validator
+    data_browser = ChildrenMortalityDataHolder()
 
-    # DOB (YYYY-MM-DD) or age (11a/11m)
-    try:
-        dob, dob_auto = parse_age_dob(age_or_dob)
-    except:
-        return resp_error_dob(message)
+    # feed data holder with sms provided data
+    for key, value in arguments.items():
+        data_browser.set(key, value)
 
-    # reccord date
-    try:
-        reccord_date, _reccord_date = parse_age_dob(reccord_date)
-    except:
-        return resp_error_date(message)
-
-    try:
-        date_is_old(reccord_date)
-    except ValueError, e:
-        message.respond(u"[ERREUR] %s" % e)
+    provider = contact_for(message.identity)
+    if not provider:
+        message.respond(error_start + u"Aucun utilisateur ne possede ce " \
+                                      u"numero de telephone")
         return True
 
-    MonthPeriod.find_create_from(year=reccord_date.year,
-                                 month=reccord_date.month)
+    data_browser.set('reporting_location', arguments['reporting_location'])
+    data_browser.set('death_location', arguments['death_location'])
+    data_browser.set('author', provider.name())
+    # create validator and fire
+    validator = ChildrenMortalityReportValidator(data_browser, author=provider)
 
-    # Date of Death, YYYY-MM-DD
+    validator.errors.reset()
     try:
-        dod = parse_age_dob(dod_text, True)
-    except:
-        return resp_error_dod(message)
-
-    # Place of death, entity code
+        validator.validate()
+    except AttributeError as e:
+        message.respond(error_start + e.__str__())
+        return True
+    errors = validator.errors
+    # return first error to user
+    if errors.count() > 0:
+        message.respond(error_start + errors.all()[0])
+        return True
     try:
-        death_location = Entity.objects.get(slug=death_location_code)
-    except Entity.DoesNotExist:
-        return resp_error_death_location(message, death_location_code)
+        dob, dob_auto = parse_age_dob(arguments['age_or_dob'])
+        dod = parse_age_dob(arguments['dod_text'], True)
+        reporting_location = Entity.objects.get(slug=data_browser \
+                                           .get('reporting_location'))
+        death_location = Entity.objects.get(slug=data_browser \
+                                           .get('death_location'))
+        data_browser.set('dob', dob)
+        data_browser.set('dob_auto', dob_auto)
+        data_browser.set('dod', dod)
+        report = ChildrenMortalityReport.start(reporting_location, \
+                                               death_location, provider)
 
-    contact = contact_for(message.identity)
+        report.add_data(*data_browser.data_for_cat())
+        with reversion.create_revision():
+            report.save()
+            reversion.set_user(provider.user)
 
-    report = ChildrenMortalityReport()
+    except Exception as e:
+        message.respond(error_start + u"Une erreur technique s'est " \
+                        u"produite. Reessayez plus tard et " \
+                        u"contactez ANTIM si le probleme persiste.")
+        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
+                     % (message.content, e))
+        return True
 
-    if contact:
-        report.created_by = contact
-    else:
-        return resp_error_provider(message)
-
-    report.reporting_location = reporting_location
-    report.name = name.replace('_', ' ')
-    report.sex = SEX.get(sex, ChildrenMortalityReport.MALE)
-    report.dob = dob
-    report.dob_auto = dob_auto
-    report.dod = dod
-    report.death_location = death_location
-    report.death_place = DEATHPLACE.get(place_death,
-                                        ChildrenMortalityReport.OTHER)
-    report.cause_of_death = DEATH_CAUSES_U5.get(cause_of_death_text,
-                                        ChildrenMortalityReport.CAUSE_OTHER)
-
-    try:
-        report.save()
-        report.created_on = reccord_date
-        report.save()
-        return resp_success(message, report.name)
-    except:
-        return resp_error(message, u"Le rapport de deces n'a pas ete enregistre.")
+    message.respond(u"[SUCCES] Le rapport de deces de %(name)s a"
+                    u" ete enregistre." % {'name': report.name})
