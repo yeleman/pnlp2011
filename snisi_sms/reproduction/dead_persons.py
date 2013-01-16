@@ -8,7 +8,7 @@ import locale
 
 from django.conf import settings
 from snisi_core.models import MaternalMortalityReport, ChildrenMortalityReport
-from snisi_core.validators import (ChildrenMortalityReportValidator, \
+from snisi_core.validators.reproduction import (ChildrenMortalityReportValidator, \
                                    MaternalMortalityReportValidator)
 from bolibana.models import Entity
 from snisi_sms.common import contact_for, parse_age_dob

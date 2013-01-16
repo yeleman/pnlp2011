@@ -9,7 +9,7 @@ import reversion
 from snisi_core.models import RHCommoditiesReport
 from snisi_core.data import time_is_prompt
 from bolibana.models import Entity, MonthPeriod
-from snisi_core.validators import RHCommoditiesReportValidator
+from snisi_core.validators.reproduction import RHCommoditiesReportValidator
 from snisi_sms.common import contact_for
 
 

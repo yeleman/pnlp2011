@@ -13,7 +13,7 @@ from django.core.urlresolvers import reverse
 from snisi_core.data import (time_cscom_over, time_district_over, \
                             time_region_over, current_reporting_period, \
                             contact_for)
-from snisi_core.models import MalariaReport, Alert
+from snisi_core.models import MalariaReport, Alert, AggregatedMalariaReport
 from bolibana.models import Entity
 from nosmsd.utils import send_sms
 from bolibana.models import Provider, Access
@@ -346,7 +346,7 @@ class EndOfDistrictPeriod(Alert):
                 continue
             rauthor = contact_for(entity) if not author else author
             logger.info(u"Creating Aggregated report for %s" % entity)
-            report = MalariaReport.create_aggregated(self.args.period, \
+            report = AggregatedMalariaReport.create_from(self.args.period, \
                                                      entity, rauthor)
             # region auto-validates their reports
             if not self.args.is_district:
@@ -364,7 +364,7 @@ class EndOfDistrictPeriod(Alert):
                    .filter(period=self.args.period).count() == 0:
             rauthor = author if author else get_autobot()
             logger.info(u"Creating National report")
-            report = MalariaReport.create_aggregated(self.args.period, \
+            report = AggregatedMalariaReport.create_from(self.args.period, \
                                                      mali, rauthor)
 
             # following only applies to districts (warn regions).

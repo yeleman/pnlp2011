@@ -9,7 +9,7 @@ import locale
 
 from django.conf import settings
 from snisi_core.models import EpidemiologyReport
-from snisi_core.validators import EpidemiologyReportValidator
+from snisi_core.validators.epidemiology import EpidemiologyReportValidator
 from bolibana.models import Entity, WeekPeriod
 from snisi_sms.common import contact_for
 

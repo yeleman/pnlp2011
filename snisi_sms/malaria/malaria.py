@@ -11,7 +11,7 @@ from django.conf import settings
 
 from bolibana.models import Provider
 from bolibana.models import Entity, MonthPeriod
-from snisi_core.validators import MalariaReportValidator
+from snisi_core.validators.malaria import MalariaReportValidator
 from snisi_core.models import MalariaReport
 from snisi_core.data import contact_for, time_is_prompt
 
