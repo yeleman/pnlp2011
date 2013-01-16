@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from bolibana.models import Entity, EntityType, Period
+from bolibana.models import Entity, EntityType, Period, Project
 from bolibana.admin import EntityAdmin, EntityTypeAdmin, PeriodAdmin
 from bolibana.models import Role, Permission, Access, Provider
 from bolibana.admin import (RoleAdmin, PermissionAdmin, \
@@ -14,7 +14,10 @@ from bolibana.admin import (RoleAdmin, PermissionAdmin, \
 from snisi_core.models import (MalariaReport, MaternalMortalityReport,
                                 RHCommoditiesReport,
                                 ChildrenMortalityReport,
-                                EpidemiologyReport)
+                                EpidemiologyReport, AggregatedMalariaReport,
+                                AggregatedRHCommoditiesReport,
+                                AggregatedChildrenMortalityReport,
+                                AggregatedMaternalMortalityReport)
 from snisi_core.models.alert import Alert
 from snisi_core.admin import MalariaReportAdmin, AlertAdmin
 
@@ -41,8 +44,13 @@ admin.site.register(Access, AccessAdmin)
 admin.site.register(Permission, PermissionAdmin)
 
 admin.site.register(MalariaReport, MalariaReportAdmin)
+admin.site.register(AggregatedMalariaReport)
 admin.site.register(Alert, AlertAdmin)
 admin.site.register(MaternalMortalityReport)
+admin.site.register(AggregatedMaternalMortalityReport)
 admin.site.register(ChildrenMortalityReport)
+admin.site.register(AggregatedChildrenMortalityReport)
 admin.site.register(RHCommoditiesReport)
+admin.site.register(AggregatedRHCommoditiesReport)
 admin.site.register(EpidemiologyReport)
+admin.site.register(Project)
