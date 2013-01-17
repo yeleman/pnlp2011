@@ -7,7 +7,8 @@ import reversion
 import locale
 
 from django.conf import settings
-from snisi_core.models import MaternalMortalityReport, ChildrenMortalityReport
+from snisi_core.models.MaternalMortalityReport import MaternalMortalityReport
+from snisi_core.models.ChildrenMortalityReport import ChildrenMortalityReport
 from snisi_core.validators.reproduction import (ChildrenMortalityReportValidator, \
                                    MaternalMortalityReportValidator)
 from bolibana.models import Entity

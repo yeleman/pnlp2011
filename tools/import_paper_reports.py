@@ -10,6 +10,7 @@ from snisi_core.excel import MalariaExcelForm
 from bolibana.tools.utils import get_autobot
 from bolibana.reporting.excel import IncorrectReportData
 
+
 def submit_excel_file(filepath, author, success='success', error='error'):
 
     # store basename
@@ -45,6 +46,7 @@ def submit_excel_file(filepath, author, success='success', error='error'):
     err_f.close()
     return False
 
+
 def import_all(src_folder):
     author = get_autobot()
     success_dir = 'success'
@@ -59,6 +61,7 @@ def import_all(src_folder):
             continue
         submit_excel_file(os.path.join(src_folder, fname),
                           author, success_dir, error_dir)
+
 
 def cleanup_db():
     from snisi_core.models import MalariaReport, Alert

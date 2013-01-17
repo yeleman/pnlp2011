@@ -9,8 +9,6 @@ from bolibana.reporting.validator import DataValidator
 from bolibana.reporting.errors import MissingData
 from bolibana.models import Entity, MonthPeriod
 from snisi_core.models import MalariaReport
-from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
 
 
 class MalariaReportValidator(DataValidator):
@@ -40,6 +38,7 @@ class MalariaReportValidator(DataValidator):
                     # this missing data should have already been reported
                     pass
 
+        from snisi_core.data import time_district_over, time_region_over, time_cscom_over
         # total > malaria cases
         test_value_under('total_consultation_all_causes', \
                          'total_suspected_malaria_cases', allcats)
@@ -206,6 +205,7 @@ class MalariaReportValidator(DataValidator):
 
         # User can create such report
         if self.options.author:
+            from snisi_core.data import provider_can
             if not provider_can('can_submit_report', \
                                 self.options.author, entity) \
                and not self.options.bulk_import:

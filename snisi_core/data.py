@@ -7,8 +7,9 @@ from datetime import date, timedelta
 from django import forms
 from django.utils.translation import ugettext as _
 
-from bolibana.models import Access, Provider
-from bolibana.models import MonthPeriod
+from bolibana.models.Access import Access
+from bolibana.models.Provider import Provider
+from bolibana.models.Period import MonthPeriod
 from snisi_core.models.MalariaReport import MalariaReport
 
 

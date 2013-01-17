@@ -7,18 +7,18 @@ from datetime import date
 from django.utils.translation import ugettext as _
 from bolibana.reporting.validator import DataValidator
 from bolibana.models import Entity, MonthPeriod
-from snisi_core.models import RHCommoditiesReport
-from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
+from snisi_core.models.CommoditiesReport import RHCommoditiesReport
 from snisi_sms.common import parse_age_dob, date_is_old
 
 
 class RHCommoditiesReportValidator(DataValidator):
-
     """ Monthly RHCommodities Routine Report from CSCOM data validation """
 
     def validate(self):
         """ Test whether attached data matches PNLP's logic requirements """
+
+        from snisi_core.data import (provider_can, time_cscom_over,
+                            time_district_over, time_region_over)
 
         # PERIOD MONTH
         # range(1, 12)
@@ -113,7 +113,7 @@ class ChildrenMortalityReportValidator(DataValidator):
 
     def validate(self):
         """ """
-
+        from snisi_core.data import provider_can
         # reporting location
         try:
             Entity.objects.get(slug=self.get('reporting_location'))
@@ -171,7 +171,7 @@ class MaternalMortalityReportValidator(DataValidator):
 
     def validate(self):
         """ """
-
+        from snisi_core.data import provider_can
         # reporting location
         try:
             Entity.objects.get(slug=self.get('reporting_location'))

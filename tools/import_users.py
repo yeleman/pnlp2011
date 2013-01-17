@@ -57,7 +57,6 @@ def import_users(csv_file):
             errors.append(line)
             continue
 
-
         # build an Access based on Role and Entity selected
         # if a national role, force attachment to root entity
         if role.slug in ('antim', 'national'):

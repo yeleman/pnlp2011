@@ -344,10 +344,12 @@ class EndOfDistrictPeriod(Alert):
             if entity.snisi_core_malariareport_reports\
                      .filter(period=self.args.period).count() > 0:
                 continue
+
+            print entity, self.args.period
             rauthor = contact_for(entity) if not author else author
             logger.info(u"Creating Aggregated report for %s" % entity)
-            report = AggregatedMalariaReport.create_from(self.args.period, \
-                                                     entity, rauthor)
+            report = AggregatedMalariaReport.create_from(period=self.args.period, \
+                                                     entity=entity, author=rauthor)
             # region auto-validates their reports
             if not self.args.is_district:
                 report._status = MalariaReport.STATUS_VALIDATED
@@ -364,8 +366,8 @@ class EndOfDistrictPeriod(Alert):
                    .filter(period=self.args.period).count() == 0:
             rauthor = author if author else get_autobot()
             logger.info(u"Creating National report")
-            report = AggregatedMalariaReport.create_from(self.args.period, \
-                                                     mali, rauthor)
+            report = AggregatedMalariaReport.create_from(period=self.args.period, \
+                                                     entity=mali, author=rauthor)
 
             # following only applies to districts (warn regions).
             return
