@@ -15,7 +15,7 @@ from snisi_core.data import (MalariaReportForm, \
 
 from bolibana.models import Entity, MonthPeriod
 from bolibana.web.decorators import provider_required, provider_permission
-from snisi_core.models import MalariaReport
+from snisi_core.models import MalariaReport, AggregatedMalariaReport
 from snisi_core.exports import report_as_excel
 
 
@@ -61,24 +61,44 @@ def data_browser(request, entity_code=None, period_str=None):
     if period_str and not period in all_periods:
         raise Http404(_(u"No report for that period"))
 
-    try:
-        # get validated report for that period and location
-        report = MalariaReport.validated.get(entity=entity, period=period)
-    except MalariaReport.DoesNotExist:
-        # district users need to be able to see the generated report
-        # which have been created based on their validations/data.
-        # if a district is looking at its root district and report exist
-        # but not validated, we show it (with period) and no valid flag
-        if web_provider.first_role().slug == 'district' and root == entity:
-            try:
-                report = MalariaReport.unvalidated.get(entity=entity, \
-                                                       period=period)
-                if not period in all_periods:
-                    all_periods.insert(0, period)
-            except:
+    if not entity.type.slug == 'cscom':
+        try:
+            # get validated report for that period and location
+            report = AggregatedMalariaReport.validated.get(entity=entity, period=period)
+        except AggregatedMalariaReport.DoesNotExist:
+            # district users need to be able to see the generated report
+            # which have been created based on their validations/data.
+            # if a district is looking at its root district and report exist
+            # but not validated, we show it (with period) and no valid flag
+            if web_provider.first_role().slug == 'district' and root == entity:
+                try:
+                    report = AggregatedMalariaReport.unvalidated.get(entity=entity, \
+                                                           period=period)
+                    if not period in all_periods:
+                        all_periods.insert(0, period)
+                except:
+                    report = None
+            else:
                 report = None
-        else:
-            report = None
+    else:
+        try:
+            # get validated report for that period and location
+            report = MalariaReport.validated.get(entity=entity, period=period)
+        except MalariaReport.DoesNotExist:
+            # district users need to be able to see the generated report
+            # which have been created based on their validations/data.
+            # if a district is looking at its root district and report exist
+            # but not validated, we show it (with period) and no valid flag
+            if web_provider.first_role().slug == 'district' and root == entity:
+                try:
+                    report = MalariaReport.unvalidated.get(entity=entity, \
+                                                           period=period)
+                    if not period in all_periods:
+                        all_periods.insert(0, period)
+                except:
+                    report = None
+            else:
+                report = None
 
     # send period variables to template
     context.update({'periods': [(p.middle().strftime('%m%Y'), p.middle()) \
