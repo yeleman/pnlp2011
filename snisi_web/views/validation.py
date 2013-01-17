@@ -21,7 +21,7 @@ from snisi_core.data import (provider_entity, current_reporting_period, \
 
 from bolibana.web.decorators import provider_permission
 from snisi_core.models import MalariaReport
-from snisi_core.validators import MalariaReportValidator
+from snisi_core.validators.malaria import MalariaReportValidator
 from snisi_core.data import provider_can_or_403
 
 

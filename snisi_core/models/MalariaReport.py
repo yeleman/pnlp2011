@@ -270,7 +270,7 @@ class MalariaReportIface(object):
 
     def validate(self):
         """ runs MalariaReportValidator """
-        from snisi_core.validators import MalariaReportValidator
+        from snisi_core.validators.malaria import MalariaReportValidator
         validator = MalariaReportValidator(self)
         validator.validate()
         return validator.errors
