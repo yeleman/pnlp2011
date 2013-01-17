@@ -10,7 +10,7 @@ from bolibana.reporting.excel import (ExcelForm, ExcelFormField, \
 from bolibana.reporting.errors import MissingData
 from bolibana.models import MonthPeriod, Entity
 from snisi_core.models import MalariaReport
-from snisi_core.validators import MalariaReportValidator
+from snisi_core.validators.malaria import MalariaReportValidator
 from snisi_core.data import time_is_prompt
 
 
