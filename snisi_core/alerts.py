@@ -345,7 +345,6 @@ class EndOfDistrictPeriod(Alert):
                      .filter(period=self.args.period).count() > 0:
                 continue
 
-            print entity, self.args.period
             rauthor = contact_for(entity) if not author else author
             logger.info(u"Creating Aggregated report for %s" % entity)
             report = AggregatedMalariaReport.create_from(period=self.args.period, \
