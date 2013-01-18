@@ -10,12 +10,20 @@ from django.utils.translation import ugettext as _
 from bolibana.models.Access import Access
 from bolibana.models.Provider import Provider
 from bolibana.models.Period import MonthPeriod
-from snisi_core.models.MalariaReport import MalariaReport
+from snisi_core.models.MalariaReport import MalariaReport, AggregatedMalariaReport
 
 
 class MalariaReportForm(forms.ModelForm):
     class Meta:
         model = MalariaReport
+        exclude = ('_status', 'type', 'receipt', 'period', \
+                   'entity', 'created_by', 'created_on', \
+                   'modified_by', 'modified_on')
+
+
+class AggregatedMalariaReportForm(forms.ModelForm):
+    class Meta:
+        model = AggregatedMalariaReport
         exclude = ('_status', 'type', 'receipt', 'period', \
                    'entity', 'created_by', 'created_on', \
                    'modified_by', 'modified_on')
@@ -93,20 +101,36 @@ def provider_entity(provider):
 
 def get_reports_to_validate(entity, period=current_reporting_period()):
     """ List of Entity which have sent report but are not validated """
-    return [(report.entity, report) \
-            for report \
-            in MalariaReport.unvalidated\
-                            .filter(entity__in=entity.get_children(), \
-                                    period=period)]
+    if entity.type.slug == 'cscom':
+        return [(report.entity, report) \
+                for report \
+                in MalariaReport.unvalidated\
+                                .filter(entity__in=entity.get_children(), \
+                                        period=period)]
+    else:
+        print 'aggre'
+        return [(report.entity, report) \
+                for report \
+                in AggregatedMalariaReport.unvalidated\
+                                .filter(entity__in=entity.get_children(), \
+                                        period=period)]
 
 
 def get_validated_reports(entity, period=current_reporting_period()):
     """ List of all Entity which report have been validated """
-    return [(report.entity, report) \
-            for report \
-            in MalariaReport.validated\
-                            .filter(entity__in=entity.get_children(), \
-                                    period=period)]
+    if entity.type.slug == 'cscom':
+        return [(report.entity, report) \
+                for report \
+                in MalariaReport.validated\
+                                .filter(entity__in=entity.get_children(), \
+                                        period=period)]
+    else:
+        print 'aggre'
+        return [(report.entity, report) \
+                for report \
+                in AggregatedMalariaReport.validated\
+                                .filter(entity__in=entity.get_children(), \
+                                        period=period)]
 
 
 def get_not_received_reports(entity, period=current_reporting_period()):
