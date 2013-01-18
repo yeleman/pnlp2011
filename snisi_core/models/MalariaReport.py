@@ -541,7 +541,7 @@ class AggregatedMalariaReport(Report, MalariaReportIface):
     @classmethod
     def update_instance_with_indiv(cls, report, instance):
 
-        for field in instance.data_fields():
+        for field in instance.data_field():
             if field in ('family_planning', 'delivery_services'):
                 if getattr(instance, field):
                     agg_field = u'%s_provided' % field
