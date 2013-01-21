@@ -4,7 +4,7 @@
 
 from bolibana.reporting.indicators import (IndicatorTable, \
                                            reference, indicator, label, hidden)
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import (get_report_national, get_report_for,
                                          get_report_for_element,
                                          get_report_for_slug)
@@ -24,7 +24,7 @@ class CasConfirmes(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @reference
@@ -97,7 +97,7 @@ class NbreHospitalisationDeces(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @indicator(0)
@@ -147,7 +147,7 @@ class DecesPaluToutCauses(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @reference
@@ -351,7 +351,7 @@ class CasTestesConfirmes(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @reference
@@ -418,7 +418,7 @@ class NbreConsultationCasSuspect(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @indicator(0, 'total_suspected_malaria_cases')

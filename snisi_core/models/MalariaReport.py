@@ -10,13 +10,16 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
-from bolibana.models import EntityType, Report, MonthPeriod
+from bolibana.models.Period import MonthPeriod
+from bolibana.models.EntityType import EntityType
+from bolibana.models.Report import Report
+from bolibana.models.ReportProvider import SOURCE_LEVEL, AGGREGATED_LEVEL
 
 from common import (pre_save_report, post_save_report, report_create_from,
                     aggregated_model_report_pre_save)
 
 
-class MalariaReportIface(object):
+class MalariaRIface(object):
 
     @property
     def total_consultation_all_causes(self):
@@ -223,7 +226,7 @@ class MalariaReportIface(object):
 
     @classmethod
     def generate_receipt(cls, instance):
-        """ generates a reversable text receipt for a MalariaReport
+        """ generates a reversable text receipt for a MalariaR
 
         FORMAT:
             RR000/sss-111-D
@@ -262,16 +265,18 @@ class MalariaReportIface(object):
         return self._meta.get_field(slug).verbose_name
 
     def validate(self):
-        """ runs MalariaReportValidator """
+        """ runs MalariaRValidator """
         from snisi_core.validators.malaria import MalariaReportValidator
         validator = MalariaReportValidator(self)
         validator.validate()
         return validator.errors
 
 
-class MalariaReport(Report, MalariaReportIface):
+class MalariaR(Report, MalariaRIface):
 
     """ Complies with bolibana.reporting.DataBrowser """
+
+    REPORTING_LEVEL = SOURCE_LEVEL
 
     YES = 'Y'
     NO = 'N'
@@ -376,7 +381,7 @@ class MalariaReport(Report, MalariaReportIface):
     is_late = models.BooleanField(default=False,
                                   verbose_name=_(u"Is Late?"))
 
-    sources = models.ManyToManyField('MalariaReport', \
+    sources = models.ManyToManyField('MalariaR', \
                                      verbose_name=_(u"Sources"), \
                                      blank=True, null=True)
 
@@ -392,7 +397,7 @@ class MalariaReport(Report, MalariaReportIface):
         agg_report = cls.start(period, entity, author, \
                type=Report.TYPE_AGGREGATED, *args, **kwargs)
 
-        sources = MalariaReport.validated.filter(period=period, \
+        sources = MalariaR.validated.filter(period=period, \
             entity__in=entity.get_children())
 
         if sources.count() == 0:
@@ -423,13 +428,15 @@ class MalariaReport(Report, MalariaReportIface):
 
         return agg_report
 
-receiver(pre_save, sender=MalariaReport)(pre_save_report)
-receiver(post_save, sender=MalariaReport)(post_save_report)
+receiver(pre_save, sender=MalariaR)(pre_save_report)
+receiver(post_save, sender=MalariaR)(post_save_report)
 
-reversion.register(MalariaReport)
+reversion.register(MalariaR)
 
 
-class AggregatedMalariaReport(Report, MalariaReportIface):
+class AggMalariaR(Report, MalariaRIface):
+
+    REPORTING_LEVEL = AGGREGATED_LEVEL
 
     class Meta:
         app_label = 'snisi_core'
@@ -523,12 +530,12 @@ class AggregatedMalariaReport(Report, MalariaReportIface):
 
     nb_prompt = models.PositiveIntegerField()
 
-    indiv_sources = models.ManyToManyField('MalariaReport',
+    indiv_sources = models.ManyToManyField('MalariaR',
                                            verbose_name=_(u"Indiv. Sources"),
                                            blank=True, null=True,
                                            related_name='indiv_agg_malaria_reports')
 
-    agg_sources = models.ManyToManyField('AggregatedMalariaReport',
+    agg_sources = models.ManyToManyField('AggMalariaR',
                                          verbose_name=_(u"Aggr. Sources"),
                                          blank=True, null=True,
                                          related_name='aggregated_agg_malaria_reports')
@@ -543,7 +550,7 @@ class AggregatedMalariaReport(Report, MalariaReportIface):
     @classmethod
     def create_from(cls, period, entity, author):
         return report_create_from(cls, period=period, entity=entity,
-                                  author=author, indiv_cls=MalariaReport)
+                                  author=author, indiv_cls=MalariaR)
 
     @classmethod
     def update_instance_with_indiv(cls, report, instance):
@@ -572,9 +579,9 @@ class AggregatedMalariaReport(Report, MalariaReportIface):
                     getattr(report, field, 0) + getattr(instance, field, 0))
 
 
-receiver(pre_save, sender=AggregatedMalariaReport)(pre_save_report)
+receiver(pre_save, sender=AggMalariaR)(pre_save_report)
 receiver(pre_save,
-         sender=AggregatedMalariaReport)(aggregated_model_report_pre_save)
-receiver(post_save, sender=AggregatedMalariaReport)(post_save_report)
+         sender=AggMalariaR)(aggregated_model_report_pre_save)
+receiver(post_save, sender=AggMalariaR)(post_save_report)
 
-reversion.register(AggregatedMalariaReport)
+reversion.register(AggMalariaR)

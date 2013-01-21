@@ -2,14 +2,9 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from MalariaReport import MalariaReport
-from MalariaReport import AggregatedMalariaReport
+from MalariaReport import (MalariaR, AggMalariaR)
+from Epidemiology import EpidemiologyR
+from MaternalMortalityReport import (MaternalDeathR, AggMaternalDeathR)
+from ChildrenMortalityReport import (ChildrenDeathR, AggChildrenDeathR)
+from CommoditiesReport import (RHProductsR, AggRHProductsR)
 from alert import Alert
-from MaternalMortalityReport import MaternalMortalityReport
-from MaternalMortalityReport import AggregatedMaternalMortalityReport
-from ChildrenMortalityReport import ChildrenMortalityReport
-from ChildrenMortalityReport import AggregatedChildrenMortalityReport
-from CommoditiesReport import RHCommoditiesReport
-from CommoditiesReport import AggregatedRHCommoditiesReport
-from Epidemiology import EpidemiologyReport
-

@@ -9,10 +9,11 @@ import locale
 import reversion
 from django.conf import settings
 
-from bolibana.models import Provider
-from bolibana.models import Entity, MonthPeriod
+from bolibana.models.Provider import Provider
+from bolibana.models.Entity import Entity
+from bolibana.models.Period import MonthPeriod
 from snisi_core.validators.malaria import MalariaReportValidator
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 
 from nosmsd.utils import send_sms
 
@@ -27,7 +28,7 @@ class MalariaDataHolder(object):
         return getattr(self, slug)
 
     def field_name(self, slug):
-        return MalariaReport._meta.get_field(slug).verbose_name
+        return MalariaR._meta.get_field(slug).verbose_name
 
     def set(self, slug, data):
         try:
@@ -244,8 +245,8 @@ def palu(message):
             if key.split('_')[0] in ('u5', 'o5', 'pw', 'month', 'year'):
                 arguments[key] = int(value)
             if key.split('_')[0] == 'stockout':
-                arguments[key] = MalariaReport.YES if bool(int(value)) \
-                                                   else MalariaReport.NO
+                arguments[key] = MalariaR.YES if bool(int(value)) \
+                                                   else MalariaR.NO
     except:
         raise
         # failure to convert means non-numeric value which we can't process.
@@ -308,14 +309,14 @@ def palu(message):
 
     # create the report
     try:
-        period = MonthPeriod.find_create_from(year=data_browser.get('year'), \
+        period = MonthPeriod.find_create_from(year=data_browser.get('year'),
                                               month=data_browser.get('month'))
         is_late = not time_is_prompt(period)
-        entity = Entity.objects.get(slug=data_browser.get('hc'), \
+        entity = Entity.objects.get(slug=data_browser.get('hc'),
                                     type__slug='cscom')
-        report = MalariaReport.start(period, entity, provider, \
-                                     type=MalariaReport.TYPE_SOURCE, \
-                                     is_late=is_late)
+        report = MalariaR.start(period, entity, provider,
+                                type=MalariaR.TYPE_SOURCE,
+                                is_late=is_late)
 
         report.add_underfive_data(*data_browser.data_for_cat('u5'))
         report.add_overfive_data(*data_browser.data_for_cat('o5'))

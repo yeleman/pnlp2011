@@ -10,20 +10,20 @@ from django.utils.translation import ugettext as _
 from bolibana.models.Access import Access
 from bolibana.models.Provider import Provider
 from bolibana.models.Period import MonthPeriod
-from snisi_core.models.MalariaReport import MalariaReport, AggregatedMalariaReport
+from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 
 
-class MalariaReportForm(forms.ModelForm):
+class MalariaRForm(forms.ModelForm):
     class Meta:
-        model = MalariaReport
+        model = MalariaR
         exclude = ('_status', 'type', 'receipt', 'period', \
                    'entity', 'created_by', 'created_on', \
                    'modified_by', 'modified_on')
 
 
-class AggregatedMalariaReportForm(forms.ModelForm):
+class AggMalariaRForm(forms.ModelForm):
     class Meta:
-        model = AggregatedMalariaReport
+        model = AggMalariaR
         exclude = ('_status', 'type', 'receipt', 'period', \
                    'entity', 'created_by', 'created_on', \
                    'modified_by', 'modified_on')
@@ -35,7 +35,7 @@ class MalariaDataHolder(object):
         return getattr(self, slug)
 
     def field_name(self, slug):
-        return MalariaReport._meta.get_field(slug).verbose_name
+        return MalariaR._meta.get_field(slug).verbose_name
 
     def set(self, slug, data):
         try:
@@ -101,42 +101,26 @@ def provider_entity(provider):
 
 def get_reports_to_validate(entity, period=current_reporting_period()):
     """ List of Entity which have sent report but are not validated """
-    if entity.type.slug == 'cscom':
-        return [(report.entity, report) \
-                for report \
-                in MalariaReport.unvalidated\
-                                .filter(entity__in=entity.get_children(), \
-                                        period=period)]
-    else:
-        print 'aggre'
-        return [(report.entity, report) \
-                for report \
-                in AggregatedMalariaReport.unvalidated\
-                                .filter(entity__in=entity.get_children(), \
-                                        period=period)]
+    return [(report.entity, report) \
+            for report \
+            in MalariaR.unvalidated\
+                            .filter(entity__in=entity.get_children(),
+                                    period=period)]
 
 
 def get_validated_reports(entity, period=current_reporting_period()):
     """ List of all Entity which report have been validated """
-    if entity.type.slug == 'cscom':
-        return [(report.entity, report) \
-                for report \
-                in MalariaReport.validated\
-                                .filter(entity__in=entity.get_children(), \
-                                        period=period)]
-    else:
-        print 'aggre'
-        return [(report.entity, report) \
-                for report \
-                in AggregatedMalariaReport.validated\
-                                .filter(entity__in=entity.get_children(), \
-                                        period=period)]
+    return [(report.entity, report) \
+            for report \
+            in MalariaR.validated\
+                            .filter(entity__in=entity.get_children(),
+                                    period=period)]
 
 
 def get_not_received_reports(entity, period=current_reporting_period()):
     """ List of all Entity which have not send in a report """
     units = list(entity.get_children().all())
-    reports = MalariaReport.objects.filter(entity__in=entity.get_children(), \
+    reports = MalariaR.objects.filter(entity__in=entity.get_children(),
                                            period=period)
     for report in reports:
         units.remove(report.entity)
@@ -210,14 +194,14 @@ def contact_for(entity, recursive=True):
 def most_accurate_report(provider, period=current_reporting_period()):
     # don't use that anymore I think
     try:
-        return MalariaReport.validated.filter(period=period)[0]
+        return MalariaR.validated.filter(period=period)[0]
     except:
         return None
 
 
 def raw_data_periods_for(entity):
     """ periods with validated report for an entity """
-    return [r.mperiod for r in MalariaReport.validated.filter(entity=entity)]
+    return [r.mperiod for r in MalariaR.validated.filter(entity=entity)]
 
 
 def entities_path(root, entity):

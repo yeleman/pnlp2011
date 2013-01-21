@@ -64,16 +64,17 @@ def import_all(src_folder):
 
 
 def cleanup_db():
-    from snisi_core.models import MalariaReport, Alert
+    from snisi_core.models.MalariaReport import MalariaR
+    from snisi_core.alert import Alert
 
     # CIV, VY (all)
-    MalariaReport.objects.filter(entity__parent__slug='bamako').delete()
+    MalariaR.objects.filter(entity__parent__slug='bamako').delete()
 
     # Bamako (all)
-    MalariaReport.objects.filter(entity__slug='bamako').delete()
+    MalariaR.objects.filter(entity__slug='bamako').delete()
 
     # Mali (all)
-    MalariaReport.objects.filter(entity__slug='mali').delete()
+    MalariaR.objects.filter(entity__slug='mali').delete()
 
     # Alert CSCOM 11, 12, 01
     Alert.objects.filter(alert_id__in=('112011', '122011', '012012')).delete()

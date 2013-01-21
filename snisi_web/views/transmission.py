@@ -7,10 +7,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from bolibana.web.decorators import provider_permission
-from bolibana.models import Entity
+from bolibana.models.Entity import Entity
 
 from snisi_core.data import current_period, current_reporting_period
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 
 from dashboard import nb_reports_for
 
@@ -45,13 +45,13 @@ def monitoring_transmission(request):
     entities = []
     for entity in Entity.objects.filter(type__slug='district'):
 
-        if MalariaReport.objects.filter(period=period, entity=entity).count():
+        if MalariaR.objects.filter(period=period, entity=entity).count():
             continue
 
         edata = entity_dict(entity)
-        edata['children'] = [entity_dict(e) \
-                             for e in entity.get_children() \
-                             if not MalariaReport.objects \
+        edata['children'] = [entity_dict(e)
+                             for e in entity.get_children()
+                             if not MalariaR.objects
                                     .filter(period=period, entity=e).count()]
 
         entities.append(edata)
@@ -91,11 +91,11 @@ def log_message(request):
 
 def nb_reports_unvalidated_for(entity, period):
     """ report unvalidated """
-    nb_val = MalariaReport.validated.filter(entity__parent=entity,
+    nb_val = MalariaR.validated.filter(entity__parent=entity,
                                               period=period).count()
     if entity.type.slug == 'district':
         nb_ent = len([e for e in entity.get_children() \
-            if MalariaReport.objects.filter(period=period, entity=e).count()])
+            if MalariaR.objects.filter(period=period, entity=e).count()])
     else:
         nb_ent = 1
 
@@ -124,8 +124,8 @@ def report_unvalidated(request):
     entities = []
     for entity in Entity.objects.filter(type__slug='district'):
         edata = entity_dict(entity)
-        edata['children'] = [e for e in entity.get_children() \
-                               if MalariaReport.unvalidated \
+        edata['children'] = [e for e in entity.get_children()
+                               if MalariaR.unvalidated
                                     .filter(period=period, entity=e).count()]
         entities.append(edata)
 

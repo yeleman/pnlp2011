@@ -15,14 +15,14 @@ from snisi_core.data import (provider_entity, current_reporting_period, \
                              time_can_validate, current_period, \
                              contact_for, \
                              MalariaDataHolder, \
-                             MalariaReportForm, \
-                             AggregatedMalariaReportForm, \
+                             MalariaRForm, \
+                             AggMalariaRForm, \
                              time_cscom_over, time_district_over, \
                              time_region_over)
 
 from bolibana.web.decorators import provider_permission
-from snisi_core.models import MalariaReport, AggregatedMalariaReport
-from snisi_core.validators.malaria import MalariaReportValidator
+from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
+from snisi_core.validators.malaria import MalariaRtValidator
 from snisi_core.data import provider_can_or_403
 
 
@@ -30,7 +30,6 @@ from snisi_core.data import provider_can_or_403
 def validation_list(request):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
-    print web_provider
 
     entity = provider_entity(web_provider)
     period = current_reporting_period()
@@ -41,7 +40,7 @@ def validation_list(request):
 
     not_sent = [(ent, contact_for(ent)) \
                 for ent in get_not_received_reports(entity, period)]
-    print entity.type.slug, get_reports_to_validate(entity, period)
+
     context.update({'not_validated': get_reports_to_validate(entity, period),
                     'validated': get_validated_reports(entity, period),
                     'not_sent': not_sent})
@@ -67,13 +66,12 @@ def validation_list(request):
 def report_validation(request, report_receipt):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
-    print web_provider, 'aj'
-    type_report = 'MalariaReport'
+    type_report = 'MalariaR'
     try:
-        report = get_object_or_404(MalariaReport, receipt=report_receipt)
+        report = get_object_or_404(MalariaR, receipt=report_receipt)
     except:
-        type_report = 'AggregatedMalariaReport'
-        report = get_object_or_404(AggregatedMalariaReport, receipt=report_receipt)
+        type_report = 'AggMalariaR'
+        report = get_object_or_404(AggMalariaR, receipt=report_receipt)
 
     context.update({'report': report})
 
@@ -81,12 +79,10 @@ def report_validation(request, report_receipt):
     provider_can_or_403('can_validate_report', web_provider, report.entity)
 
     if request.method == 'POST':
-        if type_report == 'MalariaReport':
-            print 'alou'
-            form = MalariaReportForm(request.POST, instance=report)
+        if type_report == 'MalariaR':
+            form = MalariaRForm(request.POST, instance=report)
         else:
-            print 'dolo'
-            form = AggregatedMalariaReportForm(request.POST, instance=report)
+            form = AggMalariaRForm(request.POST, instance=report)
         if form.is_valid():
             data_browser = MalariaDataHolder()
 
@@ -105,7 +101,7 @@ def report_validation(request, report_receipt):
             data_browser.set('author', report.created_by.name())
 
             # create validator and fire
-            validator = MalariaReportValidator(data_browser, data_only=True,
+            validator = MalariaRtValidator(data_browser, data_only=True,
                                           is_editing=True,
                                           level=web_provider.first_role().slug)
             validator.errors.reset()
@@ -134,10 +130,10 @@ def report_validation(request, report_receipt):
             # django form validation errors
             pass
     else:
-        if type_report == 'MalariaReport':
-            form = MalariaReportForm(instance=report)
+        if type_report == 'MalariaR':
+            form = MalariaRForm(instance=report)
         else:
-            form = AggregatedMalariaReportForm(instance=report)
+            form = AggMalariaRForm(instance=report)
 
     context.update({'form': form})
 
@@ -148,17 +144,16 @@ def report_validation(request, report_receipt):
 def report_do_validation(request, report_receipt):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
-    print web_provider, 'ah'
 
     try:
-        report = get_object_or_404(MalariaReport, receipt=report_receipt)
+        report = get_object_or_404(MalariaR, receipt=report_receipt)
     except:
-        report = get_object_or_404(AggregatedMalariaReport, receipt=report_receipt)
+        report = get_object_or_404(MalariaR, receipt=report_receipt)
 
     # check permission or raise 403
     provider_can_or_403('can_validate_report', web_provider, report.entity)
 
-    report._status = MalariaReport.STATUS_VALIDATED
+    report._status = MalariaR.STATUS_VALIDATED
     report.modified_by = web_provider
     report.modified_on = datetime.now()
     with reversion.create_revision():

@@ -6,12 +6,13 @@ from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.shortcuts import render, redirect, get_object_or_404
 
-from snisi_core.models import MalariaReport
-from snisi_core.data import (entities_path, \
-                            provider_can_or_403, \
-                            current_reporting_period, contact_for)
 from bolibana.web.decorators import provider_permission
-from bolibana.models import Entity, MonthPeriod
+from bolibana.models.Entity import Entity
+from bolibana.models.Period import MonthPeriod
+from snisi_core.models.MalariaReport import MalariaR
+from snisi_core.data import (entities_path,
+                            provider_can_or_403,
+                            current_reporting_period, contact_for)
 
 
 def import_path(name):
@@ -54,7 +55,7 @@ def indicator_browser(request, entity_code=None, period_str=None, \
                           .order_by('start_on')
 
     all_periods = list(all_anterior_periods(current_reporting_period()).all())
-    if not MalariaReport.validated.filter(entity=entity,
+    if not MalariaR.validated.filter(entity=entity,
                                           period=current_reporting_period()) \
                                   .count():
         all_periods.remove(current_reporting_period())

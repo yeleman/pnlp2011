@@ -3,9 +3,9 @@
 # maintainer: rgaudin
 
 
-from bolibana.reporting.indicators import (IndicatorTable, \
+from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import find_report_attr_age
 
 
@@ -17,30 +17,30 @@ class Hospitalisation(IndicatorTable):
     caption = u"Hospitalisation"
     type = 'graph'
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': False}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
+        return MalariaR.validated.filter(entity=self.entity,
+                                         period=period).count() > 0
 
     @reference
     @indicator(0)
     @label(u"Total des hospitalisations (toutes causes confondues)")
     def total_inpatient_all_causes(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_inpatient_all_causes', \
-                               self.options.age)
+        return find_report_attr_age(self.entity, period,
+                                    'total_inpatient_all_causes',
+                                    self.options.age)
 
     @indicator(1, "total_inpatient_all_causes")
     @label(u"Total des hospitalisations pour paludisme grave")
     def total_malaria_inpatient(self, period):
-      return find_report_attr_age(self.entity, period, \
-                               'total_malaria_inpatient', \
-                               self.options.age)
+        return find_report_attr_age(self.entity, period,
+                                    'total_malaria_inpatient',
+                                    self.options.age)
 
 
 WIDGETS = []

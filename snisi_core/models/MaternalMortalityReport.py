@@ -8,7 +8,9 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-from bolibana.models import Entity, IndividualReport, Report
+from bolibana.models.Entity import Entity
+from bolibana.models.IndividualReport import IndividualReport
+from bolibana.models.Report import Report
 
 from common import pre_save_report, post_save_report
 
@@ -26,7 +28,7 @@ class PeriodManager(models.Manager):
                                                dod__lte=period.end_on)
 
 
-class MaternalMortalityReport(IndividualReport):
+class MaternalDeathR(IndividualReport):
 
     CAUSE_BLEEDING = 'b'
     CAUSE_FEVER = 'f'
@@ -132,10 +134,10 @@ class MaternalMortalityReport(IndividualReport):
         return report
 
 
-reversion.register(MaternalMortalityReport)
+reversion.register(MaternalDeathR)
 
 
-class AggregatedMaternalMortalityReport(Report):
+class AggMaternalDeathR(Report):
 
     class Meta:
         app_label = 'snisi_core'
@@ -216,12 +218,12 @@ class AggregatedMaternalMortalityReport(Report):
     cause_abortion = models.PositiveIntegerField()
     cause_other = models.PositiveIntegerField()
 
-    indiv_sources = models.ManyToManyField('MaternalMortalityReport',
+    indiv_sources = models.ManyToManyField('MaternalDeathR',
                                            verbose_name=_(u"Indiv. Sources"),
                                            blank=True, null=True,
                                            related_name='indiv_agg_maternal_mortality_reports')
 
-    agg_sources = models.ManyToManyField('AggregatedMaternalMortalityReport',
+    agg_sources = models.ManyToManyField('AggMaternalDeathR',
                                          verbose_name=_(u"Aggr. Sources"),
                                          blank=True, null=True,
                                          related_name='aggregated_agg_maternal_mortality_reports')
@@ -310,7 +312,7 @@ class AggregatedMaternalMortalityReport(Report):
         agg_report = cls.start(entity, period, author)
 
         # find list of sources
-        indiv_sources = MaternalMortalityReport \
+        indiv_sources = MaternalDeathR \
                             .objects \
                             .filter(dod__gte=period.start_on,
                                     dod__lte=period.end_on,
@@ -322,7 +324,7 @@ class AggregatedMaternalMortalityReport(Report):
 
         # loop on all sources
         for source in sources:
-            if isinstance(source, MaternalMortalityReport):
+            if isinstance(source, MaternalDeathR):
                 cls.update_instance_with_indiv(agg_report, source)
             elif isinstance(source, cls):
                 cls.update_instance_with_agg(agg_report, source)
@@ -573,7 +575,7 @@ class AggregatedMaternalMortalityReport(Report):
         report.cause_abortion += instance.cause_abortion
         report.cause_other += instance.cause_other
 
-receiver(pre_save, sender=AggregatedMaternalMortalityReport)(pre_save_report)
-receiver(post_save, sender=AggregatedMaternalMortalityReport)(post_save_report)
+receiver(pre_save, sender=AggMaternalDeathR)(pre_save_report)
+receiver(post_save, sender=AggMaternalDeathR)(post_save_report)
 
-reversion.register(AggregatedMaternalMortalityReport)
+reversion.register(AggMaternalDeathR)

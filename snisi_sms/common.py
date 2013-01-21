@@ -20,7 +20,7 @@ def contact_for(identity):
 
 
 def resp_error(message, action):
-    message.respond(u"[ERREUR] Impossible de comprendre " \
+    message.respond(u"[ERREUR] Impossible de comprendre "
                     u"le SMS pour %s" % action)
     return True
 
@@ -53,7 +53,7 @@ def parse_age_dob(age_or_dob, only_date=False):
 
     if re.match(r'^\d{8}$', age_or_dob):
         auto = False
-        parsed_date = date(int(age_or_dob[0:4]), int(age_or_dob[4:6]), \
+        parsed_date = date(int(age_or_dob[0:4]), int(age_or_dob[4:6]),
                            int(age_or_dob[6:8]))
     else:
         auto = True
@@ -85,7 +85,7 @@ def test(message, **kwargs):
     except:
         msg = ''
 
-    message.respond(u"Received on %(date)s: %(msg)s" \
+    message.respond(u"Received on %(date)s: %(msg)s"
                     % {'date': datetime.datetime.now(), 'msg': msg})
     return True
 

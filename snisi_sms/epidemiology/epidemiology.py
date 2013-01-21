@@ -8,9 +8,11 @@ import reversion
 import locale
 
 from django.conf import settings
-from snisi_core.models.Epidemiology import EpidemiologyReport
+
+from snisi_core.models.Epidemiology import EpidemiologyR
 from snisi_core.validators.epidemiology import EpidemiologyReportValidator
-from bolibana.models import Entity, WeekPeriod
+from bolibana.models.Entity import Entity
+from bolibana.models.Period import WeekPeriod
 from snisi_sms.common import contact_for
 
 logger = logging.getLogger(__name__)
@@ -23,7 +25,7 @@ class EpidemiologyDataHolder(object):
         return getattr(self, slug)
 
     def field_name(self, slug):
-        return EpidemiologyReport._meta.get_field(slug).verbose_name
+        return EpidemiologyR._meta.get_field(slug).verbose_name
 
     def set(self, slug, data):
         try:
@@ -33,28 +35,28 @@ class EpidemiologyDataHolder(object):
             setattr(self, slug, data)
 
     def fields_for(self):
-        fields = ['acute_flaccid_paralysis_case', \
-                    'acute_flaccid_paralysis_death', \
-                    'influenza_a_h1n1_case', \
-                    'influenza_a_h1n1_death', \
-                    'cholera_case', \
-                    'cholera_death', \
-                    'red_diarrhea_case', \
-                    'red_diarrhea_death', \
-                    'measles_case', \
-                    'measles_death', \
-                    'yellow_fever_case', \
-                    'yellow_fever_death', \
-                    'neonatal_tetanus_case', \
-                    'neonatal_tetanus_death', \
-                    'meningitis_case', \
-                    'meningitis_death', \
-                    'rabies_case', \
-                    'rabies_death', \
-                    'acute_measles_diarrhea_case', \
-                    'acute_measles_diarrhea_death', \
-                    'other_notifiable_disease_case', \
-                    'other_notifiable_disease_death']
+        fields = ['acute_flaccid_paralysis_case',
+                  'acute_flaccid_paralysis_death',
+                  'influenza_a_h1n1_case',
+                  'influenza_a_h1n1_death',
+                  'cholera_case',
+                  'cholera_death',
+                  'red_diarrhea_case',
+                  'red_diarrhea_death',
+                  'measles_case',
+                  'measles_death',
+                  'yellow_fever_case',
+                  'yellow_fever_death',
+                  'neonatal_tetanus_case',
+                  'neonatal_tetanus_death',
+                  'meningitis_case',
+                  'meningitis_death',
+                  'rabies_case',
+                  'rabies_death',
+                  'acute_measles_diarrhea_case',
+                  'acute_measles_diarrhea_death',
+                  'other_notifiable_disease_case',
+                  'other_notifiable_disease_death']
 
         return fields
 
@@ -185,8 +187,8 @@ def epidemiology(message, **kwargs):
         entity = Entity.objects.get(slug=data_browser.get('location'), \
                                     type__slug='cscom')
         # create the report
-        report = EpidemiologyReport.start(period, entity, provider, \
-                                         type=EpidemiologyReport.TYPE_SOURCE)
+        report = EpidemiologyR.start(period, entity, provider, \
+                                     type=EpidemiologyR.TYPE_SOURCE)
 
         report.add_data(*data_browser.data_for_cat())
         with reversion.create_revision():

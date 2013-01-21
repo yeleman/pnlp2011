@@ -9,15 +9,17 @@ import reversion
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
-
-from snisi_core.data import (time_cscom_over, time_district_over, \
-                            time_region_over, current_reporting_period, \
-                            contact_for)
-from snisi_core.models import MalariaReport, Alert, AggregatedMalariaReport
-from bolibana.models import Entity
 from nosmsd.utils import send_sms
-from bolibana.models import Provider, Access
+
+from bolibana.models.Entity import Entity
+from bolibana.models.Provider import Provider
+from bolibana.models.Access import Access
 from bolibana.tools.utils import get_autobot, send_email, full_url
+from snisi_core.data import (time_cscom_over, time_district_over,
+                            time_region_over, current_reporting_period,
+                            contact_for)
+from snisi_core.models.alert import Alert
+from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +101,7 @@ class MalariaReportCreated(Alert):
     def action(self):
         """ send SMS to district/region | email to PNLP for each new report """
 
-        for report in MalariaReport.unvalidated\
+        for report in MalariaR.unvalidated\
                                    .filter(period=self.args.period):
 
             # entity has no parent. Either Mali or error
@@ -111,7 +113,7 @@ class MalariaReportCreated(Alert):
 
                 # we now have a national report
                 logger.info(u"Report %s found." % report)
-                report._status = MalariaReport.STATUS_VALIDATED
+                report._status = MalariaR.STATUS_VALIDATED
                 with reversion.create_revision():
                     report.save()
                     reversion.set_user(get_autobot().user)
@@ -247,9 +249,9 @@ class EndOfCSComPeriod(Alert):
     def get_all_district(self):
         districts = {}
         unval = [r.entity for r \
-                          in MalariaReport.unvalidated.select_related()\
+                          in MalariaR.unvalidated.select_related()\
                                       .filter(period=self.args.period, \
-                                              type=MalariaReport.TYPE_SOURCE)]
+                                              type=MalariaR.TYPE_SOURCE)]
         unsent = self.get_bad_cscom()
 
         def increment(entities, cat):
@@ -265,7 +267,7 @@ class EndOfCSComPeriod(Alert):
         return districts
 
     def get_bad_cscom(self):
-        reported = MalariaReport.objects.select_related()\
+        reported = MalariaR.objects.select_related()\
                                         .filter(period=self.args.period, \
                                                 entity__type__slug='cscom')\
                                         .values_list('entity__id', flat=True)
@@ -324,10 +326,10 @@ class EndOfDistrictPeriod(Alert):
             aggregate_level = 'region'
 
         # validate non-validated reports
-        for report in MalariaReport.unvalidated\
+        for report in MalariaR.unvalidated\
                                    .filter(period=self.args.period, \
                                            entity__type__slug=validate_level):
-            report._status = MalariaReport.STATUS_VALIDATED
+            report._status = MalariaR.STATUS_VALIDATED
             if author:
                 report.modified_by = author
             report.modified_on = datetime.now()
@@ -341,17 +343,16 @@ class EndOfDistrictPeriod(Alert):
 
         # create aggregated reports
         for entity in Entity.objects.filter(type__slug=aggregate_level):
-            if entity.snisi_core_malariareport_reports\
+            if entity.snisi_core_malariar_reports\
                      .filter(period=self.args.period).count() > 0:
                 continue
-
             rauthor = contact_for(entity) if not author else author
             logger.info(u"Creating Aggregated report for %s" % entity)
-            report = AggregatedMalariaReport.create_from(period=self.args.period, \
-                                                     entity=entity, author=rauthor)
+            report = AggMalariaR.create_from(self.args.period, \
+                                                     entity, rauthor)
             # region auto-validates their reports
             if not self.args.is_district:
-                report._status = MalariaReport.STATUS_VALIDATED
+                report._status = MalariaR.STATUS_VALIDATED
                 #report.save()
                 with reversion.create_revision():
                     report.save()
@@ -361,12 +362,12 @@ class EndOfDistrictPeriod(Alert):
         # create national report
         mali = Entity.objects.get(slug='mali')
         if not self.args.is_district \
-           and mali.snisi_core_malariareport_reports\
+           and mali.snisi_core_malariar_reports\
                    .filter(period=self.args.period).count() == 0:
             rauthor = author if author else get_autobot()
             logger.info(u"Creating National report")
-            report = AggregatedMalariaReport.create_from(period=self.args.period, \
-                                                     entity=mali, author=rauthor)
+            report = AggMalariaR.create_from(self.args.period, \
+                                                     mali, rauthor)
 
             # following only applies to districts (warn regions).
             return
@@ -380,7 +381,7 @@ class EndOfDistrictPeriod(Alert):
             if not contact or not contact.phone_number:
                 continue
 
-            nb_reports = MalariaReport.unvalidated\
+            nb_reports = MalariaR.unvalidated\
                                    .filter(period=self.args.period, \
                                            entity__type__slug='district', \
                                            entity__parent=region).count()
@@ -403,7 +404,7 @@ def level_statistics(period, level):
     entities = {}
     sublevel = 'cscom' if level == 'district' else 'district'
     unval = [r.entity for r \
-                      in MalariaReport.unvalidated.select_related()\
+                      in MalariaR.unvalidated.select_related()\
                                   .filter(period=period, \
                                           entity__type__slug=sublevel)]
 
@@ -419,7 +420,7 @@ def level_statistics(period, level):
 
 def cscom_without_report(period):
     """ list of Entity (cscom) which have not sent report """
-    reported = MalariaReport.objects.select_related()\
+    reported = MalariaR.objects.select_related()\
                                     .filter(period=period, \
                                             entity__type__slug='cscom')\
                                     .values_list('entity__id', flat=True)
