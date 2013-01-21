@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+    <object pk="cscom" model="bolibana.role">
+        <field type="CharField" name="name">D.T.C</field>
+        <field type="CharField" name="level"><None></None></field>
+        <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"><object pk="can_submit_report"></object><object pk="can_submit_report_over_sms"></object></field>
+    </object>
+    <object pk="district" model="bolibana.role">
+        <field type="CharField" name="name">District</field>
+        <field type="CharField" name="level"><None></None></field>
+        <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"><object pk="can_edit_source_report"></object><object pk="can_submit_report"></object><object pk="can_submit_report_via_excel"></object><object pk="can_validate_report"></object><object pk="can_validate_source_report"></object><object pk="can_view_indicator_data"></object><object pk="can_view_raw_data"></object></field>
+    </object>
+    <object pk="region" model="bolibana.role">
+        <field type="CharField" name="name">Région</field>
+        <field type="CharField" name="level"><None></None></field>
+        <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"><object pk="can_edit_aggregated_report"></object><object pk="can_validate_aggregated_report"></object><object pk="can_validate_report"></object><object pk="can_view_indicator_data"></object><object pk="can_view_raw_data"></object></field>
+    </object>
+    <object pk="national" model="bolibana.role">
+        <field type="CharField" name="name">National</field>
+        <field type="CharField" name="level"><None></None></field>
+        <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"><object pk="can_view_indicator_data"></object><object pk="can_view_raw_data"></object></field>
+    </object>
+    <object pk="admin" model="bolibana.role">
+        <field type="CharField" name="name">ADMIN</field>
+        <field type="CharField" name="level"></field>
+        <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"><object pk="can_manage_entities"></object><object pk="can_manage_users"></object><object pk="can_monitor_transmission"></object><object pk="can_view_indicator_data"></object><object pk="can_view_raw_data"></object></field>
+    </object>
+    <object pk="partners" model="bolibana.role">
+        <field type="CharField" name="name">Partenaires</field>
+        <field type="CharField" name="level"><None></None></field>
+        <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"><object pk="can_view_indicator_data"></object><object pk="can_view_raw_data"></object></field>
+    </object>
+    <object pk="guest" model="bolibana.role">
+        <field type="CharField" name="name">Invité</field>
+        <field type="CharField" name="level"><None></None></field>
+        <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"></field>
+    </object>
+    <object pk="supervisor" model="bolibana.role">
+        <field type="CharField" name="name">Supervisor</field>
+        <field type="CharField" name="level">national</field>
+        <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"><object pk="can_monitor_transmission"></object><object pk="can_view_indicator_data"></object><object pk="can_view_raw_data"></object></field>
+    </object>
+</django-objects>
