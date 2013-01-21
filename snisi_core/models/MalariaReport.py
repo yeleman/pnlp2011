@@ -11,6 +11,7 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
 from bolibana.models import EntityType, Report, MonthPeriod
+from bolibana.models.ReportProvider import SOURCE_LEVEL, AGGREGATED_LEVEL
 
 from common import (pre_save_report, post_save_report, report_create_from,
                     aggregated_model_report_pre_save)
@@ -280,6 +281,8 @@ class MalariaReport(Report, MalariaReportIface):
 
     """ Complies with bolibana.reporting.DataBrowser """
 
+    REPORTING_LEVEL = SOURCE_LEVEL
+
     YES = 'Y'
     NO = 'N'
     YESNO = ((YES, _(u"Yes")), (NO, _(u"No")))
@@ -430,6 +433,8 @@ reversion.register(MalariaReport)
 
 
 class AggregatedMalariaReport(Report, MalariaReportIface):
+
+    REPORTING_LEVEL = AGGREGATED_LEVEL
 
     class Meta:
         app_label = 'snisi_core'
