@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+    <object pk="can_edit_aggregated_report" model="bolibana.permission">
+    </object>
+    <object pk="can_edit_source_report" model="bolibana.permission">
+    </object>
+    <object pk="can_manage_entities" model="bolibana.permission">
+    </object>
+    <object pk="can_manage_users" model="bolibana.permission">
+    </object>
+    <object pk="can_monitor_transmission" model="bolibana.permission">
+    </object>
+    <object pk="can_submit_report" model="bolibana.permission">
+    </object>
+    <object pk="can_submit_report_over_sms" model="bolibana.permission">
+    </object>
+    <object pk="can_submit_report_via_excel" model="bolibana.permission">
+    </object>
+    <object pk="can_validate_aggregated_report" model="bolibana.permission">
+    </object>
+    <object pk="can_validate_report" model="bolibana.permission">
+    </object>
+    <object pk="can_validate_source_report" model="bolibana.permission">
+    </object>
+    <object pk="can_view_indicator_data" model="bolibana.permission">
+    </object>
+    <object pk="can_view_raw_data" model="bolibana.permission">
+    </object>
+</django-objects>

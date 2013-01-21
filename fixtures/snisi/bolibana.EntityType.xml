@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+    <object pk="1" model="bolibana.entitytype">
+        <field type="CharField" name="name">National</field>
+        <field type="SlugField" name="slug">national</field>
+    </object>
+    <object pk="2" model="bolibana.entitytype">
+        <field type="CharField" name="name">Région</field>
+        <field type="SlugField" name="slug">region</field>
+    </object>
+    <object pk="3" model="bolibana.entitytype">
+        <field type="CharField" name="name">District</field>
+        <field type="SlugField" name="slug">district</field>
+    </object>
+    <object pk="4" model="bolibana.entitytype">
+        <field type="CharField" name="name">Unité sanitaire</field>
+        <field type="SlugField" name="slug">cscom</field>
+    </object>
+    <object pk="5" model="bolibana.entitytype">
+        <field type="CharField" name="name">Village</field>
+        <field type="SlugField" name="slug">village</field>
+    </object>
+</django-objects>
