@@ -53,7 +53,7 @@ class StockoutManager(models.Manager, ValidationMixin, StockoutMixin):
         return StockoutQuerySet(self.model, using=self._db)
 
 
-class RHCommoditiesReport(Report):
+class RHProductsR(Report):
 
     """ Complies with bolibana.reporting.DataBrowser """
 
@@ -162,34 +162,34 @@ class RHCommoditiesReport(Report):
     objects = StockoutManager()
     fp_stockout = FPMethodManager()
 
-    def add_data(self, family_planning, \
-                                delivery_services, \
-                                male_condom, \
-                                female_condom, \
-                                oral_pills, \
-                                injectable, \
-                                iud, \
-                                implants, \
-                                female_sterilization, \
-                                male_sterilization, \
-                                amoxicillin_ij, \
-                                amoxicillin_cap_gel, \
-                                amoxicillin_suspension, \
-                                azithromycine_tab, \
-                                azithromycine_suspension, \
-                                benzathine_penicillin, \
-                                cefexime, \
-                                clotrimazole, \
-                                ergometrine_tab, \
-                                ergometrine_vials, \
-                                iron, \
-                                folate, \
-                                iron_folate, \
-                                magnesium_sulfate, \
-                                metronidazole, \
-                                oxytocine, \
-                                ceftriaxone_500, \
-                                ceftriaxone_1000):
+    def add_data(self, family_planning,
+                       delivery_services,
+                       male_condom,
+                       female_condom,
+                       oral_pills,
+                       injectable,
+                       iud,
+                       implants,
+                       female_sterilization,
+                       male_sterilization,
+                       amoxicillin_ij,
+                       amoxicillin_cap_gel,
+                       amoxicillin_suspension,
+                       azithromycine_tab,
+                       azithromycine_suspension,
+                       benzathine_penicillin,
+                       cefexime,
+                       clotrimazole,
+                       ergometrine_tab,
+                       ergometrine_vials,
+                       iron,
+                       folate,
+                       iron_folate,
+                       magnesium_sulfate,
+                       metronidazole,
+                       oxytocine,
+                       ceftriaxone_500,
+                       ceftriaxone_1000):
         self.family_planning = family_planning
         self.delivery_services = delivery_services
         self.male_condom = male_condom
@@ -227,11 +227,11 @@ class RHCommoditiesReport(Report):
         return mp
 
     @classmethod
-    def start(cls, period, entity, author, \
+    def start(cls, period, entity, author,
                type=Report.TYPE_SOURCE, is_late=False, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
-        report = cls(period=period, entity=entity, created_by=author, \
-                     modified_by=author, _status=cls.STATUS_CREATED, \
+        report = cls(period=period, entity=entity, created_by=author,
+                     modified_by=author, _status=cls.STATUS_CREATED,
                      type=type)
         report.is_late = is_late
         for arg, value in kwargs.items():
@@ -297,9 +297,8 @@ class RHCommoditiesReport(Report):
 
     @classmethod
     def create_aggregated(cls, period, entity, author, *args, **kwargs):
-        return AggregatedRHCommoditiesReport.create_from(period,
-                                                         entity, author,
-                                                         *args, **kwargs)
+        return AggRHProductsR.create_from(period, entity,
+                                          author, *args, **kwargs)
 
     def fp_stockout_3methods(self):
         w = 0
@@ -310,13 +309,13 @@ class RHCommoditiesReport(Report):
                 w += 1
         return w >= 3
 
-receiver(pre_save, sender=RHCommoditiesReport)(pre_save_report)
-receiver(post_save, sender=RHCommoditiesReport)(post_save_report)
+receiver(pre_save, sender=RHProductsR)(pre_save_report)
+receiver(post_save, sender=RHProductsR)(post_save_report)
 
-reversion.register(RHCommoditiesReport)
+reversion.register(RHProductsR)
 
 
-class AggregatedRHCommoditiesReport(Report):
+class AggRHProductsR(Report):
 
     class Meta:
         app_label = 'snisi_core'
@@ -389,12 +388,12 @@ class AggregatedRHCommoditiesReport(Report):
 
     nb_prompt = models.PositiveIntegerField()
 
-    indiv_sources = models.ManyToManyField('RHCommoditiesReport',
+    indiv_sources = models.ManyToManyField('RHProductsR',
                                            verbose_name=_(u"Indiv. Sources"),
                                            blank=True, null=True,
                                            related_name='indiv_agg_rhcommodities_reports')
 
-    agg_sources = models.ManyToManyField('AggregatedRHCommoditiesReport',
+    agg_sources = models.ManyToManyField('AggRHProductsR',
                                          verbose_name=_(u"Aggr. Sources"),
                                          blank=True, null=True,
                                          related_name='aggregated_agg_rhcommodities_reports')
@@ -407,11 +406,11 @@ class AggregatedRHCommoditiesReport(Report):
         return mp
 
     @classmethod
-    def start(cls, period, entity, author, \
-               type=Report.TYPE_AGGREGATED, *args, **kwargs):
+    def start(cls, period, entity, author,
+              type=Report.TYPE_AGGREGATED, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
-        report = cls(period=period, entity=entity, created_by=author, \
-                     modified_by=author, _status=cls.STATUS_CREATED, \
+        report = cls(period=period, entity=entity, created_by=author,
+                     modified_by=author, _status=cls.STATUS_CREATED,
                      type=type)
         for arg, value in kwargs.items():
             try:
@@ -507,7 +506,7 @@ class AggregatedRHCommoditiesReport(Report):
     @classmethod
     def create_from(cls, period, entity, author):
         return report_create_from(cls, period, entity,
-                                  author, indiv_cls=RHCommoditiesReport)
+                                  author, indiv_cls=RHProductsR)
 
     @classmethod
     def update_instance_with_indiv(cls, report, instance):
@@ -561,9 +560,9 @@ class AggregatedRHCommoditiesReport(Report):
                     getattr(report, field, 0) + getattr(instance, field, 0))
 
 
-receiver(pre_save, sender=AggregatedRHCommoditiesReport)(pre_save_report)
+receiver(pre_save, sender=AggRHProductsR)(pre_save_report)
 receiver(pre_save,
-         sender=AggregatedRHCommoditiesReport)(aggregated_model_report_pre_save)
-receiver(post_save, sender=AggregatedRHCommoditiesReport)(post_save_report)
+         sender=AggRHProductsR)(aggregated_model_report_pre_save)
+receiver(post_save, sender=AggRHProductsR)(post_save_report)
 
-reversion.register(AggregatedRHCommoditiesReport)
+reversion.register(AggRHProductsR)

@@ -4,7 +4,7 @@
 
 from bolibana.reporting.indicators import (IndicatorTable, \
                                            reference, indicator, label)
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import nb_stockout
 from snisi_core.indicators.common import (get_report_for, get_report_for_slug,
                                          get_report_for_element,
@@ -27,7 +27,7 @@ class CTAMILD(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @reference
@@ -91,7 +91,7 @@ class TraitesCTA(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @reference
@@ -200,7 +200,7 @@ class PourcentageCTATDRMILD(IndicatorTable):
     @label(u"CTA")
     def stockout_act(self, period):
         nb_stockout_CTA = 0
-        for report in MalariaReport.objects.filter(type=MalariaReport
+        for report in MalariaR.objects.filter(type=MalariaR
                                                    .TYPE_SOURCE,
                                                    period=period):
             if (getattr(report, 'stockout_act_children') == report.NO

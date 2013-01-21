@@ -2,9 +2,9 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from bolibana.reporting.indicators import (IndicatorTable, \
+from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import get_report_for
 from snisi_core.indicators.section3 import Hospitalisation
 
@@ -16,13 +16,13 @@ class Hospitalisation5ansPlus(IndicatorTable):
     caption = u"Hospitalisation  chez les 5 ans et plus"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
+    default_options = {'with_percentage': True,
+                       'with_total': True,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
+        return MalariaR.validated.filter(entity=self.entity,
+                                         period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -47,15 +47,15 @@ class ProportionHospitalisations5ansPlus(Hospitalisation):
         causes confondues) """
 
     name = u"Figure 4.1c"
-    caption = u"Proportion des hospitalisations pour paludisme grave chez" \
-              u" les personnes de 5 ans et plus (par rapport aux " \
-              u" hospitalisations toutes causes confondues)"
+    caption = (u"Proportion des hospitalisations pour paludisme grave chez"
+               u" les personnes de 5 ans et plus (par rapport aux "
+               u" hospitalisations toutes causes confondues)")
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': True,
                        'age': 'all_over_five'}
 
 WIDGETS = [Hospitalisation5ansPlus, ProportionHospitalisations5ansPlus]

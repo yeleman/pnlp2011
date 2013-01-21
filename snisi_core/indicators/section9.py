@@ -2,9 +2,9 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from bolibana.reporting.indicators import (IndicatorTable, \
+from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import get_report_for
 
 
@@ -15,17 +15,17 @@ class DonneesCPNetTPI(IndicatorTable):
 
     name = u"Tableau 20"
     title = u" "
-    caption = u"Données sur la CPN et le Traitement Préventif" \
-                u" Intermittent(TPI)"
+    caption = (u"Données sur la CPN et le Traitement Préventif"
+               u" Intermittent(TPI)")
     type = 'table'
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
+        return MalariaR.validated.filter(entity=self.entity,
+                                         period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -56,14 +56,14 @@ class EvolutionCPN1SP1SP2(IndicatorTable):
     type = 'graph'
     graph_type = 'spline'
 
-    default_options = {'with_percentage': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': False,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': False}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
+        return MalariaR.validated.filter(entity=self.entity,
+                                         period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -92,18 +92,18 @@ class NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes(IndicatorTable):
 
     name = u"Figure 31"
     title = u" "
-    caption = u"Nombre de femmes enceintes reçues en CPN1 et Nombre " \
-                u"de MILD distribuées aux femmes enceintes"
+    caption = (u"Nombre de femmes enceintes reçues en CPN1 et Nombre "
+               u"de MILD distribuées aux femmes enceintes")
     type = 'graph'
 
-    default_options = {'with_percentage': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': False,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': False}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
+        return MalariaR.validated.filter(entity=self.entity,
+                                         period=period).count() > 0
 
     @indicator(0)
     @label(u"Nbre de femmes enceintes reçues en CPN 1")

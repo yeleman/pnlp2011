@@ -9,12 +9,12 @@ from django.core.management.base import BaseCommand
 from django.utils import translation
 
 from snisi_core.data import current_reporting_period
-from snisi_core.alerts import (EndOfCSComPeriod, \
-                                    EndOfDistrictPeriod, \
-                                    MalariaReportCreated, \
-                                    Reminder, EndOfMonth)
-from bolibana.models import MonthPeriod
-from snisi_core.models import MalariaReport
+from snisi_core.alerts import (EndOfCSComPeriod,
+                               EndOfDistrictPeriod,
+                               MalariaReportCreated,
+                               Reminder, EndOfMonth)
+from bolibana.models.Period import MonthPeriod
+from snisi_core.models.MalariaReport import MalariaR
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,7 +32,7 @@ class Command(BaseCommand):
         logger.info(u"Remove orphan periods")
         [p.delete() for p
                     in MonthPeriod.objects.all()
-                    if MalariaReport.objects.filter(period=p).count() == 0]
+                    if MalariaR.objects.filter(period=p).count() == 0]
 
         period = current_reporting_period()
 

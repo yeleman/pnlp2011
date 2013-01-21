@@ -2,10 +2,9 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-
 from bolibana.reporting.indicators import (IndicatorTable, \
                                            reference, indicator, label)
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 
 
 class TableauPromptitudeRapportage(IndicatorTable):
@@ -40,7 +39,7 @@ class TableauPromptitudeRapportage(IndicatorTable):
         else:
             descendants = self.entity.get_descendants()\
                                      .filter(type__slug='cscom')
-        return MalariaReport.objects.filter(period=period,
+        return MalariaR.objects.filter(period=period,
                                             entity__in=descendants).count()
 
 
@@ -80,7 +79,7 @@ class FigurePromptitudeRapportage(IndicatorTable):
         else:
             descendants = self.entity.get_descendants()\
                                      .filter(type__slug='cscom')
-        return MalariaReport.objects.filter(period=period,
+        return MalariaR.objects.filter(period=period,
                                             entity__in=descendants).count()
 
 WIDGETS = [TableauPromptitudeRapportage, FigurePromptitudeRapportage]

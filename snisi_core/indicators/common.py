@@ -2,18 +2,18 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from bolibana.reporting.indicators import NoSourceData
 
 
 def get_report_for(entity, period, validated=True):
-    """ MalariaReport for entity and period or raise NoSourceData """
+    """ MalariaR for entity and period or raise NoSourceData """
     try:
         if validated:
-            return MalariaReport.validated.get(entity=entity, period=period)
+            return MalariaR.validated.get(entity=entity, period=period)
         else:
-            return MalariaReport.unvalidated.get(entity=entity, period=period)
-    except MalariaReport.DoesNotExist:
+            return MalariaR.unvalidated.get(entity=entity, period=period)
+    except MalariaR.DoesNotExist:
         raise NoSourceData
 
 
@@ -22,28 +22,28 @@ def get_report_for_element(report, element):
 
 
 def get_report_for_slug(entity, period, validated=True):
-    """ MalariaReport for slug entity and period or raise NoSourceData """
+    """ MalariaR for slug entity and period or raise NoSourceData """
     try:
         if validated:
-            return MalariaReport.validated.get(entity__slug=entity.slug,
+            return MalariaR.validated.get(entity__slug=entity.slug,
                                                period=period)
         else:
-            return MalariaReport.unvalidated.get(entity__slug=entity.slug,
+            return MalariaR.unvalidated.get(entity__slug=entity.slug,
                                                  period=period)
-    except MalariaReport.DoesNotExist:
+    except MalariaR.DoesNotExist:
         raise NoSourceData
 
 
 def get_report_national(period, validated=True):
-    """ MalariaReport for slug entity and period or raise NoSourceData """
+    """ MalariaR for slug entity and period or raise NoSourceData """
     try:
         if validated:
-            return MalariaReport.validated.get(entity__slug="mali",
+            return MalariaR.validated.get(entity__slug="mali",
                                                period=period)
         else:
-            return MalariaReport.unvalidated.get(entity__slug="mali",
+            return MalariaR.unvalidated.get(entity__slug="mali",
                                                  period=period)
-    except MalariaReport.DoesNotExist:
+    except MalariaR.DoesNotExist:
         raise NoSourceData
 
 
@@ -86,7 +86,7 @@ def find_report_attr_age(entity, period, attribute, age_code='all'):
 
 def nb_stockout(entity, period, product):
     nb_stockout = 0
-    for report in MalariaReport.objects.filter(type=MalariaReport.TYPE_SOURCE,
+    for report in MalariaR.objects.filter(type=MalariaR.TYPE_SOURCE,
                                                period=period):
         if (getattr(report, 'stockout_%s' % product) == report.NO
             and (entity in report.entity.get_ancestors()

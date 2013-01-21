@@ -26,7 +26,7 @@ class PeriodManager(models.Manager):
                                                dod__lte=period.end_on)
 
 
-class ChildrenMortalityReport(IndividualReport):
+class ChildrenDeathR(IndividualReport):
 
     HOME = 'D'
     CENTER = 'C'
@@ -129,10 +129,10 @@ class ChildrenMortalityReport(IndividualReport):
 
         return report
 
-reversion.register(ChildrenMortalityReport)
+reversion.register(ChildrenDeathR)
 
 
-class AggregatedChildrenMortalityReport(Report):
+class AggChildrenDeathR(Report):
 
     class Meta:
         app_label = 'snisi_core'
@@ -170,12 +170,12 @@ class AggregatedChildrenMortalityReport(Report):
     cause_death_eat_refusal = models.PositiveIntegerField()
     cause_death_other = models.PositiveIntegerField()
 
-    indiv_sources = models.ManyToManyField('ChildrenMortalityReport',
+    indiv_sources = models.ManyToManyField('ChildrenDeathR',
                                            verbose_name=_(u"Indiv. Sources"),
                                            blank=True, null=True,
                                            related_name='indiv_agg_children_mortality_reports')
 
-    agg_sources = models.ManyToManyField('AggregatedChildrenMortalityReport',
+    agg_sources = models.ManyToManyField('AggChildrenDeathR',
                                          verbose_name=_(u"Aggr. Sources"),
                                          blank=True, null=True,
                                          related_name='aggregated_agg_children_mortality_reports')
@@ -227,7 +227,7 @@ class AggregatedChildrenMortalityReport(Report):
         agg_report = cls.start(entity, period, author)
 
         # find list of sources
-        indiv_sources = ChildrenMortalityReport \
+        indiv_sources = ChildrenDeathR \
                             .objects \
                             .filter(dod__gte=period.start_on,
                                     dod__lte=period.end_on,
@@ -239,7 +239,7 @@ class AggregatedChildrenMortalityReport(Report):
 
         # loop on all sources
         for source in sources:
-            if isinstance(source, ChildrenMortalityReport):
+            if isinstance(source, ChildrenDeathR):
                 cls.update_instance_with_indiv(agg_report, source)
             elif isinstance(source, cls):
                 cls.update_instance_with_agg(agg_report, source)
@@ -358,7 +358,7 @@ class AggregatedChildrenMortalityReport(Report):
         report.cause_death_eat_refusal += instance.cause_death_eat_refusal
         report.cause_death_other += instance.cause_death_other
 
-receiver(pre_save, sender=AggregatedChildrenMortalityReport)(pre_save_report)
-receiver(post_save, sender=AggregatedChildrenMortalityReport)(post_save_report)
+receiver(pre_save, sender=AggChildrenDeathR)(pre_save_report)
+receiver(post_save, sender=AggChildrenDeathR)(post_save_report)
 
-reversion.register(AggregatedChildrenMortalityReport)
+reversion.register(AggChildrenDeathR)

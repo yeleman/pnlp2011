@@ -20,7 +20,7 @@ from snisi_core.data import (provider_entity, current_reporting_period, \
                              time_region_over)
 
 from bolibana.web.decorators import provider_permission
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.validators.malaria import MalariaReportValidator
 from snisi_core.data import provider_can_or_403
 
@@ -66,7 +66,7 @@ def report_validation(request, report_receipt):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
 
-    report = get_object_or_404(MalariaReport, receipt=report_receipt)
+    report = get_object_or_404(MalariaR, receipt=report_receipt)
     context.update({'report': report})
 
     # check permission or raise 403
@@ -133,12 +133,12 @@ def report_do_validation(request, report_receipt):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
 
-    report = get_object_or_404(MalariaReport, receipt=report_receipt)
+    report = get_object_or_404(MalariaR, receipt=report_receipt)
 
     # check permission or raise 403
     provider_can_or_403('can_validate_report', web_provider, report.entity)
 
-    report._status = MalariaReport.STATUS_VALIDATED
+    report._status = MalariaR.STATUS_VALIDATED
     report.modified_by = web_provider
     report.modified_on = datetime.now()
     with reversion.create_revision():

@@ -2,9 +2,9 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from bolibana.reporting.indicators import (IndicatorTable, \
+from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import get_report_for
 from snisi_core.indicators.section3 import Hospitalisation
 
@@ -16,13 +16,13 @@ class HospitalisationToutAgeConfondu(IndicatorTable):
     caption = u"Hospitalisation"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
+    default_options = {'with_percentage': True,
+                       'with_total': True,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
-                                              period=period).count() > 0
+        return MalariaR.validated.filter(entity=self.entity,
+                                         period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -47,11 +47,11 @@ class ProportionHospitalisations(Hospitalisation):
     caption = u"Proportion des hospitalisations pour paludisme grave (par" \
               u" rapport aux hospitalisations toutes causes confondues)"
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': True,
                        'age': 'all'}
 
 
