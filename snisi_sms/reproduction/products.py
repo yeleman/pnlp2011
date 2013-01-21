@@ -6,17 +6,18 @@ import datetime
 import logging
 import reversion
 
-from snisi_core.models import RHCommoditiesReport
+from snisi_core.models.CommoditiesReport import RHProductsR
 from snisi_core.data import time_is_prompt
-from bolibana.models import Entity, MonthPeriod
+from bolibana.models.Entity import Entity
+from bolibana.models.Period import MonthPeriod
 from snisi_core.validators.reproduction import RHCommoditiesReportValidator
 from snisi_sms.common import contact_for
 
 
 YESNOAVAIL = {
-    '0': RHCommoditiesReport.SUPPLIES_NOT_PROVIDED,
-    '1': RHCommoditiesReport.SUPPLIES_AVAILABLE,
-    '2': RHCommoditiesReport.SUPPLIES_NOT_AVAILABLE,
+    '0': RHProductsR.SUPPLIES_NOT_PROVIDED,
+    '1': RHProductsR.SUPPLIES_AVAILABLE,
+    '2': RHProductsR.SUPPLIES_NOT_AVAILABLE,
 }
 
 logger = logging.getLogger(__name__)
@@ -28,7 +29,7 @@ class RHCommoditiesDataHolder(object):
         return getattr(self, slug)
 
     def field_name(self, slug):
-        return RHCommoditiesReport._meta.get_field(slug).verbose_name
+        return RHProductsR._meta.get_field(slug).verbose_name
 
     def set(self, slug, data):
         try:
@@ -38,34 +39,34 @@ class RHCommoditiesDataHolder(object):
             setattr(self, slug, data)
 
     def fields_for(self):
-        fields = ['family_planning', \
-                    'delivery_services', \
-                    'male_condom', \
-                    'female_condom', \
-                    'oral_pills', \
-                    'injectable', \
-                    'iud', \
-                    'implants', \
-                    'female_sterilization', \
-                    'male_sterilization', \
-                    'amoxicillin_ij', \
-                    'amoxicillin_cap_gel', \
-                    'amoxicillin_suspension', \
-                    'azithromycine_tab', \
-                    'azithromycine_suspension', \
-                    'benzathine_penicillin', \
-                    'cefexime', \
-                    'clotrimazole', \
-                    'ergometrine_tab', \
-                    'ergometrine_vials', \
-                    'iron', \
-                    'folate', \
-                    'iron_folate', \
-                    'magnesium_sulfate', \
-                    'metronidazole', \
-                    'oxytocine', \
-                    'ceftriaxone_500', \
-                    'ceftriaxone_1000']
+        fields = ['family_planning',
+                  'delivery_services',
+                  'male_condom',
+                  'female_condom',
+                  'oral_pills',
+                  'injectable',
+                  'iud',
+                  'implants',
+                  'female_sterilization',
+                  'male_sterilization',
+                  'amoxicillin_ij',
+                  'amoxicillin_cap_gel',
+                  'amoxicillin_suspension',
+                  'azithromycine_tab',
+                  'azithromycine_suspension',
+                  'benzathine_penicillin',
+                  'cefexime',
+                  'clotrimazole',
+                  'ergometrine_tab',
+                  'ergometrine_vials',
+                  'iron',
+                  'folate',
+                  'iron_folate',
+                  'magnesium_sulfate',
+                  'metronidazole',
+                  'oxytocine',
+                  'ceftriaxone_500',
+                  'ceftriaxone_1000']
 
         return fields
 
@@ -157,7 +158,7 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
 
     provider = contact_for(message.identity)
     if not provider:
-        message.respond(error_start + u"Aucun utilisateur ne possede ce " \
+        message.respond(error_start + u"Aucun utilisateur ne possede ce "
                                       u"numero de telephone")
         return True
 
@@ -194,27 +195,27 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
         return True
 
     try:
-        period = MonthPeriod.find_create_from(year=int(data_browser \
-                                            .get('reporting_year')), \
-                                              month=int(data_browser \
+        period = MonthPeriod.find_create_from(year=int(data_browser
+                                            .get('reporting_year')),
+                                              month=int(data_browser
                                             .get('reporting_month')))
         is_late = not time_is_prompt(period)
-        entity = Entity.objects.get(slug=data_browser.get('location_of_sdp'), \
+        entity = Entity.objects.get(slug=data_browser.get('location_of_sdp'),
                                     type__slug='cscom')
         # create the report
-        report = RHCommoditiesReport.start(period, entity, provider, \
-                                         type=RHCommoditiesReport.TYPE_SOURCE, \
-                                         is_late=is_late)
+        report = RHProductsR.start(period, entity, provider,
+                                   type=RHProductsR.TYPE_SOURCE,
+                                   is_late=is_late)
 
         report.add_data(*data_browser.data_for_cat())
         with reversion.create_revision():
             report.save()
             reversion.set_user(provider.user)
     except Exception as e:
-        message.respond(error_start + u"Une erreur technique s'est " \
-                        u"produite. Reessayez plus tard et " \
+        message.respond(error_start + u"Une erreur technique s'est "
+                        u"produite. Reessayez plus tard et "
                         u"contactez ANTIM si le probleme persiste.")
-        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
+        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r"
                      % (message.content, e))
         return True
 

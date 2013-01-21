@@ -4,8 +4,8 @@
 
 from bolibana.reporting.indicators import (IndicatorTable, \
                                            reference, indicator, label)
-from bolibana.models import Entity
-from snisi_core.models import MalariaReport
+from bolibana.models.Entity import Entity
+from snisi_core.models.MalariaReport import MalariaR
 
 
 class PromptitudeRapportageSegouBamako(IndicatorTable):
@@ -39,7 +39,7 @@ class PromptitudeRapportageSegouBamako(IndicatorTable):
         entity = Entity.objects.get(slug='bamako')
         descendants = entity.get_descendants()\
                                  .filter(type__slug='cscom')
-        return MalariaReport.objects.filter(period=period,
+        return MalariaR.objects.filter(period=period,
                                             entity__in=descendants).count()
 
     @reference
@@ -56,7 +56,7 @@ class PromptitudeRapportageSegouBamako(IndicatorTable):
         entity = Entity.objects.get(slug='segou')
         descendants = entity.get_descendants()\
                                  .filter(type__slug='cscom')
-        return MalariaReport.objects.filter(period=period,
+        return MalariaR.objects.filter(period=period,
                                             entity__in=descendants).count()
 
 
@@ -120,7 +120,7 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
         descendants = entity.get_descendants()\
                                  .filter(type__slug='cscom')
 
-        return MalariaReport.objects.filter(period=period,
+        return MalariaR.objects.filter(period=period,
                                             entity__in=descendants).count()
 
     @reference
@@ -139,7 +139,7 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
         descendants = entity.get_descendants()\
                                  .filter(type__slug='cscom')
 
-        return MalariaReport.objects.filter(period=period,
+        return MalariaR.objects.filter(period=period,
                                             entity__in=descendants).count()
 
     @reference
@@ -197,7 +197,7 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
         nb = 0
 
         for descendant in descendants:
-            nb += MalariaReport.objects.filter(period=period,
+            nb += MalariaR.objects.filter(period=period,
                                             entity__in=descendant).count()
 
         return nb

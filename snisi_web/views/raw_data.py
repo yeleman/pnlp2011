@@ -7,15 +7,17 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 
-from snisi_core.data import (MalariaReportForm, \
-                            raw_data_periods_for, \
-                            entities_path, \
-                            provider_can_or_403, \
+from bolibana.models.Entity import Entity
+from bolibana.models.Period import MonthPeriod
+from snisi_core.data import (MalariaReportForm,
+                            raw_data_periods_for,
+                            entities_path,
+                            provider_can_or_403,
                             current_reporting_period)
 
 from bolibana.models import Entity, MonthPeriod
 from bolibana.web.decorators import provider_required, provider_permission
-from snisi_core.models import MalariaReport, AggregatedMalariaReport
+from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 from snisi_core.exports import report_as_excel
 
 
@@ -32,8 +34,8 @@ def data_browser(request, entity_code=None, period_str=None):
     # find period from string or default to current reporting
     if period_str:
         try:
-            period = MonthPeriod.find_create_from(year=int(period_str[-4:]), \
-                                                  month=int(period_str[:2]), \
+            period = MonthPeriod.find_create_from(year=int(period_str[-4:]),
+                                                  month=int(period_str[:2]),
                                                   dont_create=True)
         except:
             pass
@@ -53,7 +55,7 @@ def data_browser(request, entity_code=None, period_str=None):
     provider_can_or_403('can_view_raw_data', web_provider, entity)
 
     # build entities browser
-    context.update({'root': root, \
+    context.update({'root': root,
                     'paths': entities_path(root, entity)})
 
     # build periods list
@@ -64,15 +66,15 @@ def data_browser(request, entity_code=None, period_str=None):
     if not entity.type.slug == 'cscom':
         try:
             # get validated report for that period and location
-            report = AggregatedMalariaReport.validated.get(entity=entity, period=period)
-        except AggregatedMalariaReport.DoesNotExist:
+            report = AggMalariaR.validated.get(entity=entity, period=period)
+        except AggMalariaR.DoesNotExist:
             # district users need to be able to see the generated report
             # which have been created based on their validations/data.
             # if a district is looking at its root district and report exist
             # but not validated, we show it (with period) and no valid flag
             if web_provider.first_role().slug == 'district' and root == entity:
                 try:
-                    report = AggregatedMalariaReport.unvalidated.get(entity=entity, \
+                    report = AggMalariaR.unvalidated.get(entity=entity, \
                                                            period=period)
                     if not period in all_periods:
                         all_periods.insert(0, period)
@@ -83,15 +85,15 @@ def data_browser(request, entity_code=None, period_str=None):
     else:
         try:
             # get validated report for that period and location
-            report = MalariaReport.validated.get(entity=entity, period=period)
-        except MalariaReport.DoesNotExist:
+            report = MalariaR.validated.get(entity=entity, period=period)
+        except MalariaR.DoesNotExist:
             # district users need to be able to see the generated report
             # which have been created based on their validations/data.
             # if a district is looking at its root district and report exist
             # but not validated, we show it (with period) and no valid flag
             if web_provider.first_role().slug == 'district' and root == entity:
                 try:
-                    report = MalariaReport.unvalidated.get(entity=entity, \
+                    report = MalariaR.unvalidated.get(entity=entity, \
                                                            period=period)
                     if not period in all_periods:
                         all_periods.insert(0, period)
@@ -101,8 +103,8 @@ def data_browser(request, entity_code=None, period_str=None):
                 report = None
 
     # send period variables to template
-    context.update({'periods': [(p.middle().strftime('%m%Y'), p.middle()) \
-                                for p in all_periods], \
+    context.update({'periods': [(p.middle().strftime('%m%Y'), p.middle())
+                                for p in all_periods],
                     'period': period})
 
     if report:
@@ -120,20 +122,20 @@ def excel_export(request, report_receipt):
     context = {'category': 'raw_data'}
     web_provider = request.user.get_profile()
 
-    report = get_object_or_404(MalariaReport, receipt=report_receipt)
+    report = get_object_or_404(MalariaR, receipt=report_receipt)
     context.update({'report': report})
 
     # check permission or raise 403
     provider_can_or_403('can_view_raw_data', web_provider, report.entity)
 
     file_name = 'PNLP_%(entity)s.%(month)s.%(year)s.xls' \
-                % {'entity': report.entity.slug, \
-                   'month': report.period.middle().month, \
+                % {'entity': report.entity.slug,
+                   'month': report.period.middle().month,
                    'year': report.period.middle().year}
 
     file_content = report_as_excel(report).getvalue()
 
-    response = HttpResponse(file_content, \
+    response = HttpResponse(file_content,
                             content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="%s"' % file_name
     response['Content-Length'] = len(file_content)

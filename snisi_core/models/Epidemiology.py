@@ -15,7 +15,7 @@ from bolibana.tools.utils import generate_receipt
 from common import pre_save_report, post_save_report
 
 
-class EpidemiologyReport(Report):
+class EpidemiologyR(Report):
 
     class Meta:
         app_label = 'snisi_core'
@@ -55,32 +55,32 @@ class EpidemiologyReport(Report):
     other_notifiable_disease_case = models.IntegerField(_(u"Autres MADOS cas"))
     other_notifiable_disease_death = models.IntegerField(_(u"Autres MADOS décès"))
 
-    sources = models.ManyToManyField('EpidemiologyReport', \
-                                     verbose_name=_(u"Sources"), \
+    sources = models.ManyToManyField('self',
+                                     verbose_name=_(u"Sources"),
                                      blank=True, null=True)
 
-    def add_data(self, acute_flaccid_paralysis_case, \
-                                acute_flaccid_paralysis_death, \
-                                influenza_a_h1n1_case, \
-                                influenza_a_h1n1_death, \
-                                cholera_case, \
-                                cholera_death, \
-                                red_diarrhea_case, \
-                                red_diarrhea_death, \
-                                measles_case, \
-                                measles_death, \
-                                yellow_fever_case, \
-                                yellow_fever_death, \
-                                neonatal_tetanus_case, \
-                                neonatal_tetanus_death, \
-                                meningitis_case, \
-                                meningitis_death, \
-                                rabies_case, \
-                                rabies_death, \
-                                acute_measles_diarrhea_case, \
-                                acute_measles_diarrhea_death, \
-                                other_notifiable_disease_case, \
-                                other_notifiable_disease_death):
+    def add_data(self, acute_flaccid_paralysis_case,
+                 acute_flaccid_paralysis_death,
+                 influenza_a_h1n1_case,
+                 influenza_a_h1n1_death,
+                 cholera_case,
+                 cholera_death,
+                 red_diarrhea_case,
+                 red_diarrhea_death,
+                 measles_case,
+                 measles_death,
+                 yellow_fever_case,
+                 yellow_fever_death,
+                 neonatal_tetanus_case,
+                 neonatal_tetanus_death,
+                 meningitis_case,
+                 meningitis_death,
+                 rabies_case,
+                 rabies_death,
+                 acute_measles_diarrhea_case,
+                 acute_measles_diarrhea_death,
+                 other_notifiable_disease_case,
+                 other_notifiable_disease_death):
         self.acute_flaccid_paralysis_case = acute_flaccid_paralysis_case
         self.acute_flaccid_paralysis_death = acute_flaccid_paralysis_death
         self.influenza_a_h1n1_case = influenza_a_h1n1_case
@@ -167,9 +167,9 @@ class EpidemiologyReport(Report):
         agg_report = cls.start(period, entity, author,
                                type=Report.TYPE_AGGREGATED, *args, **kwargs)
 
-        sources = EpidemiologyReport.validated\
-                                     .filter(period=period,
-                                             entity__in=entity.get_children())
+        sources = EpidemiologyR.validated\
+                               .filter(period=period,
+                                       entity__in=entity.get_children())
 
         if sources.count() == 0:
             agg_report.fill_blank()
@@ -195,7 +195,7 @@ class EpidemiologyReport(Report):
         return agg_report
 
 
-receiver(pre_save, sender=EpidemiologyReport)(pre_save_report)
-receiver(post_save, sender=EpidemiologyReport)(post_save_report)
+receiver(pre_save, sender=EpidemiologyR)(pre_save_report)
+receiver(post_save, sender=EpidemiologyR)(post_save_report)
 
-reversion.register(EpidemiologyReport)
+reversion.register(EpidemiologyR)

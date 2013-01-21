@@ -4,7 +4,7 @@
 
 from bolibana.reporting.indicators import (IndicatorTable, reference, \
                                            indicator, label)
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import find_report_attr_age
 
 
@@ -26,7 +26,7 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
                        'only_percent': False}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @reference
@@ -67,7 +67,7 @@ class CasSimplesGraves(IndicatorTable):
                        'only_percent': False}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @indicator(0)
@@ -108,7 +108,7 @@ class CasTestes(IndicatorTable):
                        'only_percent': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @reference
@@ -143,7 +143,7 @@ class CasConfirmes(IndicatorTable):
                        'only_percent': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @reference

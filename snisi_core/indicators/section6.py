@@ -3,9 +3,9 @@
 # maintainer: rgaudin
 
 
-from bolibana.reporting.indicators import (IndicatorTable, reference, \
+from bolibana.reporting.indicators import (IndicatorTable, reference,
                                            indicator, label)
-from snisi_core.models import MalariaReport
+from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import nb_stockout
 
 
@@ -16,12 +16,12 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
 
     name = u"Tableau 17"
     title = u" "
-    caption = u"Pourcentage de structures sans Rupture de stock de CTA dans" \
-              u" le district"
+    caption = (u"Pourcentage de structures sans Rupture de stock de CTA dans"
+               u" le district")
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
@@ -34,7 +34,7 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
         if self.entity.type.slug == 'cscom':
             return 1
         else:
-            return self.entity.get_descendants()\
+            return self.entity.get_descendants() \
                               .filter(type__slug='cscom').count()
 
     @indicator(1, 'total_structures_in_the_district')
@@ -63,18 +63,18 @@ class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
 
     name = u"Figure 27"
     title = u" "
-    caption = u"Evolution du pourcentage de Structures sans rupture de " \
-              u"stock en CTA (Nourrisson-Enfant, Adolescent, Adulte"
+    caption = (u"Evolution du pourcentage de Structures sans rupture de "
+               u"stock en CTA (Nourrisson-Enfant, Adolescent, Adulte")
     type = 'graph'
     graph_type = 'spline'
 
-    default_options = {'with_percentage': True, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': True}
 
     def period_is_valid(self, period):
-        return MalariaReport.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity, \
                                               period=period).count() > 0
 
     @reference
