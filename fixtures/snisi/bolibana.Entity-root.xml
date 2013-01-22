@@ -10,6 +10,5 @@
         <field type="PositiveIntegerField" name="rght">2</field>
         <field type="PositiveIntegerField" name="tree_id">1</field>
         <field type="PositiveIntegerField" name="level">0</field>
-        <field to="bolibana.project" name="projects" rel="ManyToManyRel"></field>
     </object>
 </django-objects>
