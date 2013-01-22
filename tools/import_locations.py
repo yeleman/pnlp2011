@@ -4,7 +4,8 @@
 
 import sys
 
-from bolibana.models import Entity, EntityType
+from bolibana.models.Entity import Entity
+from bolibana.models.EntityType import EntityType
 
 
 def import_locations(csv_file, use_code=False):

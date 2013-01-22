@@ -15,6 +15,7 @@ from bolibana.models.Role import Role
 from bolibana.models.Permission import Permission
 from bolibana.models.Access import Access
 from bolibana.models.Provider import Provider
+from bolibana.models.ReportProvider import ReportProvider
 from bolibana.admin import (RoleAdmin, PermissionAdmin,
                             AccessAdmin, ProviderAdmin)
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
@@ -25,7 +26,7 @@ from snisi_core.models.ChildrenMortalityReport import (ChildrenDeathR,
                                                        AggChildrenDeathR)
 from snisi_core.models.Epidemiology import EpidemiologyR
 from snisi_core.models.alert import Alert
-from snisi_core.admin import MalariaReportAdmin, AlertAdmin
+from snisi_core.admin import MalariaRAdmin, AlertAdmin
 
 
 class ProviderUserStacked(admin.StackedInline):
@@ -49,7 +50,7 @@ admin.site.register(Role, RoleAdmin)
 admin.site.register(Access, AccessAdmin)
 admin.site.register(Permission, PermissionAdmin)
 
-admin.site.register(MalariaR, MalariaReportAdmin)
+admin.site.register(MalariaR, MalariaRAdmin)
 admin.site.register(AggMalariaR)
 admin.site.register(Alert, AlertAdmin)
 admin.site.register(MaternalDeathR)
@@ -60,3 +61,4 @@ admin.site.register(RHProductsR)
 admin.site.register(AggRHProductsR)
 admin.site.register(EpidemiologyR)
 admin.site.register(Project)
+admin.site.register(ReportProvider)
