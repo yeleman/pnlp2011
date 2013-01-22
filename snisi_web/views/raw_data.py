@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 from bolibana.models.Entity import Entity
 from bolibana.models.Period import MonthPeriod
-from snisi_core.data import (MalariaReportForm,
+from snisi_core.data import (MalariaRForm,
                             raw_data_periods_for,
                             entities_path,
                             provider_can_or_403,
@@ -109,7 +109,7 @@ def data_browser(request, entity_code=None, period_str=None):
 
     if report:
         context.update({'report': report})
-        form = MalariaReportForm(instance=report)
+        form = MalariaRForm(instance=report)
         context.update({'form': form})
     else:
         context.update({'no_report': True})

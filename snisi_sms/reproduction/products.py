@@ -7,7 +7,6 @@ import logging
 import reversion
 
 from snisi_core.models.CommoditiesReport import RHProductsR
-from snisi_core.data import time_is_prompt
 from bolibana.models.Entity import Entity
 from bolibana.models.Period import MonthPeriod
 from snisi_core.validators.reproduction import RHCommoditiesReportValidator
@@ -194,6 +193,7 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
         message.respond(error_start + errors.all()[0])
         return True
 
+    from snisi_core.data import time_is_prompt
     try:
         period = MonthPeriod.find_create_from(year=int(data_browser
                                             .get('reporting_year')),
