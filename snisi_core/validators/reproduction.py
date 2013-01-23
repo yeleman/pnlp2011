@@ -9,8 +9,6 @@ from bolibana.reporting.validator import DataValidator
 from bolibana.models.Entity import Entity
 from bolibana.models.Period import MonthPeriod
 from snisi_core.models.CommoditiesReport import RHProductsR
-from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
 from snisi_sms.common import parse_age_dob, date_is_old
 
 
@@ -20,6 +18,9 @@ class RHCommoditiesReportValidator(DataValidator):
 
     def validate(self):
         """ Test whether attached data matches PNLP's logic requirements """
+
+        from snisi_core.data import (provider_can, time_cscom_over,
+                            time_district_over, time_region_over)
 
         # PERIOD MONTH
         # range(1, 12)
@@ -114,6 +115,8 @@ class ChildrenMortalityReportValidator(DataValidator):
     def validate(self):
         """ """
 
+        from snisi_core.data import provider_can
+
         # reporting location
         try:
             Entity.objects.get(slug=self.get('reporting_location'))
@@ -171,6 +174,8 @@ class MaternalMortalityReportValidator(DataValidator):
 
     def validate(self):
         """ """
+
+        from snisi_core.data import provider_can
 
         # reporting location
         try:

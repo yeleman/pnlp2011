@@ -67,7 +67,7 @@ def log_message(request):
 
     def name_phone(sms):
         """ Search name provider """
-        from bolibana.models import Provider
+        from bolibana.models.Provider import Provider
 
         if len(sms.identity.split('+223')) == 2:
             indicatif, phone = sms.identity.split('+223')

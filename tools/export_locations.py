@@ -4,7 +4,7 @@
 
 import sys
 
-from bolibana.models import Entity
+from bolibana.models.Entity import Entity
 
 
 def type_code(entity):

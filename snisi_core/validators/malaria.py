@@ -11,16 +11,17 @@ from bolibana.reporting.errors import MissingData
 from bolibana.models.Entity import Entity
 from bolibana.models.Period import MonthPeriod
 from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
 
 
-class MalariaReportValidator(DataValidator):
+class MalariaRValidator(DataValidator):
 
     """ Monthly Malaria Routine Report from CSCOM data validation """
 
     def validate(self):
         """ Test whether attached data matches PNLP's logic requirements """
+
+        from snisi_core.data import (provider_can, time_cscom_over,
+                            time_district_over, time_region_over)
 
         no_more_than_text = _("%(field2)s (%(f2value)d) can't be more "
                             "than %(field1)s (%(f1value)d)")

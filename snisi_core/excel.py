@@ -11,7 +11,7 @@ from bolibana.reporting.errors import MissingData
 from bolibana.models.Period import MonthPeriod
 from bolibana.models.Entity import Entity
 from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.validators.malaria import MalariaReportValidator
+from snisi_core.validators.malaria import MalariaRValidator
 from snisi_core.data import time_is_prompt
 
 
@@ -267,7 +267,7 @@ class MalariaExcelForm(ExcelForm):
 
     def validate(self, *args, **kwargs):
         """ Triggers malaria routine Validator """
-        validator = MalariaReportValidator(self, **kwargs)
+        validator = MalariaRValidator(self, **kwargs)
         validator.errors.reset()
         validator.validate()
         self.errors.fusion(validator.errors)
