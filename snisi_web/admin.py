@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 from bolibana.models.Entity import Entity
 from bolibana.models.EntityType import EntityType
 from bolibana.models.Period import Period
-from bolibana.models.Project import Project
 from bolibana.admin import EntityAdmin, EntityTypeAdmin, PeriodAdmin
 from bolibana.models.Role import Role
 from bolibana.models.Permission import Permission
@@ -59,4 +58,3 @@ admin.site.register(AggChildrenDeathR)
 admin.site.register(RHProductsR)
 admin.site.register(AggRHProductsR)
 admin.site.register(EpidemiologyR)
-admin.site.register(Project)

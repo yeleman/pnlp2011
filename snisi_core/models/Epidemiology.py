@@ -9,7 +9,8 @@ from django.db.models.signals import pre_save, post_save
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 
-from bolibana.models import Report, WeekPeriod
+from bolibana.models.Report import Report
+from bolibana.models.Period import WeekPeriod
 from bolibana.tools.utils import generate_receipt
 
 from common import pre_save_report, post_save_report
