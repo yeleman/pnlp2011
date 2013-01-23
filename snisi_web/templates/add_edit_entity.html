@@ -23,4 +23,15 @@
 <button class="formbutt default">Enregistrer les modifications</button>
 </form>
 
+<h2>Participations</h2>
+
+{% if scheduledreporting %}
+    <table>
+    <tr><th>Report</th><th>Level</th><th>du</th><th>au</th></tr>
+    {% for scheduled in scheduledreporting %}
+    <tr><td>{{scheduled.report_class}}</td><td>{{scheduled.verbose_level}}</td><td>{{scheduled.start}}</td><td>{{scheduled.end}}</td></tr>
+    {% endfor %}
+    </table>
+{% endif %}
+
 {% endblock %}
