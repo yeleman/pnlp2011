@@ -40,7 +40,7 @@ def report_create_from(cls, period, entity, author, indiv_cls=None):
         cls.update_instance_with_agg() """
 
     # create empty
-    agg_report = cls.start(entity, period, author)
+    agg_report = cls.start(entity=entity, period=period, author=author)
     agg_report.type = cls.TYPE_AGGREGATED
 
     # find list of sources

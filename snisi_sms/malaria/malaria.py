@@ -14,7 +14,6 @@ from bolibana.models.Entity import Entity
 from bolibana.models.Period import MonthPeriod
 from snisi_core.validators.malaria import MalariaReportValidator
 from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.data import contact_for, time_is_prompt
 
 from nosmsd.utils import send_sms
 
@@ -306,6 +305,8 @@ def palu(message):
         message.respond(error_start + errors.all()[0])
         return True
 
+    from snisi_core.data import contact_for, time_is_prompt
+
     # create the report
     try:
         period = MonthPeriod.find_create_from(year=data_browser.get('year'),
@@ -340,6 +341,7 @@ def palu(message):
                     % {'cscom': report.entity.display_full_name(), \
                        'period': report.period, \
                        'receipt': report.receipt})
+
     try:
         to = contact_for(report.entity.parent).phone_number
     except:

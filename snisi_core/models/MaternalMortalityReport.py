@@ -8,7 +8,9 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-from bolibana.models import Entity, IndividualReport, Report
+from bolibana.models.Entity import Entity
+from bolibana.models.IndividualReport import IndividualReport
+from bolibana.models.Report import Report
 
 from common import pre_save_report, post_save_report
 

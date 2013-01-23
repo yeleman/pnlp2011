@@ -1,11 +1,12 @@
 #/usr/bin/env python
 
-from bolibana.models import Entity, Period
-from snisi_core.models import MalariaReport
+from bolibana.models.Entity import Entity
+from bolibana.models.Period import Period
+from snisi_core.models.MalariaReport import MalariaR
 
 
 def data(slug, period):
-    rep = MalariaReport.objects.filter(entity__parent__slug=slug, period=period).count()
+    rep = MalariaR.objects.filter(entity__parent__slug=slug, period=period).count()
     ent = Entity.objects.get(slug=slug).get_children().count()
     percent = float(rep) / ent
     return (rep, ent, percent)

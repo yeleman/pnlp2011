@@ -8,14 +8,11 @@ from django.utils.translation import ugettext as _
 
 from bolibana.reporting.validator import DataValidator
 from bolibana.reporting.errors import MissingData
-from bolibana.models.Entity import Entity
-from bolibana.models.Period import MonthPeriod
+from bolibana.models import Entity, MonthPeriod
 from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
 
 
-class MalariaReportValidator(DataValidator):
+class MalariaRtValidator(DataValidator):
 
     """ Monthly Malaria Routine Report from CSCOM data validation """
 
@@ -42,6 +39,8 @@ class MalariaReportValidator(DataValidator):
                     # this missing data should have already been reported
                     pass
 
+        from snisi_core.data import (provider_can, time_district_over,
+                                     time_region_over, time_cscom_over)
         # total > malaria cases
         test_value_under('total_consultation_all_causes',
                          'total_suspected_malaria_cases', allcats)
