@@ -10,12 +10,20 @@ from django.utils.translation import ugettext as _
 from bolibana.models.Access import Access
 from bolibana.models.Provider import Provider
 from bolibana.models.Period import MonthPeriod
-from snisi_core.models.MalariaReport import MalariaR
+from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 
 
-class MalariaReportForm(forms.ModelForm):
+class MalariaRForm(forms.ModelForm):
     class Meta:
         model = MalariaR
+        exclude = ('_status', 'type', 'receipt', 'period', \
+                   'entity', 'created_by', 'created_on', \
+                   'modified_by', 'modified_on')
+
+
+class AggMalariaRForm(forms.ModelForm):
+    class Meta:
+        model = AggMalariaR
         exclude = ('_status', 'type', 'receipt', 'period', \
                    'entity', 'created_by', 'created_on', \
                    'modified_by', 'modified_on')
