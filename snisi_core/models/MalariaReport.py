@@ -10,8 +10,10 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
-from bolibana.models import EntityType, Report, MonthPeriod
-from bolibana.models.ReportProvider import SOURCE_LEVEL, AGGREGATED_LEVEL
+from bolibana.models.EntityType import EntityType
+from bolibana.models.Report import Report
+from bolibana.models.Period import MonthPeriod
+from bolibana.models.ExpectedReporting import SOURCE_LEVEL, AGGREGATED_LEVEL
 
 from common import (pre_save_report, post_save_report, report_create_from,
                     aggregated_model_report_pre_save)
