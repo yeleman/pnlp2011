@@ -10,12 +10,13 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
-from bolibana.models import Report, MonthPeriod
+from bolibana.models.Period import MonthPeriod
 from bolibana.models.Report import ValidationMixin
 from bolibana.tools.utils import generate_receipt
 
 from common import (pre_save_report, post_save_report, report_create_from,
                     aggregated_model_report_pre_save)
+from SNISIReport import SNISIReport
 
 
 class FPMethodManager(models.Manager):
@@ -53,7 +54,7 @@ class StockoutManager(models.Manager, ValidationMixin, StockoutMixin):
         return StockoutQuerySet(self.model, using=self._db)
 
 
-class RHProductsR(Report):
+class RHProductsR(SNISIReport):
 
     """ Complies with bolibana.reporting.DataBrowser """
 
@@ -228,7 +229,7 @@ class RHProductsR(Report):
 
     @classmethod
     def start(cls, period, entity, author,
-               type=Report.TYPE_SOURCE, is_late=False, *args, **kwargs):
+               type=SNISIReport.TYPE_SOURCE, is_late=False, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
         report = cls(period=period, entity=entity, created_by=author,
                      modified_by=author, _status=cls.STATUS_CREATED,
@@ -315,7 +316,7 @@ receiver(post_save, sender=RHProductsR)(post_save_report)
 reversion.register(RHProductsR)
 
 
-class AggRHProductsR(Report):
+class AggRHProductsR(SNISIReport):
 
     class Meta:
         app_label = 'snisi_core'
@@ -407,7 +408,7 @@ class AggRHProductsR(Report):
 
     @classmethod
     def start(cls, period, entity, author,
-              type=Report.TYPE_AGGREGATED, *args, **kwargs):
+              type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
         report = cls(period=period, entity=entity, created_by=author,
                      modified_by=author, _status=cls.STATUS_CREATED,

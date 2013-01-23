@@ -8,15 +8,14 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-
-from bolibana.models.Report import Report
 from bolibana.models.Period import WeekPeriod
 from bolibana.tools.utils import generate_receipt
 
 from common import pre_save_report, post_save_report
+from SNISIReport import SNISIReport
 
 
-class EpidemiologyR(Report):
+class EpidemiologyR(SNISIReport):
 
     class Meta:
         app_label = 'snisi_core'
@@ -120,7 +119,7 @@ class EpidemiologyR(Report):
 
     @classmethod
     def start(cls, period, entity, author, \
-               type=Report.TYPE_SOURCE, *args, **kwargs):
+               type=SNISIReport.TYPE_SOURCE, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
         report = cls(period=period, entity=entity, created_by=author, \
                      modified_by=author, _status=cls.STATUS_CREATED, \
@@ -166,7 +165,7 @@ class EpidemiologyR(Report):
     @classmethod
     def create_aggregated(cls, period, entity, author, *args, **kwargs):
         agg_report = cls.start(period, entity, author,
-                               type=Report.TYPE_AGGREGATED, *args, **kwargs)
+                               type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs)
 
         sources = EpidemiologyR.validated\
                                .filter(period=period,

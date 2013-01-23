@@ -11,12 +11,12 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
 from bolibana.models.EntityType import EntityType
-from bolibana.models.Report import Report
 from bolibana.models.Period import MonthPeriod
 from bolibana.models.ExpectedReporting import SOURCE_LEVEL, AGGREGATED_LEVEL
 
 from common import (pre_save_report, post_save_report, report_create_from,
                     aggregated_model_report_pre_save)
+from SNISIReport import SNISIReport
 
 
 class MalariaRIface(object):
@@ -96,7 +96,7 @@ class MalariaRIface(object):
 
     @classmethod
     def start(cls, period, entity, author, \
-               type=Report.TYPE_SOURCE, is_late=False, *args, **kwargs):
+               type=SNISIReport.TYPE_SOURCE, is_late=False, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
         report = cls(period=period, entity=entity, created_by=author, \
                      modified_by=author, _status=cls.STATUS_CREATED, \
@@ -279,7 +279,7 @@ class MalariaRIface(object):
         return validator.errors
 
 
-class MalariaR(Report, MalariaRIface):
+class MalariaR(SNISIReport, MalariaRIface):
 
     """ Complies with bolibana.reporting.DataBrowser """
 
@@ -395,7 +395,7 @@ class MalariaR(Report, MalariaRIface):
     @classmethod
     def create_aggregated(cls, period, entity, author, *args, **kwargs):
         agg_report = cls.start(period, entity, author, \
-               type=Report.TYPE_AGGREGATED, *args, **kwargs)
+               type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs)
 
         sources = MalariaR.validated.filter(period=period, \
             entity__in=entity.get_children())
@@ -434,7 +434,7 @@ receiver(post_save, sender=MalariaR)(post_save_report)
 reversion.register(MalariaR)
 
 
-class AggMalariaR(Report, MalariaRIface):
+class AggMalariaR(SNISIReport, MalariaRIface):
 
     REPORTING_LEVEL = AGGREGATED_LEVEL
 

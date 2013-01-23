@@ -8,7 +8,8 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-from bolibana.models import Entity, IndividualReport, Report
+from bolibana.models.Entity import Entity
+from SNISIReport import SNISIReport, SNISIIndividualReport
 
 from common import pre_save_report, post_save_report
 
@@ -26,7 +27,7 @@ class PeriodManager(models.Manager):
                                                dod__lte=period.end_on)
 
 
-class ChildrenDeathR(IndividualReport):
+class ChildrenDeathR(SNISIIndividualReport):
 
     HOME = 'D'
     CENTER = 'C'
@@ -132,7 +133,7 @@ class ChildrenDeathR(IndividualReport):
 reversion.register(ChildrenDeathR)
 
 
-class AggChildrenDeathR(Report):
+class AggChildrenDeathR(SNISIReport):
 
     class Meta:
         app_label = 'snisi_core'
@@ -182,7 +183,7 @@ class AggChildrenDeathR(Report):
 
     @classmethod
     def start(cls, period, entity, author, \
-              type=Report.TYPE_AGGREGATED, *args, **kwargs):
+              type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs):
         report = cls(period=period, entity=entity, created_by=author, \
                      modified_by=author, _status=cls.STATUS_CREATED, \
                      type=type)
