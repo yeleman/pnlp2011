@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+    <object pk="AggChildrenDeathReport" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport mensuel de mortalité infantile</field>
+        <field type="CharField" name="cls">AggChildrenDeathR</field>
+        <field type="CharField" name="period_cls">MonthPeriod</field>
+        <field type="CharField" name="report_type">r</field>
+    </object>
+    <object pk="aggmalariareport" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport mensuel aggré de Paludisme</field>
+        <field type="CharField" name="cls">AggMalariaR</field>
+        <field type="CharField" name="period_cls">MonthPeriod</field>
+        <field type="CharField" name="report_type">r</field>
+    </object>
+    <object pk="AggMaternalDeathReport" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport mensuel de mortalité feminine</field>
+        <field type="CharField" name="cls">AggMaternalDeathR</field>
+        <field type="CharField" name="period_cls">MonthPeriod</field>
+        <field type="CharField" name="report_type">r</field>
+    </object>
+    <object pk="AggRHProductsReport" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport mensuel aggré de produits</field>
+        <field type="CharField" name="cls">AggRHProductsR</field>
+        <field type="CharField" name="period_cls">MonthPeriod</field>
+        <field type="CharField" name="report_type">r</field>
+    </object>
+    <object pk="alert" model="bolibana.reportclass">
+        <field type="CharField" name="name">Alerte journalière</field>
+        <field type="CharField" name="cls">Alert</field>
+        <field type="CharField" name="period_cls">DayPeriod</field>
+        <field type="CharField" name="report_type">r</field>
+    </object>
+    <object pk="ChildrenDeathReport" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport individuel de mortalité infantile</field>
+        <field type="CharField" name="cls">ChildrenDeathR</field>
+        <field type="CharField" name="period_cls">DayPeriod</field>
+        <field type="CharField" name="report_type">i</field>
+    </object>
+    <object pk="EpidemiologyReport" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport hebdomadaire</field>
+        <field type="CharField" name="cls">EpidemiologyR</field>
+        <field type="CharField" name="period_cls">WeekPeriod</field>
+        <field type="CharField" name="report_type">r</field>
+    </object>
+    <object pk="malariareport" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport mensuel de Paludisme</field>
+        <field type="CharField" name="cls">MalariaR</field>
+        <field type="CharField" name="period_cls">MonthPeriod</field>
+        <field type="CharField" name="report_type">r</field>
+    </object>
+    <object pk="MaternalDeathReport" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport individuel de mortalité feminine</field>
+        <field type="CharField" name="cls">MaternalDeathR</field>
+        <field type="CharField" name="period_cls">DayPeriod</field>
+        <field type="CharField" name="report_type">i</field>
+    </object>
+    <object pk="RHProductsReport" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport mensuel de produits</field>
+        <field type="CharField" name="cls">RHProductsR</field>
+        <field type="CharField" name="period_cls">MonthPeriod</field>
+        <field type="CharField" name="report_type">r</field>
+    </object>
+</django-objects>
