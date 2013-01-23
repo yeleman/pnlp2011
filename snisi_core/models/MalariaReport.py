@@ -206,13 +206,6 @@ class MalariaRIface(object):
         self.stockout_rdt = stockout_rdt
         self.stockout_sp = stockout_sp
 
-    def fill_blank(self):
-        self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        self.add_overfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        self.add_pregnantwomen_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        self.add_stockout_data(self.NO, self.NO, self.NO, self.NO, self.NO, \
-                               self.NO, self.NO, self.NO, self.NO)
-
     def to_dict(self):
         d = {}
         for field in self.data_field():
@@ -220,7 +213,7 @@ class MalariaRIface(object):
         return d
 
     @classmethod
-    def data_field(cls):
+    def data_fields(cls):
         fields = []
         for field in cls._meta.get_all_field_names():
             try:
@@ -392,6 +385,13 @@ class MalariaR(SNISIReport, MalariaRIface):
                                      verbose_name=_(u"Sources"), \
                                      blank=True, null=True)
 
+    def fill_blank(self):
+        self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_overfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_pregnantwomen_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_stockout_data(self.NO, self.NO, self.NO, self.NO, self.NO, \
+                               self.NO, self.NO, self.NO, self.NO)
+
     @classmethod
     def create_aggregated(cls, period, entity, author, *args, **kwargs):
         agg_report = cls.start(period, entity, author, \
@@ -540,54 +540,36 @@ class AggMalariaR(SNISIReport, MalariaRIface):
                                          blank=True, null=True,
                                          related_name='aggregated_agg_malaria_reports')
 
+    def fill_blank(self):
+        self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_overfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_pregnantwomen_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_stockout_data(0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.nb_prompt = 0
+
     @classmethod
     def create_from(cls, period, entity, author):
-        return report_create_from(cls, period, entity,
-                                  author, indiv_cls=MalariaR)
+        return report_create_from(cls, period=period, entity=entity,
+                                  author=author, indiv_cls=MalariaR)
 
     @classmethod
     def update_instance_with_indiv(cls, report, instance):
 
         for field in instance.data_fields():
-            if field in ('family_planning', 'delivery_services'):
-                if getattr(instance, field):
-                    agg_field = u'%s_provided' % field
-                    setattr(report, agg_field,
-                            getattr(report, agg_field, 0) + 1)
-            elif field in ('female_sterilization', 'male_sterilization'):
 
-                if getattr(instance, field, instance.SUPPLIES_NOT_PROVIDED) \
-                    in (instance.SUPPLIES_AVAILABLE,
-                        instance.SUPPLIES_NOT_AVAILABLE):
-
-                    prov_field = u'%s_provided' % field
-                    setattr(report, prov_field,
-                            getattr(report, prov_field, 0) + 1)
-
-                    if getattr(instance, field,
-                               instance.SUPPLIES_NOT_PROVIDED) == \
-                        instance.SUPPLIES_AVAILABLE:
-
-                        avail_field = u'%s_available' % field
-                        setattr(report, avail_field,
-                            getattr(report, avail_field, 0) + 1)
+            if field.startswith('stockout'):
+                if getattr(instance, field) == instance.YES:
+                    setattr(report, field,
+                    getattr(report, field, 0) + 1)
             elif field == 'is_late':
                 prompt_field = 'nb_prompt'
                 if not getattr(instance, field):
                     setattr(report, prompt_field,
                     getattr(report, prompt_field, 0) + 1)
             else:
-                if getattr(instance, field, instance.NOT_PROVIDED) != \
-                    instance.NOT_PROVIDED:
-
-                    prov_field = u'%s_provided' % field
-                    setattr(report, prov_field,
-                            getattr(report, prov_field, 0) + 1)
-
-                    if getattr(instance, field, instance.NOT_PROVIDED) > 0:
-                        avail_field = u'%s_available' % field
-                        setattr(report, avail_field,
-                            getattr(report, avail_field, 0) + 1)
+                setattr(report, field,
+                        getattr(report, field, 0)
+                        + getattr(instance, field, 0))
 
     @classmethod
     def update_instance_with_agg(cls, report, instance):

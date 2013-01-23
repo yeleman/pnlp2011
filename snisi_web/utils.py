@@ -6,7 +6,8 @@ import random
 
 from django.contrib.auth.models import ContentType
 
-from bolibana.models import Access, Role
+from bolibana.models.Access import Access
+from bolibana.models.Role import Role
 
 proverbs = [
     ('bm', u"dɔlɔ tɛ bɔ bɛɛ ka fɔ la", \

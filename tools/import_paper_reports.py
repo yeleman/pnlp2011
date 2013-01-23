@@ -10,6 +10,7 @@ from snisi_core.excel import MalariaExcelForm
 from bolibana.tools.utils import get_autobot
 from bolibana.reporting.excel import IncorrectReportData
 
+
 def submit_excel_file(filepath, author, success='success', error='error'):
 
     # store basename
@@ -45,6 +46,7 @@ def submit_excel_file(filepath, author, success='success', error='error'):
     err_f.close()
     return False
 
+
 def import_all(src_folder):
     author = get_autobot()
     success_dir = 'success'
@@ -60,17 +62,19 @@ def import_all(src_folder):
         submit_excel_file(os.path.join(src_folder, fname),
                           author, success_dir, error_dir)
 
+
 def cleanup_db():
-    from snisi_core.models import MalariaReport, Alert
+    from snisi_core.models.MalariaReport import MalariaR
+    from snisi_core.alert import Alert
 
     # CIV, VY (all)
-    MalariaReport.objects.filter(entity__parent__slug='bamako').delete()
+    MalariaR.objects.filter(entity__parent__slug='bamako').delete()
 
     # Bamako (all)
-    MalariaReport.objects.filter(entity__slug='bamako').delete()
+    MalariaR.objects.filter(entity__slug='bamako').delete()
 
     # Mali (all)
-    MalariaReport.objects.filter(entity__slug='mali').delete()
+    MalariaR.objects.filter(entity__slug='mali').delete()
 
     # Alert CSCOM 11, 12, 01
     Alert.objects.filter(alert_id__in=('112011', '122011', '012012')).delete()
