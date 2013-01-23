@@ -2,9 +2,10 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
+
 from bolibana.reporting.indicators import (IndicatorTable, \
                                            reference, indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
+from snisi_core.models import MalariaReport, AggMalariaR
 
 
 class TableauPromptitudeRapportage(IndicatorTable):
@@ -35,12 +36,14 @@ class TableauPromptitudeRapportage(IndicatorTable):
            u"de collecte dans les délais prévus")
     def number_tautovalide(self, period):
         if self.entity.type.slug == 'cscom':
-            descendants = [self.entity]
+            if MalariaReport.objects.get(period=period,
+                                            entity=self.entity).is_late:
+                return 0
+            else:
+                return 1
         else:
-            descendants = self.entity.get_descendants()\
-                                     .filter(type__slug='cscom')
-        return MalariaR.objects.filter(period=period,
-                                            entity__in=descendants).count()
+            return AggMalariaR.objects.get(period=period,
+                                            entity=self.entity).nb_prompt
 
 
 class FigurePromptitudeRapportage(IndicatorTable):
@@ -76,10 +79,12 @@ class FigurePromptitudeRapportage(IndicatorTable):
     def number_tautovalide(self, period):
         if self.entity.type.slug == 'cscom':
             descendants = [self.entity]
+            return MalariaReport.objects.filter(period=period,
+                                            entity__in=descendants).count()
         else:
             descendants = self.entity.get_descendants()\
                                      .filter(type__slug='cscom')
-        return MalariaR.objects.filter(period=period,
+            return AggMalariaR.objects.filter(period=period,
                                             entity__in=descendants).count()
 
 WIDGETS = [TableauPromptitudeRapportage, FigurePromptitudeRapportage]
