@@ -7,7 +7,7 @@ import re
 
 from datetime import date, timedelta
 
-from bolibana.models import Provider
+from bolibana.models.Provider import Provider
 
 
 def contact_for(identity):

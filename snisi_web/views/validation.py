@@ -15,13 +15,14 @@ from snisi_core.data import (provider_entity, current_reporting_period, \
                              time_can_validate, current_period, \
                              contact_for, \
                              MalariaDataHolder, \
-                             MalariaReportForm, \
+                             MalariaRForm, \
+                             AggMalariaRForm, \
                              time_cscom_over, time_district_over, \
                              time_region_over)
 
 from bolibana.web.decorators import provider_permission
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.validators.malaria import MalariaReportValidator
+from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
+from snisi_core.validators.malaria import MalariaRValidator
 from snisi_core.data import provider_can_or_403
 
 
@@ -65,15 +66,23 @@ def validation_list(request):
 def report_validation(request, report_receipt):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
+    type_report = 'MalariaR'
+    try:
+        report = get_object_or_404(MalariaR, receipt=report_receipt)
+    except:
+        type_report = 'AggMalariaR'
+        report = get_object_or_404(AggMalariaR, receipt=report_receipt)
 
-    report = get_object_or_404(MalariaR, receipt=report_receipt)
     context.update({'report': report})
 
     # check permission or raise 403
     provider_can_or_403('can_validate_report', web_provider, report.entity)
 
     if request.method == 'POST':
-        form = MalariaReportForm(request.POST, instance=report)
+        if type_report == 'MalariaR':
+            form = MalariaRForm(request.POST, instance=report)
+        else:
+            form = AggMalariaRForm(request.POST, instance=report)
         if form.is_valid():
             data_browser = MalariaDataHolder()
 
@@ -92,7 +101,7 @@ def report_validation(request, report_receipt):
             data_browser.set('author', report.created_by.name())
 
             # create validator and fire
-            validator = MalariaReportValidator(data_browser, data_only=True,
+            validator = MalariaRValidator(data_browser, data_only=True,
                                           is_editing=True,
                                           level=web_provider.first_role().slug)
             validator.errors.reset()
@@ -121,7 +130,10 @@ def report_validation(request, report_receipt):
             # django form validation errors
             pass
     else:
-        form = MalariaReportForm(instance=report)
+        if type_report == 'MalariaR':
+            form = MalariaRForm(instance=report)
+        else:
+            form = AggMalariaRForm(instance=report)
 
     context.update({'form': form})
 
@@ -133,7 +145,10 @@ def report_do_validation(request, report_receipt):
     context = {'category': 'validation'}
     web_provider = request.user.get_profile()
 
-    report = get_object_or_404(MalariaR, receipt=report_receipt)
+    try:
+        report = get_object_or_404(MalariaR, receipt=report_receipt)
+    except:
+        report = get_object_or_404(MalariaR, receipt=report_receipt)
 
     # check permission or raise 403
     provider_can_or_403('can_validate_report', web_provider, report.entity)

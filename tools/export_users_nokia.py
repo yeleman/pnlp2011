@@ -2,7 +2,7 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from bolibana.models import Provider
+from bolibana.models.Provider import Provider
 
 
 def filter_pilot_cscom(provider):
