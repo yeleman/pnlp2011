@@ -206,13 +206,6 @@ class MalariaRIface(object):
         self.stockout_rdt = stockout_rdt
         self.stockout_sp = stockout_sp
 
-    def fill_blank(self):
-        self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        self.add_overfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        self.add_pregnantwomen_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        self.add_stockout_data(self.NO, self.NO, self.NO, self.NO, self.NO, \
-                               self.NO, self.NO, self.NO, self.NO)
-
     def to_dict(self):
         d = {}
         for field in self.data_field():
@@ -392,6 +385,13 @@ class MalariaR(SNISIReport, MalariaRIface):
                                      verbose_name=_(u"Sources"), \
                                      blank=True, null=True)
 
+    def fill_blank(self):
+        self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_overfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_pregnantwomen_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_stockout_data(self.NO, self.NO, self.NO, self.NO, self.NO, \
+                               self.NO, self.NO, self.NO, self.NO)
+
     @classmethod
     def create_aggregated(cls, period, entity, author, *args, **kwargs):
         agg_report = cls.start(period, entity, author, \
@@ -540,10 +540,17 @@ class AggMalariaR(SNISIReport, MalariaRIface):
                                          blank=True, null=True,
                                          related_name='aggregated_agg_malaria_reports')
 
+    def fill_blank(self):
+        self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_overfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_pregnantwomen_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.add_stockout_data(0, 0, 0, 0, 0, 0, 0, 0, 0)
+        self.nb_prompt = 0
+
     @classmethod
     def create_from(cls, period, entity, author):
-        return report_create_from(cls, period, entity,
-                                  author, indiv_cls=MalariaR)
+        return report_create_from(cls, period=period, entity=entity,
+                                  author=author, indiv_cls=MalariaR)
 
     @classmethod
     def update_instance_with_indiv(cls, report, instance):
