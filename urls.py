@@ -24,18 +24,18 @@ if hasattr(settings, 'SYSTEM_CLOSED') and settings.SYSTEM_CLOSED:
     url(r'^static/admin/(?P<path>.*)$',
              'django.views.static.serve',
              {'document_root': os.path.join(os.path.dirname(\
-                                            os.path.abspath(admin.__file__)), \
-                               'media'), 'show_indexes': True}, \
+                                            os.path.abspath(admin.__file__)),
+                               'media'), 'show_indexes': True},
              name='static_admin'),
 
     url(r'^static/(?P<path>.*)$',
              'django.views.static.serve',
-             {'document_root': STATIC_ROOT, 'show_indexes': True}, \
+             {'document_root': STATIC_ROOT, 'show_indexes': True},
              name='static'),
 
     url(r'^media/(?P<path>.*)$',
              'django.views.static.serve',
-             {'document_root': MEDIA_ROOT, 'show_indexes': True}, \
+             {'document_root': MEDIA_ROOT, 'show_indexes': True},
              name='media'),
 
     )
@@ -44,4 +44,3 @@ else:
         url(r'', include(pnlp_urls)),
         url(r'^admin/', include(admin.site.urls)),
     )
-
