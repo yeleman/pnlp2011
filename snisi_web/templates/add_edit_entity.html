@@ -32,7 +32,7 @@
             <tr>
                 <form method="POST" action="{% url edit_entity entity_id=entity_id %}">
                     {% csrf_token %}
-                    <input type="hidden" value="{{form.instance.id}}" name="scheduled_id"/>
+                    <input type="hidden" value="{%if form.instance.id %}{{form.instance.id}}{% else %}{{fake_instance.id}}{%endif%}" name="scheduled_id"/>
                     <td>{%if form.instance.report_class %}{{form.instance.report_class}}{% else %}{{fake_instance.report_class}}{%endif%}</td>
                     {% for field in form %}
                         <td{%if field.errors %} class="error" title="{% for error in field.errors %}{{ error }}{% endfor %}"{% endif %}>
