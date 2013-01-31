@@ -28,7 +28,7 @@ def import_path(name):
 @provider_permission('can_view_raw_data')
 def indicator_browser(request, entity_code=None, period_str=None, \
                     section_index='1', sub_section=None):
-    context = {'category': 'indicator_data'}
+    context = {'category': 'indicator_data', 'menu': 'palu'}
     web_provider = request.user.get_profile()
 
     root = web_provider.first_target()

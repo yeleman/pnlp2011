@@ -33,7 +33,7 @@ def sms_for_period(period):
 @provider_permission('can_monitor_transmission')
 def monitoring_transmission(request):
     """ stats of transmission """
-    context = {'category': 'monitoring_transmission'}
+    context = {'category': 'monitoring_transmission', 'menu': 'palu'}
 
     period = current_reporting_period()
 
