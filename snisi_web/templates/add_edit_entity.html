@@ -27,7 +27,7 @@
 {% if scheduled_forms %}
     <h2>Participations</h2>
     <table>
-        <tr><th>Report</th><th>Level</th><th>du</th><th>au</th><th></th></tr>
+        <tr><th>Rapport</th><th>Niveau</th><th>A partir du</th><th>jusqu'au</th><th></th></tr>
         {% for form in scheduled_forms %}
             <tr>
                 <form method="POST" action="{% url edit_entity entity_id=entity_id %}">
