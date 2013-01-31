@@ -7,6 +7,9 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 from bolibana.models.Entity import Entity
+from bolibana.models.ReportClass import ReportClass
+from bolibana.models.ScheduledReporting import ScheduledReporting
+from bolibana.models.ExpectedReporting import ExpectedReporting
 from bolibana.models.EntityType import EntityType
 from bolibana.models.Period import Period
 from bolibana.admin import EntityAdmin, EntityTypeAdmin, PeriodAdmin
@@ -58,3 +61,6 @@ admin.site.register(AggChildrenDeathR)
 admin.site.register(RHProductsR)
 admin.site.register(AggRHProductsR)
 admin.site.register(EpidemiologyR)
+admin.site.register(ReportClass)
+admin.site.register(ScheduledReporting)
+admin.site.register(ExpectedReporting)
