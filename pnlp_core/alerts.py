@@ -60,9 +60,9 @@ class IndividualMalariaReportCreated(Alert):
                   u"a ete recu. Vous devez le valider." \
                   % {'receipt': report.receipt, 'entity': report.entity}
 
-        if contact.phone_number:
-            send_sms(contact.phone_number, message)
-        elif contact.email:
+        # if contact.phone_number:
+        #     send_sms(contact.phone_number, message)
+        if contact.email:
             send_email(recipients=contact.email, message=message, \
                        title=u"[PNLP] Nouveau rapport recu!")
         else:
@@ -201,7 +201,7 @@ class EndOfCSComPeriod(Alert):
                     " Il est desormais trop tard pour l'envoyer. " \
                     "Vos donnees ne seront donc pas integrees."
         for contact in [contact_for(entity, recursive=False) \
-                        for entity in self.get_bad_cscom()]:
+                        for entity in mobile_entity_gen(self.get_bad_cscom())]:
             if not contact or not contact.phone_number:
                 continue
 
@@ -230,7 +230,7 @@ class EndOfCSComPeriod(Alert):
                 msg_unval = u""
 
             if e['unsent']:
-                msg_unsent = u"%(nb)s n'ont pas envoyer leur rapport " \
+                msg_unsent = u"%(nb)s n'ont pas envoye leur rapport " \
                              u"mensuel dans les temps!" % {'nb': e['unsent']}
             else:
                 msg_unsent = u""
@@ -387,8 +387,12 @@ class EndOfDistrictPeriod(Alert):
             message = u"[PNLP] La periode de validation CSRef est " \
                       u"terminee. Vous avez %(nb)d rapports de " \
                       u"CSRef a valider." % {'nb': nb_reports}
+            email_title = u"[PNLP] Fin de la periode de validation CSRef"
 
-            send_sms(to=contact.phone_number, text=message)
+            if not contact.email:
+                continue
+            send_email(contact.email, message=message, title=email_title)
+            # send_sms(to=contact.phone_number, text=message)
 
 
 def level_statistics(period, level):
@@ -420,6 +424,16 @@ def cscom_without_report(period):
                                     .values_list('entity__id', flat=True)
     return list(Entity.objects.filter(~models.Q(pk__in=reported), \
                                       type__slug='cscom'))
+
+
+def mobile_entity_gen(entities):
+    """ Filter on Niono/Macina (mobile users) """
+    for entity in entities:
+        try:
+            if entity.parent.slug in ('nion', 'maci'):
+                yield entity
+        except:
+            pass
 
 
 class Reminder(Alert):
@@ -485,7 +499,7 @@ class Reminder(Alert):
                       u"attendu au plus tard le %(date)s" \
                       % {'date': date(today.year, \
                                       today.month, 5).strftime('%x')}
-            for cscom in cscom_without_report(self.args.period):
+            for cscom in mobile_entity_gen(cscom_without_report(self.args.period)):
                 contact = contact_for(cscom, recursive=False)
                 if not contact or not contact.phone_number:
                     continue
@@ -520,8 +534,12 @@ class Reminder(Alert):
                       % {'unval': stat['unval'], \
                          'date': date(today.year, \
                                       today.month, dom).strftime('%x')}
-
-            send_sms(to=contact.phone_number, text=message)
+            email_title = u"[PNLP] Rapports a valider"
+            # send_sms(to=contact.phone_number, text=message)
+            if not contact.email:
+                continue
+            sent, sent_message = send_email(recipients=contact.email,
+                       message=message, title=email_title)
 
 
 class EndOfMonth(Alert):
@@ -547,22 +565,26 @@ class EndOfMonth(Alert):
         # 2. We are in the next period as P (don't trigger is it's too late
         return self.not_triggered \
                and datetime.now() >= (self.args.period.end_on \
-                                      - timedelta(days=2)) \
+                                      - timedelta(days=1)) \
                 and self.args.period == current_reporting_period()
 
     def action(self):
         """ send SMS to HOTLINE """
 
         message = u"[PNLP] La periode %(period)s va commencer. " \
-                  u"Il faut envoyer du credit aux utilisateurs." \
+                  u"Il faut s'occuper de la surveillance de la collecte " \
+                  u"des donnees primaires." \
                   % {'period': self.args.period.next()\
                                                .full_name()}
 
         send_sms(to=settings.HOTLINE_NUMBER, text=message)
 
-        malitel_url = full_url(path=reverse('malitel'))
+        # malitel_url = full_url(path=reverse('malitel'))
         title = u"[PNLP] La période va commencer."
+        # sent, sent_message = send_email(recipients=settings.HOTLINE_EMAIL, \
+        #                                 template='emails/send_airtime.txt', \
+        #                                 context={'url': malitel_url}, \
+        #                                 title=title)
         sent, sent_message = send_email(recipients=settings.HOTLINE_EMAIL, \
-                                        template='emails/send_airtime.txt', \
-                                        context={'url': malitel_url}, \
+                                        message=message, \
                                         title=title)
