@@ -194,6 +194,7 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
         return True
 
     from snisi_core.data import time_is_prompt
+
     try:
         period = MonthPeriod.find_create_from(year=int(data_browser
                                             .get('reporting_year')),

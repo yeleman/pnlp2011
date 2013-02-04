@@ -33,7 +33,7 @@ def sms_for_period(period):
 @provider_permission('can_monitor_transmission')
 def monitoring_transmission(request):
     """ stats of transmission """
-    context = {'category': 'monitoring_transmission'}
+    context = {'category': 'monitoring_transmission', 'menu': 'palu'}
 
     period = current_reporting_period()
 
@@ -67,7 +67,7 @@ def log_message(request):
 
     def name_phone(sms):
         """ Search name provider """
-        from bolibana.models import Provider
+        from bolibana.models.Provider import Provider
 
         if len(sms.identity.split('+223')) == 2:
             indicatif, phone = sms.identity.split('+223')

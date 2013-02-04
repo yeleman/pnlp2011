@@ -42,6 +42,7 @@ def report_create_from(cls, period, entity, author, indiv_cls=None):
     # create empty
     agg_report = cls.start(entity=entity, period=period, author=author)
     agg_report.type = cls.TYPE_AGGREGATED
+    agg_report.fill_blank()
 
     # find list of sources
     indiv_sources = indiv_cls \
@@ -53,16 +54,15 @@ def report_create_from(cls, period, entity, author, indiv_cls=None):
 
     sources = list(indiv_sources) + list(agg_sources)
 
-    if len(sources) == 0:
-        agg_report.fill_blank()
-        agg_report.save()
-
     # loop on all sources
     for source in sources:
         if isinstance(source, indiv_cls):
             cls.update_instance_with_indiv(agg_report, source)
         elif isinstance(source, cls):
             cls.update_instance_with_agg(agg_report, source)
+
+    # save to allow m2m
+    agg_report.save()
 
     # keep a record of all sources
     for report in indiv_sources:

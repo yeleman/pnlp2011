@@ -22,13 +22,13 @@ from snisi_core.data import (provider_entity, current_reporting_period, \
 
 from bolibana.web.decorators import provider_permission
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
-from snisi_core.validators.malaria import MalariaRtValidator
+from snisi_core.validators.malaria import MalariaRValidator
 from snisi_core.data import provider_can_or_403
 
 
 @provider_permission('can_validate_report')
 def validation_list(request):
-    context = {'category': 'validation'}
+    context = {'category': 'validation', 'menu': 'palu'}
     web_provider = request.user.get_profile()
 
     entity = provider_entity(web_provider)
@@ -64,7 +64,7 @@ def validation_list(request):
 
 @provider_permission('can_validate_report')
 def report_validation(request, report_receipt):
-    context = {'category': 'validation'}
+    context = {'category': 'validation', 'menu': 'palu'}
     web_provider = request.user.get_profile()
     type_report = 'MalariaR'
     try:
@@ -101,7 +101,7 @@ def report_validation(request, report_receipt):
             data_browser.set('author', report.created_by.name())
 
             # create validator and fire
-            validator = MalariaRtValidator(data_browser, data_only=True,
+            validator = MalariaRValidator(data_browser, data_only=True,
                                           is_editing=True,
                                           level=web_provider.first_role().slug)
             validator.errors.reset()
@@ -142,7 +142,7 @@ def report_validation(request, report_receipt):
 
 @provider_permission('can_validate_report')
 def report_do_validation(request, report_receipt):
-    context = {'category': 'validation'}
+    context = {'category': 'validation', 'menu': 'palu'}
     web_provider = request.user.get_profile()
 
     try:

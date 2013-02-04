@@ -4,7 +4,9 @@
 
 import sys
 
-from bolibana.models import Role, Provider, Access
+from bolibana.models.Role import Role
+from bolibana.models.Provider import Provider
+from bolibana.models.Access import Access
 from bolibana.auth.utils import username_from_name, random_password
 from bolibana.models import Entity
 

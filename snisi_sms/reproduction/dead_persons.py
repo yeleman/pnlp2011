@@ -11,7 +11,7 @@ from snisi_core.models.ChildrenMortalityReport import ChildrenDeathR
 from snisi_core.models.MaternalMortalityReport import MaternalDeathR
 from snisi_core.validators.reproduction import (ChildrenMortalityReportValidator,
                                                 MaternalMortalityReportValidator)
-from bolibana.models import Entity
+from bolibana.models.Entity import Entity
 from snisi_sms.common import contact_for, parse_age_dob
 
 logger = logging.getLogger(__name__)

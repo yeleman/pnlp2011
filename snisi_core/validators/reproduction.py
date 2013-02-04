@@ -115,6 +115,8 @@ class ChildrenMortalityReportValidator(DataValidator):
     def validate(self):
         """ """
 
+        from snisi_core.data import provider_can
+
         # reporting location
         try:
             Entity.objects.get(slug=self.get('reporting_location'))
@@ -172,7 +174,9 @@ class MaternalMortalityReportValidator(DataValidator):
 
     def validate(self):
         """ """
+
         from snisi_core.data import provider_can
+
         # reporting location
         try:
             Entity.objects.get(slug=self.get('reporting_location'))

@@ -80,7 +80,7 @@ class ContactForm(forms.Form):
 
 def contact(request):
     category = 'contact'
-    context = {'category': category}
+    context = {'category': category, 'menu': 'palu'}
 
     try:
         web_provider = request.user.get_profile()
@@ -134,7 +134,7 @@ def contact(request):
 @provider_required
 def dashboard(request):
     category = 'dashboard'
-    context = {'category': category}
+    context = {'category': category, 'menu': 'palu'}
 
     from bolibana.models.Entity import Entity
     from snisi_core.data import (current_period, current_stage,

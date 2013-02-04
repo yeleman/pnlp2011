@@ -8,16 +8,20 @@ from django.utils.translation import ugettext as _
 
 from bolibana.reporting.validator import DataValidator
 from bolibana.reporting.errors import MissingData
-from bolibana.models import Entity, MonthPeriod
+from bolibana.models.Entity import Entity
+from bolibana.models.Period import MonthPeriod
 from snisi_core.models.MalariaReport import MalariaR
 
 
-class MalariaRtValidator(DataValidator):
+class MalariaRValidator(DataValidator):
 
     """ Monthly Malaria Routine Report from CSCOM data validation """
 
     def validate(self):
         """ Test whether attached data matches PNLP's logic requirements """
+
+        from snisi_core.data import (provider_can, time_cscom_over,
+                            time_district_over, time_region_over)
 
         no_more_than_text = _("%(field2)s (%(f2value)d) can't be more "
                             "than %(field1)s (%(f1value)d)")
@@ -39,8 +43,6 @@ class MalariaRtValidator(DataValidator):
                     # this missing data should have already been reported
                     pass
 
-        from snisi_core.data import (provider_can, time_district_over,
-                                     time_region_over, time_cscom_over)
         # total > malaria cases
         test_value_under('total_consultation_all_causes',
                          'total_suspected_malaria_cases', allcats)
