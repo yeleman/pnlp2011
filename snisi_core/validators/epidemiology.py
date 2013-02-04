@@ -21,9 +21,6 @@ class EpidemiologyReportValidator(DataValidator):
         from snisi_core.data import (provider_can, time_cscom_over,
                             time_district_over, time_region_over)
 
-        from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
-
         no_more_than_text = _("%(field2)s (%(f2value)d) can't be more "
                             "than %(field1)s (%(f1value)d)")
 
