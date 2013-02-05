@@ -1,12 +1,16 @@
 // main layout
 
 html {
-    background: none;
+  background-color: @background;
+  background: @background_png repeat top left fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 body {
     font-family: sans-serif;
-    background-color: @background;
     height: 100%;
 }
 
@@ -101,10 +105,9 @@ ul#user-menu li:hover a {
     background-image: @menu_bg_png;
     height: 64px;
     position: absolute;
-    width: 726px;
-    left: 169px;
+    width: 935px;
     bottom: 1px;
-    padding-left: 60px;
+    padding-left: 20px;
 }
 
 #menu ul {
