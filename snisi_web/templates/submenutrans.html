@@ -1,22 +1,9 @@
 {% load bolibana %}
 <div id="submenu" style="padding-top:0; padding-bottom: 0;">
-	<p class="transmissionsub">
-        {% if menu = 'palu' %}
-    		<a href="{% url index %}">Tableau de bord</a>
-            {% if web_provider|has_permission:'can_submit_report_via_excel' %} {% if category = 'upload' %}class="hover"{% endif %}<a href="{% url upload %}">Saisie</a>{% endif %}
-            {% if web_provider|has_permission:'can_validate_report' %} {% if category = 'validation' %}class="hover"{% endif %}<a href="{% url validation %}">Validation</a>{% endif %}
-            {% if web_provider|has_permission:'can_view_raw_data' %} {% if category = 'raw_data' %}class="hover"{% endif %}<a href="{% url raw_data %}">Données brutes</a>{% endif %}
-            {% if web_provider|has_permission:'can_view_indicator_data' %} {% if category = 'indicator_data' %}class="hover"{% endif %}<a href="{% url indicator_data %}">Données analysées</a>{% endif %}
-    		<a href="{% url monitoring_transmission %}">SURV. PRIMAIRE</a>
-    		<a class="toplevel" href="{% url report_unvalidated %}">SURV. VALIDATION</a>
-    		<a href="{% url log_message %}">Messages</a>
-    		<a href="{% url send_message %}">Envoi SMS</a>
-        {% endif %}
-        {% if menu = 'reprod' %}
-            <a href="{% url reprod_index %}">Tableau de bord</a>
-        {% endif %}
-        {% if menu = 'epid' %}
-            <a href="{% url epid_index %}">Tableau de bord</a>
-        {% endif %}
-	</p>
+<p class="transmissionsub">
+<a href="{% url monitoring_transmission %}">Données primaires</a>
+<a class="toplevel" href="{% url report_unvalidated %}">Rapports non validés</a>
+<a href="{% url log_message %}">Messages</a>
+<a href="{% url send_message %}">Envoi SMS</a>
+</p>
 </div>

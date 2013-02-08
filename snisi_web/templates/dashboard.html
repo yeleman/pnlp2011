@@ -6,7 +6,7 @@
 {% block pagetitle %}<h1 class="pagetitle">Système d'information de routine</h1>{% endblock %}
 
 
-{% block submenu %}{% if web_provider|has_permission:'can_monitor_transmission' %}{% include "submenutrans.html" %}{% endif %} {% endblock %}
+{% block submenu %}{% include "submenumalaria.html" %}{% endblock %}
 
 
 {% block content %}
