@@ -10,11 +10,12 @@ from django.http import HttpResponse
 from bolibana.models.Entity import Entity
 from bolibana.models.Period import MonthPeriod
 from snisi_core.data import (MalariaRForm,
-                            raw_data_periods_for,
-                            entities_path,
-                            provider_can_or_403,
-                            provider_can,
-                            current_reporting_period)
+                             AggMalariaRForm,
+                             raw_data_periods_for,
+                             entities_path,
+                             provider_can_or_403,
+                             provider_can,
+                             current_reporting_period)
 
 from bolibana.web.decorators import provider_required, provider_permission
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
@@ -89,7 +90,8 @@ def data_browser(request, entity_code=None, period_str=None):
 
     if greport.report:
         context.update({'report': greport.report, 'greport': greport})
-        form = MalariaRForm(instance=greport.report)
+        form_cls = AggMalariaRForm if greport.is_aggregated else MalariaRForm
+        form = form_cls(instance=greport.report)
         context.update({'form': form})
     else:
         context.update({'no_report': True})
