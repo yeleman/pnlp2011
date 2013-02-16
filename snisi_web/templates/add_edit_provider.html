@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block submenu %}{% include "submenu_admin.html" %}{% endblock %}
+{% block submenu %}{% include "admin/submenu.html" %}{% endblock %}
 
 {% block title %}{% if user_id %}Modification de {{ provider.username }}{% else %}Création d'un compte utilisateur{% endif %}{% endblock %}
 {% block pagetitle %}<h1 class="pagetitle">{% if user_id %}Modification du compte de {{ provider.name }} (<em class="lower">{{ provider.username }}</em>){% else %}Création d'un compte utilisateur{% endif %}</h1>{% endblock %}
