@@ -25,7 +25,6 @@ logger = logging.getLogger(__name__)
 
 
 class IndividualMalariaReportCreated(Alert):
-
     """ An individual Malaria Report Created
 
         Created by the meta MalariaReportCreated Alert
@@ -75,7 +74,6 @@ class IndividualMalariaReportCreated(Alert):
 
 
 class MalariaReportCreated(Alert):
-
     """ Recently Created Malaria Reports (from CSCom, Districts, Region)
 
         Every now and then between 1st..5th of the month
@@ -165,7 +163,6 @@ class MalariaReportCreated(Alert):
 
 
 class EndOfCSComPeriod(Alert):
-
     """ End Of CSCom sending Timeframe
 
         Each month on the 6th.
@@ -276,7 +273,6 @@ class EndOfCSComPeriod(Alert):
 
 
 class EndOfDistrictPeriod(Alert):
-
     """ End Of District Validation Timeframe
 
         Each month on the 16th.
@@ -439,7 +435,6 @@ def mobile_entity_gen(entities):
 
 
 class Reminder(Alert):
-
     """ Reminder of action required
 
         Every day within action time frame
@@ -545,7 +540,6 @@ class Reminder(Alert):
 
 
 class EndOfMonth(Alert):
-
     """ Warn HOTLINE that new period is starting soon
 
         Last day of month

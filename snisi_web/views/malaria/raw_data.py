@@ -15,7 +15,6 @@ from snisi_core.data import (MalariaRForm,
                             provider_can_or_403,
                             current_reporting_period)
 
-from bolibana.models import Entity, MonthPeriod
 from bolibana.web.decorators import provider_required, provider_permission
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 from snisi_core.exports import report_as_excel

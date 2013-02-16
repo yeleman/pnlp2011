@@ -272,7 +272,7 @@ class MalariaRIface(object):
         return validator.errors
 
 
-class MalariaR(SNISIReport, MalariaRIface):
+class MalariaR(MalariaRIface, SNISIReport):
 
     """ Complies with bolibana.reporting.DataBrowser """
 
@@ -434,7 +434,7 @@ receiver(post_save, sender=MalariaR)(post_save_report)
 reversion.register(MalariaR)
 
 
-class AggMalariaR(SNISIReport, MalariaRIface):
+class AggMalariaR(MalariaRIface, SNISIReport):
 
     REPORTING_LEVEL = AGGREGATED_LEVEL
 

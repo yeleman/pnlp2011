@@ -19,8 +19,8 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
                 u" MILD, TDR, SP"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
@@ -69,8 +69,8 @@ class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
     type = 'graph'
     graph_type = 'spline'
 
-    default_options = {'with_percentage': True, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': True}
 

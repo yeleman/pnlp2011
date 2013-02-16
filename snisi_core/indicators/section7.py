@@ -19,8 +19,8 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
              "produits de prise en charge des cas de paludisme grave"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
@@ -67,8 +67,8 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
     type = 'graph'
     graph_type = 'spline'
 
-    default_options = {'with_percentage': True, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': True}
 
@@ -99,5 +99,5 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
         nb_serum = nb_stockout(self.entity, period, 'serum')
         return nb_serum
 
-WIDGETS = [PourcentageStructuresRuptureStockProduitPaluGrave, \
+WIDGETS = [PourcentageStructuresRuptureStockProduitPaluGrave,
             EvolutionStructuresRuptureStockProduitPaluGrave]

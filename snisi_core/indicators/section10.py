@@ -19,8 +19,8 @@ class CasConfirmes(IndicatorTable):
               u" de 5 ans et tout âge confondu"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
@@ -64,9 +64,9 @@ class GrapheConfirmes(CasConfirmes):
               u" de 5 ans et tout âge confondu"
     graph_type = 'spline'
     type = "graph"
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': True}
 
@@ -92,12 +92,12 @@ class NbreHospitalisationDeces(IndicatorTable):
             u"moins 5 ans"
     type = 'table'
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @indicator(0)
@@ -125,8 +125,8 @@ class GrapheNbreHospitalisationDeces(NbreHospitalisationDeces):
     type = 'graph'
     graph_type = 'spline'
 
-    default_options = {'with_percentage': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': False,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': False}
 
@@ -142,8 +142,8 @@ class DecesPaluToutCauses(IndicatorTable):
               u"toutes causes chez les moins de 5 ans"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
@@ -201,8 +201,8 @@ class GrapheDecesPaluToutCauses(DecesPaluToutCauses):
     graph_type = 'spline'
     type = 'graph'
 
-    default_options = {'with_percentage': True, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': True}
 
@@ -244,8 +244,8 @@ class DecesPalu(IndicatorTable):
               u" Bamako/Segou"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
@@ -317,8 +317,8 @@ class GrapheDecesPalu(DecesPalu):
     graph_type = 'spline'
     type = 'graph'
 
-    default_options = {'with_percentage': True, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': True}
 
@@ -346,12 +346,12 @@ class CasTestesConfirmes(IndicatorTable):
               u"paludisme confirmés parmi les cas testés"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
@@ -386,8 +386,8 @@ class GrapheCasTestesConfirmes(CasTestesConfirmes):
     graph_type = 'spline'
     type = 'graph'
 
-    default_options = {'with_percentage': True, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': True}
 
@@ -413,12 +413,12 @@ class NbreConsultationCasSuspect(IndicatorTable):
               u" cas suspects de paludisme"
     type = 'table'
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @indicator(0, 'total_suspected_malaria_cases')
@@ -446,8 +446,8 @@ class GrapheNbreConsultationCasSuspect(NbreConsultationCasSuspect):
     graph_type = 'spline'
     type = 'graph'
 
-    default_options = {'with_percentage': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': False,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': False}
 

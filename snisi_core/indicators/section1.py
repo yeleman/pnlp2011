@@ -3,7 +3,7 @@
 # maintainer: rgaudin
 
 
-from bolibana.reporting.indicators import (IndicatorTable, \
+from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
 from snisi_core.models import MalariaReport, AggMalariaR
 

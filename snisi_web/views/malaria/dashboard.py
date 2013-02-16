@@ -28,11 +28,13 @@ def nb_reports_for(entity, period):
         number = contact_for(entity, True).phone_number
         if not number.startswith('+223'):
             number = '+223' + number
-        incoming_sms = Inbox.objects.filter(receivingdatetime__gte=next_period.start_on,
-                                            receivingdatetime__lte=next_period.end_on,
+        incoming_sms = Inbox.objects.filter( \
+                                    receivingdatetime__gte=next_period.start_on,
+                                    receivingdatetime__lte=next_period.end_on,
                                             sendernumber=number)
-        sent_sms = SentItems.objects.filter(sendingdatetime__gte=next_period.start_on,
-                                           sendingdatetime__lte=next_period.end_on,
+        sent_sms = SentItems.objects.filter( \
+                                    sendingdatetime__gte=next_period.start_on,
+                                       sendingdatetime__lte=next_period.end_on,
                                            destinationnumber=number)
         if incoming_sms.count() != sent_sms.count():
             all_sms = list(incoming_sms) + list(sent_sms)

@@ -8,16 +8,16 @@ import reversion
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
-from snisi_core.data import (provider_entity, current_reporting_period, \
-                             get_reports_to_validate, \
-                             get_validated_reports, \
-                             get_not_received_reports, \
-                             time_can_validate, current_period, \
-                             contact_for, \
-                             MalariaDataHolder, \
-                             MalariaRForm, \
-                             AggMalariaRForm, \
-                             time_cscom_over, time_district_over, \
+from snisi_core.data import (provider_entity, current_reporting_period,
+                             get_reports_to_validate,
+                             get_validated_reports,
+                             get_not_received_reports,
+                             time_can_validate, current_period,
+                             contact_for,
+                             MalariaDataHolder,
+                             MalariaRForm,
+                             AggMalariaRForm,
+                             time_cscom_over, time_district_over,
                              time_region_over)
 
 from bolibana.web.decorators import provider_permission

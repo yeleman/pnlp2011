@@ -45,17 +45,17 @@ class MalariaDataHolder(object):
             setattr(self, slug, data)
 
     def fields_for(self, cat):
-        u5fields = ['u5_total_consultation_all_causes', \
-                    'u5_total_suspected_malaria_cases', \
-                    'u5_total_simple_malaria_cases', \
-                    'u5_total_severe_malaria_cases', \
-                    'u5_total_tested_malaria_cases', \
-                    'u5_total_confirmed_malaria_cases', \
-                    'u5_total_treated_malaria_cases', \
-                    'u5_total_inpatient_all_causes', \
-                    'u5_total_malaria_inpatient', \
-                    'u5_total_death_all_causes', \
-                    'u5_total_malaria_death', \
+        u5fields = ['u5_total_consultation_all_causes',
+                    'u5_total_suspected_malaria_cases',
+                    'u5_total_simple_malaria_cases',
+                    'u5_total_severe_malaria_cases',
+                    'u5_total_tested_malaria_cases',
+                    'u5_total_confirmed_malaria_cases',
+                    'u5_total_treated_malaria_cases',
+                    'u5_total_inpatient_all_causes',
+                    'u5_total_malaria_inpatient',
+                    'u5_total_death_all_causes',
+                    'u5_total_malaria_death',
                     'u5_total_distributed_bednets']
         if cat == 'u5':
             return u5fields
@@ -67,14 +67,14 @@ class MalariaDataHolder(object):
             fields.extend(['pw_total_anc1', 'pw_total_sp1', 'pw_total_sp2'])
             return fields
         if cat == 'so':
-            return ['stockout_act_children', \
-                    'stockout_act_youth', \
-                    'stockout_act_adult', \
-                    'stockout_artemether', \
-                    'stockout_quinine', \
-                    'stockout_serum', \
-                    'stockout_bednet', \
-                    'stockout_rdt', \
+            return ['stockout_act_children',
+                    'stockout_act_youth',
+                    'stockout_act_adult',
+                    'stockout_artemether',
+                    'stockout_quinine',
+                    'stockout_serum',
+                    'stockout_bednet',
+                    'stockout_rdt',
                     'stockout_sp']
 
     def data_for_cat(self, cat, as_dict=False):
@@ -180,7 +180,7 @@ def contact_for(entity, recursive=True):
     ct, oi = Access.target_data(entity)
     providers = Provider.active\
                         .filter(access__in=Access.objects\
-                                                 .filter(content_type=ct, \
+                                                 .filter(content_type=ct,
                                                          object_id=oi))
     if providers.count() == 1:
             return providers.all()[0]
