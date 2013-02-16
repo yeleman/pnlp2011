@@ -8,7 +8,7 @@
 {% block pagetitle %}<h1 class="pagetitle">Rapports à valider pour la période de {{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
 {% block content-class %}{% if validated %}context withsidebar{% endif %}{% endblock %}
 
-{% block submenu %}{% include "submenumalaria.html" %}{% endblock %}
+{% block submenu %}{% include "malaria/submenu.html" %}{% endblock %}
 
 {% block jqueryonload %}addJQEventsForValidationList();{% endblock %}
 

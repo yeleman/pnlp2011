@@ -28,7 +28,7 @@ from snisi_core.data import provider_can_or_403
 
 @provider_permission('can_validate_report')
 def validation_list(request):
-    context = {'category': 'validation', 'menu': 'palu'}
+    context = {'category': 'malaria', 'location': 'validation'}
     web_provider = request.user.get_profile()
 
     entity = provider_entity(web_provider)
@@ -59,12 +59,12 @@ def validation_list(request):
     context.update({'current_period': current_period(),
                     'current_reporting_period': period})
 
-    return render(request, 'validation_list.html', context)
+    return render(request, 'malaria/validation_list.html', context)
 
 
 @provider_permission('can_validate_report')
 def report_validation(request, report_receipt):
-    context = {'category': 'validation', 'menu': 'palu'}
+    context = {'category': 'malaria', 'location': 'validation'}
     web_provider = request.user.get_profile()
     type_report = 'MalariaR'
     try:
@@ -137,12 +137,12 @@ def report_validation(request, report_receipt):
 
     context.update({'form': form})
 
-    return render(request, 'report_validation.html', context)
+    return render(request, 'malaria/report_validation.html', context)
 
 
 @provider_permission('can_validate_report')
 def report_do_validation(request, report_receipt):
-    context = {'category': 'validation', 'menu': 'palu'}
+    context = {'category': 'malaria', 'location': 'validation'}
     web_provider = request.user.get_profile()
 
     try:

@@ -1,0 +1,12 @@
+{% load bolibana %}
+<div id="submenu">
+	<ul>
+        {% if web_provider.is_authenticated %}
+        <li {% if location = 'dashboard' %}class="hover"{% endif %}><a href="{% url index %}">Tableau de bord</a></li>
+        {% if web_provider|has_permission:'can_submit_report_via_excel' %}<li {% if location = 'upload' %}class="hover"{% endif %}><a href="{% url upload %}">Saisie</a></li>{% endif %}
+        {% if web_provider|has_permission:'can_validate_report' %}<li {% if location = 'validation' %}class="hover"{% endif %}><a href="{% url validation %}">Validation</a></li>{% endif %}
+        {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'raw_data' %}class="hover"{% endif %}><a href="{% url raw_data %}">Données brutes</a></li>{% endif %}
+        {% if web_provider|has_permission:'can_view_indicator_data' %}<li {% if location = 'indicator_data' %}class="hover"{% endif %}><a href="{% url indicator_data %}">Données analysées</a></li>{% endif %}
+        {% endif %}
+	</ul>
+</div>

@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block submenu %}{% include "submenu_admin.html" %}{% endblock %}
+
 {% block title %}{% if user_id %}Modification de {{ entity.name }}{% else %}Ajout d'un établissement{% endif %}{% endblock %}
 {% block pagetitle %}<h1 class="pagetitle">{% if entity_id %}Modification de {{ entity.name }} (<em class="lower">{{ entity.slug }}</em>){% else %}Ajout d'un établissement{% endif %}</h1>{% endblock %}
 

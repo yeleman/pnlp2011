@@ -1,0 +1,4 @@
+{% load bolibana %}
+<div id="subsubmenu">
+<p><label for="source">Sélectionnez une entité</label><a class="toplevel" href="{{ base_url|index:":-1" }}">{{ root }}</a>{% for select in paths %}{% include "generic_select.html" with class="browser" items=select.elems selected=select.selected novalue="Aucun" id="browser_select"|concat:forloop.counter0 %}{% endfor %}</p>
+</div>

@@ -1,0 +1,9 @@
+{% load bolibana %}
+<div id="submenu">
+<ul>
+<li {% if location = 'source_data' %}class="hover"{% endif %}><a href="{% url monitoring_source_data %}">Données primaires</a></li>
+<li {% if location = 'validation' %}class="hover"{% endif %}><a class="toplevel" href="{% url monitoring_validation %}">Rapports non validés</a></li>
+<li {% if location = 'messages_log' %}class="hover"{% endif %}><a href="{% url monitoring_messages_log %}">Messages</a></li>
+<li {% if location = 'messaging' %}class="hover"{% endif %}><a href="{% url monitoring_messaging %}">Envoi SMS</a></li>
+</ul>
+</div>

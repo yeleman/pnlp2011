@@ -81,8 +81,7 @@ class ContactForm(forms.Form):
 
 
 def contact(request):
-    category = 'contact'
-    context = {'category': category, 'menu': 'palu'}
+    context = {'category': 'contact'}
 
     try:
         web_provider = request.user.get_profile()
@@ -135,8 +134,7 @@ def contact(request):
 
 @provider_required
 def dashboard(request):
-    category = 'dashboard'
-    context = {'category': category, 'menu': 'palu'}
+    context = {'category': 'malaria', 'location': 'dashboard'}
 
     from bolibana.models.Entity import Entity
     from snisi_core.data import (current_period, current_stage,
@@ -222,7 +220,7 @@ def dashboard(request):
                 'districts_missed_report': districts_missed_report,
                 'regions_missed_report': regions_missed_report})
 
-    return render(request, 'dashboard.html', context)
+    return render(request, 'malaria/dashboard.html', context)
 
 
 class DateForm(forms.Form):

@@ -8,6 +8,7 @@ from django.contrib import admin
 from django.conf.urls.defaults import patterns, url
 from django.views.generic.simple import direct_to_template
 
+from snisi_web.views import monitoring as monit_views
 from snisi_web.views import malaria as mviews
 from snisi_web.views import epidemiology as epidviews
 from snisi_web.views import reproduction as repviews
@@ -68,19 +69,22 @@ urlpatterns = patterns('',
         name='indicator_data'),
 
     # ANTIM : Transmission
-    url(r'^transmission/$', mviews.transmission.monitoring_transmission,
-                            name='monitoring_transmission'),
-    url(r'^log_message/$', mviews.transmission.log_message, name='log_message'),
-    url(r'^report_unvalidated/$', mviews.transmission.report_unvalidated,
-                                  name='report_unvalidated'),
-    url(r'^send_message/$', mviews.transmission.send_message,
-                            name='send_message'),
+    url(r'^monitoring/source_data/?$', monit_views.source_data,
+        name='monitoring_source_data'),
+    url(r'^monitoring/messages_log/?$', monit_views.messages_log,
+        name='monitoring_messages_log'),
+    url(r'^monitoring/validation/?$', monit_views.validation,
+        name='monitoring_validation'),
+    url(r'^monitoring/bulk_messaging/?$', monit_views.bulk_messaging,
+        name='monitoring_messaging'),
+
     # Reproduction
     url(r'^repod_dashboard/$', repviews.dashboard.dashboard,
-                               name='reprod_index'),
+       name='reprod_index'),
 
     # Epidemiology
-    url(r'^epid_dashboard/$', epidviews.dashboard.dashboard, name='epid_index'),
+    url(r'^epid_dashboard/$', epidviews.dashboard.dashboard,
+        name='epid_index'),
 
     # ANTIM : USERS
     url(r'^users/?$',

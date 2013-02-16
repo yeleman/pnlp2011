@@ -22,7 +22,7 @@ from snisi_core.exports import report_as_excel
 
 @provider_permission('can_view_raw_data')
 def data_browser(request, entity_code=None, period_str=None):
-    context = {'category': 'raw_data', 'menu': 'palu'}
+    context = {'category': 'malaria', 'location': 'raw_data'}
     web_provider = request.user.get_profile()
 
     root = web_provider.first_target()
@@ -113,12 +113,12 @@ def data_browser(request, entity_code=None, period_str=None):
     else:
         context.update({'no_report': True})
 
-    return render(request, 'raw_data.html', context)
+    return render(request, 'malaria/raw_data.html', context)
 
 
 @provider_required
 def excel_export(request, report_receipt):
-    context = {'category': 'raw_data', 'menu': 'palu'}
+    context = {'category': 'malaria'}
     web_provider = request.user.get_profile()
 
     report = get_object_or_404(MalariaR, receipt=report_receipt)

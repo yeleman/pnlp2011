@@ -23,7 +23,7 @@ def handle_uploaded_file(f):
 
 @provider_permission('can_submit_report_via_excel')
 def upload_form(request):
-    context = {'category': 'upload'}
+    context = {'category': 'malaria', 'location': 'upload'}
     web_provider = request.user.get_profile()
 
     if request.method == 'POST':
@@ -54,4 +54,4 @@ def upload_form(request):
 
         context.update({'status': status})
 
-    return render(request, 'upload_form.html', context)
+    return render(request, 'malaria/upload_form.html', context)

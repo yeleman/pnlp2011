@@ -17,7 +17,7 @@ from snisi_core.data import (entities_path,
 
 def import_path(name):
         """ import a callable from full module.callable name """
-        modname, _, attr = name.rpartition('.')
+        modname, __, attr = name.rpartition('.')
         if not modname:
             # single module name
             return __import__(attr)
@@ -28,7 +28,7 @@ def import_path(name):
 @provider_permission('can_view_raw_data')
 def indicator_browser(request, entity_code=None, period_str=None,
                     section_index='1', sub_section=None):
-    context = {'category': 'indicator_data', 'menu': 'palu'}
+    context = {'category': 'malaria', 'location': 'indicator_data'}
     web_provider = request.user.get_profile()
 
     root = web_provider.first_target()
@@ -138,4 +138,4 @@ def indicator_browser(request, entity_code=None, period_str=None,
     context.update({'widgets': [widget(entity=entity, periods=periods) \
                                 for widget in sm.WIDGETS]})
 
-    return render(request, 'indicator_data.html', context)
+    return render(request, 'malaria/indicator_data.html', context)

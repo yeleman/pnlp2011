@@ -4,7 +4,7 @@
 
 {% block title %}Messages{% endblock %}
 {% block pagetitle %}<h1 class="pagetitle">Système d'information de routine sur le Paludisme</h1>{% endblock %}
-{% block submenu %}{% include "submenutrans.html" %}{% endblock %}
+{% block submenu %}{% include "monitoring/submenu.html" %}{% endblock %}
 
 {% block content %}
 <script type="text/javascript">
@@ -27,7 +27,7 @@ function toggleme(num) {
         </tr>
         <tr>
             <form action="" method="post">{% csrf_token %}
-            <td>{{form.number.label}}</td> 
+            <td>{{form.number.label}}</td>
             <td id="dest_num">{{form.number}}</td>
         </tr>
         <tr>

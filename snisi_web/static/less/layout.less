@@ -115,7 +115,6 @@ ul#user-menu li:hover a {
     padding: 0;
     position: absolute;
     height: 27px;
-    //background-color: blue;
 }
 
 #menu ul li {
@@ -126,7 +125,7 @@ ul#user-menu li:hover a {
     border-left: 1px solid @text-background;
 }
 
-#menu ul li:first-child {
+#menu ul li:first-child, #submenu ul li:first-child {
     border-left: none;
 }
 
@@ -136,6 +135,25 @@ ul#user-menu li:hover a {
     background-repeat: no-repeat;
 }
 
+#submenu ul li {
+	.inlinelist;
+	margin:0;
+	padding: 0;
+	font-size: 100%;
+}
+
+#submenu ul li a {
+	color: @text-background;
+	font-weight: normal;
+}
+
+#submenu ul li:hover a {
+	text-decoration: underline;
+}
+
+#submenu ul li.hover a {
+	color: @green;
+}
 
 #content {
     position: relative;
@@ -613,7 +631,7 @@ button.download {
 }
 
 
-#submenu {
+#submenu, #subsubmenu {
     position: relative;
     padding-left: 36px;
     //padding-right: 36px;
@@ -621,10 +639,16 @@ button.download {
     color: @text-background;
     background-color: @background;
     min-height: 36px;
+    line-height: 36px;
     // box-shadow: 0 1px 6px rgba(0,0,0,0.77);
+	padding-top:0; padding-bottom: 0;
 }
 
-#submenu label {
+ #subsubmenu {
+ 	margin-top: 1px;
+}
+
+#submenu label, #subsubmenu label {
     padding-right: 15px;
     margin-right: 20px;
     background-image: @arrow_png;
@@ -632,25 +656,18 @@ button.download {
     background-repeat: no-repeat;
 }
 
-#submenu a, #submenu select {
+#submenu a, #submenu select, #subsubmenu a, #subsubmenu select {
     margin-right: 16px;
 }
 
-#submenu a {
+#submenu a, #subsubmenu a {
     text-transform: uppercase;
     font-weight: bold;
     color: @green;
 }
 
-#submenu p.transmissionsub {
-    padding-top:10px;
-}
 
-#submenu p.subsubmenu {
-    padding-top:10px;
-}
-
-#submenu p.transmissionsub a {
+#submenu p.transmissionsub a, #subsubmenu p.transmissionsub a {
     color: @white;
     font-weight: normal;
 }

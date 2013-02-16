@@ -98,4 +98,4 @@ def dashboard(request):
                 'districts_missed_report': districts_missed_report,
                 'regions_missed_report': regions_missed_report})
 
-    return render(request, 'dashboard.html', context)
+    return render(request, 'malaria/dashboard.html', context)

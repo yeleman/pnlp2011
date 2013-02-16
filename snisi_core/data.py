@@ -101,9 +101,9 @@ def provider_entity(provider):
 
 def get_reports_to_validate(entity, period=current_reporting_period()):
     """ List of Entity which have sent report but are not validated """
-    return [(report.entity, report) \
-            for report \
-            in AggMalariaR.unvalidated\
+    return [(report.entity, report)
+            for report
+            in MalariaR.unvalidated
                             .filter(entity__in=entity.get_children(),
                                     period=period)]
 

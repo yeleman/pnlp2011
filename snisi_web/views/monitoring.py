@@ -31,9 +31,9 @@ def sms_for_period(period):
 
 
 @provider_permission('can_monitor_transmission')
-def monitoring_transmission(request):
+def source_data(request):
     """ stats of transmission """
-    context = {'category': 'monitoring_transmission', 'menu': 'palu'}
+    context = {'category': 'monitoring', 'location': 'source_data'}
 
     period = current_reporting_period()
 
@@ -58,12 +58,14 @@ def monitoring_transmission(request):
 
     context.update({'entities': entities})
 
-    return render(request, 'monitoring_transmission.html', context)
+    return render(request, 'monitoring/monitoring_transmission.html', context)
 
 
 @provider_permission('can_monitor_transmission')
-def log_message(request):
+def messages_log(request):
     """ Display all messages """
+
+    context = {'category': 'monitoring', 'location': 'messages_log'}
 
     def name_phone(sms):
         """ Search name provider """
@@ -78,15 +80,13 @@ def log_message(request):
                        .filter(user__provider__phone_number__contains=phone)
         return provider
 
-    context = {'category': 'log_message'}
-
     all_sms = sms_for_period(current_period())
     for sms in all_sms:
         if name_phone(sms):
             sms.provider = name_phone(sms)[0]
 
     context.update({'all_sms': all_sms})
-    return render(request, 'log_message.html', context)
+    return render(request, 'monitoring/log_message.html', context)
 
 
 def nb_reports_unvalidated_for(entity, period):
@@ -110,15 +110,16 @@ def nb_reports_unvalidated_for(entity, period):
 
 
 @provider_permission('can_monitor_transmission')
-def report_unvalidated(request):
+def validation(request):
     """ stats of validation """
+
+    context = {'category': 'monitoring', 'location': 'validation'}
 
     def entity_dict(entity):
         entity_dict = nb_reports_unvalidated_for(entity, period)
         entity_dict.update({'children': []})
         return entity_dict
 
-    context = {'category': 'transmission'}
     period = current_reporting_period()
 
     entities = []
@@ -130,14 +131,16 @@ def report_unvalidated(request):
         entities.append(edata)
 
     context.update({'entities': entities})
-    return render(request, 'report_unvalidated.html', context)
+    return render(request, 'monitoring/report_unvalidated.html', context)
 
 
 @provider_permission('can_monitor_transmission')
-def send_message(request):
+def bulk_messaging(request):
     from django import forms
     from bolibana.models import Provider
     from nosmsd.utils import send_sms
+
+    context = {'category': 'monitoring', 'location': 'messaging'}
 
     class MessageForm(forms.Form):
         number = forms.CharField(label=(u"Numéro"))
@@ -165,5 +168,5 @@ def send_message(request):
             messages.success(request, (u"SMS envoié"))
             return redirect("log_message")
 
-    context = {'form': form, 'all_providers': all_providers}
-    return render(request, 'send_message.html', context)
+    context.update({'form': form, 'all_providers': all_providers})
+    return render(request, 'monitoring/send_message.html', context)

@@ -15,7 +15,7 @@ function addJQeventHandlerForLargeTable() {
         var target = $(event.target);
         if (target.is("td"))
             elem = target.parent()
-        else 
+        else
             elem = target
         url = elem.find("a").attr('href');
         if (url)
@@ -65,7 +65,7 @@ function addJQEventCustomFileInput() {
 }
 
 function addJQEventsSubMenu(base_url, base_url_zero, period_str, section, sub_section) {
-    $("#submenu select.browser").change(function (event) {
+    $("#subsubmenu select.browser").change(function (event) {
         value = $(this).val();
         if (!value)
             return;
