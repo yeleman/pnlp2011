@@ -13,10 +13,12 @@ from snisi_core.data import (MalariaRForm,
                             raw_data_periods_for,
                             entities_path,
                             provider_can_or_403,
+                            provider_can,
                             current_reporting_period)
 
 from bolibana.web.decorators import provider_required, provider_permission
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
+from snisi_core.models.GenericReport import GenericReport
 from snisi_core.exports import report_as_excel
 
 
@@ -62,53 +64,32 @@ def data_browser(request, entity_code=None, period_str=None):
     if period_str and not period in all_periods:
         raise Http404(_(u"No report for that period"))
 
-    if not entity.type.slug == 'cscom':
-        try:
-            # get validated report for that period and location
-            report = AggMalariaR.validated.get(entity=entity, period=period)
-        except AggMalariaR.DoesNotExist:
-            # district users need to be able to see the generated report
-            # which have been created based on their validations/data.
-            # if a district is looking at its root district and report exist
-            # but not validated, we show it (with period) and no valid flag
-            if web_provider.first_role().slug == 'district' and root == entity:
-                try:
-                    report = AggMalariaR.unvalidated.get(entity=entity, \
-                                                           period=period)
-                    if not period in all_periods:
-                        all_periods.insert(0, period)
-                except:
-                    report = None
-            else:
-                report = None
+    # fetch only validated reports
+    # unless we're with someone who's in charge of validatiing this.
+    is_validator = provider_can('can_validate_aggregated_report',
+                                web_provider, entity) \
+        or provider_can('can_validate_source_report', web_provider, entity)
+    if root == entity and is_validator:
+        only_validated = False
     else:
-        try:
-            # get validated report for that period and location
-            report = MalariaR.validated.get(entity=entity, period=period)
-        except MalariaR.DoesNotExist:
-            # district users need to be able to see the generated report
-            # which have been created based on their validations/data.
-            # if a district is looking at its root district and report exist
-            # but not validated, we show it (with period) and no valid flag
-            if web_provider.first_role().slug == 'district' and root == entity:
-                try:
-                    report = MalariaR.unvalidated.get(entity=entity, \
-                                                           period=period)
-                    if not period in all_periods:
-                        all_periods.insert(0, period)
-                except:
-                    report = None
-            else:
-                report = None
+        only_validated = True
+    greport = GenericReport(entity=entity, period=period,
+                            src_cls=MalariaR, agg_cls=AggMalariaR,
+                            only_validated=only_validated)
+
+    # if we're in the case of no validated report
+    # but one unvalidated, we'll add the period to the template
+    if not period in all_periods and greport.is_present:
+        all_periods.insert(0, period)
 
     # send period variables to template
     context.update({'periods': [(p.middle().strftime('%m%Y'), p.middle())
                                 for p in all_periods],
                     'period': period})
 
-    if report:
-        context.update({'report': report})
-        form = MalariaRForm(instance=report)
+    if greport.report:
+        context.update({'report': greport.report, 'greport': greport})
+        form = MalariaRForm(instance=greport.report)
         context.update({'form': form})
     else:
         context.update({'no_report': True})
@@ -121,7 +102,10 @@ def excel_export(request, report_receipt):
     context = {'category': 'malaria'}
     web_provider = request.user.get_profile()
 
-    report = get_object_or_404(MalariaR, receipt=report_receipt)
+    try:
+        report = get_object_or_404(MalariaR, receipt=report_receipt)
+    except:
+        report = get_object_or_404(AggMalariaR, receipt=report_receipt)
     context.update({'report': report})
 
     # check permission or raise 403

@@ -98,11 +98,17 @@ styleentity.font = font
 def report_as_excel(report):
     """ Export les données d'un rapport en xls """
 
+    from bolibana.models.ExpectedReporting import (SOURCE_LEVEL,
+                                                   AGGREGATED_LEVEL)
+
     def report_status_verbose(value):
-        for v, name in report.YESNO:
-            if v.__str__() == value:
-                return name.__unicode__()
-        return value
+        if report.REPORTING_LEVEL == AGGREGATED_LEVEL:
+            return value
+        else:
+            for v, name in report.YESNO:
+                if v.__str__() == value:
+                    return name.__unicode__()
+            return value
 
     # On crée le doc xls
     book = xlwt.Workbook(encoding='utf-8')
@@ -405,13 +411,17 @@ def report_as_excel(report):
 
     sheet.write_merge(0, 28, 13, 13, u"", styleborformright)
 
-    if report.type == report.TYPE_AGGREGATED:
+    if report.REPORTING_LEVEL == AGGREGATED_LEVEL:
         sheet.write(35, 0, u"Sources", styletitle)
         i = 36
-        for source in report.sources.all():
-            sheet.write(i, 0, u"%s - %s" % \
-                        (source.entity.display_name(), report.receipt),\
-                                                            stylelabel)
+        for source in report.sources():
+            source_str = u"%(entity)s - %(receipt)s / %(level)s" \
+                         % {'entity': source.entity.display_name(),
+                            'receipt': report.receipt,
+                            'level': u"PRIMAIRE"
+                                if source.REPORTING_LEVEL == SOURCE_LEVEL
+                                else u"AGGRÉGÉ"}
+            sheet.write(i, 0, source_str, stylelabel)
             i += 1
 
     stream = StringIO.StringIO()
