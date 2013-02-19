@@ -33,6 +33,9 @@ addJQEventToggleSources();{% endblock %}
 <p><strong>Créé le</strong>: {{ report.created_on|datetimefmt }}</p>
 <p><strong>Modifié par</strong>: {{ report.modified_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
 <p><strong>Type de rapport</strong>: {{ report.type|reporttype }}</p>
+{% if report.type == 0%}
+	<p><strong>En retard </strong>: {% if report.is_late %} OUI {% else %} NON {% endif %}</p>
+{% endif %}
 {% if report.type == 1 and report.sources.all %}
 <p><strong>Sources</strong>: <a id="toggle_sources" href="#">{{ report.sources.all|length}} source{{ report.sources.all|pluralize }}</a> compose{{ report.sources.all|pluralize:"nt" }} ce rapport agrégé.</p>
 <ul id="sources" class="hidden">
