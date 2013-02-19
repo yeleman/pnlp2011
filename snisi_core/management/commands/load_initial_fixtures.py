@@ -24,7 +24,7 @@ class Command(BaseCommand):
         call_command("loaddata", "fixtures/snisi/bolibana.Role.xml")
         call_command("loaddata", "fixtures/snisi/bolibana.EntityType.xml")
         call_command("loaddata", "fixtures/snisi/bolibana.Entity-root.xml")
-        call_command("loaddata", "fixtures/snisi/bolibana.Project.xml")
+        call_command("loaddata", "fixtures/snisi/bolibana.reportclass.xml")
 
         # create default access
         print(u"Creating ADMIN Access…")
