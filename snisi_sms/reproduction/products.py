@@ -9,7 +9,7 @@ import reversion
 from snisi_core.models.CommoditiesReport import RHProductsR
 from bolibana.models.Entity import Entity
 from bolibana.models.Period import MonthPeriod
-from snisi_core.validators.reproduction import RHCommoditiesReportValidator
+from snisi_core.validators.reproduction import RHProductsRValidator
 from snisi_sms.common import contact_for
 
 
@@ -179,7 +179,7 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
     data_browser.set('author', provider.name())
 
     # create validator and fire
-    validator = RHCommoditiesReportValidator(data_browser, author=provider)
+    validator = RHProductsRValidator(data_browser, author=provider)
 
     validator.errors.reset()
     try:

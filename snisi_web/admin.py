@@ -27,7 +27,7 @@ from snisi_core.models.ChildrenMortalityReport import (ChildrenDeathR,
                                                        AggChildrenDeathR)
 from snisi_core.models.Epidemiology import EpidemiologyR
 from snisi_core.models.alert import Alert
-from snisi_core.admin import MalariaReportAdmin, AlertAdmin
+from snisi_core.admin import MalariaRAdmin, AlertAdmin
 
 
 class ProviderUserStacked(admin.StackedInline):
@@ -51,7 +51,7 @@ admin.site.register(Role, RoleAdmin)
 admin.site.register(Access, AccessAdmin)
 admin.site.register(Permission, PermissionAdmin)
 
-admin.site.register(MalariaR, MalariaReportAdmin)
+admin.site.register(MalariaR, MalariaRAdmin)
 admin.site.register(AggMalariaR)
 admin.site.register(Alert, AlertAdmin)
 admin.site.register(MaternalDeathR)

@@ -341,6 +341,7 @@ def palu(message):
                     % {'cscom': report.entity.display_full_name(), \
                        'period': report.period, \
                        'receipt': report.receipt})
+
     try:
         to = contact_for(report.entity.parent).phone_number
     except:

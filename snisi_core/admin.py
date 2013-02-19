@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 
-class MalariaReportAdmin(admin.ModelAdmin):
+class MalariaRAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'period', 'entity', 'receipt', '_status', 'is_late')
     list_filter = ('period', 'type', '_status')
 

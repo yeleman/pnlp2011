@@ -18,7 +18,6 @@ class EpidemiologyReportValidator(DataValidator):
 
     def validate(self):
         """ Test whether attached data matches PNLP's logic requirements """
-
         from snisi_core.data import (provider_can, time_cscom_over,
                             time_district_over, time_region_over)
 
