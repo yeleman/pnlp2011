@@ -617,8 +617,8 @@ button.download {
     padding-top: 6px;
     color: @text-background;
     background-color: @background;
-    height: 36px;
-    //box-shadow: 0 1px 6px rgba(0,0,0,0.77);
+    min-height: 36px;
+    // box-shadow: 0 1px 6px rgba(0,0,0,0.77);
 }
 
 #submenu label {
@@ -640,6 +640,10 @@ button.download {
 }
 
 #submenu p.transmissionsub {
+    padding-top:10px;
+}
+
+#submenu p.subsubmenu {
     padding-top:10px;
 }
 
@@ -874,3 +878,4 @@ input.hidden {
 #context table td.incomingsms {
     background-image: @phone_png;
 }
+

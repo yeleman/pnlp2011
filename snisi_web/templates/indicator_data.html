@@ -8,7 +8,7 @@
 {% block page-name %}context{% endblock %}
 {% block content-class %}withsidebar{% endblock %}
 
-{% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="indicator_data"|url:"0" %}{% endblock %}
+{% block submenu %}{% include "submenumalaria.html" with subsubmenu="indicator" %}{% endblock %}
 
 {% block jqueryonload %}addJQEventsSubMenu("{% url indicator_data %}", "{% url indicator_data 0 %}", "{{ period_str }}", "{{ section.id }}"{% if sub_section %}, "{{ sub_section }}"{% endif %});
 addJQEventPeriodsChange("{% url indicator_data 'ent_code' '111111-222222' %}", "{{ entity.slug }}", "{{ section.id }}"{% if sub_section %}, "{{ sub_section }}"{% endif %});

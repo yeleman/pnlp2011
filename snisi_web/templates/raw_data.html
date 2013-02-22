@@ -7,7 +7,7 @@
 {% block pagetitle %}<h1 class="pagetitle">{% if no_report %}Rapport indisponible{% else %}Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 
-{% block submenu %}{% include "submenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="raw_data"|url:"0" %}{% endblock %}
+{% block submenu %}{% include "submenumalaria.html" with subsubmenu="raw_data" %}{% endblock %}
 
 {% block jqueryonload %}addJQEventsSubMenu("{% url raw_data %}", "{% url raw_data 0 %}");
 addJQEventPeriodChange("{% url raw_data 'ent_code' 111111 %}", "{{ entity.slug }}");
