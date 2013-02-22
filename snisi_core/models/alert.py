@@ -35,12 +35,12 @@ class Alert(models.Model):
 
     def __unicode__(self):
         return u"Alert.%(ct)s/%(id)s" \
-               % {'ct': self.content_type.model.title(), \
+               % {'ct': self.content_type.model.title(),
                   'id': self.alert_id}
 
     @classmethod
     def create(cls, *args, **kwargs):
-        instance = cls(content_type=cls.get_ct(), \
+        instance = cls(content_type=cls.get_ct(),
                        created=datetime.now())
         if not 'persist' in kwargs:
             kwargs['persist'] = True
@@ -50,7 +50,7 @@ class Alert(models.Model):
 
     def triggered(self):
         """ if this alert has been triggered (exists in DB) """
-        return self.__class__.objects.filter(alert_id=self.get_alert_id(), \
+        return self.__class__.objects.filter(alert_id=self.get_alert_id(),
                                   content_type=self.content_type).count() > 0
 
     @property

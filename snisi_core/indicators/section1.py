@@ -15,8 +15,8 @@ class TableauPromptitudeRapportage(IndicatorTable):
               u" formulaires de collecte dans les délais prévus"
     type = 'table'
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
                        'with_reference': False}
 
     def period_is_valid(self, period):
@@ -54,9 +54,9 @@ class FigurePromptitudeRapportage(IndicatorTable):
     type = 'graph'
     graph_type = 'spline'
 
-    default_options = {'with_percentage': True, \
-                   'with_total': False, \
-                   'with_reference': False, \
+    default_options = {'with_percentage': True,
+                   'with_total': False,
+                   'with_reference': False,
                    'with_data': False,
                    'only_percent': True}
 

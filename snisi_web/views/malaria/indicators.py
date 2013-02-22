@@ -26,7 +26,7 @@ def import_path(name):
 
 
 @provider_permission('can_view_raw_data')
-def indicator_browser(request, entity_code=None, period_str=None, \
+def indicator_browser(request, entity_code=None, period_str=None,
                     section_index='1', sub_section=None):
     context = {'category': 'indicator_data', 'menu': 'palu'}
     web_provider = request.user.get_profile()
@@ -66,12 +66,12 @@ def indicator_browser(request, entity_code=None, period_str=None, \
         speriod_str, eperiod_str = period_str.split('-')
         try:
             speriod = MonthPeriod.find_create_from(\
-                                                  year=int(speriod_str[-4:]), \
-                                                  month=int(speriod_str[:2]), \
+                                                  year=int(speriod_str[-4:]),
+                                                  month=int(speriod_str[:2]),
                                                   dont_create=True)
             eperiod = MonthPeriod.find_create_from(\
-                                                  year=int(eperiod_str[-4:]), \
-                                                  month=int(eperiod_str[:2]), \
+                                                  year=int(eperiod_str[-4:]),
+                                                  month=int(eperiod_str[:2]),
                                                   dont_create=True)
 
             # loop on Period.next() from start one to end one.
@@ -92,27 +92,27 @@ def indicator_browser(request, entity_code=None, period_str=None, \
 
     # if end period is before start period, redirect to opposite
     if eperiod.middle() < speriod.middle():
-        return redirect('indicator_data', \
-                        entity_code=entity.slug, \
+        return redirect('indicator_data',
+                        entity_code=entity.slug,
                         period_str='%s-%s' % (eperiod.pid, speriod.pid))
 
     # periods variables
-    context.update({'period_str': '%s-%s' % (speriod.pid, eperiod.pid), \
+    context.update({'period_str': '%s-%s' % (speriod.pid, eperiod.pid),
                     'speriod': speriod, 'eperiod': eperiod})
-    context.update({'periods': [(p.pid, p.middle()) for p in periods], \
+    context.update({'periods': [(p.pid, p.middle()) for p in periods],
                     'all_periods': [(p.pid, p.middle()) for p in all_periods]})
 
     # check permissions on this entity and raise 403
     provider_can_or_403('can_view_indicator_data', web_provider, entity)
 
     # build entities browser
-    context.update({'root': root, \
+    context.update({'root': root,
                     'paths': entities_path(root, entity)})
 
     from snisi_core.indicators import INDICATOR_SECTIONS
 
     context.update({'sections': \
-                    sorted(INDICATOR_SECTIONS.values(), \
+                    sorted(INDICATOR_SECTIONS.values(),
                           cmp=lambda a, b: int(a['id'].strip('a').strip('b')) \
                                         - int(b['id'].strip('a').strip('b')))})
 

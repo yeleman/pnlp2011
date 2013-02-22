@@ -91,16 +91,16 @@ class MaternalDeathR(SNISIIndividualReport):
     objects = models.Manager()
     periods = PeriodManager()
 
-    def add_data(self, name, \
-                                dob, \
-                                dob_auto, \
-                                dod, \
-                                death_location, \
-                                living_children, \
-                                dead_children, \
-                                pregnant, \
-                                pregnancy_weeks, \
-                                pregnancy_related_death, \
+    def add_data(self, name,
+                                dob,
+                                dob_auto,
+                                dod,
+                                death_location,
+                                living_children,
+                                dead_children,
+                                pregnant,
+                                pregnancy_weeks,
+                                pregnancy_related_death,
                                 cause_of_death):
         self.name = name
         self.dob = dob
@@ -121,8 +121,8 @@ class MaternalDeathR(SNISIIndividualReport):
     @classmethod
     def start(cls, reporting_location, death_location, author, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
-        report = cls(reporting_location=reporting_location, \
-                     death_location=death_location, created_by=author, \
+        report = cls(reporting_location=reporting_location,
+                     death_location=death_location, created_by=author,
                      modified_by=author)
         for arg, value in kwargs.items():
             try:
@@ -228,10 +228,10 @@ class AggMaternalDeathR(SNISIReport):
                                          related_name='aggregated_agg_maternal_mortality_reports')
 
     @classmethod
-    def start(cls, period, entity, author, \
+    def start(cls, period, entity, author,
               type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs):
-        report = cls(period=period, entity=entity, created_by=author, \
-                     modified_by=author, _status=cls.STATUS_CREATED, \
+        report = cls(period=period, entity=entity, created_by=author,
+                     modified_by=author, _status=cls.STATUS_CREATED,
                      type=type)
 
         report.age_under_15 = 0

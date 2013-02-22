@@ -79,5 +79,5 @@ class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable):
         report = get_report_for(self.entity, period)
         return report.pw_total_distributed_bednets
 
-WIDGETS = [NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD, \
+WIDGETS = [NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD,
            EvolutionNbreMILDMoins5ansFemmesenceintes]

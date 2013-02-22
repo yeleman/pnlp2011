@@ -95,14 +95,14 @@ class ChildrenDeathR(SNISIIndividualReport):
     objects = models.Manager()
     periods = PeriodManager()
 
-    def add_data(self, \
-                                name, \
-                                sex, \
-                                dob, \
-                                dob_auto, \
-                                dod, \
-                                death_place, \
-                                cause_of_death):
+    def add_data(self,
+                    name,
+                    sex,
+                    dob,
+                    dob_auto,
+                    dod,
+                    death_place,
+                    cause_of_death):
         self.name = name
         self.sex = sex
         self.dob = dob
@@ -119,8 +119,8 @@ class ChildrenDeathR(SNISIIndividualReport):
     @classmethod
     def start(cls, reporting_location, death_location, author, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
-        report = cls(reporting_location=reporting_location, \
-                     death_location=death_location, created_by=author, \
+        report = cls(reporting_location=reporting_location,
+                     death_location=death_location, created_by=author,
                      modified_by=author)
         for arg, value in kwargs.items():
             try:
@@ -182,10 +182,10 @@ class AggChildrenDeathR(SNISIReport):
                                          related_name='aggregated_agg_children_mortality_reports')
 
     @classmethod
-    def start(cls, period, entity, author, \
+    def start(cls, period, entity, author,
               type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs):
-        report = cls(period=period, entity=entity, created_by=author, \
-                     modified_by=author, _status=cls.STATUS_CREATED, \
+        report = cls(period=period, entity=entity, created_by=author,
+                     modified_by=author, _status=cls.STATUS_CREATED,
                      type=type)
 
         report.sex_male = 0

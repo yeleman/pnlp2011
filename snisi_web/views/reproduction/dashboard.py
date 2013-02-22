@@ -2,15 +2,10 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from django import forms
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.utils.translation import ugettext as _, ugettext_lazy
-from django.conf import settings
+from django.shortcuts import render
 
 from nosmsd.models import Inbox, SentItems
 from bolibana.web.decorators import provider_required
-from bolibana.tools.utils import send_email
 from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.data import current_reporting_period, contact_for
 
@@ -85,8 +80,8 @@ def dashboard(request):
         for report in auto_validated_cscom_reports:
             if not report.entity.parent.slug in districts_missed_report:
                 districts_missed_report[report.entity.parent.slug] = \
-                    {'entity': report.entity.parent, \
-                     'nbauto': 0, \
+                    {'entity': report.entity.parent,
+                     'nbauto': 0,
                      'contact': contact_for(report.entity.parent, False)}
             districts_missed_report[report.entity.parent.slug]['nbauto'] += 1
         return districts_missed_report

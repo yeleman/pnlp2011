@@ -95,11 +95,11 @@ class MalariaRIface(object):
         return mp
 
     @classmethod
-    def start(cls, period, entity, author, \
+    def start(cls, period, entity, author,
                type=SNISIReport.TYPE_SOURCE, is_late=False, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
-        report = cls(period=period, entity=entity, created_by=author, \
-                     modified_by=author, _status=cls.STATUS_CREATED, \
+        report = cls(period=period, entity=entity, created_by=author,
+                     modified_by=author, _status=cls.STATUS_CREATED,
                      type=type)
         report.is_late = is_late
         for arg, value in kwargs.items():
@@ -362,18 +362,18 @@ class MalariaR(MalariaRIface, SNISIReport):
     pw_total_sp1 = models.PositiveIntegerField(_(u"Total SP1 given"))
     pw_total_sp2 = models.PositiveIntegerField(_(u"Total SP2 given"))
 
-    stockout_act_children = models.CharField(_(u"ACT Children"), \
+    stockout_act_children = models.CharField(_(u"ACT Children"),
                                              max_length=1, choices=YESNO)
-    stockout_act_youth = models.CharField(_(u"ACT Youth"), \
+    stockout_act_youth = models.CharField(_(u"ACT Youth"),
                                           max_length=1, choices=YESNO)
-    stockout_act_adult = models.CharField(_(u"ACT Adult"), \
+    stockout_act_adult = models.CharField(_(u"ACT Adult"),
                                           max_length=1, choices=YESNO)
-    stockout_artemether = models.CharField(_(u"Artemether"), \
+    stockout_artemether = models.CharField(_(u"Artemether"),
                                            max_length=1, choices=YESNO)
-    stockout_quinine = models.CharField(_(u"Quinine"), \
+    stockout_quinine = models.CharField(_(u"Quinine"),
                                         max_length=1, choices=YESNO)
     stockout_serum = models.CharField(_(u"Serum"), max_length=1, choices=YESNO)
-    stockout_bednet = models.CharField(_(u"Bednets"), \
+    stockout_bednet = models.CharField(_(u"Bednets"),
                                        max_length=1, choices=YESNO)
     stockout_rdt = models.CharField(_(u"RDTs"), max_length=1, choices=YESNO)
     stockout_sp = models.CharField(_(u"SPs"), max_length=1, choices=YESNO)

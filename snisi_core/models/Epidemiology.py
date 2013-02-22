@@ -49,11 +49,14 @@ class EpidemiologyR(SNISIReport):
     rabies_case = models.IntegerField(_(u"Rage cas"))
     rabies_death = models.IntegerField(_(u"Rage décès"))
 
-    acute_measles_diarrhea_case = models.IntegerField(_(u"Diarrhée severe rougeole cas"))
-    acute_measles_diarrhea_death = models.IntegerField(_(u"Diarrhée severe rougeole décès"))
+    acute_measles_diarrhea_case = models.IntegerField(\
+                                        _(u"Diarrhée severe rougeole cas"))
+    acute_measles_diarrhea_death = models.IntegerField(\
+                                        _(u"Diarrhée severe rougeole décès"))
 
     other_notifiable_disease_case = models.IntegerField(_(u"Autres MADOS cas"))
-    other_notifiable_disease_death = models.IntegerField(_(u"Autres MADOS décès"))
+    other_notifiable_disease_death = models.IntegerField(\
+                                                    _(u"Autres MADOS décès"))
 
     sources = models.ManyToManyField('self',
                                      verbose_name=_(u"Sources"),
@@ -165,7 +168,8 @@ class EpidemiologyR(SNISIReport):
     @classmethod
     def create_aggregated(cls, period, entity, author, *args, **kwargs):
         agg_report = cls.start(period, entity, author,
-                               type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs)
+                               type=SNISIReport.TYPE_AGGREGATED,
+                               *args, **kwargs)
 
         sources = EpidemiologyR.validated\
                                .filter(period=period,

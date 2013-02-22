@@ -150,7 +150,7 @@ class EpidemiologyReportValidator(DataValidator):
                 self.errors.add(_(u"There is already a report for " \
                                   "that HC (%(entity)s) and that " \
                                   "period (%(period)s)") % \
-                                  {'entity': entity.display_full_name(), \
+                                  {'entity': entity.display_full_name(),
                                    'period': period.name()}
                                    + u" Recu: %s." % report.receipt, 'period')
 

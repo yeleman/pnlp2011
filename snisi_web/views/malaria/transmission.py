@@ -151,10 +151,10 @@ def send_message(request):
     providers = Provider.objects.filter(phone_number__isnull=False)
     all_providers = []
     for pr in providers:
-        all_providers.append(("%s %s %s" % (pr.name(), pr.first_access(), \
+        all_providers.append(("%s %s %s" % (pr.name(), pr.first_access(),
                                             pr.phone_number), pr.phone_number))
         if pr.phone_number_extra:
-            all_providers.append(("%s %s %s" % (pr.name(), pr.first_access(), \
+            all_providers.append(("%s %s %s" % (pr.name(), pr.first_access(),
                              pr.phone_number_extra), pr.phone_number_extra))
 
     if request.method == "POST":

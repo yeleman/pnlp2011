@@ -64,10 +64,10 @@ class IndividualMalariaReportCreated(Alert):
         # if contact.phone_number:
         #     send_sms(contact.phone_number, message)
         if contact.email:
-            send_email(recipients=contact.email, message=message, \
+            send_email(recipients=contact.email, message=message,
                        title=u"[PNLP] Nouveau rapport recu!")
         else:
-            send_email(settings.HOTLINE_EMAIL, message, \
+            send_email(settings.HOTLINE_EMAIL, message,
                        u"[PNLP] Unable to send report notification " \
                        u"to %(contact)s" \
                        % {'contact': contact.name_access()})
@@ -119,23 +119,23 @@ class MalariaReportCreated(Alert):
 
                 # send emails
                 ct, oi = Access.target_data(Entity.objects.get(slug='mali'))
-                nat_access = list(Access.objects.filter(content_type=ct, \
+                nat_access = list(Access.objects.filter(content_type=ct,
                                                         object_id=oi))
                 providers = list(Provider.active\
                                     .select_related()\
-                                    .filter(user__email__isnull=False, \
+                                    .filter(user__email__isnull=False,
                                             access__in=nat_access)\
                                     .values_list('user__email', flat=True))
 
-                rurl = full_url(path=reverse('raw_data', \
-                                   kwargs={'entity_code': report.entity.slug, \
+                rurl = full_url(path=reverse('raw_data',
+                                   kwargs={'entity_code': report.entity.slug,
                        'period_str': report.period.middle().strftime('%m%Y')}))
 
-                sent, sent_message = send_email(recipients=providers, \
-                                        context={'report': report, \
-                                                 'report_url': rurl, \
+                sent, sent_message = send_email(recipients=providers,
+                                        context={'report': report,
+                                                 'report_url': rurl,
                                                  'url': full_url()},
-                                 template='emails/mali_report_available.txt', \
+                                 template='emails/mali_report_available.txt',
                       title_template='emails/title.mali_report_available.txt')
 
                 # the rest of the method is only for non-national
@@ -247,7 +247,7 @@ class EndOfCSComPeriod(Alert):
         districts = {}
         unval = [r.entity for r \
                           in MalariaR.unvalidated.select_related()\
-                                      .filter(period=self.args.period, \
+                                      .filter(period=self.args.period,
                                               type=MalariaR.TYPE_SOURCE)]
         unsent = self.get_bad_cscom()
 
@@ -256,7 +256,7 @@ class EndOfCSComPeriod(Alert):
                 try:
                     districts[e.parent.slug][cat]
                 except:
-                    districts[e.parent.slug] = {'entity': e.parent, \
+                    districts[e.parent.slug] = {'entity': e.parent,
                                                 'unval': 0, 'unsent': 0}
                 districts[e.parent.slug][cat] += 1
         increment(unval, 'unval')
@@ -265,10 +265,10 @@ class EndOfCSComPeriod(Alert):
 
     def get_bad_cscom(self):
         reported = MalariaR.objects.select_related()\
-                                        .filter(period=self.args.period, \
+                                        .filter(period=self.args.period,
                                                 entity__type__slug='cscom')\
                                         .values_list('entity__id', flat=True)
-        return list(Entity.objects.filter(~models.Q(pk__in=reported), \
+        return list(Entity.objects.filter(~models.Q(pk__in=reported),
                                           type__slug='cscom'))
 
 
@@ -323,7 +323,7 @@ class EndOfDistrictPeriod(Alert):
 
         # validate non-validated reports
         for report in MalariaR.unvalidated\
-                                   .filter(period=self.args.period, \
+                                   .filter(period=self.args.period,
                                            entity__type__slug=validate_level):
             report._status = MalariaR.STATUS_VALIDATED
             if author:
@@ -344,7 +344,7 @@ class EndOfDistrictPeriod(Alert):
                 continue
             rauthor = contact_for(entity) if not author else author
             logger.info(u"Creating Aggregated report for %s" % entity)
-            report = AggMalariaR.create_from(self.args.period, \
+            report = AggMalariaR.create_from(self.args.period,
                                                      entity, rauthor)
             # region auto-validates their reports
             if not self.args.is_district:
@@ -362,7 +362,7 @@ class EndOfDistrictPeriod(Alert):
                    .filter(period=self.args.period).count() == 0:
             rauthor = author if author else get_autobot()
             logger.info(u"Creating National report")
-            report = AggMalariaR.create_from(self.args.period, \
+            report = AggMalariaR.create_from(self.args.period,
                                                      mali, rauthor)
 
             # following only applies to districts (warn regions).
@@ -378,8 +378,8 @@ class EndOfDistrictPeriod(Alert):
                 continue
 
             nb_reports = MalariaR.unvalidated\
-                                   .filter(period=self.args.period, \
-                                           entity__type__slug='district', \
+                                   .filter(period=self.args.period,
+                                           entity__type__slug='district',
                                            entity__parent=region).count()
 
             message = u"[PNLP] La periode de validation CSRef est " \
@@ -401,7 +401,7 @@ def level_statistics(period, level):
     sublevel = 'cscom' if level == 'district' else 'district'
     unval = [r.entity for r \
                       in MalariaR.unvalidated.select_related()\
-                                  .filter(period=period, \
+                                  .filter(period=period,
                                           entity__type__slug=sublevel)]
 
     for e in unval:
@@ -417,10 +417,10 @@ def level_statistics(period, level):
 def cscom_without_report(period):
     """ list of Entity (cscom) which have not sent report """
     reported = MalariaR.objects.select_related()\
-                                    .filter(period=period, \
+                                    .filter(period=period,
                                             entity__type__slug='cscom')\
                                     .values_list('entity__id', flat=True)
-    return list(Entity.objects.filter(~models.Q(pk__in=reported), \
+    return list(Entity.objects.filter(~models.Q(pk__in=reported),
                                       type__slug='cscom'))
 
 
@@ -494,7 +494,7 @@ class Reminder(Alert):
         if level == 'cscom':
             message = u"[PNLP] Votre rapport mensuel paludisme est " \
                       u"attendu au plus tard le %(date)s" \
-                      % {'date': date(today.year, \
+                      % {'date': date(today.year,
                                       today.month, 5).strftime('%x')}
             for cscom in mobile_entity_gen(cscom_without_report(self.args.period)):
                 contact = contact_for(cscom, recursive=False)
@@ -528,8 +528,8 @@ class Reminder(Alert):
 
             message = u"[PNLP] Vous avez %(unval)d rapports a valider " \
                       u"au plus tard le %(date)s." \
-                      % {'unval': stat['unval'], \
-                         'date': date(today.year, \
+                      % {'unval': stat['unval'],
+                         'date': date(today.year,
                                       today.month, dom).strftime('%x')}
             email_title = u"[PNLP] Rapports a valider"
             # send_sms(to=contact.phone_number, text=message)
@@ -577,10 +577,10 @@ class EndOfMonth(Alert):
 
         # malitel_url = full_url(path=reverse('malitel'))
         title = u"[PNLP] La période va commencer."
-        # sent, sent_message = send_email(recipients=settings.HOTLINE_EMAIL, \
-        #                                 template='emails/send_airtime.txt', \
-        #                                 context={'url': malitel_url}, \
+        # sent, sent_message = send_email(recipients=settings.HOTLINE_EMAIL,
+        #                                 template='emails/send_airtime.txt',
+        #                                 context={'url': malitel_url},
         #                                 title=title)
-        sent, sent_message = send_email(recipients=settings.HOTLINE_EMAIL, \
-                                        message=message, \
+        sent, sent_message = send_email(recipients=settings.HOTLINE_EMAIL,
+                                        message=message,
                                         title=title)

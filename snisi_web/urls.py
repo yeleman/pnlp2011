@@ -76,7 +76,8 @@ urlpatterns = patterns('',
     url(r'^send_message/$', mviews.transmission.send_message,
                             name='send_message'),
     # Reproduction
-    url(r'^repod_dashboard/$', repviews.dashboard.dashboard, name='reprod_index'),
+    url(r'^repod_dashboard/$', repviews.dashboard.dashboard,
+                               name='reprod_index'),
 
     # Epidemiology
     url(r'^epid_dashboard/$', epidviews.dashboard.dashboard, name='epid_index'),
@@ -116,7 +117,8 @@ urlpatterns = patterns('',
 
     url(r'^support/$', mviews.dashboard.contact, name='support'),
     url(r'^annuaire/$', bviews.addressbook.addressbook, name='addressbook'),
-    url(r'^adressbook_send_sms/$', bviews.addressbook.adressbook_send_sms, name='sms'),
+    url(r'^adressbook_send_sms/$', bviews.addressbook.adressbook_send_sms,
+                                   name='sms'),
 
     # development only
     url(r'^static/admin/(?P<path>.*)$',

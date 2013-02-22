@@ -2,7 +2,7 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from bolibana.reporting.indicators import (IndicatorTable, reference, \
+from bolibana.reporting.indicators import (IndicatorTable, reference,
                                            indicator, label)
 from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import find_report_attr_age
@@ -19,36 +19,36 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
               u"cas testés, cas confirmés) ???."
     type = 'graph'
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': False}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
     @indicator(0)
     @label(u"Cas suspects")
     def total_suspected_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_suspected_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_suspected_malaria_cases',
                                self.options.age)
 
     @indicator(1, "total_suspected_malaria_cases")
     @label(u"Cas testés")
     def total_tested_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_tested_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_tested_malaria_cases',
                                self.options.age)
 
     @indicator(2, "total_suspected_malaria_cases")
     @label(u"Cas confirmés")
     def total_confirmed_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_confirmed_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_confirmed_malaria_cases',
                                self.options.age)
 
 
@@ -60,35 +60,35 @@ class CasSimplesGraves(IndicatorTable):
     caption = u" "
     type = 'graph'
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': False}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @indicator(0)
     @label(u"Cas confirmés")
     def total_confirmed_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_confirmed_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_confirmed_malaria_cases',
                                self.options.age)
 
     @indicator(1, "total_confirmed_malaria_cases")
     @label(u"Cas simples")
     def total_simple_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_simple_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_simple_malaria_cases',
                                self.options.age)
 
     @indicator(2, "total_confirmed_malaria_cases")
     @label(u"Cas graves")
     def total_severe_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_severe_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_severe_malaria_cases',
                                self.options.age)
 
 
@@ -101,29 +101,29 @@ class CasTestes(IndicatorTable):
     caption = u" "
     graph_type = 'spline'
     type = "graph"
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
     @indicator(0)
     @label(u"Cas suspects")
     def total_suspected_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_suspected_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_suspected_malaria_cases',
                                self.options.age)
 
     @indicator(1, "total_suspected_malaria_cases")
     @label(u"Cas testés")
     def total_tested_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_tested_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_tested_malaria_cases',
                                self.options.age)
 
 
@@ -136,27 +136,27 @@ class CasConfirmes(IndicatorTable):
     caption = u" "
     graph_type = 'spline'
     type = "graph"
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
     @indicator(0)
     @label(u"Cas suspects")
     def total_suspected_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_suspected_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_suspected_malaria_cases',
                                self.options.age)
 
     @indicator(1, "total_suspected_malaria_cases")
     @label(u"Cas confirmés")
     def total_confirmed_malaria_cases(self, period):
-        return find_report_attr_age(self.entity, period, \
-                               'total_confirmed_malaria_cases', \
+        return find_report_attr_age(self.entity, period,
+                               'total_confirmed_malaria_cases',
                                self.options.age)

@@ -17,8 +17,8 @@ class DecesFemmesEnceintes(IndicatorTable):
     caption = u"Décès notifiés chez les femmes enceintes"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
+    default_options = {'with_percentage': True,
+                       'with_total': True,
                        'with_reference': True}
 
     def period_is_valid(self, period):

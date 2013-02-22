@@ -21,12 +21,12 @@ class CasPaludismeEnfantsOverFive(IndicatorTable):
     caption = u"Nombre de cas de paludisme chez les personnes de 5 ans et plus"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
+    default_options = {'with_percentage': True,
+                       'with_total': True,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
@@ -73,11 +73,11 @@ class NbreTestesConfirmesOverFive(NbreCasSuspectesTestesConfirmes):
               u"cas testés,  cas confirmés)  chez les personnes de" \
               u" 5 ans et plus."
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': True, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': True,
                        'with_data': True,
-                       'only_percent': False, \
+                       'only_percent': False,
                        'age': 'over_five'}
 
 
@@ -92,11 +92,11 @@ class NbreTestesOverrFive(CasTestes):
               u"cas suspects chez les personnes de 5 ans et plus"
     graph_type = 'spline'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': True,
                        'age': 'over_five'}
 
 
@@ -110,11 +110,11 @@ class NbreConfirmesOverrFive(CasConfirmes):
               u"les cas testés  chez les personnes de 5 ans et plus"
     graph_type = 'spline'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': True,
                        'age': 'over_five'}
 
 
@@ -131,9 +131,9 @@ class NbreCasSimplesGravesOverFive(CasSimplesGraves):
               u" et plus"
     graph_type = 'spline'
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': False,
                        'age': 'over_five'}

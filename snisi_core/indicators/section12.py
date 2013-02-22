@@ -2,7 +2,7 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from bolibana.reporting.indicators import (IndicatorTable, \
+from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
 from bolibana.models.Entity import Entity
 from snisi_core.models.MalariaReport import MalariaR
@@ -18,8 +18,8 @@ class PromptitudeRapportageSegouBamako(IndicatorTable):
     caption = u"Pourcentage de structures ayant transmis leurs données"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
@@ -69,8 +69,8 @@ class FigurePromptitudeRapportageSegouBamako(PromptitudeRapportageSegouBamako):
     type = 'graph'
     graph_type = 'spline'
 
-    default_options = {'with_percentage': True, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': True}
 
@@ -97,8 +97,8 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
     caption = u"Pourcentage de structures ayant transmis leurs données"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
                        'with_reference': True}
 
     def period_is_valid(self, period):
@@ -214,8 +214,8 @@ class GraphePromptitudeNionoMacinaAutres(PromptitudeNionoMacinaAutres):
     graph_type = 'spline'
     type = 'graph'
 
-    default_options = {'with_percentage': True, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_reference': False,
                        'with_data': True,
                        'only_percent': True}
 

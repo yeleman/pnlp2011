@@ -38,17 +38,17 @@ class MalariaDataHolder(object):
             setattr(self, slug, data)
 
     def fields_for(self, cat):
-        u5fields = ['u5_total_consultation_all_causes', \
-                    'u5_total_suspected_malaria_cases', \
-                    'u5_total_simple_malaria_cases', \
-                    'u5_total_severe_malaria_cases', \
-                    'u5_total_tested_malaria_cases', \
-                    'u5_total_confirmed_malaria_cases', \
-                    'u5_total_treated_malaria_cases', \
-                    'u5_total_inpatient_all_causes', \
-                    'u5_total_malaria_inpatient', \
-                    'u5_total_death_all_causes', \
-                    'u5_total_malaria_death', \
+        u5fields = ['u5_total_consultation_all_causes',
+                    'u5_total_suspected_malaria_cases',
+                    'u5_total_simple_malaria_cases',
+                    'u5_total_severe_malaria_cases',
+                    'u5_total_tested_malaria_cases',
+                    'u5_total_confirmed_malaria_cases',
+                    'u5_total_treated_malaria_cases',
+                    'u5_total_inpatient_all_causes',
+                    'u5_total_malaria_inpatient',
+                    'u5_total_death_all_causes',
+                    'u5_total_malaria_death',
                     'u5_total_distributed_bednets']
         if cat == 'u5':
             return u5fields
@@ -60,14 +60,14 @@ class MalariaDataHolder(object):
             fields.extend(['pw_total_anc1', 'pw_total_sp1', 'pw_total_sp2'])
             return fields
         if cat == 'so':
-            return ['stockout_act_children', \
-                    'stockout_act_youth', \
-                    'stockout_act_adult', \
-                    'stockout_artemether', \
-                    'stockout_quinine', \
-                    'stockout_serum', \
-                    'stockout_bednet', \
-                    'stockout_rdt', \
+            return ['stockout_act_children',
+                    'stockout_act_youth',
+                    'stockout_act_adult',
+                    'stockout_artemether',
+                    'stockout_quinine',
+                    'stockout_serum',
+                    'stockout_bednet',
+                    'stockout_rdt',
                     'stockout_sp']
 
     def data_for_cat(self, cat, as_dict=False):
@@ -190,46 +190,46 @@ def palu(message):
 
     # create variables from text messages.
     try:
-        args_names = ['kw1', 'username', 'password', 'month', 'year', \
-        'u5_total_consultation_all_causes', \
-        'u5_total_suspected_malaria_cases', \
-        'u5_total_simple_malaria_cases', \
-        'u5_total_severe_malaria_cases', \
-        'u5_total_tested_malaria_cases', \
-        'u5_total_confirmed_malaria_cases', \
-        'u5_total_treated_malaria_cases', \
-        'u5_total_inpatient_all_causes', \
-        'u5_total_malaria_inpatient', \
-        'u5_total_death_all_causes', \
-        'u5_total_malaria_death', \
-        'u5_total_distributed_bednets', \
-        'o5_total_consultation_all_causes', \
-        'o5_total_suspected_malaria_cases', \
-        'o5_total_simple_malaria_cases', \
-        'o5_total_severe_malaria_cases', \
-        'o5_total_tested_malaria_cases', \
-        'o5_total_confirmed_malaria_cases', \
-        'o5_total_treated_malaria_cases', \
-        'o5_total_inpatient_all_causes', \
-        'o5_total_malaria_inpatient', \
-        'o5_total_death_all_causes', \
-        'o5_total_malaria_death', \
-        'pw_total_consultation_all_causes', \
-        'pw_total_suspected_malaria_cases', \
-        'pw_total_severe_malaria_cases', \
-        'pw_total_tested_malaria_cases', \
-        'pw_total_confirmed_malaria_cases', \
-        'pw_total_treated_malaria_cases', \
-        'pw_total_inpatient_all_causes', \
-        'pw_total_malaria_inpatient', \
-        'pw_total_death_all_causes', \
-        'pw_total_malaria_death', \
-        'pw_total_distributed_bednets', \
-        'pw_total_anc1', \
-        'pw_total_sp1', \
-        'pw_total_sp2', \
-        'stockout_act_children', 'stockout_act_youth', 'stockout_act_adult', \
-        'stockout_artemether', 'stockout_quinine', 'stockout_serum', \
+        args_names = ['kw1', 'username', 'password', 'month', 'year',
+        'u5_total_consultation_all_causes',
+        'u5_total_suspected_malaria_cases',
+        'u5_total_simple_malaria_cases',
+        'u5_total_severe_malaria_cases',
+        'u5_total_tested_malaria_cases',
+        'u5_total_confirmed_malaria_cases',
+        'u5_total_treated_malaria_cases',
+        'u5_total_inpatient_all_causes',
+        'u5_total_malaria_inpatient',
+        'u5_total_death_all_causes',
+        'u5_total_malaria_death',
+        'u5_total_distributed_bednets',
+        'o5_total_consultation_all_causes',
+        'o5_total_suspected_malaria_cases',
+        'o5_total_simple_malaria_cases',
+        'o5_total_severe_malaria_cases',
+        'o5_total_tested_malaria_cases',
+        'o5_total_confirmed_malaria_cases',
+        'o5_total_treated_malaria_cases',
+        'o5_total_inpatient_all_causes',
+        'o5_total_malaria_inpatient',
+        'o5_total_death_all_causes',
+        'o5_total_malaria_death',
+        'pw_total_consultation_all_causes',
+        'pw_total_suspected_malaria_cases',
+        'pw_total_severe_malaria_cases',
+        'pw_total_tested_malaria_cases',
+        'pw_total_confirmed_malaria_cases',
+        'pw_total_treated_malaria_cases',
+        'pw_total_inpatient_all_causes',
+        'pw_total_malaria_inpatient',
+        'pw_total_death_all_causes',
+        'pw_total_malaria_death',
+        'pw_total_distributed_bednets',
+        'pw_total_anc1',
+        'pw_total_sp1',
+        'pw_total_sp2',
+        'stockout_act_children', 'stockout_act_youth', 'stockout_act_adult',
+        'stockout_artemether', 'stockout_quinine', 'stockout_serum',
         'stockout_bednet', 'stockout_rdt', 'stockout_sp']
         args_values = message.content.strip().lower().split()
         arguments = dict(zip(args_names, args_values))
@@ -274,7 +274,7 @@ def palu(message):
 
     # feed data holder with sms provided data
     for key, value in arguments.items():
-        if key.split('_')[0] in ('u5', 'o5', 'pw', \
+        if key.split('_')[0] in ('u5', 'o5', 'pw',
                                  'stockout', 'year', 'month'):
             data_browser.set(key, value)
 
@@ -338,7 +338,7 @@ def palu(message):
     message.respond(u"[SUCCES] Le rapport de %(cscom)s pour %(period)s "
                     u"a ete enregistre. " \
                     u"Le No de recu est #%(receipt)s." \
-                    % {'cscom': report.entity.display_full_name(), \
+                    % {'cscom': report.entity.display_full_name(),
                        'period': report.period, \
                        'receipt': report.receipt})
 
@@ -350,7 +350,7 @@ def palu(message):
         return True
     send_sms(to, u"[ALERTE] Le CSCom %(cscom)s vient d'envoyer le " \
                  u"rapport #%(receipt)s pour %(period)s." \
-                 % {'cscom': report.entity.display_full_name(), \
-                    'period': report.period, \
+                 % {'cscom': report.entity.display_full_name(),
+                    'period': report.period,
                     'receipt': report.receipt})
     return True

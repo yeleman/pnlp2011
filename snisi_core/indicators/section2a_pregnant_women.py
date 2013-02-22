@@ -19,12 +19,12 @@ class CasPaludismeFemmesEnceintes(IndicatorTable):
     caption = u"Nombre de cas de paludisme chez les femmes enceintes"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
+    default_options = {'with_percentage': True,
+                       'with_total': True,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
@@ -57,11 +57,11 @@ class NbreTestesConfirmesFemmesEnceintes(NbreCasSuspectesTestesConfirmes):
     caption = u"Nombre de cas de paludisme  par mois (cas suspects," \
               u"cas testés,  cas confirmés)  chez les femmes enceintes."
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': True, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': True,
                        'with_data': True,
-                       'only_percent': False, \
+                       'only_percent': False,
                        'age': 'pregnant_women'}
 
 
@@ -74,11 +74,11 @@ class NbreTestesConfirmesFemmesEnceintes(NbreCasSuspectesTestesConfirmes):
     caption = u"Nombre de cas de paludisme  par mois (cas suspects," \
               u"cas testés,  cas confirmés)  chez les femmes enceintes."
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': True, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': True,
                        'with_data': True,
-                       'only_percent': False, \
+                       'only_percent': False,
                        'age': 'pregnant_women'}
 
 
@@ -91,11 +91,11 @@ class EvolutionTestesFemmesEnceintes(CasTestes):
     caption = u"Evolution de la proportion des cas testés parmi les" \
               u"cas suspects chez les femmes enceintes. "
     graph_type = 'spline'
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': True,
                        'age': 'pregnant_women'}
 
 
@@ -108,11 +108,11 @@ class EvolutionConfirmesFemmesEnceintes(CasConfirmes):
     caption = u"Evolution de la proportion des cas confirmés parmi " \
               u"les cas testés  chez les femmes enceintes"
     graph_type = 'spline'
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': True,
                        'age': 'pregnant_women'}
 WIDGETS = [CasPaludismeFemmesEnceintes,
            NbreTestesConfirmesFemmesEnceintes,

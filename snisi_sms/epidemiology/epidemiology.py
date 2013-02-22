@@ -143,8 +143,8 @@ def epidemiology(message, **kwargs):
 
     provider = contact_for(message.identity)
     if not provider:
-        message.respond(error_start + u"Aucun utilisateur ne possede ce " \
-                                      u"numero de telephone")
+        message.respond(u"%s Aucun utilisateur ne possede ce "
+                        u"numero de telephone" % error_start)
         return True
 
     # now we have well formed and authenticated data.

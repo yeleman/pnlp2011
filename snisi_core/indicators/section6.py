@@ -74,7 +74,7 @@ class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
                        'only_percent': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference

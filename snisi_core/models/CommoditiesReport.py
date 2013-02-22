@@ -95,8 +95,9 @@ class RHProductsR(SNISIReport):
     female_sterilization = models.IntegerField(verbose_name=_(u"Female"
                                                u"sterilization"),
                                                choices=YESNOAVAIL)
-    male_sterilization = models.IntegerField(verbose_name=_(u"Male sterilization"),
-                                             choices=YESNOAVAIL)
+    male_sterilization = models.IntegerField(\
+                                        verbose_name=_(u"Male sterilization"),
+                                        choices=YESNOAVAIL)
 
     # Availability of live-saving maternal/RH medecine
     amoxicillin_ij = models.IntegerField(_(u"Amoxicillin (Injectable). "

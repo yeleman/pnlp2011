@@ -21,12 +21,12 @@ class CasPaludismeEnfantsMoins5ans(IndicatorTable):
     caption = u"Nombre de cas de paludisme chez les enfants de moins de 5 ans"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
+    default_options = {'with_percentage': True,
+                       'with_total': True,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
@@ -70,11 +70,11 @@ class NbreTestesConfirmesUnderFive(NbreCasSuspectesTestesConfirmes):
     name = u"Figure 6"
     caption = u"Nombre de cas de paludisme  par mois (cas suspects," \
               u"cas testés,  cas confirmés)  chez les moins de 5 ans."
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': True, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': True,
                        'with_data': True,
-                       'only_percent': False, \
+                       'only_percent': False,
                        'age': 'under_five'}
 
 
@@ -88,11 +88,11 @@ class NbreTestesUnderFive(CasTestes):
               u"suspects chez les moins de 5 ans"
     graph_type = 'spline'
     type = "graph"
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': True,
                        'age': 'under_five'}
 
 
@@ -106,11 +106,11 @@ class NbreConfirmesUnderFive(CasConfirmes):
               u"cas testés  chez les moins de 5 ans"
     graph_type = 'spline'
     type = "graph"
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
-                       'only_percent': True, \
+                       'only_percent': True,
                        'age': 'under_five'}
 
 
@@ -124,11 +124,11 @@ class NbreCasSimplesGravesUnderFive(CasSimplesGraves):
               u"de 5 ans "
     graph_type = 'spline'
     type = "graph"
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': True,
-                       'only_percent': False, \
+                       'only_percent': False,
                        'age': 'under_five'}
 
 WIDGETS = [CasPaludismeEnfantsMoins5ans, NbreTestesConfirmesUnderFive,

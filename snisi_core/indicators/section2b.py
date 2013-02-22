@@ -16,12 +16,12 @@ class CasPaludismeSimpleTraitesCTA(IndicatorTable):
     caption = u"Cas de paludisme simple traités par CTA"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
+    default_options = {'with_percentage': True,
+                       'with_total': True,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
@@ -64,9 +64,9 @@ class CasPaludismeConfirmesTraitesCTA(IndicatorTable):
                 u"nombre de cas traités par CTA"
     type = 'graph'
 
-    default_options = {'with_percentage': False, \
-                       'with_reference': True, \
-                       'with_data': True, \
+    default_options = {'with_percentage': False,
+                       'with_reference': True,
+                       'with_data': True,
                        'only_percent': False}
 
     @indicator(0)
@@ -94,9 +94,9 @@ class EvolutionProportionCasPaludismeSimpleTraitesU5O5(IndicatorTable):
                  u"et les 5 ans et plus"
     type = 'graph'
 
-    default_options = {'with_percentage': False, \
-                       'with_reference': False, \
-                       'with_data': True, \
+    default_options = {'with_percentage': False,
+                       'with_reference': False,
+                       'with_data': True,
                        'only_percent': False}
 
     @indicator(0)
@@ -124,9 +124,9 @@ class EvolutionProportionCasPaludismeSimpleTraitesu5O51(IndicatorTable):
                  u"et les 5 ans et plus"
     type = 'graph'
     graph_type = 'spline'
-    default_options = {'with_percentage': False, \
-                       'with_reference': False, \
-                       'with_data': True, \
+    default_options = {'with_percentage': False,
+                       'with_reference': False,
+                       'with_data': True,
                        'only_percent': False}
 
     @indicator(0)
@@ -141,7 +141,7 @@ class EvolutionProportionCasPaludismeSimpleTraitesu5O51(IndicatorTable):
         report = get_report_for(self.entity, period)
         return report.o5_total_treated_malaria_cases
 
-WIDGETS = [CasPaludismeSimpleTraitesCTA, \
-           CasPaludismeConfirmesTraitesCTA, \
+WIDGETS = [CasPaludismeSimpleTraitesCTA,
+           CasPaludismeConfirmesTraitesCTA,
            EvolutionProportionCasPaludismeSimpleTraitesU5O5,
            EvolutionProportionCasPaludismeSimpleTraitesu5O51]

@@ -2,7 +2,7 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from bolibana.reporting.indicators import (IndicatorTable, reference, \
+from bolibana.reporting.indicators import (IndicatorTable, reference,
                                             indicator, label)
 from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import get_report_for
@@ -18,12 +18,12 @@ class TousCasPaludismeNotifies(IndicatorTable):
     caption = u"Nombre de cas de paludisme (tout âge confondu) notifiés"
     type = 'table'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': True, \
+    default_options = {'with_percentage': True,
+                       'with_total': True,
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
@@ -82,14 +82,14 @@ class ProportionsPaludismeConsultationsTTC(IndicatorTable):
               u"consultations toutes causes confondues"
     type = 'graph'
 
-    default_options = {'with_percentage': True, \
-                       'with_total': False, \
-                       'with_reference': False, \
+    default_options = {'with_percentage': True,
+                       'with_total': False,
+                       'with_reference': False,
                        'with_data': False,
                        'only_percent': True}
 
     def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity, \
+        return MalariaR.validated.filter(entity=self.entity,
                                               period=period).count() > 0
 
     @reference
@@ -115,11 +115,11 @@ class NbreCasSuspectesTestesConfirmesALL(NbreCasSuspectesTestesConfirmes):
     caption = u"Nombre de cas de paludisme (cas suspects, " \
               u"cas testés, cas confirmés) tout âge confondu."
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': True, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': True,
                        'with_data': True,
-                       'only_percent': False, \
+                       'only_percent': False,
                        'age': 'all'}
 
 
@@ -132,12 +132,12 @@ class NbreCasSuspectesTestesConfirmes(CasSimplesGraves):
     caption = u"Nombre de cas de paludisme par mois  (cas confirmés," \
               u" cas simples, cas graves) tout âge confondu."
 
-    default_options = {'with_percentage': False, \
-                       'with_total': False, \
-                       'with_reference': True, \
+    default_options = {'with_percentage': False,
+                       'with_total': False,
+                       'with_reference': True,
                        'with_data': True,
-                       'only_percent': False, \
+                       'only_percent': False,
                        'age': 'all'}
 
-WIDGETS = [TousCasPaludismeNotifies, ProportionsPaludismeConsultationsTTC, \
+WIDGETS = [TousCasPaludismeNotifies, ProportionsPaludismeConsultationsTTC,
            NbreCasSuspectesTestesConfirmesALL, NbreCasSuspectesTestesConfirmes]

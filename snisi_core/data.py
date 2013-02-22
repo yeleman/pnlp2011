@@ -248,7 +248,7 @@ def provider_can_or_403(permission, provider, entity):
     else:
         if entity:
             message = _(u"You don't have permission %(perm)s on %(entity)s") \
-                      % {'perm': permission, \
+                      % {'perm': permission,
                          'entity': entity.display_full_name()}
         else:
             message = _(u"You don't have permission %(perm)s") \

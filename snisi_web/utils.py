@@ -10,23 +10,23 @@ from bolibana.models.Access import Access
 from bolibana.models.Role import Role
 
 proverbs = [
-    ('bm', u"dɔlɔ tɛ bɔ bɛɛ ka fɔ la", \
+    ('bm', u"dɔlɔ tɛ bɔ bɛɛ ka fɔ la",
      u"La bière n'est pas préparée à la demande de n'importe qui."),
-    ('bm', u"hakilima bɛɛ ye kulu kuncɛmana dɔn fuga ye", \
+    ('bm', u"hakilima bɛɛ ye kulu kuncɛmana dɔn fuga ye",
      u"Tout homme raisonnable sait que sur la montagne " \
      u"il y a une surface plate."),
     ('bm', u"ji ma masa dɔn", u"Le fleuve ne connaît pas le roi."),
-    ('bm', u"mɔgɔ fila la tuma dɔ tɛ kelen ye", \
+    ('bm', u"mɔgɔ fila la tuma dɔ tɛ kelen ye",
      u"Un moment ne reflète pas la même chose pour deux personnes."),
-    ('bm', u"ni warabilen bolo tɛ zaban mun sɔrɔ a ba fɔ ko a kumulen dɔ", \
+    ('bm', u"ni warabilen bolo tɛ zaban mun sɔrɔ a ba fɔ ko a kumulen dɔ",
      u"Du zaban que le singe ne peut attraper, il dit qu'il est amère."),
-    ('bm', u"seli si tɛ buranmuso sudon bɔ", \
+    ('bm', u"seli si tɛ buranmuso sudon bɔ",
      u"Aucune prière ne vaut l'enterrement de sa belle-mère."),
-    ('bm', u"tulon-ka-yɛlɛ bɛ dugu diya", \
+    ('bm', u"tulon-ka-yɛlɛ bɛ dugu diya",
      u"Le divertissement et les rires rendent agréable la vie au village."),
-    ('ses', u"amar guusu mana tii hansi huro do", \
+    ('ses', u"amar guusu mana tii hansi huro do",
      u"Le trou de la panthère n'a pas de crotte de chien. "),
-    ('ses', u"goy ra nafaw goo", \
+    ('ses', u"goy ra nafaw goo",
      u"C'est en travaillant que l'on devient utile."),
     ('ses', u"kaani si boro wii", u"Le plaisir ne tue pas l'homme."),
     ('ses', u"waafakay cine si bara", u"L'entente n'a pas d'égal."),
@@ -40,8 +40,8 @@ def get_level_for(provider):
     # based on number of descendants
     # in the entities hierarchy
     best_access = provider.first_access() or \
-                  Access.objects.get(role=Role.objects.get(slug='guest'), \
-                  object_id=1, \
+                  Access.objects.get(role=Role.objects.get(slug='guest'),
+                  object_id=1,
                   content_type=ContentType.objects.get(\
                                app_label='bolibana', model='entity'))
 

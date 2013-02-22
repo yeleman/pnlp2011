@@ -50,13 +50,13 @@ def validation_list(request):
                     'is_idle': context['not_validated'].__len__() == 0 \
                                and context['not_sent'].__len__() > 0})
 
-    context.update({'time_cscom_over': time_cscom_over(), \
-                    'time_district_over': time_district_over(), \
+    context.update({'time_cscom_over': time_cscom_over(),
+                    'time_district_over': time_district_over(),
                     'time_region_over': time_region_over()})
 
     context.update({'validation_over': not time_can_validate(entity)})
 
-    context.update({'current_period': current_period(), \
+    context.update({'current_period': current_period(),
                     'current_reporting_period': period})
 
     return render(request, 'validation_list.html', context)
@@ -162,6 +162,6 @@ def report_do_validation(request, report_receipt):
     context.update({'report': report})
 
     messages.info(request, u"Le rapport %(receipt)s de %(entity)s " \
-                           u"a été validé." % {'receipt': report.receipt, \
+                           u"a été validé." % {'receipt': report.receipt,
                                               'entity': report.entity})
     return redirect('validation')

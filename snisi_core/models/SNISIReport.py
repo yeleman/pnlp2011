@@ -43,8 +43,8 @@ class SNISIReport(Report):
     @classmethod
     def start(cls, period, entity, author, type=Report.TYPE_SOURCE,
               is_late=False, *args, **kwargs):
-        report = cls(period=period, entity=entity, created_by=author, \
-                     modified_by=author, _status=cls.STATUS_CREATED, \
+        report = cls(period=period, entity=entity, created_by=author,
+                     modified_by=author, _status=cls.STATUS_CREATED,
                      type=type)
         for arg, value in kwargs.items():
             try:

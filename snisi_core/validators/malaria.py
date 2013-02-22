@@ -84,7 +84,7 @@ class MalariaRValidator(DataValidator):
                                               % cat)),
                       'field1':
                            self.field_name('%s_total_suspected_malaria_cases'
-                                           % cat), \
+                                           % cat),
                       'f1value': self.get('%s_total_suspected_malaria_cases'
                                            % cat)}
                 if dic['f1value'] < dic['f2value']:
@@ -197,7 +197,7 @@ class MalariaRValidator(DataValidator):
             period = MonthPeriod.find_create_from(year=self.get('year'),
                                                   month=self.get('month'))
             if entity \
-            and MalariaR.objects.filter(entity=entity, \
+            and MalariaR.objects.filter(entity=entity,
                                              period=period).count() > 0:
                 report = MalariaR.objects.get(entity=entity, period=period)
                 self.errors.add(_(u"There is already a report for "
