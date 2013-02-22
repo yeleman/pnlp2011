@@ -12,7 +12,7 @@ from django.conf import settings
 from bolibana.models.Provider import Provider
 from bolibana.models.Entity import Entity
 from bolibana.models.Period import MonthPeriod
-from snisi_core.validators.malaria import MalariaReportValidator
+from snisi_core.validators.malaria import MalariaRValidator
 from snisi_core.models.MalariaReport import MalariaR
 
 from nosmsd.utils import send_sms
@@ -291,7 +291,7 @@ def palu(message):
     data_browser.set('author', provider.name())
 
     # create validator and fire
-    validator = MalariaReportValidator(data_browser)
+    validator = MalariaRValidator(data_browser)
     validator.errors.reset()
     try:
         validator.validate()

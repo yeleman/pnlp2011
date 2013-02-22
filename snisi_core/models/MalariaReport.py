@@ -110,17 +110,17 @@ class MalariaRIface(object):
 
         return report
 
-    def add_underfive_data(self, total_consultation_all_causes, \
-                                 total_suspected_malaria_cases, \
-                                 total_simple_malaria_cases, \
-                                 total_severe_malaria_cases, \
-                                 total_tested_malaria_cases, \
-                                 total_confirmed_malaria_cases, \
-                                 total_treated_malaria_cases, \
-                                 total_inpatient_all_causes, \
-                                 total_malaria_inpatient, \
-                                 total_death_all_causes, \
-                                 total_malaria_death, \
+    def add_underfive_data(self, total_consultation_all_causes,
+                                 total_suspected_malaria_cases,
+                                 total_simple_malaria_cases,
+                                 total_severe_malaria_cases,
+                                 total_tested_malaria_cases,
+                                 total_confirmed_malaria_cases,
+                                 total_treated_malaria_cases,
+                                 total_inpatient_all_causes,
+                                 total_malaria_inpatient,
+                                 total_death_all_causes,
+                                 total_malaria_death,
                                  total_distributed_bednets):
         self.u5_total_consultation_all_causes = total_consultation_all_causes
         self.u5_total_suspected_malaria_cases = total_suspected_malaria_cases
@@ -135,16 +135,16 @@ class MalariaRIface(object):
         self.u5_total_malaria_death = total_malaria_death
         self.u5_total_distributed_bednets = total_distributed_bednets
 
-    def add_overfive_data(self, total_consultation_all_causes, \
-                                 total_suspected_malaria_cases, \
-                                 total_simple_malaria_cases, \
-                                 total_severe_malaria_cases, \
-                                 total_tested_malaria_cases, \
-                                 total_confirmed_malaria_cases, \
-                                 total_treated_malaria_cases, \
-                                 total_inpatient_all_causes, \
-                                 total_malaria_inpatient, \
-                                 total_death_all_causes, \
+    def add_overfive_data(self, total_consultation_all_causes,
+                                 total_suspected_malaria_cases,
+                                 total_simple_malaria_cases,
+                                 total_severe_malaria_cases,
+                                 total_tested_malaria_cases,
+                                 total_confirmed_malaria_cases,
+                                 total_treated_malaria_cases,
+                                 total_inpatient_all_causes,
+                                 total_malaria_inpatient,
+                                 total_death_all_causes,
                                  total_malaria_death):
         self.o5_total_consultation_all_causes = total_consultation_all_causes
         self.o5_total_suspected_malaria_cases = total_suspected_malaria_cases
@@ -158,19 +158,19 @@ class MalariaRIface(object):
         self.o5_total_death_all_causes = total_death_all_causes
         self.o5_total_malaria_death = total_malaria_death
 
-    def add_pregnantwomen_data(self, total_consultation_all_causes, \
-                                 total_suspected_malaria_cases, \
-                                 total_severe_malaria_cases, \
-                                 total_tested_malaria_cases, \
-                                 total_confirmed_malaria_cases, \
-                                 total_treated_malaria_cases, \
-                                 total_inpatient_all_causes, \
-                                 total_malaria_inpatient, \
-                                 total_death_all_causes, \
-                                 total_malaria_death, \
-                                 total_distributed_bednets, \
-                                 total_anc1, \
-                                 total_sp1, \
+    def add_pregnantwomen_data(self, total_consultation_all_causes,
+                                 total_suspected_malaria_cases,
+                                 total_severe_malaria_cases,
+                                 total_tested_malaria_cases,
+                                 total_confirmed_malaria_cases,
+                                 total_treated_malaria_cases,
+                                 total_inpatient_all_causes,
+                                 total_malaria_inpatient,
+                                 total_death_all_causes,
+                                 total_malaria_death,
+                                 total_distributed_bednets,
+                                 total_anc1,
+                                 total_sp1,
                                  total_sp2):
         self.pw_total_consultation_all_causes = total_consultation_all_causes
         self.pw_total_suspected_malaria_cases = total_suspected_malaria_cases
@@ -187,14 +187,14 @@ class MalariaRIface(object):
         self.pw_total_sp1 = total_sp1
         self.pw_total_sp2 = total_sp2
 
-    def add_stockout_data(self, stockout_act_children, \
-                                stockout_act_youth, \
-                                stockout_act_adult, \
-                                stockout_artemether, \
-                                stockout_quinine, \
-                                stockout_serum, \
-                                stockout_bednet, \
-                                stockout_rdt, \
+    def add_stockout_data(self, stockout_act_children,
+                                stockout_act_youth,
+                                stockout_act_adult,
+                                stockout_artemether,
+                                stockout_quinine,
+                                stockout_serum,
+                                stockout_bednet,
+                                stockout_rdt,
                                 stockout_sp):
         self.stockout_act_children = stockout_act_children
         self.stockout_act_youth = stockout_act_youth
@@ -248,11 +248,11 @@ class MalariaRIface(object):
                 region = region_id(ent.slug)
                 break
         receipt = '%(region)s%(id)d/%(entity)s-%(day)s-%(dow)s' \
-                  % {'day': instance.created_on.strftime('%j'), \
-                     'dow': DOW[int(instance.created_on.strftime('%w'))], \
-                     'entity': instance.entity.slug, \
-                     'id': instance.id, \
-                     'period': instance.period.id, \
+                  % {'day': instance.created_on.strftime('%j'),
+                     'dow': DOW[int(instance.created_on.strftime('%w'))],
+                     'entity': instance.entity.slug,
+                     'id': instance.id,
+                     'period': instance.period.id,
                      'region': region}
         return receipt
 
@@ -266,8 +266,8 @@ class MalariaRIface(object):
 
     def validate(self):
         """ runs MalariaRValidator """
-        from snisi_core.validators.malaria import MalariaReportValidator
-        validator = MalariaReportValidator(self)
+        from snisi_core.validators.malaria import MalariaRValidator
+        validator = MalariaRValidator(self)
         validator.validate()
         return validator.errors
 
@@ -381,24 +381,24 @@ class MalariaR(MalariaRIface, SNISIReport):
     is_late = models.BooleanField(default=False,
                                   verbose_name=_(u"Is Late?"))
 
-    sources = models.ManyToManyField('MalariaR', \
-                                     verbose_name=_(u"Sources"), \
+    sources = models.ManyToManyField('MalariaR',
+                                     verbose_name=_(u"Sources"),
                                      blank=True, null=True)
 
     def fill_blank(self):
         self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         self.add_overfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         self.add_pregnantwomen_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        self.add_stockout_data(self.NO, self.NO, self.NO, self.NO, self.NO, \
+        self.add_stockout_data(self.NO, self.NO, self.NO, self.NO, self.NO,
                                self.NO, self.NO, self.NO, self.NO)
 
     @classmethod
     def create_aggregated(cls, period, entity, author, *args, **kwargs):
-        agg_report = cls.start(period, entity, author, \
+        agg_report = cls.start(period, entity, author,
                type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs)
 
-        sources = MalariaR.validated.filter(period=period, \
-            entity__in=entity.get_children())
+        sources = MalariaR.validated.filter(period=period,
+                                            entity__in=entity.get_children())
 
         if sources.count() == 0:
             agg_report.fill_blank()
@@ -533,12 +533,12 @@ class AggMalariaR(MalariaRIface, SNISIReport):
     indiv_sources = models.ManyToManyField('MalariaR',
                                            verbose_name=_(u"Indiv. Sources"),
                                            blank=True, null=True,
-                                           related_name='indiv_agg_malaria_reports')
+                                       related_name='indiv_agg_malaria_reports')
 
     agg_sources = models.ManyToManyField('AggMalariaR',
-                                         verbose_name=_(u"Aggr. Sources"),
-                                         blank=True, null=True,
-                                         related_name='aggregated_agg_malaria_reports')
+                                verbose_name=_(u"Aggr. Sources"),
+                                blank=True, null=True,
+                                related_name='aggregated_agg_malaria_reports')
 
     def fill_blank(self):
         self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)

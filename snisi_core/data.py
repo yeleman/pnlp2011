@@ -16,16 +16,16 @@ from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 class MalariaRForm(forms.ModelForm):
     class Meta:
         model = MalariaR
-        exclude = ('_status', 'type', 'receipt', 'period', \
-                   'entity', 'created_by', 'created_on', \
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
                    'modified_by', 'modified_on')
 
 
 class AggMalariaRForm(forms.ModelForm):
     class Meta:
         model = AggMalariaR
-        exclude = ('_status', 'type', 'receipt', 'period', \
-                   'entity', 'created_by', 'created_on', \
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
                    'modified_by', 'modified_on')
 
 
@@ -103,7 +103,7 @@ def get_reports_to_validate(entity, period=current_reporting_period()):
     """ List of Entity which have sent report but are not validated """
     return [(report.entity, report) \
             for report \
-            in MalariaR.unvalidated\
+            in AggMalariaR.unvalidated\
                             .filter(entity__in=entity.get_children(),
                                     period=period)]
 
