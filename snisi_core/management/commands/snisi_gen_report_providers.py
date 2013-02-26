@@ -62,14 +62,12 @@ def generating_for(day):
                 logger.info("Removed %s" % expr)
 
 
-
 class Command(BaseCommand):
 
     option_list = BaseCommand.option_list + (
         make_option('--from',
             help='Create Expected from a fixed date',
             default=False),)
-
 
     def handle(self, *args, **options):
 

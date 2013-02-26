@@ -110,6 +110,11 @@ def report_as_excel(report):
                     return name.__unicode__()
             return value
 
+    def is_aggregated(report):
+        if report.REPORTING_LEVEL == AGGREGATED_LEVEL:
+            return True
+        return False
+
     # On crée le doc xls
     book = xlwt.Workbook(encoding='utf-8')
 
@@ -124,9 +129,14 @@ def report_as_excel(report):
     # write_merge((nbre ligne - 1), (nbre ligne - 1) + nbre de ligne
     # à merger, (nbre de colonne - 1), (nbre de colonne - 1) + nbre
     # de colonne à merger, u"contenu", style(optionnel)).
-    sheet.write_merge(0, 0, 0, 12, u"Formulaire de Collecte - Données"\
-                    u"sur l'Information de Routime du PNLP - Niveau" \
-                    u"District Sanitaire (Csréf/Cscom)", styletitleform)
+    if is_aggregated(report):
+        sheet.write_merge(0, 0, 0, 12, u"Formulaire de Collecte - Données"\
+                        u"sur l'Information de Routime du PNLP - " \
+                        u"Niveau Aggrégé", styletitleform)
+    else:
+        sheet.write_merge(0, 0, 0, 12, u"Formulaire de Collecte - Données"\
+                    u"sur l'Information de Routime du PNLP - " \
+                    u"Niveau Primaire", styletitleform)
     sheet.write(1, 0, u"Région Médical", styledescription)
     sheet.write(2, 0, u"District Sanitaire", styledescription)
     sheet.write(3, 0, u"Etablissement sanitaire", styledescription)
@@ -410,6 +420,13 @@ def report_as_excel(report):
     sheet.write(27, 12, report.created_on.year, styledate)
 
     sheet.write_merge(0, 28, 13, 13, u"", styleborformright)
+    sheet.write(30, 0, u"Statut :")
+    if report._status == report.STATUS_CREATED:
+        sheet.write(30, 1, 'Non-validé', styledate)
+    elif report._status == report.STATUS_VALIDATED:
+        sheet.write(30, 1, 'Validé', styledate)
+    else:
+        sheet.write(30, 1, '', styledate)
 
     if report.REPORTING_LEVEL == AGGREGATED_LEVEL:
         sheet.write(35, 0, u"Sources", styletitle)
