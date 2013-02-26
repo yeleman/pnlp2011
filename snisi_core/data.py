@@ -11,6 +11,12 @@ from bolibana.models.Access import Access
 from bolibana.models.Provider import Provider
 from bolibana.models.Period import MonthPeriod
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
+from snisi_core.models.Epidemiology import EpidemiologyR
+from snisi_core.models.CommoditiesReport import RHProductsR, AggRHProductsR
+from snisi_core.models.ChildrenMortalityRepaort import (ChildrenDeathR,
+                                                        AggChildrenDeathR)
+from snisi_core.models.MaternalMortalityRepaort import (MaternalDeathR,
+                                                        AggMaternalDeathR)
 
 
 class MalariaRForm(forms.ModelForm):
@@ -24,6 +30,70 @@ class MalariaRForm(forms.ModelForm):
 class AggMalariaRForm(forms.ModelForm):
     class Meta:
         model = AggMalariaR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class EpidemiologyRForm(forms.ModelForm):
+    class Meta:
+        model = EpidemiologyR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class AggEpidemiologyRForm(forms.ModelForm):
+    class Meta:
+        model = EpidemiologyR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class RHProductsRForm(forms.ModelForm):
+    class Meta:
+        model = RHProductsR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class AggRHProductsRForm(forms.ModelForm):
+    class Meta:
+        model = AggRHProductsR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class ChildrenDeathRForm(forms.ModelForm):
+    class Meta:
+        model = ChildrenDeathR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class AggChildrenDeathRForm(forms.ModelForm):
+    class Meta:
+        model = AggChildrenDeathR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class MaternalDeathRForm(forms.ModelForm):
+    class Meta:
+        model = MaternalDeathR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class AggMaternalDeathRForm(forms.ModelForm):
+    class Meta:
+        model = AggMaternalDeathR
         exclude = ('_status', 'type', 'receipt', 'period',
                    'entity', 'created_by', 'created_on',
                    'modified_by', 'modified_on')
