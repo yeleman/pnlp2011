@@ -26,6 +26,7 @@ from snisi_core.models.CommoditiesReport import RHProductsR, AggRHProductsR
 from snisi_core.models.ChildrenMortalityReport import (ChildrenDeathR,
                                                        AggChildrenDeathR)
 from snisi_core.models.Epidemiology import EpidemiologyR
+from snisi_core.models.bednet import BednetR
 from snisi_core.models.alert import Alert
 from snisi_core.admin import MalariaRAdmin, AlertAdmin
 
@@ -61,6 +62,7 @@ admin.site.register(AggChildrenDeathR)
 admin.site.register(RHProductsR)
 admin.site.register(AggRHProductsR)
 admin.site.register(EpidemiologyR)
+admin.site.register(BednetR)
 admin.site.register(ReportClass)
 admin.site.register(ScheduledReporting)
 admin.site.register(ExpectedReporting)

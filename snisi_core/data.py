@@ -12,10 +12,11 @@ from bolibana.models.Provider import Provider
 from bolibana.models.Period import MonthPeriod
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 from snisi_core.models.Epidemiology import EpidemiologyR
+from snisi_core.models.bednet import BednetR
 from snisi_core.models.CommoditiesReport import RHProductsR, AggRHProductsR
-from snisi_core.models.ChildrenMortalityRepaort import (ChildrenDeathR,
+from snisi_core.models.ChildrenMortalityReport import (ChildrenDeathR,
                                                         AggChildrenDeathR)
-from snisi_core.models.MaternalMortalityRepaort import (MaternalDeathR,
+from snisi_core.models.MaternalMortalityReport import (MaternalDeathR,
                                                         AggMaternalDeathR)
 
 
@@ -94,6 +95,22 @@ class MaternalDeathRForm(forms.ModelForm):
 class AggMaternalDeathRForm(forms.ModelForm):
     class Meta:
         model = AggMaternalDeathR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class BednetRForm(forms.ModelForm):
+    class Meta:
+        model = BednetR
+        exclude = ('_status', 'type', 'receipt', 'period',
+                   'entity', 'created_by', 'created_on',
+                   'modified_by', 'modified_on')
+
+
+class AggBednetRForm(forms.ModelForm):
+    class Meta:
+        model = BednetR
         exclude = ('_status', 'type', 'receipt', 'period',
                    'entity', 'created_by', 'created_on',
                    'modified_by', 'modified_on')
