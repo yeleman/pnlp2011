@@ -33,7 +33,8 @@
 {% else %}
 <p>{{ provider.name }} n'ayant pas enregistré son adresse e-mail, vous seul pourrez lui communiquer son nouveau mot de passe.</p>
 {% endif %}
-<p><a href="{% url password_user provider.id %}"><button class="formbutt default">Générer un nouveau mot de passe</button></a></p>
+<p><a href="{% url password_user provider.id 0 %}"><button class="formbutt default">Générer un nouveau mot de passe</button></a></p>
+<p><a href="{% url password_user provider.id 1 %}"><button class="formbutt default">Générer un nouveau mot de passe Simple</button></a></p>
 
 <h2>{% if provider.is_active %}Désactiver le compte{% else %}Activer le compte{% endif %} <em class="lower">{{ provider.username }}</em></h2>
 <p>Les comptes utilisateurs ne sont pas supprimables pour assurer l'intégrité des données.</p>

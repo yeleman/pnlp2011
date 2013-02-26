@@ -7,6 +7,7 @@ from bolibana.models.ExpectedReporting import (ExpectedReporting,
                                                SOURCE_LEVEL,
                                                AGGREGATED_LEVEL)
 
+
 class GenericReport(object):
 
     def __init__(self, entity, period,

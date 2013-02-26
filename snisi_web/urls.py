@@ -100,7 +100,7 @@ urlpatterns = patterns('',
     url(r'^users/enable/(?P<user_id>[0-9]+)$',
         bviews.providers.enable_disable_user, name='enable_user',
         kwargs={'activate': True}),
-    url(r'^users/new_password/(?P<user_id>[0-9]+)$',
+    url(r'^users/new_password/(?P<user_id>[0-9]+)/(?P<pwd_id>[0-9]+)$',
         bviews.providers.password_user, name='password_user'),
 
     # ANTIM : ENTITIES
