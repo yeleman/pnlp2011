@@ -5,12 +5,12 @@
 from bolibana.reporting.indicators import (IndicatorTable, reference,
                                             indicator, label)
 from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import get_report_for
+from snisi_core.indicators.common import get_report_for, MalariaIndicatorTable
 from snisi_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes,\
                                           CasSimplesGraves)
 
 
-class TousCasPaludismeNotifies(IndicatorTable):
+class TousCasPaludismeNotifies(IndicatorTable, MalariaIndicatorTable):
     """Tableau: Nombre de cas de paludisme (tout âge confondu) notifiés """
 
     name = u"Tableau 3"
@@ -21,10 +21,6 @@ class TousCasPaludismeNotifies(IndicatorTable):
     default_options = {'with_percentage': True,
                        'with_total': True,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -71,7 +67,7 @@ class TousCasPaludismeNotifies(IndicatorTable):
         return report.total_severe_malaria_cases
 
 
-class ProportionsPaludismeConsultationsTTC(IndicatorTable):
+class ProportionsPaludismeConsultationsTTC(IndicatorTable, MalariaIndicatorTable):
     """Graphe: Proportion des cas de paludisme par rapport aux consultations
 
         toutes causes confondues """
@@ -87,10 +83,6 @@ class ProportionsPaludismeConsultationsTTC(IndicatorTable):
                        'with_reference': False,
                        'with_data': False,
                        'only_percent': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0, 'total_consultation_all_causes')

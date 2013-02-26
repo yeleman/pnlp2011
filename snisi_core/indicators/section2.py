@@ -5,10 +5,10 @@
 from bolibana.reporting.indicators import (IndicatorTable, reference,
                                            indicator, label)
 from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import find_report_attr_age
+from snisi_core.indicators.common import find_report_attr_age, period_is_valid, MalariaIndicatorTable
 
 
-class NbreCasSuspectesTestesConfirmes(IndicatorTable):
+class NbreCasSuspectesTestesConfirmes(IndicatorTable, MalariaIndicatorTable):
     """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
 
         confirmés) """
@@ -24,10 +24,6 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
                        'with_reference': False,
                        'with_data': True,
                        'only_percent': False}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -52,7 +48,7 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable):
                                self.options.age)
 
 
-class CasSimplesGraves(IndicatorTable):
+class CasSimplesGraves(IndicatorTable, MalariaIndicatorTable):
     """   """
 
     name = u" "
@@ -65,10 +61,6 @@ class CasSimplesGraves(IndicatorTable):
                        'with_reference': False,
                        'with_data': True,
                        'only_percent': False}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @indicator(0)
     @label(u"Cas confirmés")
@@ -92,7 +84,7 @@ class CasSimplesGraves(IndicatorTable):
                                self.options.age)
 
 
-class CasTestes(IndicatorTable):
+class CasTestes(IndicatorTable, MalariaIndicatorTable):
     """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
 
         confirmés) """
@@ -106,10 +98,6 @@ class CasTestes(IndicatorTable):
                        'with_reference': False,
                        'with_data': True,
                        'only_percent': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -127,7 +115,7 @@ class CasTestes(IndicatorTable):
                                self.options.age)
 
 
-class CasConfirmes(IndicatorTable):
+class CasConfirmes(IndicatorTable, MalariaIndicatorTable):
     """ Graphe: Nombre de cas de paludisme (cas suspects, cas testés, cas
 
         confirmés) """
@@ -141,10 +129,6 @@ class CasConfirmes(IndicatorTable):
                        'with_reference': False,
                        'with_data': True,
                        'only_percent': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0)

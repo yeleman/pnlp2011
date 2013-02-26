@@ -2,18 +2,27 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-from snisi_core.models.MalariaReport import MalariaR
+from bolibana.models.Entity import Entity
 from bolibana.reporting.indicators import NoSourceData
+
+from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
+from snisi_core.models.GenericReport import GenericReport
+
+
+class MalariaIndicatorTable(object):
+
+    def period_is_valid(self, period):
+        return period_is_valid(entity=self.entity, period=period)
 
 
 def get_report_for(entity, period, validated=True):
     """ MalariaR for entity and period or raise NoSourceData """
-    try:
-        if validated:
-            return MalariaR.validated.get(entity=entity, period=period)
-        else:
-            return MalariaR.unvalidated.get(entity=entity, period=period)
-    except MalariaR.DoesNotExist:
+    greport = GenericReport(entity=entity, period=period,
+                            src_cls=MalariaR, agg_cls=AggMalariaR,
+                            only_validated=validated)
+    if greport.is_present:
+        return greport.report
+    else:
         raise NoSourceData
 
 
@@ -21,30 +30,29 @@ def get_report_for_element(report, element):
     return report[element]
 
 
-def get_report_for_slug(entity, period, validated=True):
-    """ MalariaR for slug entity and period or raise NoSourceData """
+def period_is_valid(entity, period):
     try:
-        if validated:
-            return MalariaR.validated.get(entity__slug=entity.slug,
-                                               period=period)
-        else:
-            return MalariaR.unvalidated.get(entity__slug=entity.slug,
-                                                 period=period)
-    except MalariaR.DoesNotExist:
-        raise NoSourceData
+        return bool(get_report_for(entity, period, True))
+    except NoSourceData:
+        return False
+
+def period_is_expected(entity, period, validated=True):
+    greport = GenericReport(entity=entity, period=period,
+                            src_cls=MalariaR, agg_cls=AggMalariaR,
+                            only_validated=validated)
+    return greport.is_expected
+
 
 
 def get_report_national(period, validated=True):
     """ MalariaR for slug entity and period or raise NoSourceData """
+
     try:
-        if validated:
-            return MalariaR.validated.get(entity__slug="mali",
-                                               period=period)
-        else:
-            return MalariaR.unvalidated.get(entity__slug="mali",
-                                                 period=period)
-    except MalariaR.DoesNotExist:
+        entity = Entity.objects.get(slug='mali')
+    except Entity.DoesNotExist:
         raise NoSourceData
+
+    return get_report_for(entity, period, validated)
 
 
 def report_attr_age(report, attribute, age_code='all'):

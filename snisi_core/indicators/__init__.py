@@ -34,9 +34,10 @@ INDICATOR_SECTIONS = \
                               'sections': {}},
     '9': {'id': '9', 'label': u"CPN et Traitement Préventif Intermittent" \
                               u" (TPI)", 'sections': {}},
-    '10': {'id': '10', 'label': u"Données de surveillance", 'sections': {}},
-    '11': {'id': '11', 'label': u"Données sur les intrants", 'sections': {}},
-    '12': {'id': '12', 'label': u"Données sur la completude du rapportage",
-                                 'sections': {}},
-    '13': {'id': '13', 'label': u"Rapport personnalisé (en developpement)",
-                                 'sections': {}}}
+    # '10': {'id': '10', 'label': u"Données de surveillance", 'sections': {}},
+    # '11': {'id': '11', 'label': u"Données sur les intrants", 'sections': {}},
+    # '12': {'id': '12', 'label': u"Données sur la completude du rapportage",
+    #                              'sections': {}},
+    # '13': {'id': '13', 'label': u"Rapport personnalisé (en developpement)",
+    #                              'sections': {}}
+    }

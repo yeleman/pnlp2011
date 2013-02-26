@@ -7,10 +7,10 @@ from bolibana.reporting.indicators import (IndicatorTable,
 from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import (get_report_national, get_report_for,
                                          get_report_for_element,
-                                         get_report_for_slug)
+                                         MalariaIndicatorTable)
 
 
-class CasConfirmes(IndicatorTable):
+class CasConfirmes(IndicatorTable, MalariaIndicatorTable):
     """ """
 
     name = u"Tableau 21"
@@ -22,10 +22,6 @@ class CasConfirmes(IndicatorTable):
     default_options = {'with_percentage': True,
                        'with_total': False,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0, 'u5_total_tested_malaria_cases')
@@ -80,7 +76,7 @@ class GrapheConfirmes(CasConfirmes):
     def total_confirmed_malaria_cases(self, period):
         return super(GrapheConfirmes, self).total_confirmed_malaria_cases(period)
 
-class NbreHospitalisationDeces(IndicatorTable):
+class NbreHospitalisationDeces(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Données sur l'hospitalisation et le decès pour paludisme chez
 
         les moins de 5 ans """
@@ -95,10 +91,6 @@ class NbreHospitalisationDeces(IndicatorTable):
     default_options = {'with_percentage': False,
                        'with_total': False,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @indicator(0)
     @label(u"hospitalisations pour paludisme")
@@ -131,7 +123,7 @@ class GrapheNbreHospitalisationDeces(NbreHospitalisationDeces):
                        'only_percent': False}
 
 
-class DecesPaluToutCauses(IndicatorTable):
+class DecesPaluToutCauses(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Données de décès pour paludisme et toutes causes chez les
 
         moins de 5 ans """
@@ -145,10 +137,6 @@ class DecesPaluToutCauses(IndicatorTable):
     default_options = {'with_percentage': True,
                        'with_total': False,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0, 'u5_total_consultation_all_causes')
@@ -262,7 +250,7 @@ class DecesPalu(IndicatorTable):
             print report
             return report.total_malaria_death
         else:
-            report = get_report_for_element(get_report_for_slug(self.entity,
+            report = get_report_for_element(get_report_for(self.entity,
                                             period).sources.validated(), 1)
             return report.total_malaria_death
 
@@ -276,7 +264,7 @@ class DecesPalu(IndicatorTable):
                                             .sources.validated(), 1)
             return report.u5_total_malaria_death
         else:
-            report = get_report_for_element(get_report_for_slug(self.entity,
+            report = get_report_for_element(get_report_for(self.entity,
                                             period).sources.validated(), 1)
             return report.u5_total_malaria_death
 
@@ -290,7 +278,7 @@ class DecesPalu(IndicatorTable):
                                             .sources.validated(), 0)
             return report.total_malaria_death
         else:
-            report = get_report_for_element(get_report_for_slug(self.entity,
+            report = get_report_for_element(get_report_for(self.entity,
                                             period).sources.validated(), 0)
             return report.total_malaria_death
 
@@ -303,7 +291,7 @@ class DecesPalu(IndicatorTable):
                                             .sources.validated(), 0)
             return report.u5_total_malaria_death
         else:
-            report = get_report_for_element(get_report_for_slug(self.entity,
+            report = get_report_for_element(get_report_for(self.entity,
                                             period).sources.validated(), 0)
             return report.u5_total_malaria_death
 
@@ -333,9 +321,7 @@ class GrapheDecesPalu(DecesPalu):
         return super(GrapheDecesPalu, self).segou_u5_total_malaria_death(period)
 
 
-
-
-class CasTestesConfirmes(IndicatorTable):
+class CasTestesConfirmes(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Pourcentage de cas de suspect testés et pourcentage de cas de
 
         paludisme confirmés parmi les cas testés """
@@ -349,10 +335,6 @@ class CasTestesConfirmes(IndicatorTable):
     default_options = {'with_percentage': True,
                        'with_total': False,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -402,7 +384,7 @@ class GrapheCasTestesConfirmes(CasTestesConfirmes):
         return super(GrapheCasTestesConfirmes, self).total_confirmed_malaria_cases(period)
 
 
-class NbreConsultationCasSuspect(IndicatorTable):
+class NbreConsultationCasSuspect(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Pourcentage de cas de suspect testés et pourcentage de cas de
 
         paludisme confirmés parmi les cas testés """
@@ -416,10 +398,6 @@ class NbreConsultationCasSuspect(IndicatorTable):
     default_options = {'with_percentage': False,
                        'with_total': False,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @indicator(0, 'total_suspected_malaria_cases')
     @label(u"Total consultation(toutes causes)")

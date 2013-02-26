@@ -5,11 +5,12 @@
 
 from bolibana.reporting.indicators import (IndicatorTable, reference,
                                            indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import nb_stockout
+from snisi_core.indicators.common import (nb_stockout, MalariaIndicatorTable,
+                                          period_is_expected)
 
 
-class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
+class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable,
+                                                   MalariaIndicatorTable):
     """ Tableau: Pourcentage de structures avec Rupture de stock de CTA dans
 
         le district """
@@ -25,7 +26,7 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return True
+        return period_is_expected(entity=self.entity, period=period)
 
     @reference
     @indicator(0)
@@ -56,7 +57,8 @@ class PourcentageStructuresRuptureStockCTADistrict(IndicatorTable):
         return nb_act_adult
 
 
-class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
+class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable,
+                                                    MalariaIndicatorTable):
     """ Graphe: Evolution du pourcentage de Structures avec rupture de stock en
 
         CTA """
@@ -72,10 +74,6 @@ class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable):
                        'with_reference': False,
                        'with_data': False,
                        'only_percent': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0)

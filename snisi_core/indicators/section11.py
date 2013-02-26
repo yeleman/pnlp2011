@@ -6,12 +6,13 @@ from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
 from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import nb_stockout
-from snisi_core.indicators.common import (get_report_for, get_report_for_slug,
+from snisi_core.indicators.common import (get_report_for,
                                          get_report_for_element,
-                                         get_report_national)
+                                         get_report_national,
+                                         MalariaIndicatorTable)
 
 
-class CTAMILD(IndicatorTable):
+class CTAMILD(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Données sur la CPN et le Traitement Préventif  Intermittent
 
         (TPI) """
@@ -25,10 +26,6 @@ class CTAMILD(IndicatorTable):
     default_options = {'with_percentage': True,
                        'with_total': False,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -76,7 +73,8 @@ class GrapheCTAMILD(CTAMILD):
     def pw_total_sp2(self, period):
         return super(GrapheCTAMILD, self).pw_total_sp2(period)
 
-class TraitesCTA(IndicatorTable):
+
+class TraitesCTA(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Données sur la CPN et le Traitement Préventif  Intermittent
 
         (TPI) """
@@ -90,10 +88,6 @@ class TraitesCTA(IndicatorTable):
                        'with_total': False,
                        'with_reference': True}
 
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
-
     @reference
     @indicator(0, 'bamako_total_simple_malaria_cases')
     @label(u"cas paludisme à Bamako")
@@ -105,7 +99,7 @@ class TraitesCTA(IndicatorTable):
                                             .sources.validated(), 1)
             return report.total_simple_malaria_cases
         else:
-            report = get_report_for_element(get_report_for_slug(self.entity,
+            report = get_report_for_element(get_report_for(self.entity,
                                             period).sources.validated(), 1)
             return report.total_simple_malaria_cases
 
@@ -119,7 +113,7 @@ class TraitesCTA(IndicatorTable):
             print report
             return report.total_treated_malaria_cases
         else:
-            report = get_report_for_element(get_report_for_slug(self.entity,
+            report = get_report_for_element(get_report_for(self.entity,
                                             period).sources.validated(), 1)
             return report.total_treated_malaria_cases
 
@@ -133,7 +127,7 @@ class TraitesCTA(IndicatorTable):
                                             .sources.validated(), 0)
             return report.total_simple_malaria_cases
         else:
-            report = get_report_for_element(get_report_for_slug(self.entity,
+            report = get_report_for_element(get_report_for(self.entity,
                                             period).sources.validated(), 0)
             return report.total_simple_malaria_cases
 
@@ -146,7 +140,7 @@ class TraitesCTA(IndicatorTable):
                                             .sources.validated(), 0)
             return report.total_treated_malaria_cases
         else:
-            report = get_report_for_element(get_report_for_slug(self.entity,
+            report = get_report_for_element(get_report_for(self.entity,
                                             period).sources.validated(), 0)
             return report.total_treated_malaria_cases
 

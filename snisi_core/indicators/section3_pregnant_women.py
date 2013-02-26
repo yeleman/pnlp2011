@@ -4,12 +4,12 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import get_report_for
+
+from snisi_core.indicators.common import get_report_for, MalariaIndicatorTable
 from snisi_core.indicators.section3 import Hospitalisation
 
 
-class HospitalisationFemmesEnceintes(IndicatorTable):
+class HospitalisationFemmesEnceintes(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Hospitalisation chez les femmes enceintes """
 
     name = u"Tableau 4.1d"
@@ -20,10 +20,6 @@ class HospitalisationFemmesEnceintes(IndicatorTable):
     default_options = {'with_percentage': True,
                        'with_total': True,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @reference
     @indicator(0, 'pw_total_inpatient_all_causes')

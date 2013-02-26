@@ -5,11 +5,11 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import find_report_attr_age
+from snisi_core.indicators.common import (find_report_attr_age,
+                                          MalariaIndicatorTable)
 
 
-class Hospitalisation(IndicatorTable):
+class Hospitalisation(IndicatorTable, MalariaIndicatorTable):
     """ Graphe: Hospitalisation """
 
     name = u"Figure 4"
@@ -22,10 +22,6 @@ class Hospitalisation(IndicatorTable):
                        'with_reference': False,
                        'with_data': False,
                        'only_percent': False}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @reference
     @indicator(0)

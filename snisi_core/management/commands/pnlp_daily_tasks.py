@@ -29,11 +29,6 @@ class Command(BaseCommand):
 
         logger.info(u"Launching PNLP daily tasks script")
 
-        logger.info(u"Remove orphan periods")
-        [p.delete() for p
-                    in MonthPeriod.objects.all()
-                    if MalariaR.objects.filter(period=p).count() == 0]
-
         period = current_reporting_period()
 
         # if new incoming report

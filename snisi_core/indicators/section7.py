@@ -5,10 +5,12 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.indicators.common import nb_stockout
+from snisi_core.indicators.common import (nb_stockout, MalariaIndicatorTable,
+                                          period_is_expected)
 
 
-class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
+class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable,
+                                                        MalariaIndicatorTable):
     """ Tableau: Pourcentage de structures avec Rupture de stock en produits
 
     de prise en charge des cas de paludisme grave """
@@ -24,7 +26,7 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable):
                        'with_reference': True}
 
     def period_is_valid(self, period):
-        return True
+        return period_is_expected(entity=self.entity, period=period)
 
     @reference
     @indicator(0)

@@ -5,11 +5,11 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import get_report_for, find_report_attr_age
+from snisi_core.indicators.common import (get_report_for, find_report_attr_age,
+                                          MalariaIndicatorTable)
 
 
-class GraphDeces(IndicatorTable):
+class GraphDeces(IndicatorTable, MalariaIndicatorTable):
     """ Geaphe: Décès """
 
     name = u"Figure 5"
@@ -22,10 +22,6 @@ class GraphDeces(IndicatorTable):
                        'with_reference': False,
                        'with_data': True,
                        'only_percent': False}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -43,7 +39,7 @@ class GraphDeces(IndicatorTable):
                                self.options.age)
 
 
-class GraphCommun(IndicatorTable):
+class GraphCommun(IndicatorTable, MalariaIndicatorTable):
     """ Graphe: Evolution du nombre de décès dû au paludisme Chez les
 
         moins de 5 ans, les 5 ans et plus et les femmes enceintes """
@@ -60,10 +56,6 @@ class GraphCommun(IndicatorTable):
                        'with_reference': False,
                        'with_data': True,
                        'only_percent': False}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @reference
     @indicator(0)
