@@ -4,14 +4,13 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import get_report_for
+from snisi_core.indicators.common import get_report_for, MalariaIndicatorTable
 from snisi_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes,
                                             CasSimplesGraves,
                                             CasTestes, CasConfirmes)
 
 
-class CasPaludismeEnfantsMoins5ans(IndicatorTable):
+class CasPaludismeEnfantsMoins5ans(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Nombre de cas de paludisme chez les enfants de moins de
 
         5 ans """
@@ -24,10 +23,6 @@ class CasPaludismeEnfantsMoins5ans(IndicatorTable):
     default_options = {'with_percentage': True,
                        'with_total': True,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0)

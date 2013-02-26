@@ -9,7 +9,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from bolibana.web.decorators import provider_permission
 from bolibana.models.Entity import Entity
 from bolibana.models.Period import MonthPeriod
-from snisi_core.models.MalariaReport import MalariaR
+from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
+from snisi_core.models.GenericReport import GenericReport
 from snisi_core.data import (entities_path,
                             provider_can_or_403,
                             current_reporting_period, contact_for)
@@ -55,9 +56,10 @@ def indicator_browser(request, entity_code=None, period_str=None,
                           .order_by('start_on')
 
     all_periods = list(all_anterior_periods(current_reporting_period()).all())
-    if not MalariaR.validated.filter(entity=entity,
-                                          period=current_reporting_period()) \
-                                  .count():
+    greport = GenericReport(entity=entity, period=current_reporting_period(),
+                            src_cls=MalariaR, agg_cls=AggMalariaR,
+                            only_validated=True)
+    if not greport.is_expected:
         all_periods.remove(current_reporting_period())
 
     # retrieve Periods from string
@@ -132,6 +134,8 @@ def indicator_browser(request, entity_code=None, period_str=None,
     # section 1 specifics
     if section_index == '1':
         context.update({'contact': contact_for(entity)})
+
+    print(periods)
 
     context.update({'section': section, 'sub_section': sub_section})
 

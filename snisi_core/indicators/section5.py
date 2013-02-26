@@ -4,11 +4,11 @@
 
 
 from bolibana.reporting.indicators import IndicatorTable, indicator, label
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import get_report_for
+from snisi_core.indicators.common import get_report_for, MalariaIndicatorTable
 
 
-class NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD(IndicatorTable):
+class NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD(IndicatorTable,
+                                                               MalariaIndicatorTable):
     """ Tableau: Nombre de Moustiquaires imprégnées  d’Insecticides
 
        de Longue Durée (MILD) distribuées"""
@@ -22,11 +22,6 @@ class NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD(IndicatorTable):
     default_options = {'with_percentage': False,
                        'with_total': False,
                        'with_reference': False}
-
-    def period_is_valid(self, period):
-        """Periode valide"""
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @indicator(0)
     @label(u"Nombre MILD distribuées aux enfants de moins de 5 ans")
@@ -43,7 +38,8 @@ class NombreMoustiquqiresImpregneesInsecticidesLongueDureeMILD(IndicatorTable):
         return report.pw_total_distributed_bednets
 
 
-class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable):
+class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable,
+                                                MalariaIndicatorTable):
     """Graphe: Evolution du nombre de MILD distribuées aux moins
 
        de 5 ans et femmes enceintes"""
@@ -59,11 +55,6 @@ class EvolutionNbreMILDMoins5ansFemmesenceintes(IndicatorTable):
                        'with_reference': True,
                        'with_data': True,
                        'only_percent': False}
-
-    def period_is_valid(self, period):
-        """Periode valide"""
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @indicator(0)
     @label(u"Nbre de MILD distribuées aux moins de 5 ans")

@@ -4,12 +4,11 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import get_report_for
+from snisi_core.indicators.common import get_report_for, MalariaIndicatorTable
 from snisi_core.indicators.section4 import GraphCommun
 
 
-class DecesOverFive(IndicatorTable):
+class DecesOverFive(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Décès notifiés chez les 5 ans et plus """
 
     name = u"Tableau 14"
@@ -20,10 +19,6 @@ class DecesOverFive(IndicatorTable):
     default_options = {'with_percentage': True,
                        'with_total': True,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @reference
     @indicator(0, 'o5_total_death_all_causes')

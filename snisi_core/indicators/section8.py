@@ -5,10 +5,11 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.indicators.common import nb_stockout
+from snisi_core.indicators.common import nb_stockout, MalariaIndicatorTable
 
 
-class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
+class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable,
+                                                 MalariaIndicatorTable):
     """ Tableau: Pourcentage de structures sans rupture de stock en MILD, TDR,
 
         SP """
@@ -57,7 +58,8 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
         return nb_sp
 
 
-class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable):
+class EvolutionPourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable,
+                                                          MalariaIndicatorTable):
     """ Graphe: Evolution du pourcentage de Structures sans rupture de stock en
 
         MILD, TDR, SP """

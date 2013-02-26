@@ -4,11 +4,10 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import get_report_for
+from snisi_core.indicators.common import get_report_for, MalariaIndicatorTable
 
 
-class DonneesCPNetTPI(IndicatorTable):
+class DonneesCPNetTPI(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Données sur la CPN et le Traitement Préventif  Intermittent
 
         (TPI) """
@@ -22,10 +21,6 @@ class DonneesCPNetTPI(IndicatorTable):
     default_options = {'with_percentage': False,
                        'with_total': False,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -47,7 +42,7 @@ class DonneesCPNetTPI(IndicatorTable):
         return report.pw_total_sp2
 
 
-class EvolutionCPN1SP1SP2(IndicatorTable):
+class EvolutionCPN1SP1SP2(IndicatorTable, MalariaIndicatorTable):
     """ Graphe: Evolution de la  CPN1, SP1 et SP2 chez les femmes enceintes"""
 
     name = u"Figure 30"
@@ -60,10 +55,6 @@ class EvolutionCPN1SP1SP2(IndicatorTable):
                        'with_reference': False,
                        'with_data': False,
                        'only_percent': False}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @reference
     @indicator(0)
@@ -85,7 +76,8 @@ class EvolutionCPN1SP1SP2(IndicatorTable):
         return report.pw_total_sp2
 
 
-class NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes(IndicatorTable):
+class NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes(IndicatorTable,
+                                                         MalariaIndicatorTable):
     """ Graphe: Nombre de femmes enceintes reçues en CPN1 et Nombre de
 
         MILD distribuées aux femmes enceintes"""
@@ -100,10 +92,6 @@ class NombreFemmesEnceintesCPN1NombreMILDFemmesEnceintes(IndicatorTable):
                        'with_reference': False,
                        'with_data': False,
                        'only_percent': False}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                         period=period).count() > 0
 
     @indicator(0)
     @label(u"Nbre de femmes enceintes reçues en CPN 1")

@@ -8,10 +8,11 @@ from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import get_report_for
 from snisi_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes,
                                             CasSimplesGraves,
-                                            CasTestes, CasConfirmes)
+                                            CasTestes, CasConfirmes,
+                                            MalariaIndicatorTable)
 
 
-class CasPaludismeEnfantsOverFive(IndicatorTable):
+class CasPaludismeEnfantsOverFive(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Nombre de cas de paludisme chez les personnes de 5 ans et
 
         plus """
@@ -24,10 +25,6 @@ class CasPaludismeEnfantsOverFive(IndicatorTable):
     default_options = {'with_percentage': True,
                        'with_total': True,
                        'with_reference': True}
-
-    def period_is_valid(self, period):
-        return MalariaR.validated.filter(entity=self.entity,
-                                              period=period).count() > 0
 
     @reference
     @indicator(0, 'o5_total_suspected_malaria_cases')
