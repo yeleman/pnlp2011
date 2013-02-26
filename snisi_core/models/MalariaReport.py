@@ -540,6 +540,9 @@ class AggMalariaR(MalariaRIface, SNISIReport):
                                 blank=True, null=True,
                                 related_name='aggregated_agg_malaria_reports')
 
+    def sources(self):
+        return list(self.indiv_sources.all()) + list(self.agg_sources.all())
+
     def fill_blank(self):
         self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         self.add_overfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
