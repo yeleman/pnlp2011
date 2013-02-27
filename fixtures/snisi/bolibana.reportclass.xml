@@ -24,6 +24,12 @@
         <field type="CharField" name="period_cls">MonthPeriod</field>
         <field type="CharField" name="report_type">r</field>
     </object>
+    <object pk="bednet" model="bolibana.reportclass">
+        <field type="CharField" name="name">Rapport hebdomadaire de MILD</field>
+        <field type="CharField" name="cls">BednetR</field>
+        <field type="CharField" name="period_cls">WeekPeriod</field>
+        <field type="CharField" name="report_type">r</field>
+    </object>
     <object pk="ChildrenDeathReport" model="bolibana.reportclass">
         <field type="CharField" name="name">Rapport Individuel Mortalité Infantile</field>
         <field type="CharField" name="cls">ChildrenDeathR</field>
