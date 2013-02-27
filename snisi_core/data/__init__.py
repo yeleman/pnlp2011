@@ -4,171 +4,17 @@
 
 from datetime import date, timedelta
 
-from django import forms
 from django.utils.translation import ugettext as _
 
 from bolibana.models.Access import Access
 from bolibana.models.Provider import Provider
-from bolibana.models.Period import MonthPeriod
-from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
-from snisi_core.models.Epidemiology import EpidemiologyR
-from snisi_core.models.bednet import BednetR
-from snisi_core.models.CommoditiesReport import RHProductsR, AggRHProductsR
-from snisi_core.models.ChildrenMortalityReport import (ChildrenDeathR,
-                                                        AggChildrenDeathR)
-from snisi_core.models.MaternalMortalityReport import (MaternalDeathR,
-                                                        AggMaternalDeathR)
+from bolibana.models.Period import (MonthPeriod, WeekPeriod,
+                                    QuarterPeriod, YearPeriod, DayPeriod)
+from snisi_core.models.MalariaReport import MalariaR
 
-
-class MalariaRForm(forms.ModelForm):
-    class Meta:
-        model = MalariaR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class AggMalariaRForm(forms.ModelForm):
-    class Meta:
-        model = AggMalariaR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class EpidemiologyRForm(forms.ModelForm):
-    class Meta:
-        model = EpidemiologyR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class AggEpidemiologyRForm(forms.ModelForm):
-    class Meta:
-        model = EpidemiologyR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class RHProductsRForm(forms.ModelForm):
-    class Meta:
-        model = RHProductsR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class AggRHProductsRForm(forms.ModelForm):
-    class Meta:
-        model = AggRHProductsR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class ChildrenDeathRForm(forms.ModelForm):
-    class Meta:
-        model = ChildrenDeathR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class AggChildrenDeathRForm(forms.ModelForm):
-    class Meta:
-        model = AggChildrenDeathR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class MaternalDeathRForm(forms.ModelForm):
-    class Meta:
-        model = MaternalDeathR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class AggMaternalDeathRForm(forms.ModelForm):
-    class Meta:
-        model = AggMaternalDeathR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class BednetRForm(forms.ModelForm):
-    class Meta:
-        model = BednetR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class AggBednetRForm(forms.ModelForm):
-    class Meta:
-        model = BednetR
-        exclude = ('_status', 'type', 'receipt', 'period',
-                   'entity', 'created_by', 'created_on',
-                   'modified_by', 'modified_on')
-
-
-class MalariaDataHolder(object):
-
-    def get(self, slug):
-        return getattr(self, slug)
-
-    def field_name(self, slug):
-        return MalariaR._meta.get_field(slug).verbose_name
-
-    def set(self, slug, data):
-        try:
-            setattr(self, slug, data)
-        except AttributeError:
-            exec 'self.%s = None' % slug
-            setattr(self, slug, data)
-
-    def fields_for(self, cat):
-        u5fields = ['u5_total_consultation_all_causes',
-                    'u5_total_suspected_malaria_cases',
-                    'u5_total_simple_malaria_cases',
-                    'u5_total_severe_malaria_cases',
-                    'u5_total_tested_malaria_cases',
-                    'u5_total_confirmed_malaria_cases',
-                    'u5_total_treated_malaria_cases',
-                    'u5_total_inpatient_all_causes',
-                    'u5_total_malaria_inpatient',
-                    'u5_total_death_all_causes',
-                    'u5_total_malaria_death',
-                    'u5_total_distributed_bednets']
-        if cat == 'u5':
-            return u5fields
-        if cat == 'o5':
-            return [f.replace('u5', 'o5') for f in u5fields][:-1]
-        if cat == 'pw':
-            fields = [f.replace('u5', 'pw') for f in u5fields]
-            fields.remove('pw_total_simple_malaria_cases')
-            fields.extend(['pw_total_anc1', 'pw_total_sp1', 'pw_total_sp2'])
-            return fields
-        if cat == 'so':
-            return ['stockout_act_children',
-                    'stockout_act_youth',
-                    'stockout_act_adult',
-                    'stockout_artemether',
-                    'stockout_quinine',
-                    'stockout_serum',
-                    'stockout_bednet',
-                    'stockout_rdt',
-                    'stockout_sp']
-
-    def data_for_cat(self, cat, as_dict=False):
-        data = []
-        for field in self.fields_for(cat):
-            data.append(self.get(field))
-        return data
+COMMON_EXCLUDED_FIELDS = ('_status', 'type', 'receipt', 'period',
+                          'entity', 'created_by', 'created_on',
+                          'modified_by', 'modified_on')
 
 
 def current_period():
@@ -286,9 +132,18 @@ def most_accurate_report(provider, period=current_reporting_period()):
         return None
 
 
-def raw_data_periods_for(entity):
-    """ periods with validated report for an entity """
-    return [r.mperiod for r in MalariaR.validated.filter(entity=entity)]
+# def raw_data_periods_for(entity):
+#     """ periods with validated report for an entity """
+#     return [r.mperiod for r in MalariaR.validated.filter(entity=entity)]
+
+def raw_data_periods_for(project, entity):
+    """ periods with validated report for an entity and project """
+    # return [r.mperiod for r in MalariaR.validated.filter(entity=entity)]
+    src = [r.casted_period(project.get('period_cls'))
+           for r in project.get('src_cls').validated.filter(entity=entity)]
+    agg = [r.casted_period(project.get('period_cls'))
+           for r in project.get('agg_cls').validated.filter(entity=entity)]
+    return list(set(src + agg))
 
 
 def entities_path(root, entity):
@@ -341,3 +196,61 @@ def provider_can_or_403(permission, provider, entity):
             message = _(u"You don't have permission %(perm)s") \
                       % {'perm': permission}
         raise Http403(message)
+
+
+def period_from_url_str(period_str):
+
+    year = indice = sub_indice = prefix = None
+
+    def fail():
+        raise ValueError(u"Incorrect period.")
+
+    if not len(period_str):
+        fail()
+
+    if period_str.lower()[0] in ('q', 'w'):
+        prefix = period_str.lower()[0]
+        period_str = period_str[1:]
+
+
+    parts = period_str.split('-')
+    if not len(parts) in (1, 2, 3):
+        fail()
+
+    try:
+        year = int(parts.pop())
+        if len(parts):
+            indice = int(parts.pop())
+
+        if len(parts):
+            sub_indice = int(parts.pop())
+
+    except ValueError:
+        fail()
+
+
+    """
+    FORMATS:
+
+    YEAR:       2013                                [0-9]{4}
+    MONTH:      01-2013                             [0-9]{2}-[0-9]{4}
+    QUARTER:    Q1-2013                             Q[1-3]-[0-9]{4}
+    WEEK:       W1-2013                             W[0-9]{1,2}-[0-9]{4}
+    DAY:        01-01-2013                          [0-9]{2}-[0-9]{2}-[0-9]{4}
+    """
+
+    if sub_indice is not None:
+        period = DayPeriod.find_create_from(year, indice, sub_indice)
+
+    elif prefix == 'w':
+        period = WeekPeriod.find_create_by_weeknum(year, indice)
+
+    elif prefix == 'q':
+        period = QuarterPeriod.find_create_by_quarter(year, indice)
+
+    elif indice is not None:
+        period = MonthPeriod.find_create_from(year, month=indice)
+
+    else:
+        period = YearPeriod.find_create_from(year)
+    return period

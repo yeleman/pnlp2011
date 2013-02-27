@@ -12,8 +12,7 @@ from snisi_core.data import current_reporting_period, contact_for
 
 @provider_required
 def dashboard(request):
-    category = 'dashboard'
-    context = {'category': category, 'menu': 'epid'}
+    context = {'category': 'epidemiology', 'location': 'dashboard'}
 
     from bolibana.models.Entity import Entity
     from snisi_core.data import (current_period, current_stage,

@@ -26,7 +26,7 @@ from snisi_core.models.CommoditiesReport import RHProductsR, AggRHProductsR
 from snisi_core.models.ChildrenMortalityReport import (ChildrenDeathR,
                                                        AggChildrenDeathR)
 from snisi_core.models.Epidemiology import EpidemiologyR
-from snisi_core.models.bednet import BednetR
+from snisi_core.models.BednetReport import BednetR
 from snisi_core.models.alert import Alert
 from snisi_core.admin import MalariaRAdmin, AlertAdmin
 

@@ -67,6 +67,15 @@ class SNISIReport(Report):
         wp.__class__ = WeekPeriod
         return wp
 
+    def casted_period(self, cls):
+        cp = self.period
+        cp.__class__ = cls
+        return cp
+
+    def period_string(self):
+        return self.period.middle().strftime(u"%Y")
+
+
 
 class SNISIIndividualReport(IndividualReport):
 

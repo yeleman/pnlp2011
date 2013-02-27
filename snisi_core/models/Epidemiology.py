@@ -107,13 +107,6 @@ class EpidemiologyR(SNISIReport):
         self.other_notifiable_disease_case = other_notifiable_disease_case
         self.other_notifiable_disease_death = other_notifiable_disease_death
 
-    @property
-    def wperiod(self):
-        """ casted period to WeekPeriod """
-        wp = self.period
-        wp.__class__ = WeekPeriod
-        return wp
-
     def __unicode__(self):
         return ugettext(u"%(cscom)s / %(period)s / %(receipt)s"
             % {'cscom': self.entity.display_full_name(),

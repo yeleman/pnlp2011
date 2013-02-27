@@ -1,12 +1,53 @@
-{% extends "raw_data_base.html" %}
-
+{% extends "base.html" %}
 {% load i18n %}
 {% load babel %}
 {% load bolibana %}
 
-{% block submenu %}{% include "malaria/submenu.html" %}{% endblock %}
+{% block title %}{% if no_report %}Rapport indisponible{% else %}Données brutes du rapport {{ report.receipt }}{% endif %}{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">{% if no_report %}Rapport indisponible{% else %}Rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
+{% block page-name %}context{% endblock %}
 
-{% block raw_data_content %}
+{% block submenu %}{% include "malaria/submenu.html" %}
+{% include "malaria/subsubmenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="raw_data"|url:"0" %}
+{% endblock %}
+
+
+{% block jqueryonload %}addJQEventsSubMenu("{% url raw_data %}", "{% url raw_data 0 %}");
+addJQEventPeriodChange("{% url raw_data 'ent_code' 111111 %}", "{{ entity.slug }}");
+addJQEventToggleSources();{% endblock %}
+
+{% block content %}
+{% if periods %}
+<div id="period_nav" {% if report.status < 4 %}class="unvalidated" title="Ce rapport n'a pas encore été validé."{% endif %}><p>Période {% if no_report %}{% include "generic_select.html" with class="browser" items=periods selected=period.pid datefilter="MMMM YYYY" id="period_select" novalue=" - - - - "%}{% else %}{% include "generic_select.html" with class="browser" items=periods selected=period.pid datefilter="MMMM YYYY" id="period_select" %}{% endif %}</select></p></div>
+{% endif %}
+
+<div id="context">
+
+{% if no_report %}
+<p>Désolé, il n'existe pas de rapport validé pour pour la période de {{ period.middle|datefmt:"MMMM yyyy" }} à {{ entity.display_full_name }}.</p>
+{% if periods %}
+<p>Cependant, il existe {{ periods|length}} autre rapport{{ periods|length|pluralize }} pour {{ entity.display_full_name }}. Séléctionnez une autre période pour y accèder.</p>
+{% endif %}
+{%else %}
+
+<p>Rapport de {{ report.entity.display_name }} pour la période de {{ report.period.middle|datefmt:"MMMM yyyy" }}</p>
+<p><strong>Nº de reçu</strong>: {{ report.receipt }}</p>
+<p><strong>Auteur</strong>: {{ report.created_by.name_access }}</p>
+<p><strong>Créé le</strong>: {{ report.created_on|datetimefmt }}</p>
+<p><strong>Modifié par</strong>: {{ report.modified_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
+<p><strong>Type de rapport</strong>: {{ report.type|reporttype }}</p>
+{% if report.type == 0%}
+	<p><strong>En retard </strong>: {% if report.is_late %} OUI {% else %} NON {% endif %}</p>
+{% endif %}
+{% if report.type == 1 and report.sources.all %}
+<p><strong>Sources</strong>: <a id="toggle_sources" href="#">{{ report.sources.all|length}} source{{ report.sources.all|pluralize }}</a> compose{{ report.sources.all|pluralize:"nt" }} ce rapport agrégé.</p>
+<ul id="sources" class="hidden">
+{% for source in report.sources.all %}
+<li>{{ source.entity.display_name }} – <a href="{% url raw_data source.entity.slug source.mperiod.pid %}">{{ source.receipt }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+<div class="rightbuttons"><a href="{% url raw_data_excel report.receipt %}"><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
 <table class="center">
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Consultation</th></tr>
 <tr><th class="center">Moins de 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>
@@ -48,5 +89,6 @@
 <tr><th></th><th class="center">{{ form.stockout_bednet.label_tag }}</th><th class="center">{{ form.stockout_rdt.label_tag }}</th><th class="center">{{ form.stockout_sp.label_tag }}</th></tr>
 {% include "malaria/report_form_row.html" with so=1 f1=form.stockout_bednet f2=form.stockout_rdt f3=form.stockout_sp dataonly=1 %}
 </table>
-
+{% endif %}
+</div>
 {% endblock %}

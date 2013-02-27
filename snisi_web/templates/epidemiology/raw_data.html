@@ -1,0 +1,25 @@
+{% extends "raw_data_base.html" %}
+
+{% load i18n %}
+{% load babel %}
+{% load bolibana %}
+
+{% block submenu %}{% include "epidemiology/submenu.html" %}{% endblock %}
+
+{% block raw_data_content %}
+<table class="center">
+<tr><th class="center">Classification</th><th class="center">Cas</th><th class="center">Décès</th></tr>
+{% include "epidemiology/report_form_row.html" with label="PFA" f1=form.acute_flaccid_paralysis_case f2=form.acute_flaccid_paralysis_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="Grippe A H1N1" f1=form.influenza_a_h1n1_case f2=form.influenza_a_h1n1_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="Choléra" f1=form.cholera_case f2=form.cholera_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="Diarrhée rouge" f1=form.red_diarrhea_case f2=form.red_diarrhea_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="Rougeole" f1=form.measles_case f2=form.measles_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="Fièvre jaune" f1=form.yellow_fever_case f2=form.yellow_fever_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="TNN" f1=form.neonatal_tetanus_case f2=form.neonatal_tetanus_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="Méningite" f1=form.meningitis_case f2=form.meningitis_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="Rage" f1=form.rabies_case f2=form.rabies_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="Diarrhée sévère rougeole" f1=form.acute_measles_diarrhea_case f2=form.acute_measles_diarrhea_death dataonly=1 %}
+{% include "epidemiology/report_form_row.html" with label="Autres MADOS" f1=form.other_notifiable_disease_case f2=form.other_notifiable_disease_death dataonly=1 %}
+</table>
+
+{% endblock %}

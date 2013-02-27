@@ -14,11 +14,11 @@ from snisi_core.data import (provider_entity, current_reporting_period,
                              get_not_received_reports,
                              time_can_validate, current_period,
                              contact_for,
-                             MalariaDataHolder,
-                             MalariaRForm,
-                             AggMalariaRForm,
                              time_cscom_over, time_district_over,
                              time_region_over)
+from snisi_core.data.malaria import (MalariaDataHolder,
+                                     MalariaRForm,
+                                     AggMalariaRForm)
 
 from bolibana.web.decorators import provider_permission
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR

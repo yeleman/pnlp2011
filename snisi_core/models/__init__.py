@@ -8,4 +8,4 @@ from MaternalMortalityReport import (MaternalDeathR, AggMaternalDeathR)
 from ChildrenMortalityReport import (ChildrenDeathR, AggChildrenDeathR)
 from CommoditiesReport import (RHProductsR, AggRHProductsR)
 from alert import Alert
-from bednet import BednetR
+from BednetReport import BednetR

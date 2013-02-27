@@ -135,8 +135,6 @@ def indicator_browser(request, entity_code=None, period_str=None,
     if section_index == '1':
         context.update({'contact': contact_for(entity)})
 
-    print(periods)
-
     context.update({'section': section, 'sub_section': sub_section})
 
     context.update({'widgets': [widget(entity=entity, periods=periods) \

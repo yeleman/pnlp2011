@@ -3,28 +3,34 @@
 # maintainer: rgaudin
 
 from django.http import Http404
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils.translation import ugettext as _
-from django.http import HttpResponse
 
 from bolibana.models.Entity import Entity
-from bolibana.models.Period import MonthPeriod
+from bolibana.web.decorators import provider_required, provider_permission
+
 from snisi_core.data import (raw_data_periods_for,
                              entities_path,
                              provider_can_or_403,
                              provider_can,
-                             current_reporting_period)
-from snisi_core.data.malaria import (MalariaRForm, AggMalariaRForm)
-
-from bolibana.web.decorators import provider_required, provider_permission
-from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
+                             period_from_url_str)
+from snisi_core.projects import PROJECTS
 from snisi_core.models.GenericReport import GenericReport
 from snisi_core.exports import report_as_excel
 
 
 @provider_permission('can_view_raw_data')
-def data_browser(request, entity_code=None, period_str=None):
-    context = {'category': 'malaria', 'location': 'raw_data'}
+def data_browser(request, project_slug, entity_code=None, period_str=None):
+
+    project = PROJECTS.get(project_slug)
+    if project is None:
+        raise Http404(_(u"Incorrect URL: Project Not Found."))
+
+    context = {'category': project.get('category'),
+               'location': 'raw_data',
+               'project': project_slug}
+
     web_provider = request.user.get_profile()
 
     root = web_provider.first_target()
@@ -35,13 +41,17 @@ def data_browser(request, entity_code=None, period_str=None):
     # find period from string or default to current reporting
     if period_str:
         try:
-            period = MonthPeriod.find_create_from(year=int(period_str[-4:]),
-                                                  month=int(period_str[:2]),
-                                                  dont_create=True)
+            period = period_from_url_str(period_str)
         except:
+            raise
             pass
     if not period:
-        period = current_reporting_period()
+        # TODO:
+        # period = current_reporting_period()
+        period = project.get('get_reporting_period')()
+
+    if period:
+        period.cast(project.get('period_cls'))
 
     # find entity or default to provider target
     # raise 404 on wrong provided entity code
@@ -60,7 +70,8 @@ def data_browser(request, entity_code=None, period_str=None):
                     'paths': entities_path(root, entity)})
 
     # build periods list
-    all_periods = raw_data_periods_for(entity)
+    # all_periods = raw_data_periods_for(entity)
+    all_periods = raw_data_periods_for(project, entity)
     if period_str and not period in all_periods:
         raise Http404(_(u"No report for that period"))
 
@@ -73,9 +84,13 @@ def data_browser(request, entity_code=None, period_str=None):
         only_validated = False
     else:
         only_validated = True
+
+    # fetch report
     greport = GenericReport(entity=entity, period=period,
-                            src_cls=MalariaR, agg_cls=AggMalariaR,
+                            src_cls=project.get('src_cls'),
+                            agg_cls=project.get('agg_cls'),
                             only_validated=only_validated)
+    context.update({'expected': greport.is_expected})
 
     # if we're in the case of no validated report
     # but one unvalidated, we'll add the period to the template
@@ -83,24 +98,29 @@ def data_browser(request, entity_code=None, period_str=None):
         all_periods.insert(0, period)
 
     # send period variables to template
-    context.update({'periods': [(p.middle().strftime('%m%Y'), p.middle())
-                                for p in all_periods],
+    context.update({'periods': [(p.strid(), p) for p in all_periods],
                     'period': period})
 
     if greport.report:
         context.update({'report': greport.report, 'greport': greport})
-        form_cls = AggMalariaRForm if greport.is_aggregated else MalariaRForm
+        form_cls = project.get('agg_form') if greport.is_aggregated \
+                                           else project.get('src_form')
         form = form_cls(instance=greport.report)
         context.update({'form': form})
     else:
         context.update({'no_report': True})
 
-    return render(request, 'malaria/raw_data.html', context)
+    return render(request, '%s/raw_data.html' % project.get('slug'), context)
 
 
 @provider_required
-def excel_export(request, report_receipt):
-    context = {'category': 'malaria'}
+def excel_export(request, project_slug, report_receipt):
+
+    project = PROJECTS.get(project_slug)
+    if project is None:
+        raise Http404(_(u"Incorrect URL: Project Not Found."))
+
+    context = {'category': project.get('slug')}
     web_provider = request.user.get_profile()
 
     try:

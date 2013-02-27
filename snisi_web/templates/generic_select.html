@@ -1,9 +1,10 @@
 {% load babel %}
+{% load bolibana %}
 <select class="{{ class }}" id="{{ id }}">
 {% if novalue %}
 <li><option value="-1" label="{{ novalue }}">{{ novalue }}</option>
 {% endif %}
 {% for itemid, item in items %}
-<li><option value="{{ itemid }}" {% if selected = itemid %} selected="selected"{% endif %}>{% if datefilter %}{{ item|datefmt:datefilter }}{% else %}{{ item }}{% endif %}</option>
+<li><option value="{{ itemid }}" {% if selected = itemid %} selected="selected"{% endif %}>{% if datefilter %}{{ item|datefmt:datefilter }}{% else %}{% if filter %}{{ item|dynfilter:filter }}{% else %}{{ item }}{% endif %}{% endif %}</option>
 {% endfor %}
 </select>

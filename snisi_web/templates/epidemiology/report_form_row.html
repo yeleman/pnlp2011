@@ -1,0 +1,5 @@
+<tr>
+<th>{% if label %}{{ label }}{% else %}{% if f1 %}{{ f1.label_tag }}{% else %}{{ f2.label_tag }}{% endif %}{% endif %}</th>
+{% include "report_form_field.html" with field=f1 dataonly=dataonly %}
+{% include "report_form_field.html" with field=f2 dataonly=dataonly %}
+</tr>

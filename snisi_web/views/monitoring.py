@@ -12,7 +12,7 @@ from bolibana.models.Entity import Entity
 from snisi_core.data import current_period, current_reporting_period
 from snisi_core.models.MalariaReport import MalariaR
 
-from dashboard import nb_reports_for
+from malaria.dashboard import nb_reports_for
 
 
 def sms_for_period(period):

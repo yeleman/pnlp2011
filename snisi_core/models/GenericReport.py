@@ -168,3 +168,31 @@ class GenericReport(object):
     @property
     def entity(self):
         return self._entity
+
+    @property
+    def only_validated(self):
+        return self._only_validated
+
+    def to_dict(self):
+        d = {}
+        for prop in ('is_expected',
+                     'src_expected',
+                     'agg_expected',
+                     'is_present',
+                     'src_present',
+                     'agg_present',
+                     'is_source',
+                     'is_aggregated',
+                     'report',
+                     'level',
+                     'expected_levels',
+                     'present_levels',
+                     'src_report',
+                     'agg_report',
+                     'src_cls',
+                     'agg_cls',
+                     'period',
+                     'entity',
+                     'only_validated'):
+            d.update({prop: getattr(self, prop, None)})
+        return d

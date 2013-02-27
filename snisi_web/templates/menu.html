@@ -1,9 +1,11 @@
 {% load bolibana %}
 {% if web_provider.is_authenticated %}
     <ul>
-    <li {% if category = 'malaria' %}class="hover"{% endif %} title="Routine Paludisme"><a href="{% url index %}">PALUDISME</a></li>
-    <li {% if category = 'epidemio' %}class="hover"{% endif %} title="Épidémiologie hebdomadaire et MILD"><a href="{% url epid_index %}">EPI HEBDO</a></li>
-    <li {% if category = 'rh' %}class="hover"{% endif %} title="Santé de la reproduction"><a href="{% url reprod_index %}">REPROD.</a></li>
+    <li {% if category = 'snisi' %}class="hover"{% endif %} title="Information intégées inter-projets"><a href="{% url snisi_dashboard %}">SNISI</a></li>
+    <li {% if category = 'malaria' %}class="hover"{% endif %} title="Routine Paludisme"><a href="{% url malaria_dashboard %}">PALUDISME</a></li>
+    <li {% if category = 'epidemiology' %}class="hover"{% endif %} title="Épidémiologie hebdomadaire"><a href="{% url epidemiology_dashboard %}">EPI HEBDO</a></li>
+    <li {% if category = 'bednet' %}class="hover"{% endif %} title="Moustiquaires Imprégnées d'Insecticide Longue Durée"><a href="{% url bednet_dashboard %}">MILD</a></li>
+    <li {% if category = 'reproduction' %}class="hover"{% endif %} title="Santé de la reproduction"><a href="{% url reproduction_dashboard %}">REPROD.</a></li>
     <li {% if category = 'addressbook' %}class="hover"{% endif %}><a href="{% url addressbook %}">ANNUAIRE</a></li>
     {% if web_provider|has_permission:'can_monitor_transmission' %}<li {% if category = 'monitoring' %}class="hover"{% endif %}><a href="{% url monitoring_source_data %}">SURVEILLANCE</a></li>{% endif %}
     <li {% if category = 'admin' %}class="hover"{% endif %} title="Administration"><a href="{% url list_users %}">ADMIN</a></li>
