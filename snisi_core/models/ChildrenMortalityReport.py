@@ -9,6 +9,7 @@ from django.db.models.signals import pre_save, post_save
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 from bolibana.models.Entity import Entity
+from bolibana.tools.utils import generate_receipt
 from SNISIReport import SNISIReport, SNISIIndividualReport
 
 from common import pre_save_report, post_save_report
@@ -180,6 +181,10 @@ class AggChildrenDeathR(SNISIReport):
                                          verbose_name=_(u"Aggr. Sources"),
                                          blank=True, null=True,
                                          related_name='aggregated_agg_children_mortality_reports')
+
+    @classmethod
+    def generate_receipt(cls, instance):
+        return generate_receipt(instance, fix='-AC', add_random=True)
 
     @classmethod
     def start(cls, period, entity, author,

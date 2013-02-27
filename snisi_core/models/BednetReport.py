@@ -85,7 +85,7 @@ class BednetR(SNISIReport):
 
     @classmethod
     def generate_receipt(cls, instance):
-        return generate_receipt(instance, fix='-ML', add_random=True)
+        return generate_receipt(instance, fix='-B', add_random=True)
 
     def get(self, slug):
         """ [data browser] returns data for a slug variable """

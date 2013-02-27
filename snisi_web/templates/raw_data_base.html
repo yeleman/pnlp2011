@@ -32,36 +32,40 @@ addJQEventToggleSources();
 
 <div id="context">
 
-{% if no_report %}
-    <p>Désolé, il n'existe pas de rapport validé pour pour la période de {{ period.full_name }} à {{ entity.display_full_name }}.</p>
-    {% if periods %}
-    <p>Cependant, il existe {{ periods|length}} autre rapport{{ periods|length|pluralize }} pour {{ entity.display_full_name }}. Séléctionnez une autre période pour y accèder.</p>
+{% if not expected %}
+<p>Aucun rapport attendu pour {{ period.full_name }} à {{ entity.display_full_name }}.</p>
+{% else %}
+    {% if no_report %}
+        <p>Désolé, il n'existe pas de rapport validé pour pour la période de {{ period.full_name }} à {{ entity.display_full_name }}.</p>
+        {% if periods %}
+        <p>Cependant, il existe {{ periods|length}} autre rapport{{ periods|length|pluralize }} pour {{ entity.display_full_name }}. Séléctionnez une autre période pour y accèder.</p>
+        {% endif %}
+
+    {%else %}
+
+        <p>Rapport de {{ report.entity.display_name }} pour la période {{ report.period.full_name }}</p>
+        <p><strong>Nº de reçu</strong>: {{ report.receipt }}</p>
+        <p><strong>Auteur</strong>: {{ report.created_by.name_access }}</p>
+        <p><strong>Créé le</strong>: {{ report.created_on|datetimefmt }}</p>
+        <p><strong>Modifié par</strong>: {{ report.modified_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
+        <p><strong>Type de rapport</strong>: {{ report.type|reporttype }}</p>
+        {% if report.type == 0 %}
+        	<p><strong>En retard </strong>: {% if report.is_late %} OUI {% else %} NON {% endif %}</p>
+        {% endif %}
+        {% if report.type == 1 and report.sources.all %}
+        <p><strong>Sources</strong>: <a id="toggle_sources" href="#">{{ report.sources.all|length}} source{{ report.sources.all|pluralize }}</a> compose{{ report.sources.all|pluralize:"nt" }} ce rapport agrégé.</p>
+        <ul id="sources" class="hidden">
+        {% for source in report.sources.all %}
+        <li>{{ source.entity.display_name }} – <a href="{% url raw_data source.entity.slug source.mperiod.pid %}">{{ source.receipt }}</a></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="rightbuttons"><a href="{% url raw_data_excel project report.receipt %}"><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
+
+        {% block raw_data_content %}{% endblock %}
+
     {% endif %}
-
-{%else %}
-
-    <p>Rapport de {{ report.entity.display_name }} pour la période de {{ report.period.middle|datefmt:"MMMM yyyy" }}</p>
-    <p><strong>Nº de reçu</strong>: {{ report.receipt }}</p>
-    <p><strong>Auteur</strong>: {{ report.created_by.name_access }}</p>
-    <p><strong>Créé le</strong>: {{ report.created_on|datetimefmt }}</p>
-    <p><strong>Modifié par</strong>: {{ report.modified_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
-    <p><strong>Type de rapport</strong>: {{ report.type|reporttype }}</p>
-    {% if report.type == 0 %}
-    	<p><strong>En retard </strong>: {% if report.is_late %} OUI {% else %} NON {% endif %}</p>
-    {% endif %}
-    {% if report.type == 1 and report.sources.all %}
-    <p><strong>Sources</strong>: <a id="toggle_sources" href="#">{{ report.sources.all|length}} source{{ report.sources.all|pluralize }}</a> compose{{ report.sources.all|pluralize:"nt" }} ce rapport agrégé.</p>
-    <ul id="sources" class="hidden">
-    {% for source in report.sources.all %}
-    <li>{{ source.entity.display_name }} – <a href="{% url raw_data source.entity.slug source.mperiod.pid %}">{{ source.receipt }}</a></li>
-    {% endfor %}
-    </ul>
-    {% endif %}
-
-    <div class="rightbuttons"><a href="{% url raw_data_excel project report.receipt %}"><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
-
-    {% block raw_data_content %}{% endblock %}
-
 {% endif %}
 </div>
 {% endblock %}

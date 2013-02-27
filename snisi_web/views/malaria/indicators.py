@@ -92,17 +92,25 @@ def indicator_browser(request, entity_code=None, period_str=None,
         speriod = eperiod = current_reporting_period()
         periods = [speriod]
 
+    print('yyy')
+    print(speriod)
+    print(speriod.__class__)
+    print(eperiod)
+    print(eperiod.__class__)
+
     # if end period is before start period, redirect to opposite
-    if eperiod.middle() < speriod.middle():
-        return redirect('indicator_data',
+    if eperiod < speriod:
+        print('exi')
+        return redirect('malaria_indicator_data',
                         entity_code=entity.slug,
                         period_str='%s-%s' % (eperiod.pid, speriod.pid))
-
+    print('y2')
     # periods variables
     context.update({'period_str': '%s-%s' % (speriod.pid, eperiod.pid),
                     'speriod': speriod, 'eperiod': eperiod})
-    context.update({'periods': [(p.pid, p.middle()) for p in periods],
-                    'all_periods': [(p.pid, p.middle()) for p in all_periods]})
+    context.update({'periods': [(p.pid, p) for p in periods],
+                    'all_periods': [(p.pid, p) for p in all_periods]})
+    print('y3')
 
     # check permissions on this entity and raise 403
     provider_can_or_403('can_view_indicator_data', web_provider, entity)
@@ -112,7 +120,7 @@ def indicator_browser(request, entity_code=None, period_str=None,
                     'paths': entities_path(root, entity)})
 
     from snisi_core.indicators import INDICATOR_SECTIONS
-
+    print('y4')
     context.update({'sections': \
                     sorted(INDICATOR_SECTIONS.values(),
                           cmp=lambda a, b: int(a['id'].strip('a').strip('b')) \
@@ -139,5 +147,6 @@ def indicator_browser(request, entity_code=None, period_str=None,
 
     context.update({'widgets': [widget(entity=entity, periods=periods) \
                                 for widget in sm.WIDGETS]})
+    from pprint import pprint as pp ; pp(context)
 
     return render(request, 'malaria/indicator_data.html', context)

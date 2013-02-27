@@ -41,7 +41,7 @@ BEDNET_PROJECT = {'category': 'bednet',
                   'agg_cls': BednetR,
                   'src_form': BednetRForm,
                   'agg_form': AggBednetRForm,
-                  'period_cls': MonthPeriod,
+                  'period_cls': WeekPeriod,
                   'get_reporting_period':
                        lambda: WeekPeriod.current().previous(),
                        'type': COMPILED}

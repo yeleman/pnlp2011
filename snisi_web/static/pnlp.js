@@ -112,6 +112,8 @@ function addJQEventsForValidationChange(base_url) {
 function addJQEventPeriodChange(base_url, current_entity) {
     $("#period_select").change(function (event) {
         value = $(this).val();
+        if (value == -1)
+            return false;
         url = base_url.replace('ent_code', current_entity).replace('11-1111', value);
         location.href = url;
     });
@@ -127,7 +129,7 @@ function addJQEventPeriodsChange(base_url, current_entity, section, sub_section)
     $("#period_nav select").change(function (event) {
         speriod = $("#speriod_select").val();
         eperiod = $("#eperiod_select").val();
-        url = base_url.replace('ent_code', current_entity).replace('11-1111', speriod).replace('22-2222', eperiod);
+        url = base_url.replace('ent_code', current_entity).replace('111111', speriod).replace('11-1111', speriod).replace('222222', eperiod).replace('22-2222', eperiod);
         if (section != null) {
             url += '/section' + section;
             if (sub_section != null) {

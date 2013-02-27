@@ -77,18 +77,18 @@ urlpatterns = patterns('',
     url(r'^' + PROJECT + '/raw_data/excel/' + RGXP_RECEIPT + '$', views.generic_raw_data.excel_export, name='raw_data_excel'),
 
     # Indicator Views
-    url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '/'
+    url(r'^malaria/browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '/'
          + RGXP_SECTION + '/' + RGXP_SUBSECTION + '$',
-        malaria.indicators.indicator_browser, name='indicator_data'),
-    url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '/'
+        malaria.indicators.indicator_browser, name='malaria_indicator_data'),
+    url(r'^malaria/browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '/'
          + RGXP_SECTION + '$',
-        malaria.indicators.indicator_browser, name='indicator_data'),
-    url(r'^browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '$',
-        malaria.indicators.indicator_browser, name='indicator_data'),
-    url(r'^browse/' + RGXP_ENTITY + '$',
-        malaria.indicators.indicator_browser, name='indicator_data'),
-    url(r'^browse/$', malaria.indicators.indicator_browser,
-        name='indicator_data'),
+        malaria.indicators.indicator_browser, name='malaria_indicator_data'),
+    url(r'^malaria/browse/' + RGXP_ENTITY + '/' + RGXP_PERIODS + '$',
+        malaria.indicators.indicator_browser, name='malaria_indicator_data'),
+    url(r'^malaria/browse/' + RGXP_ENTITY + '$',
+        malaria.indicators.indicator_browser, name='malaria_indicator_data'),
+    url(r'^malaria/browse/$', malaria.indicators.indicator_browser,
+        name='malaria_indicator_data'),
 
     # ANTIM : Transmission
     url(r'^monitoring/source_data/?$', monitoring.source_data,

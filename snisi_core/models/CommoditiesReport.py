@@ -492,7 +492,7 @@ class AggRHProductsR(SNISIReport):
 
     @classmethod
     def generate_receipt(cls, instance):
-        return generate_receipt(instance, fix='-PA', add_random=True)
+        return generate_receipt(instance, fix='-AP', add_random=True)
 
     def get(self, slug):
         """ [data browser] returns data for a slug variable """

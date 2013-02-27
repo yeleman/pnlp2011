@@ -1,0 +1,19 @@
+{% extends "raw_data_base.html" %}
+
+{% load i18n %}
+{% load babel %}
+{% load bolibana %}
+
+{% block submenu %}{% include "bednet/submenu.html" %}{% endblock %}
+
+{% block raw_data_content %}
+<table class="center">
+<tr><th class="center">Classification</th><th class="center">Quantité</th></tr>
+{% include "bednet/report_form_row.html" with label="Stock Initial" f1=form.initial_mild  dataonly=1 %}
+{% include "bednet/report_form_row.html" with label="Reçues" f1=form.received_mild  dataonly=1 %}
+{% include "bednet/report_form_row.html" with label="Distribués" f1=form.distributed_mild dataonly=1 %}
+{% include "bednet/report_form_row.html" with label="Restantes" f1=form.remaining_mild dataonly=1 %}
+{% include "bednet/report_form_row.html" with label="Différence/Perdues" f1=form.difference_mild dataonly=1 %}
+</table>
+
+{% endblock %}

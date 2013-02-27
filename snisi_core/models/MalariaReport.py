@@ -13,6 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from bolibana.models.EntityType import EntityType
 from bolibana.models.Period import MonthPeriod
 from bolibana.models.ExpectedReporting import SOURCE_LEVEL, AGGREGATED_LEVEL
+from bolibana.tools.utils import generate_receipt
 
 from common import (pre_save_report, post_save_report, report_create_from,
                     aggregated_model_report_pre_save)
@@ -224,38 +225,6 @@ class MalariaRIface(object):
         fields.append('is_late')
         return fields
 
-    @classmethod
-    def generate_receipt(cls, instance):
-        """ generates a reversable text receipt for a MalariaR
-
-        FORMAT:
-            RR000/sss-111-D
-            RR: region code on two letters
-            000: internal report ID
-            sss: entity slug
-            111: sent day in year
-            D: sent day of week """
-
-        DOW = ['D', 'L', 'M', 'E', 'J', 'V', 'S']
-        region_type = EntityType.objects.get(slug='region')
-
-        def region_id(slug):
-            return slug.upper()[0:2]
-
-        region = 'ML'
-        for ent in instance.entity.get_ancestors().reverse():
-            if ent.type == region_type:
-                region = region_id(ent.slug)
-                break
-        receipt = '%(region)s%(id)d/%(entity)s-%(day)s-%(dow)s' \
-                  % {'day': instance.created_on.strftime('%j'),
-                     'dow': DOW[int(instance.created_on.strftime('%w'))],
-                     'entity': instance.entity.slug,
-                     'id': instance.id,
-                     'period': instance.period.id,
-                     'region': region}
-        return receipt
-
     def get(self, slug):
         """ [data browser] returns data for a slug variable """
         return getattr(self, slug)
@@ -384,6 +353,38 @@ class MalariaR(MalariaRIface, SNISIReport):
     sources = models.ManyToManyField('MalariaR',
                                      verbose_name=_(u"Sources"),
                                      blank=True, null=True)
+
+    @classmethod
+    def generate_receipt(cls, instance):
+        """ generates a reversable text receipt for a MalariaR
+
+        FORMAT:
+            RR000/sss-111-D
+            RR: region code on two letters
+            000: internal report ID
+            sss: entity slug
+            111: sent day in year
+            D: sent day of week """
+
+        DOW = ['D', 'L', 'M', 'E', 'J', 'V', 'S']
+        region_type = EntityType.objects.get(slug='region')
+
+        def region_id(slug):
+            return slug.upper()[0:2]
+
+        region = 'ML'
+        for ent in instance.entity.get_ancestors().reverse():
+            if ent.type == region_type:
+                region = region_id(ent.slug)
+                break
+        receipt = '%(region)s%(id)d/%(entity)s-%(day)s-%(dow)s' \
+                  % {'day': instance.created_on.strftime('%j'),
+                     'dow': DOW[int(instance.created_on.strftime('%w'))],
+                     'entity': instance.entity.slug,
+                     'id': instance.id,
+                     'period': instance.period.id,
+                     'region': region}
+        return receipt
 
     def fill_blank(self):
         self.add_underfive_data(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -580,6 +581,10 @@ class AggMalariaR(MalariaRIface, SNISIReport):
         for field in cls.data_fields():
             setattr(report, field,
                     getattr(report, field, 0) + getattr(instance, field, 0))
+
+    @classmethod
+    def generate_receipt(cls, instance):
+        return generate_receipt(instance, fix='-AM', add_random=True)
 
 
 receiver(pre_save, sender=AggMalariaR)(pre_save_report)
