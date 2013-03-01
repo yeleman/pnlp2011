@@ -9,7 +9,7 @@ import locale
 from django.conf import settings
 from snisi_core.models.ChildrenMortalityReport import ChildrenDeathR
 from snisi_core.models.MaternalMortalityReport import MaternalDeathR
-from snisi_core.validators.reproduction import (ChildrenMortalityReportValidator,
+from snisi_core.validators.reproduction import (ChildrenDeathRValidator,
                                                 MaternalMortalityReportValidator)
 from bolibana.models.Entity import Entity
 from snisi_sms.common import contact_for, parse_age_dob
@@ -299,7 +299,7 @@ def unfpa_dead_children_under5(message, args, sub_cmd, **kwargs):
     data_browser.set('death_location', arguments['death_location'])
     data_browser.set('author', provider.name())
     # create validator and fire
-    validator = ChildrenMortalityReportValidator(data_browser, author=provider)
+    validator = ChildrenDeathRValidator(data_browser, author=provider)
 
     validator.errors.reset()
     try:

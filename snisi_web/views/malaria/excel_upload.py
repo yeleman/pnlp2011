@@ -7,7 +7,7 @@ from datetime import datetime
 from django.shortcuts import render
 
 from bolibana.reporting.excel import IncorrectReportData
-from snisi_core.excel import MalariaExcelForm
+from snisi_core.excels.malaria import MalariaExcelForm
 from bolibana.web.decorators import provider_permission
 
 

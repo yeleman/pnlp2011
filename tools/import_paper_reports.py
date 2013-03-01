@@ -6,7 +6,7 @@ import os
 import shutil
 import pprint
 
-from snisi_core.excel import MalariaExcelForm
+from snisi_core.excels.malaria import MalariaExcelForm
 from bolibana.tools.utils import get_autobot
 from bolibana.reporting.excel import IncorrectReportData
 

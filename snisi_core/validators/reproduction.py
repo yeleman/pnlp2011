@@ -206,7 +206,7 @@ class AggRHProductsRValidator(DataValidator):
                                 % {'loc': entity.display_full_name()})
 
 
-class ChildrenMortalityReportValidator(DataValidator):
+class ChildrenDeathRValidator(DataValidator):
     """ """
 
     def validate(self):
