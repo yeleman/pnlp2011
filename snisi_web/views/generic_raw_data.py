@@ -9,13 +9,13 @@ from django.utils.translation import ugettext as _
 
 from bolibana.models.Entity import Entity
 from bolibana.web.decorators import provider_required, provider_permission
-
 from snisi_core.data import (raw_data_periods_for,
                              entities_path,
                              provider_can_or_403,
                              provider_can,
                              period_from_url_str)
 from snisi_core.projects import PROJECTS
+from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 from snisi_core.models.GenericReport import GenericReport
 from snisi_core.exports import report_as_excel
 

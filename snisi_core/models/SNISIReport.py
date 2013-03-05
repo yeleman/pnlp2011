@@ -6,9 +6,29 @@ from bolibana.models.Report import Report
 from bolibana.models.IndividualReport import IndividualReport
 from bolibana.models.Period import WeekPeriod, MonthPeriod
 from bolibana.tools.utils import generate_receipt
+from bolibana.models.ExpectedReporting import AGGREGATED_LEVEL
 
 
-class SNISIReport(Report):
+class CommonSNISIReport(object):
+
+    @property
+    def is_late(self):
+        return False
+
+    @property
+    def is_on_time(self):
+        return not self.is_late
+
+    @property
+    def is_aggregated(self):
+        return False
+
+    @property
+    def is_source(self):
+        return not self.is_aggregated
+
+
+class SNISIReport(Report, CommonSNISIReport):
 
     class Meta:
         app_label = 'snisi_core'
@@ -72,13 +92,33 @@ class SNISIReport(Report):
         cp.__class__ = cls
         return cp
 
-    def period_string(self):
-        return self.period.middle().strftime(u"%Y")
+    @property
+    def is_aggregated(self):
+        level = getattr(self, 'REPORTING_LEVEL')
+        if level is not None:
+            return level == AGGREGATED_LEVEL
+        lvl_type = getattr(self, 'type')
+        if lvl_type is not None:
+            return lvl_type == self.TYPE_AGGREGATED
+        return False
+
+    @property
+    def is_source(self):
+        return not self.is_aggregated
+
+    @property
+    def arrived_late(self):
+        return getattr(self, 'is_late', False)
+
+    @property
+    def arrived_late_on_time(self):
+        return not self.arrived_late
 
 
-
-class SNISIIndividualReport(IndividualReport):
+class SNISIIndividualReport(IndividualReport, CommonSNISIReport):
 
     class Meta:
         app_label = 'snisi_core'
         abstract = True
+
+    pass

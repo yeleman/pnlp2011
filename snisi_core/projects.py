@@ -76,6 +76,9 @@ RH_CHILDREN_PROJECT = {'category': 'reproduction',
                           'get_reporting_period': lambda: DayPeriod.current(),
                           'type': INDIVIDUAL}
 
+REPRODUCTION_PROJECT = {'category': 'reproduction',
+                        'slug': 'reproduction_children'}
+
 SNISI_PROJECT = {'category': 'snisi',
                  'slug': 'snisi',
                  'get_reporting_period': current_reporting_period}
@@ -98,4 +101,5 @@ PROJECTS = {
     'reproduction_commodities': RH_COMMODITIES_PROJECT,
     'reproduction_maternal': RH_MATERNAL_PROJECT,
     'reproduction_children': RH_CHILDREN_PROJECT,
+    'reproduction': REPRODUCTION_PROJECT,
     'snisi': SNISI_PROJECT}
