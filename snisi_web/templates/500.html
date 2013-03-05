@@ -9,7 +9,7 @@
 <p>Le serveur a recontré une erreur lors du traitement de votre requête.</p>
 <p>Veuillez accepter nos excuses pour ce désagrément indépendant de notre volonté.</p>
 <p>Nous allons être automatiquement prévenu de cet incident.</p>
-<p>Si le problème persiste, merci de contactez le <a href="{% url support %}">support technique</a>, si possible avec les indications suivantes:</p>
+<p>Si le problème persiste, merci de contactez le <a href="{% url 'support' %}">support technique</a>, si possible avec les indications suivantes:</p>
 <table>
 <tr><th>Page demandée</th><td>{{ request_path }}</td></tr>
 <tr><th>Votre accès</th><td>{% if web_provider %}@{{ web_provider.username}}/{{ web_provider.name_access }}{% else %}Aucun{% endif %}</td></tr>

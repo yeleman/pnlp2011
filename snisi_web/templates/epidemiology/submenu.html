@@ -2,8 +2,8 @@
 <div id="submenu">
     <ul>
         {% if web_provider.is_authenticated %}
-        <li {% if location = 'dashboard' %}class="hover"{% endif %}><a href="{% url epidemiology_dashboard %}">Tableau de bord</a></li>
-        {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'raw_data' %}class="hover"{% endif %}><a href="{% url raw_data 'epidemiology' %}">Données brutes</a></li>{% endif %}
+        <li {% if location = 'dashboard' %}class="hover"{% endif %}><a href="{% url 'epidemiology_dashboard' %}">Tableau de bord</a></li>
+        {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'raw_data' %}class="hover"{% endif %}><a href="{% url 'raw_data' 'epidemiology' %}">Données brutes</a></li>{% endif %}
         {% endif %}
     </ul>
 </div>

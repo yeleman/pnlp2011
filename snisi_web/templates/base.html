@@ -4,9 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>PNLP | {% block title %}Programe National de Lutte conte le Paludisme{% endblock %} - Routine Paludisme</title>
-    <link rel="stylesheet" media="screen" type="text/css" href="{% url static 'pnlp.css' %}" title="PNLP 2011" />
-    <link rel="stylesheet" media="print" type="text/css" href="{% url static 'print.css' %}" />
-    <link rel="shortcut icon" href="{% url static 'images/pnlp_favicon.png' %}" />
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ STATIC_URL }}pnlp.css" title="PNLP 2011" />
+    <link rel="stylesheet" media="print" type="text/css" href="{{ STATIC_URL }}print.css" />
+    <link rel="shortcut icon" href="{{ STATIC_URL }}images/pnlp_favicon.png" />
     {% block javascript %}{% endblock %}
     <meta http-equiv="Content-Language" content="fr-fr" />
     <meta name="ROBOTS" content="ALL" />
@@ -18,15 +18,15 @@
     <div id="page">
         <div id="header" class="mainbox">
             <div id="logo"></div>
-            <h1><a href="{% url index %}">PNLP – Programe National de Lutte contre le Paludisme</a></h1>
+            <h1><a href="{% url 'index' %}">PNLP – Programe National de Lutte contre le Paludisme</a></h1>
             <ul id="user-menu">
             {% if web_provider.is_authenticated %}
-            <li><a href="{% url profile %}" title="{% trans 'Edit your informations' %}">{{ web_provider.get_full_name }}</a></li>
-            <li><a href="{% url logout %}" title="{% trans 'Log out' %}">{% trans "Disconnect" %}</a></li>
+            <li><a href="{% url 'profile' %}" title="{% trans 'Edit your informations' %}">{{ web_provider.get_full_name }}</a></li>
+            <li><a href="{% url 'logout' %}" title="{% trans 'Log out' %}">{% trans "Disconnect" %}</a></li>
             {% else %}
-            <li><a href="{% url login %}" title="{% trans 'Log in' %}">{% trans "Log in" %}</a></li>
+            <li><a href="{% url 'login' %}" title="{% trans 'Log in' %}">{% trans "Log in" %}</a></li>
             {% endif %}
-            <li><a href="{% url help %}" title="{% trans 'View Help Topics' %}">{% trans "Help" %}</a></li>
+            <li><a href="{% url 'help' %}" title="{% trans 'View Help Topics' %}">{% trans "Help" %}</a></li>
             </ul>
 
             <div id="breadcrumbs">{%block breadcrumbs %}{% endblock %}</div>
@@ -48,25 +48,25 @@
         </div>
         <div id="footer">
         <ul>
-            <li><a href="{% url support %}" title="{% trans 'Contact Us' %}">{% trans "Contact" %}</a></li>
-            <li><a href="{% url about %}" title="{% trans 'About PNLP' %}">{% trans "About" %}</a></li>
-            <li><a href="{% url media '' %}" title="Documents et téléchargements">Ressources</a></li>
+            <li><a href="{% url 'support' %}" title="{% trans 'Contact Us' %}">{% trans "Contact" %}</a></li>
+            <li><a href="{% url 'about' %}" title="{% trans 'About PNLP' %}">{% trans "About" %}</a></li>
+            <li><a href="{{ MEDIA_URL }}" title="Documents et téléchargements">Ressources</a></li>
         </ul>
         </div>
         <div id="top-link"><a class="anchor" href="">↑Haut</a></div>
     </div>
 </body>
-<script type="text/javascript" src="{% url static 'jquery-1.6.2.min.js' %}"></script>
-<script type="text/javascript" src="{% url static 'pnlp.js?20121031' %}"></script>
-{% if location == 'indicator_data' %}<script type="text/javascript" src="{% url static 'highcharts.js' %}"></script>
-<script type="text/javascript" src="{% url static 'exporting.js' %}"></script>{% endif %}
+<script type="text/javascript" src="{{ STATIC_URL }}jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}pnlp.js?20121031"></script>
+{% if location == 'indicator_data' %}<script type="text/javascript" src="{{ STATIC_URL }}highcharts.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}exporting.js"></script>{% endif %}
 <script type="text/javascript">
 $(document).ready(function(){
     addMessagesClickEvent();
-    addLogoClickEvent('{% url index %}');
+    addLogoClickEvent("{% url 'index' %}");
     {% block jqueryonload %}{% endblock %}
-    {% if location != 'indicator_data' %}addJavascript("{% url static 'highcharts.js' %}", 'head');
-                                         addJavascript("{% url static 'exporting.js' %}", 'head');{% endif %}
+    {% if location != 'indicator_data' %}addJavascript("{{ STATIC_URL }}highcharts.js", 'head');
+                                         addJavascript("{{ STATIC_URL }}exporting.js", 'head');{% endif %}
 });
 </script>
 </html>

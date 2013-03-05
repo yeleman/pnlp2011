@@ -11,11 +11,11 @@
 addClickClassToTRElements();{% endblock %}
 
 {% block content %}
-<a href="{% url add_user %}"><button class="linkbutt">Créer un compte utilisateur</button></a>
+<a href="{% url 'add_user' %}"><button class="linkbutt">Créer un compte utilisateur</button></a>
 <table>
 <tr><th>Identifiant</th><th>Prénom</th><th>Nom</th><th>Téléphone</th><th>Téléphone 2</th><th>Accès</th></tr>
 {% for provider in users_list %}
-<tr><td><a href="{% url edit_user user_id=provider.id %}">{{ provider.username }}</a></td><td>{{ provider.first_name }}{% if not provider.is_active %}/<accronym title="Ce compte est désactivé">OFF</accronym>{% endif %}</td><td>{{ provider.last_name }}</td><td>{{ provider.phone_number|phone|default:"n/a" }}</td><td>{{ provider.phone_number_extra|phone|default:"n/a" }}</td><td>{{ provider.first_access.name }}</td></tr>
+<tr><td><a href="{% url 'edit_user' user_id=provider.id %}">{{ provider.username }}</a></td><td>{{ provider.first_name }}{% if not provider.is_active %}/<accronym title="Ce compte est désactivé">OFF</accronym>{% endif %}</td><td>{{ provider.last_name }}</td><td>{{ provider.phone_number|phone|default:"n/a" }}</td><td>{{ provider.phone_number_extra|phone|default:"n/a" }}</td><td>{{ provider.first_access.name }}</td></tr>
 {% endfor %}
 </table>
 {% endblock %}

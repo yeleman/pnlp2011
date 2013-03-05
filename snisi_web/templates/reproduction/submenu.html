@@ -2,10 +2,10 @@
 <div id="submenu">
     <ul>
         {% if web_provider.is_authenticated %}
-        <li {% if location = 'dashboard' %}class="hover"{% endif %}><a href="{% url reproduction_dashboard %}">Tableau de bord</a></li>
-        {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'raw_data_commodities' %}class="hover"{% endif %} title="Données brutes “Produits”"><a href="{% url raw_data 'reproduction_commodities' %}">Produits</a></li>{% endif %}
-        {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'raw_data_maternal' %}class="hover"{% endif %} title="Données brutes “Maternelles”"><a href="{% url raw_data 'reproduction_maternal' %}">Maternelles</a></li>{% endif %}
-        {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'raw_data_children' %}class="hover"{% endif %} title="Données brutes “Infantiles”"><a href="{% url raw_data 'reproduction_children' %}">Infantiles</a></li>{% endif %}
+        <li {% if location = 'dashboard' %}class="hover"{% endif %}><a href="{% url 'reproduction_dashboard' %}">Tableau de bord</a></li>
+        {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'raw_data_commodities' %}class="hover"{% endif %} title="Données brutes “Produits”"><a href="{% url 'raw_data' 'reproduction_commodities' %}">Produits</a></li>{% endif %}
+        {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'raw_data_maternal' %}class="hover"{% endif %} title="Données brutes “Maternelles”"><a href="{% url 'raw_data' 'reproduction_maternal' %}">Maternelles</a></li>{% endif %}
+        {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'raw_data_children' %}class="hover"{% endif %} title="Données brutes “Infantiles”"><a href="{% url 'raw_data' 'reproduction_children' %}">Infantiles</a></li>{% endif %}
         {% if web_provider|has_permission:'can_view_raw_data' %}<li {% if location = 'source_data' %}class="hover"{% endif %} title="Donnés communautaires individuelles”"><a href="">Données Primaires</a></li>{% endif %}
         {% endif %}
     </ul>

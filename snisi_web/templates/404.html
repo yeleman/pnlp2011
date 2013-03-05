@@ -23,6 +23,6 @@
 {% if referrer %}<li>Il semble que vous veniez de l'adresse <a href="{{ referrer }}">{{ referrer }}</a>. Contactez l'auteur du lien.</li>{% endif %}
 </ul>
 
-<p>Si vous avez suivi un lien interne, signalez le au <a href="{% url support %}">support technique</a>.</p>
+<p>Si vous avez suivi un lien interne, signalez le au <a href="{% url 'support' %}">support technique</a>.</p>
 </div>
 {% endblock %}

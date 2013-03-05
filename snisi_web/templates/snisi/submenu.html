@@ -1,7 +1,7 @@
 {% load bolibana %}
 <div id="submenu">
 	<ul>
-        <li {% if location = 'dashboard' %}class="hover"{% endif %}><a href="{% url snisi_dashboard %}">Tableau de bord</a></li>
+        <li {% if location = 'dashboard' %}class="hover"{% endif %}><a href="{% url 'snisi_dashboard' %}">Tableau de bord</a></li>
         {% if web_provider.is_authenticated %}
         {% endif %}
 	</ul>

@@ -11,8 +11,8 @@
 {% block submenu %}{% include "malaria/submenu.html" %}
 {% include "malaria/subsubmenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="malaria_indicator_data"|url:"0" %}{% endblock %}
 
-{% block jqueryonload %}addJQEventsSubMenu("{% url malaria_indicator_data %}", "{% url malaria_indicator_data 0 %}", "{{ period_str }}", "{{ section.id }}"{% if sub_section %}, "{{ sub_section }}"{% endif %});
-addJQEventPeriodsChange("{% url malaria_indicator_data 'ent_code' '111111-222222' %}", "{{ entity.slug }}", "{{ section.id }}"{% if sub_section %}, "{{ sub_section }}"{% endif %});
+{% block jqueryonload %}addJQEventsSubMenu("{% url 'malaria_indicator_data' %}", "{% url 'malaria_indicator_data' 0 %}", "{{ period_str }}", "{{ section.id }}"{% if sub_section %}, "{{ sub_section }}"{% endif %});
+addJQEventPeriodsChange("{% url 'malaria_indicator_data' 'ent_code' '111111-222222' %}", "{{ entity.slug }}", "{{ section.id }}"{% if sub_section %}, "{{ sub_section }}"{% endif %});
 {% for widget in widgets %}{% if widget.type == 'graph' %}{% include "indicator_graph.js" with graph=widget id=widget.id|concat:forloop.counter0 %}{% endif %}{% endfor %}{% endblock %}
 
 {% block content %}
@@ -20,8 +20,8 @@ addJQEventPeriodsChange("{% url malaria_indicator_data 'ent_code' '111111-222222
 <div id="sidebar" class="sections">
     <ul class="main">
     {% for sec in sections %}
-    <li{% if section.id == sec.id %} class="hover"{% endif %} title="{{ sec.label }}"><a href="{% url malaria_indicator_data entity_code=entity.slug period_str=period_str section_index=sec.id %}">SECTION {{ sec.id }}</a></li>
-    {% if sec.sections %}<ul>{% for ssid, ssname in sec.sections.items %}<li{% if section.id == sec.id and sub_section == ssid %} class="hover"{% endif %}><a href="{% url malaria_indicator_data entity_code=entity.slug period_str=period_str section_index=sec.id sub_section=ssid %}">{{ ssname }}</a></li>{% endfor %}</ul>{% endif %}
+    <li{% if section.id == sec.id %} class="hover"{% endif %} title="{{ sec.label }}"><a href="{% url 'malaria_indicator_data' entity_code=entity.slug period_str=period_str section_index=sec.id %}">SECTION {{ sec.id }}</a></li>
+    {% if sec.sections %}<ul>{% for ssid, ssname in sec.sections.items %}<li{% if section.id == sec.id and sub_section == ssid %} class="hover"{% endif %}><a href="{% url 'malaria_indicator_data' entity_code=entity.slug period_str=period_str section_index=sec.id sub_section=ssid %}">{{ ssname }}</a></li>{% endfor %}</ul>{% endif %}
     {% endfor %}
     </ul>
 </div>

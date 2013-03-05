@@ -12,8 +12,8 @@
 {% endblock %}
 
 
-{% block jqueryonload %}addJQEventsSubMenu("{% url raw_data %}", "{% url raw_data 0 %}");
-addJQEventPeriodChange("{% url raw_data 'ent_code' 111111 %}", "{{ entity.slug }}");
+{% block jqueryonload %}addJQEventsSubMenu("{% url 'raw_data' %}", "{% url 'raw_data' 0 %}");
+addJQEventPeriodChange("{% url 'raw_data' 'ent_code' 111111 %}", "{{ entity.slug }}");
 addJQEventToggleSources();{% endblock %}
 
 {% block content %}
@@ -43,11 +43,11 @@ addJQEventToggleSources();{% endblock %}
 <p><strong>Sources</strong>: <a id="toggle_sources" href="#">{{ report.sources.all|length}} source{{ report.sources.all|pluralize }}</a> compose{{ report.sources.all|pluralize:"nt" }} ce rapport agrégé.</p>
 <ul id="sources" class="hidden">
 {% for source in report.sources.all %}
-<li>{{ source.entity.display_name }} – <a href="{% url raw_data source.entity.slug source.mperiod.pid %}">{{ source.receipt }}</a></li>
+<li>{{ source.entity.display_name }} – <a href="{% url 'raw_data' source.entity.slug source.mperiod.pid %}">{{ source.receipt }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}
-<div class="rightbuttons"><a href="{% url raw_data_excel report.receipt %}"><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
+<div class="rightbuttons"><a href="{% url 'raw_data_excel' report.receipt %}"><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
 <table class="center">
 <tr><th rowspan="2" class="center">Classification</th><th colspan="3" class="center">Consultation</th></tr>
 <tr><th class="center">Moins de 5 ans</th><th class="center">5 ans et plus</th><th class="center">Femmes enceintes</th></tr>

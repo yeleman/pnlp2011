@@ -39,7 +39,7 @@
     <table id="not_validated" class="background">
     <tr><th>Établissement</th><th>Reçu le</th><th>Contact</th><th>Téléphone</th></tr>
     {% for entity, report in not_validated %}
-    <tr><td><a href="{% url report_validation report.receipt %}">{{ entity.name }}</a></td><td>{{ report.created_on }}</td><td>{{ report.created_by.name_access }}</td><td>{{ report.created_by.phone_number|phone }}</td></tr>
+    <tr><td><a href="{% url 'report_validation' report.receipt %}">{{ entity.name }}</a></td><td>{{ report.created_on }}</td><td>{{ report.created_by.name_access }}</td><td>{{ report.created_by.phone_number|phone }}</td></tr>
     {% endfor %}
     </table>
     {% else %}

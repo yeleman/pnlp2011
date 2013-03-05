@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="{% url date %}" method="post">
+<form action="{% url 'date' %}" method="post">
 {% csrf_token %}
 <table>
 <tr><td>Date (format JJ/MM/AAAA)</td><td>{{form.date}}</td></tr>

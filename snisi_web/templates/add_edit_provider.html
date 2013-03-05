@@ -10,7 +10,7 @@
 <h2>{% if user_id %}Modifier{% else %}Saisir{% endif %} les informations</h2>
 
 {% if form.errors %}<p>Votre demande comporte des erreurs. Merci de les corriger et de reéssayer.</p>{% endif %}
-<form method="POST" action="{% if user_id %}{% url edit_user user_id=user_id %}{% else %}{% url add_user %}{% endif %}" name="profile">
+<form method="POST" action="{% if user_id %}{% url 'edit_user' user_id=user_id %}{% else %}{% url 'add_user' %}{% endif %}" name="profile">
 {% csrf_token %}
 <table>
 {% if user_id %}
@@ -33,12 +33,12 @@
 {% else %}
 <p>{{ provider.name }} n'ayant pas enregistré son adresse e-mail, vous seul pourrez lui communiquer son nouveau mot de passe.</p>
 {% endif %}
-<p><a href="{% url password_user provider.id 0 %}"><button class="formbutt default">Générer un nouveau mot de passe</button></a></p>
-<p><a href="{% url password_user provider.id 1 %}"><button class="formbutt default">Générer un nouveau mot de passe Simple</button></a></p>
+<p><a href="{% url 'password_user' provider.id 0 %}"><button class="formbutt default">Générer un nouveau mot de passe</button></a></p>
+<p><a href="{% url 'password_user' provider.id 1 %}"><button class="formbutt default">Générer un nouveau mot de passe Simple</button></a></p>
 
 <h2>{% if provider.is_active %}Désactiver le compte{% else %}Activer le compte{% endif %} <em class="lower">{{ provider.username }}</em></h2>
 <p>Les comptes utilisateurs ne sont pas supprimables pour assurer l'intégrité des données.</p>
 <p>Pour supprimer l'accès d'un utilisateur au système, il faut <em>désactiver</em> son compte.</p>
-<p><a href="{% if provider.is_active %}{% url disable_user provider.id %}{% else %}{% url enable_user provider.id %}{% endif %}"><button class="formbutt default">{% if provider.is_active %}Désactiver le compte{% else %}Activer le compte{% endif %}</button></a></p>
+<p><a href="{% if provider.is_active %}{% url 'disable_user' provider.id %}{% else %}{% url 'enable_user' provider.id %}{% endif %}"><button class="formbutt default">{% if provider.is_active %}Désactiver le compte{% else %}Activer le compte{% endif %}</button></a></p>
 {% endif %}
 {% endblock %}

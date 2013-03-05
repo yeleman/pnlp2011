@@ -14,7 +14,7 @@
 <div id="context">
 <p>Cliquez sur <em>Parcourir…</em> et sélectionnez le formulaire de saisie (rempli) que vous souhaitez envoyer.</p>
 <p><strong>Attention</strong>: Il doit contenir le code établissement ainsi que la période concernée. Vérifier que ceux-ci sont correct avant l'envoi.</p>
-<form method="POST" action="{% url upload %}" name="upload" enctype="multipart/form-data">
+<form method="POST" action="{% url 'upload' %}" name="upload" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="fileinputs">
     <input id="excel-form" type="file" size="24" name="excel_form" class="file hidden" />
@@ -37,7 +37,7 @@
     {% if status = 'error' %}<h2>Échec, rapport refusé</h2>
         <p>Votre rapport de routine Paludisme a bien été reçu mais a été <strong class="bright">refusé</strong>.</p>
         <p>En effet, celui-ci contient {{ all_errors|length|apnumber }} erreur{% if all_errors|length > 0 %}s{% endif %} détaillées ci-dessous. Corrigez-les et re-envoyez le fichier.</p>
-        <p>En cas de problème, consultez l'<a href="{% url help %}">aide</a>.</p>
+        <p>En cas de problème, consultez l'<a href="{% url 'help' %}">aide</a>.</p>
         <h2>Liste des erreurs</h2>
         {% for section, errors in all_errors.items %}
         <h3>Section {{ section|pnlpcat }}</h3>

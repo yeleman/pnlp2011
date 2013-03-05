@@ -1,7 +1,7 @@
 {% load bolibana %}
 <div id="submenu">
     <ul>
-{% if web_provider|has_permission:'can_manage_users' %}<li {% if location = 'users' %}class="hover"{% endif %}><a href="{% url list_users %}">Utilisateurs</a></li>{% endif %}
-{% if web_provider|has_permission:'can_manage_entities' %}<li {% if location = 'entities' %}class="hover"{% endif %}><a href="{% url list_entities %}">Établissements</a></li>{% endif %}
+{% if web_provider|has_permission:'can_manage_users' %}<li {% if location = 'users' %}class="hover"{% endif %}><a href="{% url 'list_users' %}">Utilisateurs</a></li>{% endif %}
+{% if web_provider|has_permission:'can_manage_entities' %}<li {% if location = 'entities' %}class="hover"{% endif %}><a href="{% url 'list_entities' %}">Établissements</a></li>{% endif %}
 </ul>
 </div>

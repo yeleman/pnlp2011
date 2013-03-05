@@ -14,9 +14,9 @@
 <p>Bienvenue dans le <strong>Système d'Information de Routine Paludisme</strong> du PNLP.</p>
 <p>Ce site web est un outil du <accronym title="Programme National de Lutte contre le Paludisme">PNLP</accronym>, permettant la saisie et la consultation des informations relatives au programme.</p>
 <p>L'accès à cet outil est limité aux partenaires du programme.</p>
-<p>Vous trouverez plus d'informations dans la section <a href="{% url about %}">à propos</a>.</p>
+<p>Vous trouverez plus d'informations dans la section <a href="{% url 'about' %}">à propos</a>.</p>
 
-<form method="post" action="{% url login %}">
+<form method="post" action="{% url 'login' %}">
 {% csrf_token %}
 <table>
 <tr><th>{% trans "Username" %}</th><td>{{ form.username }}</td>
@@ -27,6 +27,6 @@
 <button class="formbutt default">{% trans 'Log in' %}</button>
 </form>
 
-<p>Si vous souhaitez obtenir un accès ou que vous avez perdu vos identifiants, contactez le <a href="{% url support %}">support technique</a>.</p>
+<p>Si vous souhaitez obtenir un accès ou que vous avez perdu vos identifiants, contactez le <a href="{% url 'support' %}">support technique</a>.</p>
 
 {% endblock %}

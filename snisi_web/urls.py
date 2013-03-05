@@ -5,18 +5,18 @@
 import os
 
 from django.contrib import admin
-from django.conf.urls.defaults import patterns, url
-from django.views.generic.simple import direct_to_template
+from django.conf.urls import patterns, url
+from django.views.generic.base import TemplateView
 
 import snisi_web.views as views
 from views import index as main_index
 from views import monitoring as monitoring
 from views import malaria as malaria
-from views import epidemiology as epidemiology
-from views import reproduction as reproduction
+# from views import epidemiology as epidemiology
+# from views import reproduction as reproduction
 from bolibana.web import views as bolibana
 from bolibana.web.decorators import provider_permission
-from settings import STATIC_ROOT, MEDIA_ROOT
+from snisi.settings import STATIC_ROOT, MEDIA_ROOT
 
 PROJECT = r'(?P<project_slug>[a-z\_]+)'
 RGXP_ENTITY = r'(?P<entity_code>[a-zA-Z0-9\-\_]+)'
@@ -140,10 +140,10 @@ urlpatterns = patterns('',
 
     # static web pages
 
-    url(r'^help/$', direct_to_template,
-         {'template': 'help.html'}, name='help'),
-    url(r'^about/$', direct_to_template,
-         {'template': 'about.html'}, name='about'),
+    url(r'^help/$', TemplateView.as_view(template_name='help.html'),
+        name='help'),
+    url(r'^about/$', TemplateView.as_view(template_name='about.html'),
+        name='about'),
 
     url(r'^support/$', views.contact, name='support'),
     url(r'^annuaire/$', bolibana.addressbook.addressbook, name='addressbook'),

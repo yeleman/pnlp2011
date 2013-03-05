@@ -5,20 +5,20 @@
 import os
 
 from django.conf import settings
-from django.conf.urls.defaults import patterns, include, url
-from django.views.generic.simple import direct_to_template
+from django.conf.urls import patterns, include, url
+from django.views.generic.base import TemplateView
 from django.contrib import admin
 from settings import STATIC_ROOT, MEDIA_ROOT
 
 from snisi_web import urls as pnlp_urls
-from snisi_web import views
 
 admin.autodiscover()
 
 if hasattr(settings, 'SYSTEM_CLOSED') and settings.SYSTEM_CLOSED:
     urlpatterns = patterns('',
         url(r'^admin/', include(admin.site.urls)),
-        url(r'', direct_to_template, {'template': 'closed.html'}, name='index'),
+        url(r'', TemplateView.as_view(template_name='closed.html'),
+            name='index'),
 
     # development only
     url(r'^static/admin/(?P<path>.*)$',

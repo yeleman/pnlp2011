@@ -17,8 +17,8 @@
 {% block page-name %}context{% endblock %}
 
 {% block jqueryonload %}
-addJQEventsSubMenu("{% url raw_data project %}", "{% url raw_data project 0 %}");
-addJQEventPeriodChange("{% url raw_data project 'ent_code' '11-1111' %}", "{{ entity.slug }}");
+addJQEventsSubMenu("{% url 'raw_data' project %}", "{% url 'raw_data' project 0 %}");
+addJQEventPeriodChange("{% url 'raw_data' project 'ent_code' '11-1111' %}", "{{ entity.slug }}");
 addJQEventToggleSources();
 {% endblock %}
 
@@ -57,12 +57,12 @@ addJQEventToggleSources();
 
         <ul id="sources" class="hidden">
         {% for source in report.sources.all %}
-        <li>{{ source.entity.display_name }} – <a href="{% url raw_data project source.entity.slug source.mperiod.pid %}">{{ source.receipt }}</a></li>
+        <li>{{ source.entity.display_name }} – <a href="{% url 'raw_data' project source.entity.slug source.mperiod.pid %}">{{ source.receipt }}</a></li>
         {% endfor %}
         </ul>
         {% endif %}
 
-        <div class="rightbuttons"><a href="{% url raw_data_excel project report.receipt %}"><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
+        <div class="rightbuttons"><a href="{% url 'raw_data_excel' project report.receipt %}"><button class="formbutt download">Télécharger une version Excel du rapport</button></a></div>
 
         {% block raw_data_content %}{% endblock %}
 

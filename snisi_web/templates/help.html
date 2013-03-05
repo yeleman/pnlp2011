@@ -8,7 +8,7 @@
 
 {% block content %}
 <p>Cette section vous permettra de trouver des réponses aux questions que vous pouvez vous poser sur l'outil.</p>
-<p>Si vous ne trouvez pas satisfaction dans cette section, <a href="{% url support %}">faîtes nous en part</a> pour que nous améliorions ce contenu.</p>
+<p>Si vous ne trouvez pas satisfaction dans cette section, <a href="{% url 'support' %}">faîtes nous en part</a> pour que nous améliorions ce contenu.</p>
 
 <h2>Listes des sujets traités</h2>
 <ul class="help">
@@ -29,23 +29,23 @@
 <div><a name="lost_login"></a>
 <h3>J'ai perdu mon identifiant.</h3>
 <p>En cas de perte de votre identifiant, il vous faut contacter l'ANTIM.</p>
-<p>Vous pouvez les joindre via le <a href="{% url support %}">formulaire de contact</a> ou par téléphone.</p></div>
+<p>Vous pouvez les joindre via le <a href="{% url 'support' %}">formulaire de contact</a> ou par téléphone.</p></div>
 
 
 <div><a name="lost_password"></a>
 <h3>J'ai perdu mon mot de passe.</h3>
 <p>En cas de perte de votre mot de passe, il vous faut contacter l'ANTIM.</p>
-<p>Vous pouvez les joindre via le <a href="{% url support %}">formulaire de contact</a> ou par téléphone.</p></div>
+<p>Vous pouvez les joindre via le <a href="{% url 'support' %}">formulaire de contact</a> ou par téléphone.</p></div>
 
 <div><a name="change_password"></a>
 <h3>Comment changer mon mot de passe ?</h3>
-<p>Vous pouvez changer votre mot de passe depuis <a href="{% url profile %}">votre profil</a> accessible à tout moment en cliquant sur votre nom en haut de l'écran.</p>
+<p>Vous pouvez changer votre mot de passe depuis <a href="{% url 'profile' %}">votre profil</a> accessible à tout moment en cliquant sur votre nom en haut de l'écran.</p>
 <p>Vous devez être identifié pour changer de mot de passe.</p>
 <p>Si vous n'arrivez pas à vous identifiez, referrez vous à <a href="#lost_login">la section correspondante</a>.</p></div>
 
 <div><a name="edit_prodile"></a>
 <h3>Comment changer mes informations (nom, e-mail, téléphone) ?</h3>
-<p>Depuis <a href="{% url profile %}">votre profil</a> (accessible en cliquant sur votre nom), vous pouvez changer votre informations personnelles:</p>
+<p>Depuis <a href="{% url 'profile' %}">votre profil</a> (accessible en cliquant sur votre nom), vous pouvez changer votre informations personnelles:</p>
 <ul>
 <li>Prénom</li>
 <li>Nom</li>
@@ -57,16 +57,16 @@
 <div><a name="upload_report"></a>
 <h3>Comment envoyer un rapport de CSCom ?</h3>
 <p>L'envoi de rapport depuis cette interface est réservé aux CSRéf.</p>
-<p>Pour envoyer un rapport, il faut se rendre dans l'<a href="{% url upload %}">interface de saisie</a>, cliquer sur le bouton <em>Parcourir…</em> et sélectionner le formulaire de saisie déjà rempli.</p>
+<p>Pour envoyer un rapport, il faut se rendre dans l'<a href="{% url 'upload' %}">interface de saisie</a>, cliquer sur le bouton <em>Parcourir…</em> et sélectionner le formulaire de saisie déjà rempli.</p>
 <p>Aucune information n'est demandée ; toutes les informations doivent déjà être présentent dans le fichier Excel.</p>
-<p>Si vous rencontrez des problèmes pour le remplissage du formulaire ou que vous ne parvenez pas à corriger vos erreurs, réferrez-vous au <a href="{% url static 'guide_remplissage_1.0.doc' %}">Guide de remplissage du formulaire de saisie</a>.</p></div>
+<p>Si vous rencontrez des problèmes pour le remplissage du formulaire ou que vous ne parvenez pas à corriger vos erreurs, réferrez-vous au <a href="{{ STATIC_URL }}guide_remplissage_1.0.doc">Guide de remplissage du formulaire de saisie</a>.</p></div>
 
 <div><a name="send_sms"></a>
 <h3>Comment envoyer un rapport par SMS ?</h3>
 <p>Les rapports mensuels de routine primaires sont exclusivement envoyés à travers l'application PNLP disponible sur votre téléphone.</p>
-<p>Si vous avez besoin d'aide concernant la saisie du rapport sur le téléphone, réferrez-vous au <a href="{% url static 'guide_application_1.0.doc' %}">Guide d'utilisation de l'application java</a>, ou <a href="{% url support %}">contactez l'ANTIM</a> à travers l'application elle-même.</p>
-<p>Si l'application ne se trouve plus sur votre téléphone, <a href="{% url support %}">contactez l'ANTIM</a>.</p>
-<p>Si vous cherchez l'application et savez ce que vous faîtes, <a href="{% url static 'pnlp1.0.jar' %}">téléchargez l'application</a>.</p></div>
+<p>Si vous avez besoin d'aide concernant la saisie du rapport sur le téléphone, réferrez-vous au <a href="{{ STATIC_URL }}guide_application_1.0.doc">Guide d'utilisation de l'application java</a>, ou <a href="{% url 'support' %}">contactez l'ANTIM</a> à travers l'application elle-même.</p>
+<p>Si l'application ne se trouve plus sur votre téléphone, <a href="{% url 'support' %}">contactez l'ANTIM</a>.</p>
+<p>Si vous cherchez l'application et savez ce que vous faîtes, <a href="{{ STATIC_URL }}pnlp1.0.jar">téléchargez l'application</a>.</p></div>
 
 <div><a name="validate_report"></a>
 <h3>Comment valider un rapport ?</h3>
@@ -75,13 +75,13 @@
 <li>Niveau CSRéf: le district valide les rapports primaires des CSComs de son aîre.</li>
 <li>Niveau Région: la région valide les rapports agrégés des districts la concernant.</li>
 </ul>
-<p>La validation à lieu dans la <a href="{% url validation %}">section éponyme</a>.</p>
+<p>La validation à lieu dans la <a href="{% url 'validation' %}">section éponyme</a>.</p>
 <p>Il s'y trouve une liste des rapports en attente de validation. L'agent peut alors consulter les données, les modifier éventuellement puis les valider.</p>
 <p><strong>Attention</strong>, la validation des rapports n'est possible que pendant <a href="#timeline_report">la période de validation</a>.</p></div>
 
 <div><a name="view_report"></a>
 <h3>Comment consulter un rapport ?</h3>
-<p>Les rapports sont disponibles dans la section <a href="{% url raw_data %}">données brutes</a>.</p>
+<p>Les rapports sont disponibles dans la section <a href="{% url 'raw_data' %}">données brutes</a>.</p>
 <p>Pour accèder à un rapport, vous devez naviguer:</p>
 <ol>
 <li>Dans la hiérachie des établissement: en utilisant les menus déroulants <em>établissements</em>.
@@ -110,12 +110,12 @@
 <li>Si le district ne valide pas ses rapports à temps, le système auto-valide les rapports à sa place (le 16 du mois).</li>
 <li>Si la région ne valide pas ses rapports à temps, le système auto-valide les rapports à sa place (le 26 du mois).</li>
 </ul>
-<p>Ce calendrier strict assure la bonne marche du système et la promptitude des rapports. En cas de difficulté ou de retard, il est impératif de <a href="{% url support %}">contacter le PNLP</a> pour obtenir la marche à suivre.</p></div>
+<p>Ce calendrier strict assure la bonne marche du système et la promptitude des rapports. En cas de difficulté ou de retard, il est impératif de <a href="{% url 'support' %}">contacter le PNLP</a> pour obtenir la marche à suivre.</p></div>
 
 <div><a name="pending_reports"></a>
 <h3>Quels sont les rapports en attente ?</h3>
 <p>Durant les <a href="#timeline_report">périodes de validations</a>, les districts attendent l'arrivée des rapports primaires puis les régions attendent la création des rapports de districts.</p>
-<p>Depuis la <a href="{% url validation %}">section validation</a>, il est possible de voir la liste des établissements n'ayant pas encore terminés leur travail.</p>
+<p>Depuis la <a href="{% url 'validation' %}">section validation</a>, il est possible de voir la liste des établissements n'ayant pas encore terminés leur travail.</p>
 <p>Cet espace fournit également les contacts des responsables afin de prévenir tout retard.</p></div>
 
 {% endblock %}
