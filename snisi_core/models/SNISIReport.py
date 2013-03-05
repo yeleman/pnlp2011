@@ -12,12 +12,12 @@ from bolibana.models.ExpectedReporting import AGGREGATED_LEVEL
 class CommonSNISIReport(object):
 
     @property
-    def is_late(self):
-        return False
+    def arrived_late(self):
+        return getattr(self, 'is_late', False)
 
     @property
-    def is_on_time(self):
-        return not self.is_late
+    def arrived_late_on_time(self):
+        return not self.arrived_late
 
     @property
     def is_aggregated(self):
@@ -101,18 +101,6 @@ class SNISIReport(Report, CommonSNISIReport):
         if lvl_type is not None:
             return lvl_type == self.TYPE_AGGREGATED
         return False
-
-    @property
-    def is_source(self):
-        return not self.is_aggregated
-
-    @property
-    def arrived_late(self):
-        return getattr(self, 'is_late', False)
-
-    @property
-    def arrived_late_on_time(self):
-        return not self.arrived_late
 
 
 class SNISIIndividualReport(IndividualReport, CommonSNISIReport):

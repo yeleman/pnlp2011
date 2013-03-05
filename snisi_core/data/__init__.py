@@ -138,7 +138,6 @@ def most_accurate_report(provider, period=current_reporting_period()):
 
 def raw_data_periods_for(project, entity):
     """ periods with validated report for an entity and project """
-    # return [r.mperiod for r in MalariaR.validated.filter(entity=entity)]
     src = [r.casted_period(project.get('period_cls'))
            for r in project.get('src_cls').validated.filter(entity=entity)]
     agg = [r.casted_period(project.get('period_cls'))

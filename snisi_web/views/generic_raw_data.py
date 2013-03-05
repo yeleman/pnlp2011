@@ -70,7 +70,6 @@ def data_browser(request, project_slug, entity_code=None, period_str=None):
                     'paths': entities_path(root, entity)})
 
     # build periods list
-    # all_periods = raw_data_periods_for(entity)
     all_periods = raw_data_periods_for(project, entity)
     if period_str and not period in all_periods:
         raise Http404(_(u"No report for that period"))
