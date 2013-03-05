@@ -28,6 +28,11 @@ DATABASES = {
     }
 }
 
+# Hosts/domain names that are valid for this site; required if DEBUG is False
+# See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
+ALLOWED_HOSTS = []
+
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -35,11 +40,11 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Africa/Bamako'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-FR'
 
 SITE_ID = 1
 
@@ -51,14 +56,17 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
+# If you set this to False, Django will not use timezone-aware datetimes.
+USE_TZ = True
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -116,6 +124,9 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'snisi.urls'
 
+# Python dotted path to the WSGI application used by Django's runserver.
+WSGI_APPLICATION = 'snisi.wsgi.application'
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates"
     # Always use forward slashes, even on Windows.
@@ -130,7 +141,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    # pnlp2011 specific apps
+    # SNISI specific apps
     'django.contrib.humanize',
     'babeldjango',
     'mptt',
@@ -148,56 +159,79 @@ INSTALLED_APPS = (
 # debug on /tmp
 # warning+ in ./logs/
 # error+ triggers email to admin
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '[%(levelname)s] %(asctime)s ' \
+#                       '%(name)s/L%(lineno)d: %(message)s'
+#         },
+#         'simple': {
+#             'format': '%(levelname)s %(message)s'
+#         },
+#     },
+#     'filters': {
+#         'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'INFO',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple'
+#         },
+#         'debug': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'formatter': 'verbose',
+#             'filename': os.path.join(TEMP_DIR, 'pnlp_debug.log'),
+#             'maxBytes': 1024 * 1024 * 2,  # 2MB
+#             'backupCount': 1
+#         },
+#         'file': {
+#             'level': 'WARNING',
+#             'class': 'logging.handlers.TimedRotatingFileHandler',
+#             'when': 'W0',
+#             'interval': 1,
+#             'backupCount': 8,
+#             'formatter': 'verbose',
+#             'filename': os.path.join(LOGS_DIR, 'activity.log'),
+#         },
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler',
+#             'formatter': 'verbose',
+#             'filters': ['require_debug_false'],
+#         },
+#     },
+#     'loggers': {
+#         '': {
+#             'handlers': ['console', 'debug', 'file', 'mail_admins'],
+#             'level': 'DEBUG',
+#             'propagate': True
+#         },
+#     }
+# }
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '[%(levelname)s] %(asctime)s ' \
-                      '%(name)s/L%(lineno)d: %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
     'filters': {
-        'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
     },
     'handlers': {
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
-        'debug': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'formatter': 'verbose',
-            'filename': os.path.join(TEMP_DIR, 'pnlp_debug.log'),
-            'maxBytes': 1024 * 1024 * 2,  # 2MB
-            'backupCount': 1
-        },
-        'file': {
-            'level': 'WARNING',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'when': 'W0',
-            'interval': 1,
-            'backupCount': 8,
-            'formatter': 'verbose',
-            'filename': os.path.join(LOGS_DIR, 'activity.log'),
-        },
         'mail_admins': {
             'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'formatter': 'verbose',
             'filters': ['require_debug_false'],
-        },
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
     },
     'loggers': {
-        '': {
-            'handlers': ['console', 'debug', 'file', 'mail_admins'],
-            'level': 'DEBUG',
-            'propagate': True
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
         },
     }
 }
