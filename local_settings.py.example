@@ -26,7 +26,7 @@ TIME_ZONE = 'Africa/Bamako'
 LANGUAGE_CODE = 'fr-fr'
 
 MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 import snisi_web
 STATIC_ROOT = os.path.join(os.path.dirname( \
