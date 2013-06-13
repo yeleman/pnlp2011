@@ -25,14 +25,14 @@ class Hospitalisation5ansPlus(IndicatorTable, MalariaIndicatorTable):
     def total_inpatient_all_causes(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_inpatient_all_causes + \
-               report.pw_total_inpatient_all_causes
+            report.pw_total_inpatient_all_causes
 
     @indicator(1, 'total_inpatient_all_causes')
     @label(u"Total des hospitalisations pour paludisme grave")
     def o5_total_malaria_inpatient(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_malaria_inpatient + \
-               report.pw_total_malaria_inpatient
+            report.pw_total_malaria_inpatient
 
 
 class ProportionHospitalisations5ansPlus(Hospitalisation):

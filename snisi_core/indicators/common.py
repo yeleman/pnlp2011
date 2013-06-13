@@ -36,12 +36,12 @@ def period_is_valid(entity, period):
     except NoSourceData:
         return False
 
+
 def period_is_expected(entity, period, validated=True):
     greport = GenericReport(entity=entity, period=period,
                             src_cls=MalariaR, agg_cls=AggMalariaR,
                             only_validated=validated)
     return greport.is_expected
-
 
 
 def get_report_national(period, validated=True):
@@ -95,9 +95,9 @@ def find_report_attr_age(entity, period, attribute, age_code='all'):
 def nb_stockout(entity, period, product):
     nb_stockout = 0
     for report in MalariaR.objects.filter(type=MalariaR.TYPE_SOURCE,
-                                               period=period):
+                                          period=period):
         if (getattr(report, 'stockout_%s' % product) == report.NO
-            and (entity in report.entity.get_ancestors()
-            or entity == report.entity)):
+           and (entity in report.entity.get_ancestors()
+           or entity == report.entity)):
             nb_stockout += 1
     return nb_stockout

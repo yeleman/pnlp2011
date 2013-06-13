@@ -21,10 +21,10 @@ class MalariaRValidator(DataValidator):
         """ Test whether attached data matches PNLP's logic requirements """
 
         from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
+                                     time_district_over, time_region_over)
 
         no_more_than_text = _("%(field2)s (%(f2value)d) can't be more "
-                            "than %(field1)s (%(f1value)d)")
+                              "than %(field1)s (%(f1value)d)")
         allcats = ('u5', 'o5', 'pw')
         nopwcat = ('u5', 'o5')
 
@@ -74,19 +74,13 @@ class MalariaRValidator(DataValidator):
         # suspected > simple + severe
         for cat in nopwcat:
             try:
-                dic = {'field2': _(u"%(simple)s + %(severe)s") % {'simple':
-                      self.field_name('%s_total_simple_malaria_cases' % cat),
-                      'severe':
-                     self.field_name('%s_total_severe_malaria_cases' % cat)},
-                      'f2value': int(self.get('%s_total_simple_malaria_cases'
-                                              % cat))
-                               + int(self.get('%s_total_severe_malaria_cases'
-                                              % cat)),
-                      'field1':
-                           self.field_name('%s_total_suspected_malaria_cases'
-                                           % cat),
-                      'f1value': self.get('%s_total_suspected_malaria_cases'
-                                           % cat)}
+                dic = {'field2': _(u"%(simple)s + %(severe)s")
+                       % {'simple': self.field_name('%s_total_simple_malaria_cases' % cat),
+                       'severe': self.field_name('%s_total_severe_malaria_cases' % cat)},
+                       'f2value': int(self.get('%s_total_simple_malaria_cases' % cat))
+                       + int(self.get('%s_total_severe_malaria_cases' % cat)),
+                       'field1': self.field_name('%s_total_suspected_malaria_cases' % cat),
+                       'f1value': self.get('%s_total_suspected_malaria_cases' % cat)}
                 if dic['f1value'] < dic['f2value']:
                     self.errors.add(no_more_than_text % dic, cat)
             except MissingData:
@@ -95,19 +89,13 @@ class MalariaRValidator(DataValidator):
         # confirmed > simple + severe
         for cat in nopwcat:
             try:
-                dic = {'field2': _(u"%(simple)s + %(severe)s") % {'simple':
-                      self.field_name('%s_total_simple_malaria_cases' % cat),
-                      'severe':
-                     self.field_name('%s_total_severe_malaria_cases' % cat)},
-                      'f2value': int(self.get('%s_total_simple_malaria_cases'
-                                              % cat))
-                               + int(self.get('%s_total_severe_malaria_cases'
-                                              % cat)),
-                      'field1':
-                           self.field_name('%s_total_confirmed_malaria_cases'
-                                           % cat),
-                      'f1value': self.get('%s_total_confirmed_malaria_cases'
-                                           % cat)}
+                dic = {'field2': _(u"%(simple)s + %(severe)s")
+                       % {'simple': self.field_name('%s_total_simple_malaria_cases' % cat),
+                          'severe': self.field_name('%s_total_severe_malaria_cases' % cat)},
+                       'f2value': int(self.get('%s_total_simple_malaria_cases' % cat))
+                       + int(self.get('%s_total_severe_malaria_cases' % cat)),
+                       'field1': self.field_name('%s_total_confirmed_malaria_cases' % cat),
+                       'f1value': self.get('%s_total_confirmed_malaria_cases' % cat)}
                 if dic['f1value'] < dic['f2value']:
                     self.errors.add(no_more_than_text % dic, cat)
             except MissingData:
@@ -152,7 +140,7 @@ class MalariaRValidator(DataValidator):
 
         # NO PAST
         period = MonthPeriod.find_create_from(year=self.get('year'),
-                                                  month=self.get('month'))
+                                              month=self.get('month'))
 
         if self.options.is_editing:
             if self.options.level == 'district':
@@ -175,12 +163,10 @@ class MalariaRValidator(DataValidator):
                  self.get('fillin_month'), self.get('fillin_day'))
         except ValueError:
             self.errors.add(_(u"The fillin day (%(day)s) is out of range "
-                            "for that month (%(month)s)")
-                            % {'day':
-                                   self.get('fillin_day').__str__().zfill(2),
-                               'month':
-                                self.get('fillin_month').__str__().zfill(2)},
-                               'fillin')
+                              u"for that month (%(month)s)")
+                            % {'day': self.get('fillin_day').__str__().zfill(2),
+                               'month': self.get('fillin_month').__str__().zfill(2)},
+                            'fillin')
 
         # ENTITY
         try:
@@ -197,15 +183,15 @@ class MalariaRValidator(DataValidator):
             period = MonthPeriod.find_create_from(year=self.get('year'),
                                                   month=self.get('month'))
             if entity \
-            and MalariaR.objects.filter(entity=entity,
-                                             period=period).count() > 0:
+               and MalariaR.objects.filter(entity=entity,
+                                           period=period).count() > 0:
                 report = MalariaR.objects.get(entity=entity, period=period)
                 self.errors.add(_(u"There is already a report for "
                                   "that HC (%(entity)s) and that "
-                                  "period (%(period)s)") %
-                                  {'entity': entity.display_full_name(),
+                                  "period (%(period)s)")
+                                % {'entity': entity.display_full_name(),
                                    'period': period.name()}
-                                   + u" Recu: %s." % report.receipt, 'period')
+                                + u" Recu: %s." % report.receipt, 'period')
 
         # User can create such report
         if self.options.author:

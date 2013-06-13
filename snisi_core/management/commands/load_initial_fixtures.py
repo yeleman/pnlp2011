@@ -41,8 +41,8 @@ class Command(BaseCommand):
             exit(1)
 
         admin_access = Access.objects.create(content_type=entity_cls_id,
-                                       role=admin_role,
-                                       object_id=1)
+                                             role=admin_role,
+                                             object_id=1)
 
         # create default users
         print(u"Creating ADMIN User…")

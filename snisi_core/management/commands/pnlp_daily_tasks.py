@@ -13,8 +13,6 @@ from snisi_core.alerts import (EndOfCSComPeriod,
                                EndOfDistrictPeriod,
                                MalariaReportCreated,
                                Reminder, EndOfMonth)
-from bolibana.models.Period import MonthPeriod
-from snisi_core.models.MalariaReport import MalariaR
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

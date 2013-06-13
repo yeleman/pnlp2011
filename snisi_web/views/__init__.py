@@ -39,17 +39,17 @@ class ContactForm(forms.Form):
     """ Simple contact form with recipient choice """
 
     name = forms.CharField(max_length=50, required=True,
-                                 label=ugettext_lazy(u"Your Name"))
+                           label=ugettext_lazy(u"Your Name"))
     email = forms.EmailField(required=False,
                              label=ugettext_lazy(u"Your e-mail address"))
     phone_number = forms.CharField(max_length=12, required=False,
                                    label=ugettext_lazy(u"Your phone number"))
     subject = forms.CharField(max_length=50, required=False,
-                                label=ugettext_lazy(u"Subject"))
+                              label=ugettext_lazy(u"Subject"))
 
     recipient = forms.ChoiceField(required=False,
                                   label=ugettext_lazy(u"Recipient"),
-                          choices=contact_choices(settings.SUPPORT_CONTACTS),
+                                  choices=contact_choices(settings.SUPPORT_CONTACTS),
                                   help_text=_(u"Choose PNLP for operational "
                                               u"requests and ANTIM for "
                                               u"technical ones."))
@@ -72,9 +72,7 @@ def contact(request):
 
         if form.is_valid():
             try:
-                dest_mail = [email for s, n, email
-                                   in settings.SUPPORT_CONTACTS
-                                   if s == 'pnlp'][0]
+                dest_mail = [email for s, n, email in settings.SUPPORT_CONTACTS if s == 'pnlp'][0]
             except:
                 dest_mail = []
 
@@ -87,8 +85,8 @@ def contact(request):
 
             sent, sent_message = send_email(recipients=dest_mail,
                                             context=mail_cont,
-                                        template='emails/support_request.txt',
-                             title_template='emails/title.support_request.txt')
+                                            template='emails/support_request.txt',
+                                            title_template='emails/title.support_request.txt')
             if sent:
                 messages.success(request, _(u"Support request sent."))
                 return redirect('support')
@@ -99,8 +97,8 @@ def contact(request):
     if request.method == 'GET':
         if web_provider:
             initial_data = {'name': web_provider.name_access,
-                          'email': web_provider.email,
-                          'phone_number': web_provider.phone_number}
+                            'email': web_provider.email,
+                            'phone_number': web_provider.phone_number}
         else:
             initial_data = {}
 

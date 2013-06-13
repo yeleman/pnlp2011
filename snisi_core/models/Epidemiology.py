@@ -8,7 +8,6 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-from bolibana.models.Period import WeekPeriod
 from bolibana.tools.utils import generate_receipt
 
 from common import pre_save_report, post_save_report
@@ -49,14 +48,11 @@ class EpidemiologyR(SNISIReport):
     rabies_case = models.IntegerField(_(u"Rage cas"))
     rabies_death = models.IntegerField(_(u"Rage décès"))
 
-    acute_measles_diarrhea_case = models.IntegerField(\
-                                        _(u"Diarrhée severe rougeole cas"))
-    acute_measles_diarrhea_death = models.IntegerField(\
-                                        _(u"Diarrhée severe rougeole décès"))
+    acute_measles_diarrhea_case = models.IntegerField(_(u"Diarrhée severe rougeole cas"))
+    acute_measles_diarrhea_death = models.IntegerField(_(u"Diarrhée severe rougeole décès"))
 
     other_notifiable_disease_case = models.IntegerField(_(u"Autres MADOS cas"))
-    other_notifiable_disease_death = models.IntegerField(\
-                                                    _(u"Autres MADOS décès"))
+    other_notifiable_disease_death = models.IntegerField(_(u"Autres MADOS décès"))
 
     sources = models.ManyToManyField('self',
                                      verbose_name=_(u"Sources"),
@@ -109,16 +105,16 @@ class EpidemiologyR(SNISIReport):
 
     def __unicode__(self):
         return ugettext(u"%(cscom)s / %(period)s / %(receipt)s"
-            % {'cscom': self.entity.display_full_name(),
-               'period': self.period,
-               'receipt': self.receipt})
+                        % {'cscom': self.entity.display_full_name(),
+                           'period': self.period,
+                           'receipt': self.receipt})
 
     @classmethod
-    def start(cls, period, entity, author, \
-               type=SNISIReport.TYPE_SOURCE, *args, **kwargs):
+    def start(cls, period, entity, author,
+              type=SNISIReport.TYPE_SOURCE, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
-        report = cls(period=period, entity=entity, created_by=author, \
-                     modified_by=author, _status=cls.STATUS_CREATED, \
+        report = cls(period=period, entity=entity, created_by=author,
+                     modified_by=author, _status=cls.STATUS_CREATED,
                      type=type)
         for arg, value in kwargs.items():
             try:

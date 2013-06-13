@@ -35,29 +35,12 @@ class CasPaludismeFemmesEnceintes(IndicatorTable, MalariaIndicatorTable):
         report = get_report_for(self.entity, period)
         return report.pw_total_tested_malaria_cases
 
-    @label(u"Nombre de cas suspects testés qui sont confirmés par" \
+    @label(u"Nombre de cas suspects testés qui sont confirmés par"
            u" GE ou TDR(cas graves)")
     @indicator(2, 'pw_total_tested_malaria_cases')
     def pw_total_severe_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.pw_total_severe_malaria_cases
-
-
-class NbreTestesConfirmesFemmesEnceintes(NbreCasSuspectesTestesConfirmes):
-    """ Nombre de cas de paludisme  par mois (cas suspects,
-
-        cas testés,  cas confirmés)  chez les femmes enceintes. """
-
-    name = u"Figure 14"
-    caption = u"Nombre de cas de paludisme  par mois (cas suspects," \
-              u"cas testés,  cas confirmés)  chez les femmes enceintes."
-
-    default_options = {'with_percentage': False,
-                       'with_total': False,
-                       'with_reference': True,
-                       'with_data': True,
-                       'only_percent': False,
-                       'age': 'pregnant_women'}
 
 
 class NbreTestesConfirmesFemmesEnceintes(NbreCasSuspectesTestesConfirmes):

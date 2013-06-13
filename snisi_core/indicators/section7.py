@@ -17,8 +17,8 @@ class PourcentageStructuresRuptureStockProduitPaluGrave(IndicatorTable,
 
     name = u"Tableau 18"
     title = u" "
-    caption = u"Pourcentage de structures avec rupture de stock en" \
-             "produits de prise en charge des cas de paludisme grave"
+    caption = (u"Pourcentage de structures avec rupture de stock en"
+               u"produits de prise en charge des cas de paludisme grave")
     type = 'table'
 
     default_options = {'with_percentage': True,
@@ -102,4 +102,4 @@ class EvolutionStructuresRuptureStockProduitPaluGrave(IndicatorTable):
         return nb_serum
 
 WIDGETS = [PourcentageStructuresRuptureStockProduitPaluGrave,
-            EvolutionStructuresRuptureStockProduitPaluGrave]
+           EvolutionStructuresRuptureStockProduitPaluGrave]

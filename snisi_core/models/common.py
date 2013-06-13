@@ -45,10 +45,9 @@ def report_create_from(cls, period, entity, author, indiv_cls=None):
     agg_report.fill_blank()
 
     # find list of sources
-    indiv_sources = indiv_cls \
-                        .objects \
-                        .filter(period=period,
-                                entity__in=entity.get_children())
+    indiv_sources = indiv_cls.objects \
+                             .filter(period=period,
+                                     entity__in=entity.get_children())
     agg_sources = cls.objects.filter(period=period,
                                      entity__in=entity.get_children())
 

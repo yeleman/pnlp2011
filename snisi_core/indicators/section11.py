@@ -7,9 +7,9 @@ from bolibana.reporting.indicators import (IndicatorTable,
 from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import nb_stockout
 from snisi_core.indicators.common import (get_report_for,
-                                         get_report_for_element,
-                                         get_report_national,
-                                         MalariaIndicatorTable)
+                                          get_report_for_element,
+                                          get_report_national,
+                                          MalariaIndicatorTable)
 
 
 class CTAMILD(IndicatorTable, MalariaIndicatorTable):
@@ -95,7 +95,7 @@ class TraitesCTA(IndicatorTable, MalariaIndicatorTable):
 
         if self.entity.type.slug == 'cscom' or \
            self.entity.type.slug == 'district':
-            report = get_report_for_element(get_report_national(period) \
+            report = get_report_for_element(get_report_national(period)
                                             .sources.validated(), 1)
             return report.total_simple_malaria_cases
         else:
@@ -108,7 +108,7 @@ class TraitesCTA(IndicatorTable, MalariaIndicatorTable):
     def bamako_total_treated_malaria_cases(self, period):
         if self.entity.type.slug == 'cscom' or \
            self.entity.type.slug == 'district':
-            report = get_report_for_element(get_report_national(period) \
+            report = get_report_for_element(get_report_national(period)
                                             .sources.validated(), 1)
             print report
             return report.total_treated_malaria_cases
@@ -123,7 +123,7 @@ class TraitesCTA(IndicatorTable, MalariaIndicatorTable):
     def segou_total_simple_malaria_cases(self, period):
         if self.entity.type.slug == 'cscom' or \
            self.entity.type.slug == 'district':
-            report = get_report_for_element(get_report_national(period) \
+            report = get_report_for_element(get_report_national(period)
                                             .sources.validated(), 0)
             return report.total_simple_malaria_cases
         else:
@@ -136,7 +136,7 @@ class TraitesCTA(IndicatorTable, MalariaIndicatorTable):
     def segou_total_treated_malaria_cases(self, period):
         if self.entity.type.slug == 'cscom' or \
            self.entity.type.slug == 'district':
-            report = get_report_for_element(get_report_national(period) \
+            report = get_report_for_element(get_report_national(period)
                                             .sources.validated(), 0)
             return report.total_treated_malaria_cases
         else:
@@ -194,18 +194,17 @@ class PourcentageCTATDRMILD(IndicatorTable):
     @label(u"CTA")
     def stockout_act(self, period):
         nb_stockout_CTA = 0
-        for report in MalariaR.objects.filter(type=MalariaR
-                                                   .TYPE_SOURCE,
-                                                   period=period):
+        for report in MalariaR.objects.filter(type=MalariaR.TYPE_SOURCE,
+                                              period=period):
             if (getattr(report, 'stockout_act_children') == report.NO
                 and (self.entity in report.entity.get_ancestors()
                 or self.entity == report.entity)) \
                 or (getattr(report, 'stockout_act_youth') == report.NO
-                and (self.entity in report.entity.get_ancestors()
-                or self.entity == report.entity)) \
-                or  (getattr(report, 'stockout_act_adult') == report.NO
-                and (self.entity in report.entity.get_ancestors()
-                or self.entity == report.entity)):
+                    and (self.entity in report.entity.get_ancestors()
+                    or self.entity == report.entity)) \
+                    or (getattr(report, 'stockout_act_adult') == report.NO
+                        and (self.entity in report.entity.get_ancestors()
+                        or self.entity == report.entity)):
                 nb_stockout_CTA += 1
         return nb_stockout_CTA
 

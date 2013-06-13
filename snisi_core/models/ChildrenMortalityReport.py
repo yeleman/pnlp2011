@@ -53,18 +53,17 @@ class ChildrenDeathR(SNISIIndividualReport):
     CAUSE_EAT_REFUSAL = 't'
     CAUSE_OTHER = 'o'
     DEATH_CAUSES_t = (
-                      (CAUSE_FEVER, u"Fever"),
-                      (CAUSE_DIARRHEA, u"Diarrhea"),
-                      (CAUSE_DYSPNEA, u"Dyspnea"),
-                      (CAUSE_ANEMIA, u"Anemia"),
-                      (CAUSE_RASH, u"Rash"),
-                      (CAUSE_COUGH, u"Cough"),
-                      (CAUSE_VOMITING, u"Vomiting"),
-                      (CAUSE_NUCHAL_RIGIDITY, u"Nuchal Rigidity"),
-                      (CAUSE_RED_EYE, u"Red Eye"),
-                      (CAUSE_EAT_REFUSAL, u"Eat Refusal"),
-                      (CAUSE_OTHER, u"Other")
-        )
+        (CAUSE_FEVER, u"Fever"),
+        (CAUSE_DIARRHEA, u"Diarrhea"),
+        (CAUSE_DYSPNEA, u"Dyspnea"),
+        (CAUSE_ANEMIA, u"Anemia"),
+        (CAUSE_RASH, u"Rash"),
+        (CAUSE_COUGH, u"Cough"),
+        (CAUSE_VOMITING, u"Vomiting"),
+        (CAUSE_NUCHAL_RIGIDITY, u"Nuchal Rigidity"),
+        (CAUSE_RED_EYE, u"Red Eye"),
+        (CAUSE_EAT_REFUSAL, u"Eat Refusal"),
+        (CAUSE_OTHER, u"Other"))
 
     class Meta:
         app_label = 'snisi_core'
@@ -72,8 +71,8 @@ class ChildrenDeathR(SNISIIndividualReport):
         verbose_name_plural = _(u"Children Mortality Reports")
 
     reporting_location = models.ForeignKey(Entity,
-                                         related_name='children_reported_in',
-                                         verbose_name=_(u"Reporting location"))
+                                           related_name='children_reported_in',
+                                           verbose_name=_(u"Reporting location"))
     name = models.CharField(max_length=100,
                             verbose_name=_(u"Name of the deceased"))
     sex = models.CharField(max_length=1,
@@ -97,13 +96,7 @@ class ChildrenDeathR(SNISIIndividualReport):
     periods = PeriodManager()
 
     def add_data(self,
-                    name,
-                    sex,
-                    dob,
-                    dob_auto,
-                    dod,
-                    death_place,
-                    cause_of_death):
+                 name, sex, dob, dob_auto, dod, death_place, cause_of_death):
         self.name = name
         self.sex = sex
         self.dob = dob
@@ -114,8 +107,8 @@ class ChildrenDeathR(SNISIIndividualReport):
 
     def __unicode__(self):
         return ugettext(u"%(name)s/%(dod)s"
-                % {'name': self.name.title(),
-                   'dod': self.dod.strftime('%d-%m-%Y')})
+                        % {'name': self.name.title(),
+                           'dod': self.dod.strftime('%d-%m-%Y')})
 
     @classmethod
     def start(cls, reporting_location, death_location, author, *args, **kwargs):
@@ -233,11 +226,9 @@ class AggChildrenDeathR(SNISIReport):
         agg_report = cls.start(entity, period, author)
 
         # find list of sources
-        indiv_sources = ChildrenDeathR \
-                            .objects \
-                            .filter(dod__gte=period.start_on,
-                                    dod__lte=period.end_on,
-                                    death_location__in=entity.get_children())
+        indiv_sources = ChildrenDeathR.objects.filter(dod__gte=period.start_on,
+                                                      dod__lte=period.end_on,
+                                                      death_location__in=entity.get_children())
         agg_sources = cls.objects.filter(period=period,
                                          entity__in=entity.get_children())
 
@@ -358,8 +349,7 @@ class AggChildrenDeathR(SNISIReport):
         report.cause_death_rash += instance.cause_death_rash
         report.cause_death_cough += instance.cause_death_cough
         report.cause_death_vomiting += instance.cause_death_vomiting
-        report.cause_death_nuchal_rigidity += \
-                                           instance.cause_death_nuchal_rigidity
+        report.cause_death_nuchal_rigidity += instance.cause_death_nuchal_rigidity
         report.cause_death_red_eye += instance.cause_death_red_eye
         report.cause_death_eat_refusal += instance.cause_death_eat_refusal
         report.cause_death_other += instance.cause_death_other

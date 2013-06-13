@@ -28,8 +28,7 @@ class CasPaludismeSimpleTraitesCTA(IndicatorTable, MalariaIndicatorTable):
         return report.u5_total_simple_malaria_cases
 
     @indicator(1, 'u5_total_simple_malaria_cases')
-    @label(u"Cas simple traités par CTA chez " \
-           u"les moins de 5 ans")
+    @label(u"Cas simple traités par CTA chez les moins de 5 ans")
     def u5_total_treated_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_treated_malaria_cases
@@ -42,8 +41,7 @@ class CasPaludismeSimpleTraitesCTA(IndicatorTable, MalariaIndicatorTable):
         return report.o5_total_simple_malaria_cases
 
     @indicator(3, 'o5_total_simple_malaria_cases')
-    @label(u"Cas simple traités par CTA chez " \
-           u"les 5 ans et plus")
+    @label(u"Cas simple traités par CTA chez les 5 ans et plus")
     def o5_total_treated_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_treated_malaria_cases
@@ -56,8 +54,8 @@ class CasPaludismeConfirmesTraitesCTA(IndicatorTable):
 
     name = u"Figure 17"
     title = u" "
-    caption = u"Nombre de cas de paludisme confirmés et " \
-                u"nombre de cas traités par CTA"
+    caption = (u"Nombre de cas de paludisme confirmés et "
+               u"nombre de cas traités par CTA")
     type = 'graph'
 
     default_options = {'with_percentage': False,
@@ -85,9 +83,9 @@ class EvolutionProportionCasPaludismeSimpleTraitesU5O5(IndicatorTable):
 
     name = u"Figure 18"
     title = u" "
-    caption = u"Évolution des proportions  de cas de paludisme " \
-                u"simple traités par CTA Chez les moins de 5 ans" \
-                 u"et les 5 ans et plus"
+    caption = (u"Évolution des proportions  de cas de paludisme "
+               u"simple traités par CTA Chez les moins de 5 ans"
+               u"et les 5 ans et plus")
     type = 'graph'
 
     default_options = {'with_percentage': False,
@@ -115,9 +113,9 @@ class EvolutionProportionCasPaludismeSimpleTraitesu5O51(IndicatorTable):
 
     name = u"Figure 19"
     title = u" "
-    caption = u"Évolution des proportions  de cas de paludisme " \
-                u"simple traités par CTA Chez les moins de 5 ans" \
-                 u"et les 5 ans et plus"
+    caption = (u"Évolution des proportions  de cas de paludisme "
+               u"simple traités par CTA Chez les moins de 5 ans"
+               u"et les 5 ans et plus")
     type = 'graph'
     graph_type = 'spline'
     default_options = {'with_percentage': False,

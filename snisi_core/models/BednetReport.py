@@ -54,16 +54,16 @@ class BednetR(SNISIReport):
 
     def __unicode__(self):
         return ugettext(u"%(cscom)s / %(period)s / %(receipt)s"
-            % {'cscom': self.entity.display_full_name(),
-               'period': self.period,
-               'receipt': self.receipt})
+                        % {'cscom': self.entity.display_full_name(),
+                           'period': self.period,
+                           'receipt': self.receipt})
 
     @classmethod
-    def start(cls, period, entity, author, \
-               type=SNISIReport.TYPE_SOURCE, *args, **kwargs):
+    def start(cls, period, entity, author,
+              type=SNISIReport.TYPE_SOURCE, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
-        report = cls(period=period, entity=entity, created_by=author, \
-                     modified_by=author, _status=cls.STATUS_CREATED, \
+        report = cls(period=period, entity=entity, created_by=author,
+                     modified_by=author, _status=cls.STATUS_CREATED,
                      type=type)
         for arg, value in kwargs.items():
             try:
@@ -104,9 +104,8 @@ class BednetR(SNISIReport):
                                type=SNISIReport.TYPE_AGGREGATED,
                                *args, **kwargs)
 
-        sources = BednetR.validated\
-                               .filter(period=period,
-                                       entity__in=entity.get_children())
+        sources = BednetR.validated.filter(period=period,
+                                           entity__in=entity.get_children())
 
         if sources.count() == 0:
             agg_report.fill_blank()

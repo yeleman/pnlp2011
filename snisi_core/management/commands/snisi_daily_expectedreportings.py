@@ -45,13 +45,13 @@ def generating_for(day):
         end = scheduled_reporting.casted_end
 
         expr, created = ExpectedReporting.objects.get_or_create(
-                             report_class=scheduled_reporting.report_class,
-                             entity=scheduled_reporting.entity,
-                             period=period,
-                             level=scheduled_reporting.level)
+            report_class=scheduled_reporting.report_class,
+            entity=scheduled_reporting.entity,
+            period=period,
+            level=scheduled_reporting.level)
 
         if start is not None and period >= start \
-            and (period < end or end is None):
+           and (period < end or end is None):
             # We need to have one for the period.
             # It might already exist though.
             if created:
@@ -66,8 +66,8 @@ class Command(BaseCommand):
 
     option_list = BaseCommand.option_list + (
         make_option('--from',
-            help='Create Expected from a fixed date',
-            default=False),)
+                    help='Create Expected from a fixed date',
+                    default=False),)
 
     def handle(self, *args, **options):
 

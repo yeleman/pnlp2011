@@ -28,9 +28,8 @@ def dead_persons_handler(message):
             for cmd_id, cmd_target in commands.items():
                 command = '%s %s' % (keyword, cmd_id)
                 if message.content.lower().startswith(command):
-                    n, args = re.split(r'^%s\s?' \
-                                       % command,
-                                         message.content.lower().strip())
+                    n, args = re.split(r'^%s\s?'
+                                       % command, message.content.lower().strip())
                     return cmd_target(message,
                                       args=args,
                                       sub_cmd=cmd_id,
@@ -45,4 +44,3 @@ def dead_persons_handler(message):
         return True
     logger.info(u"[NOT HANDLED] msg : %s" % message)
     return False
-

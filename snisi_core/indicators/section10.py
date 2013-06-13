@@ -4,10 +4,9 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label, hidden)
-from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import (get_report_national, get_report_for,
-                                         get_report_for_element,
-                                         MalariaIndicatorTable)
+                                          get_report_for_element,
+                                          MalariaIndicatorTable)
 
 
 class CasConfirmes(IndicatorTable, MalariaIndicatorTable):
@@ -76,16 +75,15 @@ class GrapheConfirmes(CasConfirmes):
     def total_confirmed_malaria_cases(self, period):
         return super(GrapheConfirmes, self).total_confirmed_malaria_cases(period)
 
+
 class NbreHospitalisationDeces(IndicatorTable, MalariaIndicatorTable):
     """ Tableau: Données sur l'hospitalisation et le decès pour paludisme chez
 
         les moins de 5 ans """
 
     name = u"Tableau 22"
-    title = u"Nombre d'hospitalisation et décès pour paludisme chez les " \
-            u" moins 5 ans"
-    caption = u"Nombre d'hospitalisation et décès pour paludisme chez les " \
-            u"moins 5 ans"
+    title = u"Nombre d'hospitalisation et décès pour paludisme chez les moins 5 ans"
+    caption = u"Nombre d'hospitalisation et décès pour paludisme chez les moins 5 ans"
     type = 'table'
 
     default_options = {'with_percentage': False,
@@ -245,7 +243,7 @@ class DecesPalu(IndicatorTable):
     def bamako_total_malaria_death(self, period):
         if self.entity.type.slug == 'cscom' or \
            self.entity.type.slug == 'district':
-            report = get_report_for_element(get_report_national(period) \
+            report = get_report_for_element(get_report_national(period)
                                             .sources.validated(), 1)
             print report
             return report.total_malaria_death
@@ -260,7 +258,7 @@ class DecesPalu(IndicatorTable):
 
         if self.entity.type.slug == 'cscom' or \
            self.entity.type.slug == 'district':
-            report = get_report_for_element(get_report_national(period) \
+            report = get_report_for_element(get_report_national(period)
                                             .sources.validated(), 1)
             return report.u5_total_malaria_death
         else:
@@ -274,7 +272,7 @@ class DecesPalu(IndicatorTable):
     def segou_total_malaria_death(self, period):
         if self.entity.type.slug == 'cscom' or \
            self.entity.type.slug == 'district':
-            report = get_report_for_element(get_report_national(period) \
+            report = get_report_for_element(get_report_national(period)
                                             .sources.validated(), 0)
             return report.total_malaria_death
         else:
@@ -285,9 +283,9 @@ class DecesPalu(IndicatorTable):
     @indicator(3, 'segou_total_malaria_death')
     @label(u"Décès pour paludisme chez les 5 ans à Ségou")
     def segou_u5_total_malaria_death(self, period):
-        if self.entity.type.slug == 'cscom' \
-            or self.entity.type.slug == 'district':
-            report = get_report_for_element(get_report_national(period) \
+        if (self.entity.type.slug == 'cscom'
+           or self.entity.type.slug == 'district'):
+            report = get_report_for_element(get_report_national(period)
                                             .sources.validated(), 0)
             return report.u5_total_malaria_death
         else:

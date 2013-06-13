@@ -38,23 +38,24 @@ class MaternalDeathR(SNISIIndividualReport):
     CAUSE_MISCARRIAGE = 'm'
     CAUSE_ABORTION = 'a'
     CAUSE_OTHER = 'o'
-    DEATH_CAUSES_t = ((CAUSE_BLEEDING, u"Bleeding"),
-                    (CAUSE_FEVER, u"Fever"),
-                    (CAUSE_HTN, u"High Blood Pressure"),
-                    (CAUSE_DIARRHEA, u"Diarrhea"),
-                    (CAUSE_CRISIS, u"Crisis"),
-                    (CAUSE_MISCARRIAGE, u"Miscarriage"),
-                    (CAUSE_ABORTION, u"Abortion"),
-                    (CAUSE_OTHER, u"Other"))
+    DEATH_CAUSES_t = (
+        (CAUSE_BLEEDING, u"Bleeding"),
+        (CAUSE_FEVER, u"Fever"),
+        (CAUSE_HTN, u"High Blood Pressure"),
+        (CAUSE_DIARRHEA, u"Diarrhea"),
+        (CAUSE_CRISIS, u"Crisis"),
+        (CAUSE_MISCARRIAGE, u"Miscarriage"),
+        (CAUSE_ABORTION, u"Abortion"),
+        (CAUSE_OTHER, u"Other"))
     DEATH_CAUSES = {
-                    CAUSE_BLEEDING: u"Bleeding",
-                    CAUSE_FEVER: u"Fever",
-                    CAUSE_HTN: u"High Blood Pressure",
-                    CAUSE_DIARRHEA: u"Diarrhea",
-                    CAUSE_CRISIS: u"Crisis",
-                    CAUSE_MISCARRIAGE: u"Miscarriage",
-                    CAUSE_ABORTION: u"Abortion",
-                    CAUSE_OTHER: u"Other"}
+        CAUSE_BLEEDING: u"Bleeding",
+        CAUSE_FEVER: u"Fever",
+        CAUSE_HTN: u"High Blood Pressure",
+        CAUSE_DIARRHEA: u"Diarrhea",
+        CAUSE_CRISIS: u"Crisis",
+        CAUSE_MISCARRIAGE: u"Miscarriage",
+        CAUSE_ABORTION: u"Abortion",
+        CAUSE_OTHER: u"Other"}
 
     class Meta:
         app_label = 'snisi_core'
@@ -75,7 +76,7 @@ class MaternalDeathR(SNISIIndividualReport):
                                        related_name='maternal_dead_in',
                                        verbose_name=_(u"Place of death"))
     living_children = models.PositiveIntegerField(verbose_name=_(u"Living "
-                                                 u"children of the deceased"))
+                                                  u"children of the deceased"))
     dead_children = models.PositiveIntegerField(verbose_name=_(u"Dead children"
                                                 u" of the deceased"))
     pregnant = models.BooleanField(verbose_name=_(u"Pregnant?"))
@@ -92,17 +93,9 @@ class MaternalDeathR(SNISIIndividualReport):
     objects = models.Manager()
     periods = PeriodManager()
 
-    def add_data(self, name,
-                                dob,
-                                dob_auto,
-                                dod,
-                                death_location,
-                                living_children,
-                                dead_children,
-                                pregnant,
-                                pregnancy_weeks,
-                                pregnancy_related_death,
-                                cause_of_death):
+    def add_data(self, name, dob, dob_auto, dod, death_location,
+                 living_children, dead_children, pregnant,
+                 pregnancy_weeks, pregnancy_related_death, cause_of_death):
         self.name = name
         self.dob = dob
         self.dob_auto = dob_auto
@@ -316,11 +309,10 @@ class AggMaternalDeathR(SNISIReport):
         agg_report = cls.start(entity, period, author)
 
         # find list of sources
-        indiv_sources = MaternalDeathR \
-                            .objects \
-                            .filter(dod__gte=period.start_on,
-                                    dod__lte=period.end_on,
-                                    death_location__in=entity.get_children())
+        indiv_sources = MaternalDeathR.objects \
+                                      .filter(dod__gte=period.start_on,
+                                              dod__lte=period.end_on,
+                                              death_location__in=entity.get_children())
         agg_sources = cls.objects.filter(period=period,
                                          entity__in=entity.get_children())
 

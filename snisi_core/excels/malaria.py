@@ -25,191 +25,165 @@ class MalariaExcelForm(ExcelForm):
     DAY_MAP = range(1, 32)
 
     _mapping = {'0.3': {
-    'region': ExcelFormField('B2', unicode, _(u"Region")),
-    'district': ExcelFormField('B3', unicode, _(u"Health District")),
-    'hc': ExcelFormField('B4', unicode, _(u"Health Center")),
-    'month': ExcelFormField('D3', ExcelTypeConverter.NormalizedIntChoiceList,
-                            _(u"Month"), cast_args=MONTH_MAP),
-    'year': ExcelFormField('G3', ExcelTypeConverter.NormalizedIntChoiceList,
-                           _(u"Year"), cast_args=YEAR_MAP),
+        'region': ExcelFormField('B2', unicode, _(u"Region")),
+        'district': ExcelFormField('B3', unicode, _(u"Health District")),
+        'hc': ExcelFormField('B4', unicode, _(u"Health Center")),
+        'month': ExcelFormField('D3', ExcelTypeConverter.NormalizedIntChoiceList,
+                                _(u"Month"), cast_args=MONTH_MAP),
+        'year': ExcelFormField('G3', ExcelTypeConverter.NormalizedIntChoiceList,
+                               _(u"Year"), cast_args=YEAR_MAP),
 
-    'u5_total_consultation_all_causes': ExcelFormField('C7', int,
-                                        MalariaR._meta.get_field(\
-                           'u5_total_consultation_all_causes').verbose_name),
-    'o5_total_consultation_all_causes': ExcelFormField('E7', int,
-                                        MalariaR._meta.get_field(\
-                           'o5_total_consultation_all_causes').verbose_name),
-    'pw_total_consultation_all_causes': ExcelFormField('G7', int,
-                                        MalariaR._meta.get_field(\
-                           'pw_total_consultation_all_causes').verbose_name),
-
-    'u5_total_suspected_malaria_cases': ExcelFormField('C8', int,
-                                        MalariaR._meta.get_field(\
-                           'u5_total_suspected_malaria_cases').verbose_name),
-    'o5_total_suspected_malaria_cases': ExcelFormField('E8', int,
-                                        MalariaR._meta.get_field(\
-                           'o5_total_suspected_malaria_cases').verbose_name),
-    'pw_total_suspected_malaria_cases': ExcelFormField('G8', int,
-                                        MalariaR._meta.get_field(\
-                           'pw_total_suspected_malaria_cases').verbose_name),
-
-    'u5_total_tested_malaria_cases': ExcelFormField('C9', int,
-                                     MalariaR._meta.get_field(\
-                              'u5_total_tested_malaria_cases').verbose_name),
-    'o5_total_tested_malaria_cases': ExcelFormField('E9', int,
-                                     MalariaR._meta.get_field(\
-                              'o5_total_tested_malaria_cases').verbose_name),
-    'pw_total_tested_malaria_cases': ExcelFormField('G9', int,
-                                     MalariaR._meta.get_field(\
-                              'pw_total_tested_malaria_cases').verbose_name),
-
-    'u5_total_confirmed_malaria_cases': ExcelFormField('C10', int,
-                                        MalariaR._meta.get_field(\
-                           'u5_total_confirmed_malaria_cases').verbose_name),
-    'o5_total_confirmed_malaria_cases': ExcelFormField('E10', int,
-                                        MalariaR._meta.get_field(\
-                           'o5_total_confirmed_malaria_cases').verbose_name),
-    'pw_total_confirmed_malaria_cases': ExcelFormField('G10', int,
-                                        MalariaR._meta.get_field(\
-                           'pw_total_confirmed_malaria_cases').verbose_name),
-
-    'u5_total_simple_malaria_cases': ExcelFormField('C11', int,
-                                     MalariaR._meta.get_field(\
-                              'u5_total_simple_malaria_cases').verbose_name),
-    'o5_total_simple_malaria_cases': ExcelFormField('E11', int,
-                                     MalariaR._meta.get_field(\
-                              'o5_total_simple_malaria_cases').verbose_name),
-
-    'u5_total_severe_malaria_cases': ExcelFormField('C12', int,
-                                     MalariaR._meta.get_field(\
-                              'u5_total_severe_malaria_cases').verbose_name),
-    'o5_total_severe_malaria_cases': ExcelFormField('E12', int,
-                                     MalariaR._meta.get_field(\
-                              'o5_total_severe_malaria_cases').verbose_name),
-    'pw_total_severe_malaria_cases': ExcelFormField('G12', int,
-                                     MalariaR._meta.get_field(\
-                              'pw_total_severe_malaria_cases').verbose_name),
-
-    'u5_total_treated_malaria_cases': ExcelFormField('C13', int,
-                                      MalariaR._meta.get_field(\
-                             'u5_total_treated_malaria_cases').verbose_name),
-    'o5_total_treated_malaria_cases': ExcelFormField('E13', int,
-                                      MalariaR._meta.get_field(\
-                             'o5_total_treated_malaria_cases').verbose_name),
-    'pw_total_treated_malaria_cases': ExcelFormField('G13', int,
-                                      MalariaR._meta.get_field(\
-                             'pw_total_treated_malaria_cases').verbose_name),
-
-    'u5_total_inpatient_all_causes': ExcelFormField('C17', int,
-                                     MalariaR._meta.get_field(\
-                              'u5_total_inpatient_all_causes').verbose_name),
-    'o5_total_inpatient_all_causes': ExcelFormField('E17', int,
-                                     MalariaR._meta.get_field(\
-                              'o5_total_inpatient_all_causes').verbose_name),
-    'pw_total_inpatient_all_causes': ExcelFormField('G17', int,
-                                     MalariaR._meta.get_field(\
-                              'pw_total_inpatient_all_causes').verbose_name),
-
-    'u5_total_malaria_inpatient': ExcelFormField('C18', int,
-                                  MalariaR._meta.get_field(\
-                                 'u5_total_malaria_inpatient').verbose_name),
-    'o5_total_malaria_inpatient': ExcelFormField('E18', int,
-                                  MalariaR._meta.get_field(\
-                                 'o5_total_malaria_inpatient').verbose_name),
-    'pw_total_malaria_inpatient': ExcelFormField('G18', int,
-                                  MalariaR._meta.get_field(\
-                                 'pw_total_malaria_inpatient').verbose_name),
-
-    'u5_total_death_all_causes': ExcelFormField('C22', int,
-                                 MalariaR._meta.get_field(\
-                                  'u5_total_death_all_causes').verbose_name),
-    'o5_total_death_all_causes': ExcelFormField('E22', int,
-                                 MalariaR._meta.get_field(\
-                                  'o5_total_death_all_causes').verbose_name),
-    'pw_total_death_all_causes': ExcelFormField('G22', int,
-                                 MalariaR._meta.get_field(\
-                                  'pw_total_death_all_causes').verbose_name),
-
-    'u5_total_malaria_death': ExcelFormField('C23', int,
-                              MalariaR._meta.get_field(\
-                                     'u5_total_malaria_death').verbose_name),
-    'o5_total_malaria_death': ExcelFormField('E23', int,
-                              MalariaR._meta.get_field(\
-                                     'o5_total_malaria_death').verbose_name),
-    'pw_total_malaria_death': ExcelFormField('G23', int,
-                              MalariaR._meta.get_field(\
-                                     'pw_total_malaria_death').verbose_name),
-
-    'u5_total_distributed_bednets': ExcelFormField('C27', int,
-                                    MalariaR._meta.get_field(\
-                               'u5_total_distributed_bednets').verbose_name),
-    'pw_total_distributed_bednets': ExcelFormField('E27', int,
-                                    MalariaR._meta.get_field(\
-                               'pw_total_distributed_bednets').verbose_name),
-
-    'pw_total_anc1': ExcelFormField('M22', int, MalariaR._meta.get_field(\
-                                              'pw_total_anc1').verbose_name),
-    'pw_total_sp1': ExcelFormField('M23', int, MalariaR._meta.get_field(\
-                                               'pw_total_sp1').verbose_name),
-    'pw_total_sp2': ExcelFormField('M24', int, MalariaR._meta.get_field(\
-                                               'pw_total_sp2').verbose_name),
-
-    'stockout_act_children': ExcelFormField('M5',
-                                     ExcelTypeConverter.NormalizedChoiceList,
-                                     MalariaR._meta.get_field(\
-                                     'stockout_act_children').verbose_name,
-                                     cast_args=YN_MAP),
-    'stockout_act_youth': ExcelFormField('M6',
-                                     ExcelTypeConverter.NormalizedChoiceList,
-                                     MalariaR._meta.get_field(\
-                                          'stockout_act_youth').verbose_name,
-                                     cast_args=YN_MAP),
-    'stockout_act_adult': ExcelFormField('M7',
-                                     ExcelTypeConverter.NormalizedChoiceList,
-                                     MalariaR._meta.get_field(\
-                                          'stockout_act_adult').verbose_name,
-                                     cast_args=YN_MAP),
-    'stockout_artemether': ExcelFormField('M11',
-                                     ExcelTypeConverter.NormalizedChoiceList,
-                                     MalariaR._meta.get_field(\
-                                         'stockout_artemether').verbose_name,
-                                     cast_args=YN_MAP),
-    'stockout_quinine': ExcelFormField('M12',
-                                     ExcelTypeConverter.NormalizedChoiceList,
-                                     MalariaR._meta.get_field(\
-                                            'stockout_quinine').verbose_name,
-                                     cast_args=YN_MAP),
-    'stockout_serum': ExcelFormField('M13',
-                                     ExcelTypeConverter.NormalizedChoiceList,
-                                     MalariaR._meta.get_field(\
-                                              'stockout_serum').verbose_name,
-                                     cast_args=YN_MAP),
-    'stockout_bednet': ExcelFormField('M16',
-                                     ExcelTypeConverter.NormalizedChoiceList,
-                                     MalariaR._meta.get_field(\
-                                             'stockout_bednet').verbose_name,
-                                     cast_args=YN_MAP),
-    'stockout_rdt': ExcelFormField('M17',
-                                     ExcelTypeConverter.NormalizedChoiceList,
-                                     MalariaR._meta.get_field(\
-                                                'stockout_rdt').verbose_name,
-                                     cast_args=YN_MAP),
-    'stockout_sp': ExcelFormField('M18',
-                                     ExcelTypeConverter.NormalizedChoiceList,
-                                     MalariaR._meta.get_field(\
-                                                 'stockout_sp').verbose_name,
-                                     cast_args=YN_MAP),
-    'fillin_day': ExcelFormField('K28',
-                                 ExcelTypeConverter.NormalizedIntChoiceList,
-                                 _(u"Filling Day"), cast_args=DAY_MAP),
-    'fillin_month': ExcelFormField('L28',
-                                  ExcelTypeConverter.NormalizedIntChoiceList,
-                                  _(u"Filling Month"), cast_args=MONTH_MAP),
-    'fillin_year': ExcelFormField('M28',
-                                  ExcelTypeConverter.NormalizedIntChoiceList,
-                                  _(u"Filling Year"), cast_args=YEAR_MAP),
-    'author': ExcelFormField('L26', unicode, _(u"Author Name")),
-        }
+        'u5_total_consultation_all_causes':
+        ExcelFormField('C7', int,
+                MalariaR._meta.get_field('u5_total_consultation_all_causes').verbose_name),
+        'o5_total_consultation_all_causes':
+        ExcelFormField('E7', int,
+                MalariaR._meta.get_field('o5_total_consultation_all_causes').verbose_name),
+        'pw_total_consultation_all_causes':
+        ExcelFormField('G7', int,
+                MalariaR._meta.get_field('pw_total_consultation_all_causes').verbose_name),
+        'u5_total_suspected_malaria_cases':
+        ExcelFormField('C8', int,
+                MalariaR._meta.get_field('u5_total_suspected_malaria_cases').verbose_name),
+        'o5_total_suspected_malaria_cases':
+        ExcelFormField('E8', int,
+                MalariaR._meta.get_field('o5_total_suspected_malaria_cases').verbose_name),
+        'pw_total_suspected_malaria_cases':
+        ExcelFormField('G8', int,
+                MalariaR._meta.get_field('pw_total_suspected_malaria_cases').verbose_name),
+        'u5_total_tested_malaria_cases':
+        ExcelFormField('C9', int,
+                MalariaR._meta.get_field('u5_total_tested_malaria_cases').verbose_name),
+        'o5_total_tested_malaria_cases':
+        ExcelFormField('E9', int,
+                MalariaR._meta.get_field('o5_total_tested_malaria_cases').verbose_name),
+        'pw_total_tested_malaria_cases':
+        ExcelFormField('G9', int,
+                MalariaR._meta.get_field('pw_total_tested_malaria_cases').verbose_name),
+        'u5_total_confirmed_malaria_cases':
+        ExcelFormField('C10', int,
+                MalariaR._meta.get_field('u5_total_confirmed_malaria_cases').verbose_name),
+        'o5_total_confirmed_malaria_cases':
+        ExcelFormField('E10', int,
+                MalariaR._meta.get_field('o5_total_confirmed_malaria_cases').verbose_name),
+        'pw_total_confirmed_malaria_cases':
+        ExcelFormField('G10', int,
+                MalariaR._meta.get_field('pw_total_confirmed_malaria_cases').verbose_name),
+        'u5_total_simple_malaria_cases':
+        ExcelFormField('C11', int,
+                MalariaR._meta.get_field('u5_total_simple_malaria_cases').verbose_name),
+        'o5_total_simple_malaria_cases':
+        ExcelFormField('E11', int,
+                MalariaR._meta.get_field('o5_total_simple_malaria_cases').verbose_name),
+        'u5_total_severe_malaria_cases':
+        ExcelFormField('C12', int,
+                MalariaR._meta.get_field('u5_total_severe_malaria_cases').verbose_name),
+        'o5_total_severe_malaria_cases':
+        ExcelFormField('E12', int,
+                MalariaR._meta.get_field('o5_total_severe_malaria_cases').verbose_name),
+        'pw_total_severe_malaria_cases':
+        ExcelFormField('G12', int,
+                MalariaR._meta.get_field('pw_total_severe_malaria_cases').verbose_name),
+        'u5_total_treated_malaria_cases':
+        ExcelFormField('C13', int,
+                MalariaR._meta.get_field('u5_total_treated_malaria_cases').verbose_name),
+        'o5_total_treated_malaria_cases':
+        ExcelFormField('E13', int,
+                MalariaR._meta.get_field('o5_total_treated_malaria_cases').verbose_name),
+        'pw_total_treated_malaria_cases':
+        ExcelFormField('G13', int,
+                MalariaR._meta.get_field('pw_total_treated_malaria_cases').verbose_name),
+        'u5_total_inpatient_all_causes':
+        ExcelFormField('C17', int,
+                MalariaR._meta.get_field('u5_total_inpatient_all_causes').verbose_name),
+        'o5_total_inpatient_all_causes':
+        ExcelFormField('E17', int,
+                MalariaR._meta.get_field('o5_total_inpatient_all_causes').verbose_name),
+        'pw_total_inpatient_all_causes':
+        ExcelFormField('G17', int,
+                MalariaR._meta.get_field('pw_total_inpatient_all_causes').verbose_name),
+        'u5_total_malaria_inpatient':
+        ExcelFormField('C18', int,
+                MalariaR._meta.get_field('u5_total_malaria_inpatient').verbose_name),
+        'o5_total_malaria_inpatient':
+        ExcelFormField('E18', int,
+                MalariaR._meta.get_field('o5_total_malaria_inpatient').verbose_name),
+        'pw_total_malaria_inpatient':
+        ExcelFormField('G18', int,
+                MalariaR._meta.get_field('pw_total_malaria_inpatient').verbose_name),
+        'u5_total_death_all_causes':
+        ExcelFormField('C22', int,
+                MalariaR._meta.get_field('u5_total_death_all_causes').verbose_name),
+        'o5_total_death_all_causes':
+        ExcelFormField('E22', int,
+                MalariaR._meta.get_field('o5_total_death_all_causes').verbose_name),
+        'pw_total_death_all_causes':
+        ExcelFormField('G22', int,
+                MalariaR._meta.get_field('pw_total_death_all_causes').verbose_name),
+        'u5_total_malaria_death':
+        ExcelFormField('C23', int,
+                MalariaR._meta.get_field('u5_total_malaria_death').verbose_name),
+        'o5_total_malaria_death':
+        ExcelFormField('E23', int,
+                MalariaR._meta.get_field('o5_total_malaria_death').verbose_name),
+        'pw_total_malaria_death':
+        ExcelFormField('G23', int,
+                MalariaR._meta.get_field('pw_total_malaria_death').verbose_name),
+        'u5_total_distributed_bednets':
+        ExcelFormField('C27', int,
+                MalariaR._meta.get_field('u5_total_distributed_bednets').verbose_name),
+        'pw_total_distributed_bednets':
+        ExcelFormField('E27', int,
+                MalariaR._meta.get_field('pw_total_distributed_bednets').verbose_name),
+        'pw_total_anc1': ExcelFormField('M22', int,
+                MalariaR._meta.get_field('pw_total_anc1').verbose_name),
+        'pw_total_sp1': ExcelFormField('M23', int,
+                MalariaR._meta.get_field('pw_total_sp1').verbose_name),
+        'pw_total_sp2': ExcelFormField('M24', int,
+                MalariaR._meta.get_field('pw_total_sp2').verbose_name),
+        'stockout_act_children': ExcelFormField('M5',
+                ExcelTypeConverter.NormalizedChoiceList,
+                MalariaR._meta.get_field('stockout_act_children').verbose_name,
+                cast_args=YN_MAP),
+        'stockout_act_youth':
+        ExcelFormField('M6', ExcelTypeConverter.NormalizedChoiceList,
+                       MalariaR._meta.get_field('stockout_act_youth').verbose_name,
+                       cast_args=YN_MAP),
+        'stockout_act_adult':
+        ExcelFormField('M7', ExcelTypeConverter.NormalizedChoiceList,
+                       MalariaR._meta.get_field('stockout_act_adult').verbose_name,
+                       cast_args=YN_MAP),
+        'stockout_artemether':
+        ExcelFormField('M11', ExcelTypeConverter.NormalizedChoiceList,
+                       MalariaR._meta.get_field('stockout_artemether').verbose_name,
+                       cast_args=YN_MAP),
+        'stockout_quinine':
+        ExcelFormField('M12', ExcelTypeConverter.NormalizedChoiceList,
+                       MalariaR._meta.get_field('stockout_quinine').verbose_name,
+                       cast_args=YN_MAP),
+        'stockout_serum':
+        ExcelFormField('M13', ExcelTypeConverter.NormalizedChoiceList,
+                       MalariaR._meta.get_field('stockout_serum').verbose_name,
+                       cast_args=YN_MAP),
+        'stockout_bednet':
+        ExcelFormField('M16', ExcelTypeConverter.NormalizedChoiceList,
+                       MalariaR._meta.get_field('stockout_bednet').verbose_name,
+                       cast_args=YN_MAP),
+        'stockout_rdt': ExcelFormField('M17', ExcelTypeConverter.NormalizedChoiceList,
+                                       MalariaR._meta.get_field('stockout_rdt').verbose_name,
+                                       cast_args=YN_MAP),
+        'stockout_sp': ExcelFormField('M18', ExcelTypeConverter.NormalizedChoiceList,
+                                      MalariaR._meta.get_field('stockout_sp').verbose_name,
+                                      cast_args=YN_MAP),
+        'fillin_day': ExcelFormField('K28',
+                                     ExcelTypeConverter.NormalizedIntChoiceList,
+                                     _(u"Filling Day"), cast_args=DAY_MAP),
+        'fillin_month': ExcelFormField('L28', ExcelTypeConverter.NormalizedIntChoiceList,
+                                       _(u"Filling Month"), cast_args=MONTH_MAP),
+        'fillin_year': ExcelFormField('M28', ExcelTypeConverter.NormalizedIntChoiceList,
+                                      _(u"Filling Year"), cast_args=YEAR_MAP),
+        'author': ExcelFormField('L26', unicode, _(u"Author Name")),
+    }
     }
 
     def section_from_variable(self, variable):
@@ -229,7 +203,7 @@ class MalariaExcelForm(ExcelForm):
 
     def missing_value(self, variable):
         """ adds an error message for a missing value """
-        self.errors.add(_("%(field)s is missing.") \
+        self.errors.add(_("%(field)s is missing.")
                         % {'field': self.mapping()[variable].display_name()},
                         self.section_from_variable(variable))
 
@@ -240,7 +214,7 @@ class MalariaExcelForm(ExcelForm):
                 return int(value)
             return value
 
-        self.errors.add(_("%(data)s is not a valid data for %(field)s") \
+        self.errors.add(_("%(data)s is not a valid data for %(field)s")
                         % {'data': clean_data(data),
                            'field': field.display_name()},
                         self.section_from_variable(variable))
@@ -260,7 +234,7 @@ class MalariaExcelForm(ExcelForm):
                 complete = False
                 continue
 
-            if value == None:
+            if value is None:
                 self.missing_value(fieldid)
                 complete = False
         return complete
@@ -323,8 +297,8 @@ class MalariaExcelForm(ExcelForm):
         is_late = not time_is_prompt(period)
         entity = Entity.objects.get(slug=self.get('hc'), type__slug='cscom')
         report = MalariaR.start(period, entity, author,
-                                     type=MalariaR.TYPE_SOURCE,
-                                     is_late=is_late)
+                                type=MalariaR.TYPE_SOURCE,
+                                is_late=is_late)
 
         report.add_underfive_data(*self.data_for_cat('u5'))
         report.add_overfive_data(*self.data_for_cat('o5'))

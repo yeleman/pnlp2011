@@ -3,11 +3,10 @@
 # maintainer: rgaudin
 
 from bolibana.reporting.indicators import (IndicatorTable, reference,
-                                            indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
+                                           indicator, label)
 from snisi_core.indicators.common import get_report_for, MalariaIndicatorTable
-from snisi_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes,\
-                                          CasSimplesGraves)
+from snisi_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes,
+                                            CasSimplesGraves)
 
 
 class TousCasPaludismeNotifies(IndicatorTable, MalariaIndicatorTable):
@@ -36,8 +35,7 @@ class TousCasPaludismeNotifies(IndicatorTable, MalariaIndicatorTable):
     blank._is_indicator = True
 
     @indicator(2, 'total_consultation_all_causes')
-    @label(u"Nombre de cas de paludisme (tous suspectés)  parmi le total" \
-           u" consultation ")
+    @label(u"Nombre de cas de paludisme (tous suspectés)  parmi le total consultation ")
     def total_suspected_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.total_suspected_malaria_cases

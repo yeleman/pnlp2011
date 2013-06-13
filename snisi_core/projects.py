@@ -42,9 +42,8 @@ BEDNET_PROJECT = {'category': 'bednet',
                   'src_form': BednetRForm,
                   'agg_form': AggBednetRForm,
                   'period_cls': WeekPeriod,
-                  'get_reporting_period':
-                       lambda: WeekPeriod.current().previous(),
-                       'type': COMPILED}
+                  'get_reporting_period': lambda: WeekPeriod.current().previous(),
+                  'type': COMPILED}
 
 RH_COMMODITIES_PROJECT = {'category': 'reproduction',
                           'slug': 'reproduction_commodities',
@@ -57,24 +56,24 @@ RH_COMMODITIES_PROJECT = {'category': 'reproduction',
                           'type': COMPILED}
 
 RH_MATERNAL_PROJECT = {'category': 'reproduction',
-                          'slug': 'reproduction_maternal',
-                          'src_cls': MaternalDeathR,
-                          'agg_cls': AggMaternalDeathR,
-                          'src_form': MaternalDeathRForm,
-                          'agg_form': AggMaternalDeathRForm,
-                          'period_cls': DayPeriod,
-                          'get_reporting_period': lambda: DayPeriod.current(),
-                          'type': INDIVIDUAL}
+                       'slug': 'reproduction_maternal',
+                       'src_cls': MaternalDeathR,
+                       'agg_cls': AggMaternalDeathR,
+                       'src_form': MaternalDeathRForm,
+                       'agg_form': AggMaternalDeathRForm,
+                       'period_cls': DayPeriod,
+                       'get_reporting_period': lambda: DayPeriod.current(),
+                       'type': INDIVIDUAL}
 
 RH_CHILDREN_PROJECT = {'category': 'reproduction',
-                          'slug': 'reproduction_children',
-                          'src_cls': ChildrenDeathR,
-                          'agg_cls': AggChildrenDeathR,
-                          'src_form': ChildrenDeathRForm,
-                          'agg_form': AggChildrenDeathRForm,
-                          'period_cls': DayPeriod,
-                          'get_reporting_period': lambda: DayPeriod.current(),
-                          'type': INDIVIDUAL}
+                       'slug': 'reproduction_children',
+                       'src_cls': ChildrenDeathR,
+                       'agg_cls': AggChildrenDeathR,
+                       'src_form': ChildrenDeathRForm,
+                       'agg_form': AggChildrenDeathRForm,
+                       'period_cls': DayPeriod,
+                       'get_reporting_period': lambda: DayPeriod.current(),
+                       'type': INDIVIDUAL}
 
 REPRODUCTION_PROJECT = {'category': 'reproduction',
                         'slug': 'reproduction_children'}
@@ -90,9 +89,8 @@ EPIDEMIOLOGY_PROJECT = {'category': 'epidemiology',
                         'src_form': EpidemiologyRForm,
                         'agg_form': AggEpidemiologyRForm,
                         'period_cls': WeekPeriod,
-                        'get_reporting_period':
-                            lambda: WeekPeriod.current().previous(),
-                            'type': COMPILED}
+                        'get_reporting_period': lambda: WeekPeriod.current().previous(),
+                        'type': COMPILED}
 
 PROJECTS = {
     'malaria': MALARIA_PROJECT,

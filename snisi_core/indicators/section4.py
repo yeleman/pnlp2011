@@ -28,15 +28,15 @@ class GraphDeces(IndicatorTable, MalariaIndicatorTable):
     @label(u"Total des décès toutes causes confondues ")
     def total_death_all_causes(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_death_all_causes',
-                               self.options.age)
+                                    'total_death_all_causes',
+                                    self.options.age)
 
     @indicator(1, "total_death_all_causes")
     @label(u"% Décès du au paludisme")
     def total_malaria_death(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_malaria_death',
-                               self.options.age)
+                                    'total_malaria_death',
+                                    self.options.age)
 
 
 class GraphCommun(IndicatorTable, MalariaIndicatorTable):

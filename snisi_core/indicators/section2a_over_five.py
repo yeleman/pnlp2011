@@ -4,7 +4,6 @@
 
 from bolibana.reporting.indicators import (IndicatorTable,
                                            reference, indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
 from snisi_core.indicators.common import get_report_for
 from snisi_core.indicators.section2 import (NbreCasSuspectesTestesConfirmes,
                                             CasSimplesGraves,
@@ -40,8 +39,7 @@ class CasPaludismeEnfantsOverFive(IndicatorTable, MalariaIndicatorTable):
         return report.o5_total_tested_malaria_cases
 
     @indicator(2, 'o5_total_tested_malaria_cases')
-    @label(u"Nombre de cas suspects testés qui sont confirmés par  " \
-           u"GE ou TDR")
+    @label(u"Nombre de cas suspects testés qui sont confirmés par GE ou TDR")
     def o5_total_confirmed_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.o5_total_confirmed_malaria_cases

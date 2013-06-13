@@ -12,8 +12,8 @@ from bolibana.models.Period import MonthPeriod
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 from snisi_core.models.GenericReport import GenericReport
 from snisi_core.data import (entities_path,
-                            provider_can_or_403,
-                            current_reporting_period, contact_for)
+                             provider_can_or_403,
+                             current_reporting_period, contact_for)
 
 
 def import_path(name):
@@ -28,7 +28,7 @@ def import_path(name):
 
 @provider_permission('can_view_raw_data')
 def indicator_browser(request, entity_code=None, period_str=None,
-                    section_index='1', sub_section=None):
+                      section_index='1', sub_section=None):
     context = {'category': 'malaria', 'location': 'indicator_data'}
     web_provider = request.user.get_profile()
 
@@ -67,14 +67,12 @@ def indicator_browser(request, entity_code=None, period_str=None,
     if period_str:
         speriod_str, eperiod_str = period_str.split('-')
         try:
-            speriod = MonthPeriod.find_create_from(\
-                                                  year=int(speriod_str[-4:]),
-                                                  month=int(speriod_str[:2]),
-                                                  dont_create=True)
-            eperiod = MonthPeriod.find_create_from(\
-                                                  year=int(eperiod_str[-4:]),
-                                                  month=int(eperiod_str[:2]),
-                                                  dont_create=True)
+            speriod = MonthPeriod.find_create_from(year=int(speriod_str[-4:]),
+                                                   month=int(speriod_str[:2]),
+                                                   dont_create=True)
+            eperiod = MonthPeriod.find_create_from(year=int(eperiod_str[-4:]),
+                                                   month=int(eperiod_str[:2]),
+                                                   dont_create=True)
 
             # loop on Period.next() from start one to end one.
             period = speriod
@@ -82,8 +80,8 @@ def indicator_browser(request, entity_code=None, period_str=None,
                 periods.append(period)
                 period = period.next()
         except:
-            raise Http404(_(u"Requested period interval (%(period_str)s) " \
-                            u"includes inexistant periods.") \
+            raise Http404(_(u"Requested period interval (%(period_str)s) "
+                            u"includes inexistant periods.")
                           % {'period': period_str})
 
     # in case user did not request a specific interval
@@ -111,10 +109,10 @@ def indicator_browser(request, entity_code=None, period_str=None,
                     'paths': entities_path(root, entity)})
 
     from snisi_core.indicators import INDICATOR_SECTIONS
-    context.update({'sections': \
+    context.update({'sections':
                     sorted(INDICATOR_SECTIONS.values(),
-                          cmp=lambda a, b: int(a['id'].strip('a').strip('b')) \
-                                        - int(b['id'].strip('a').strip('b')))})
+                           cmp=lambda a, b: int(a['id'].strip('a').strip('b')) -
+                           int(b['id'].strip('a').strip('b')))})
 
     try:
         section = INDICATOR_SECTIONS[section_index]
@@ -135,7 +133,7 @@ def indicator_browser(request, entity_code=None, period_str=None,
 
     context.update({'section': section, 'sub_section': sub_section})
 
-    context.update({'widgets': [widget(entity=entity, periods=periods) \
+    context.update({'widgets': [widget(entity=entity, periods=periods)
                                 for widget in sm.WIDGETS]})
 
     return render(request, 'malaria/indicator_data.html', context)

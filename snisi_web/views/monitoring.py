@@ -20,7 +20,7 @@ def sms_for_period(period):
 
         inbox = Inbox.objects.filter(receivingdatetime__gte=period.start_on,
                                      receivingdatetime__lte=period.end_on)\
-                                .all().order_by('-receivingdatetime')
+                             .all().order_by('-receivingdatetime')
 
         sent = SentItems.objects.filter(sendingdatetime__gte=period.start_on,
                                         sendingdatetime__lte=period.end_on)\
@@ -51,8 +51,7 @@ def source_data(request):
         edata = entity_dict(entity)
         edata['children'] = [entity_dict(e)
                              for e in entity.get_children()
-                             if not MalariaR.objects
-                                    .filter(period=period, entity=e).count()]
+                             if not MalariaR.objects.filter(period=period, entity=e).count()]
 
         entities.append(edata)
 
@@ -76,8 +75,7 @@ def messages_log(request):
         else:
             phone = sms.identity.split('+223')[0]
 
-        provider = Provider.objects \
-                       .filter(user__provider__phone_number__contains=phone)
+        provider = Provider.objects.filter(user__provider__phone_number__contains=phone)
         return provider
 
     all_sms = sms_for_period(current_period())
@@ -91,11 +89,10 @@ def messages_log(request):
 
 def nb_reports_unvalidated_for(entity, period):
     """ report unvalidated """
-    nb_val = MalariaR.validated.filter(entity__parent=entity,
-                                              period=period).count()
+    nb_val = MalariaR.validated.filter(entity__parent=entity, period=period).count()
     if entity.type.slug == 'district':
-        nb_ent = len([e for e in entity.get_children() \
-            if MalariaR.objects.filter(period=period, entity=e).count()])
+        nb_ent = len([e for e in entity.get_children()
+                      if MalariaR.objects.filter(period=period, entity=e).count()])
     else:
         nb_ent = 1
 
@@ -126,8 +123,8 @@ def validation(request):
     for entity in Entity.objects.filter(type__slug='district'):
         edata = entity_dict(entity)
         edata['children'] = [e for e in entity.get_children()
-                               if MalariaR.unvalidated
-                                    .filter(period=period, entity=e).count()]
+                             if MalariaR.unvalidated
+                                        .filter(period=period, entity=e).count()]
         entities.append(edata)
 
     context.update({'entities': entities})
@@ -158,7 +155,7 @@ def bulk_messaging(request):
                                             pr.phone_number), pr.phone_number))
         if pr.phone_number_extra:
             all_providers.append(("%s %s %s" % (pr.name(), pr.first_access(),
-                             pr.phone_number_extra), pr.phone_number_extra))
+                                  pr.phone_number_extra), pr.phone_number_extra))
 
     if request.method == "POST":
         form = MessageForm(request.POST)

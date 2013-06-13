@@ -16,8 +16,8 @@ def dashboard(request):
 
     from bolibana.models.Entity import Entity
     from snisi_core.data import (current_period, current_stage,
-                                time_cscom_over, time_district_over,
-                                time_region_over)
+                                 time_cscom_over, time_district_over,
+                                 time_region_over)
 
     def sms_received_sent_by_period(period):
         received = Inbox.objects.filter(receivingdatetime__gte=period.start_on,
@@ -36,10 +36,10 @@ def dashboard(request):
         return MalariaR.validated.filter(period=period,
                                          entity__type__slug=type_)
 
-    def reporting_rate(period, entity):
-        return float(MalariaR.validated.filter(period=period,
-                                               entity__parent=entity).count()) \
-        / Entity.objects.filter(parent__slug=entity.slug).count()
+    # def reporting_rate(period, entity):
+    #     return float(MalariaR.validated.filter(period=period,
+    #                                            entity__parent=entity).count()) \
+    #         / Entity.objects.filter(parent__slug=entity.slug).count()
 
     current_period = current_period()
     period = current_reporting_period()
@@ -48,10 +48,8 @@ def dashboard(request):
                     'current_reporting_period': period,
                     'current_stage': current_stage(),
                     'current_sms': sms_received_sent_by_period(current_period),
-                    'current_reporting_sms': \
-                         sms_received_sent_by_period(period),
-                    'total_cscom': Entity.objects\
-                                         .filter(type__slug='cscom').count(),
+                    'current_reporting_sms': sms_received_sent_by_period(period),
+                    'total_cscom': Entity.objects.filter(type__slug='cscom').count(),
                     'time_cscom_over': time_cscom_over(period),
                     'time_district_over': time_district_over(period),
                     'time_region_over': time_region_over(period)})
@@ -59,8 +57,7 @@ def dashboard(request):
     received_cscom_reports = received_reports(period, 'cscom')
     cscom_reports_validated = reports_validated(period, 'cscom')
     district_reports_validated = reports_validated(period, 'district')
-    reporting_rate = \
-        float(MalariaR.validated.filter(period=period).count()) \
+    reporting_rate = float(MalariaR.validated.filter(period=period).count()) \
         / Entity.objects.count()
 
     cscom_missed_report = \
@@ -72,9 +69,8 @@ def dashboard(request):
     def entities_autoreports(level):
         districts_missed_report = {}
         auto_validated_cscom_reports = \
-            MalariaR.validated\
-                         .filter(entity__type__slug=level,
-                                 modified_by__user__username='autobot')
+            MalariaR.validated.filter(entity__type__slug=level,
+                                      modified_by__user__username='autobot')
         for report in auto_validated_cscom_reports:
             if not report.entity.parent.slug in districts_missed_report:
                 districts_missed_report[report.entity.parent.slug] = \
@@ -89,7 +85,7 @@ def dashboard(request):
 
     context.update({'received_cscom_reports': received_cscom_reports.count(),
                 'cscom_reports_validated': cscom_reports_validated.count(),
-              'district_reports_validated': district_reports_validated.count(),
+                'district_reports_validated': district_reports_validated.count(),
                 'reporting_rate': reporting_rate,
                 'cscom_missed_report_count': cscom_missed_report.count(),
                 'cscom_missed_report': [(e, contact_for(e, True))

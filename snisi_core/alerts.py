@@ -16,8 +16,8 @@ from bolibana.models.Provider import Provider
 from bolibana.models.Access import Access
 from bolibana.tools.utils import get_autobot, send_email, full_url
 from snisi_core.data import (time_cscom_over, time_district_over,
-                            time_region_over, current_reporting_period,
-                            contact_for)
+                             time_region_over, current_reporting_period,
+                             contact_for)
 from snisi_core.models.alert import Alert
 from snisi_core.models.MalariaReport import MalariaR, AggMalariaR
 
@@ -44,8 +44,7 @@ class IndividualMalariaReportCreated(Alert):
         # triggers happens if:
         # 1. Such alert has not been triggered
         # 2. We are in the next period as P (don't trigger is it's too late
-        return self.not_triggered \
-               and self.args.report.mperiod == current_reporting_period()
+        return self.not_triggered and self.args.report.mperiod == current_reporting_period()
 
     def action(self):
         """ send SMS to district/region for each new report """
@@ -68,8 +67,8 @@ class IndividualMalariaReportCreated(Alert):
                        title=u"[PNLP] Nouveau rapport recu!")
         else:
             send_email(settings.HOTLINE_EMAIL, message,
-                       u"[PNLP] Unable to send report notification " \
-                       u"to %(contact)s" \
+                       u"[PNLP] Unable to send report notification "
+                       u"to %(contact)s"
                        % {'contact': contact.name_access()})
 
 
@@ -94,13 +93,12 @@ class MalariaReportCreated(Alert):
         # 1. Such alert has not been triggered
         # 2. We are in the next period as P (don't trigger is it's too late
         return self.not_triggered \
-               and self.args.period == current_reporting_period()
+            and self.args.period == current_reporting_period()
 
     def action(self):
         """ send SMS to district/region | email to PNLP for each new report """
 
-        for report in MalariaR.unvalidated\
-                                   .filter(period=self.args.period):
+        for report in MalariaR.unvalidated.filter(period=self.args.period):
 
             # entity has no parent. Either Mali or error
             if not report.entity.parent:
@@ -121,22 +119,21 @@ class MalariaReportCreated(Alert):
                 ct, oi = Access.target_data(Entity.objects.get(slug='mali'))
                 nat_access = list(Access.objects.filter(content_type=ct,
                                                         object_id=oi))
-                providers = list(Provider.active\
-                                    .select_related()\
-                                    .filter(user__email__isnull=False,
-                                            access__in=nat_access)\
-                                    .values_list('user__email', flat=True))
+                providers = list(Provider.active.select_related()
+                                         .filter(user__email__isnull=False,
+                                                 access__in=nat_access)
+                                         .values_list('user__email', flat=True))
 
                 rurl = full_url(path=reverse('raw_data',
-                                   kwargs={'entity_code': report.entity.slug,
-                       'period_str': report.period.middle().strftime('%m%Y')}))
+                                             kwargs={'entity_code': report.entity.slug,
+                                                     'period_str': report.period.middle().strftime('%m%Y')}))
 
                 sent, sent_message = send_email(recipients=providers,
-                                        context={'report': report,
-                                                 'report_url': rurl,
-                                                 'url': full_url()},
-                                 template='emails/mali_report_available.txt',
-                      title_template='emails/title.mali_report_available.txt')
+                                                context={'report': report,
+                                                         'report_url': rurl,
+                                                         'url': full_url()},
+                                                template='emails/mali_report_available.txt',
+                                                title_template='emails/title.mali_report_available.txt')
 
                 # the rest of the method is only for non-national
                 return
@@ -185,8 +182,8 @@ class EndOfCSComPeriod(Alert):
         # 2. Such alert has not been triggered
         # 3. We are in the next period as P (don't trigger is it's too late)
         return time_cscom_over(period=self.args.period) \
-               and self.not_triggered \
-               and self.args.period == current_reporting_period()
+            and self.not_triggered \
+            and self.args.period == current_reporting_period()
 
     def action(self):
         """ send SMS to non-sender and to districts
@@ -196,10 +193,10 @@ class EndOfCSComPeriod(Alert):
             and non-sending cscom if applicable """
 
         # send an SMS to non-reporting CSCOM.
-        message = u"[PNLP] Vous n'avez pas envoye votre rapport mensuel." \
-                    " Il est desormais trop tard pour l'envoyer. " \
-                    "Vos donnees ne seront donc pas integrees."
-        for contact in [contact_for(entity, recursive=False) \
+        message = (u"[PNLP] Vous n'avez pas envoye votre rapport mensuel."
+                   u" Il est desormais trop tard pour l'envoyer. "
+                   u"Vos donnees ne seront donc pas integrees.")
+        for contact in [contact_for(entity, recursive=False)
                         for entity in mobile_entity_gen(self.get_bad_cscom())]:
             if not contact or not contact.phone_number:
                 continue
@@ -245,10 +242,9 @@ class EndOfCSComPeriod(Alert):
 
     def get_all_district(self):
         districts = {}
-        unval = [r.entity for r \
-                          in MalariaR.unvalidated.select_related()\
-                                      .filter(period=self.args.period,
-                                              type=MalariaR.TYPE_SOURCE)]
+        unval = [r.entity for r in MalariaR.unvalidated.select_related()
+                                           .filter(period=self.args.period,
+                                                   type=MalariaR.TYPE_SOURCE)]
         unsent = self.get_bad_cscom()
 
         def increment(entities, cat):
@@ -265,9 +261,9 @@ class EndOfCSComPeriod(Alert):
 
     def get_bad_cscom(self):
         reported = MalariaR.objects.select_related()\
-                                        .filter(period=self.args.period,
-                                                entity__type__slug='cscom')\
-                                        .values_list('entity__id', flat=True)
+                                   .filter(period=self.args.period,
+                                           entity__type__slug='cscom') \
+                                   .values_list('entity__id', flat=True)
         return list(Entity.objects.filter(~models.Q(pk__in=reported),
                                           type__slug='cscom'))
 
@@ -302,8 +298,8 @@ class EndOfDistrictPeriod(Alert):
         else:
             time_is_over = time_region_over(period=self.args.period)
         return time_is_over \
-               and self.not_triggered \
-               and self.args.period == current_reporting_period()
+            and self.not_triggered \
+            and self.args.period == current_reporting_period()
 
     def action(self):
         """ Validate remaining reports and inform region """
@@ -323,8 +319,8 @@ class EndOfDistrictPeriod(Alert):
 
         # validate non-validated reports
         for report in MalariaR.unvalidated\
-                                   .filter(period=self.args.period,
-                                           entity__type__slug=validate_level):
+                              .filter(period=self.args.period,
+                                      entity__type__slug=validate_level):
             report._status = MalariaR.STATUS_VALIDATED
             if author:
                 report.modified_by = author
@@ -344,8 +340,7 @@ class EndOfDistrictPeriod(Alert):
                 continue
             rauthor = contact_for(entity) if not author else author
             logger.info(u"Creating Aggregated report for %s" % entity)
-            report = AggMalariaR.create_from(self.args.period,
-                                                     entity, rauthor)
+            report = AggMalariaR.create_from(self.args.period, entity, rauthor)
             # region auto-validates their reports
             if not self.args.is_district:
                 report._status = MalariaR.STATUS_VALIDATED
@@ -362,8 +357,7 @@ class EndOfDistrictPeriod(Alert):
                    .filter(period=self.args.period).count() == 0:
             rauthor = author if author else get_autobot()
             logger.info(u"Creating National report")
-            report = AggMalariaR.create_from(self.args.period,
-                                                     mali, rauthor)
+            report = AggMalariaR.create_from(self.args.period, mali, rauthor)
 
             # following only applies to districts (warn regions).
             return
@@ -378,9 +372,9 @@ class EndOfDistrictPeriod(Alert):
                 continue
 
             nb_reports = MalariaR.unvalidated\
-                                   .filter(period=self.args.period,
-                                           entity__type__slug='district',
-                                           entity__parent=region).count()
+                                 .filter(period=self.args.period,
+                                         entity__type__slug='district',
+                                         entity__parent=region).count()
 
             message = u"[PNLP] La periode de validation CSRef est " \
                       u"terminee. Vous avez %(nb)d rapports de " \
@@ -399,10 +393,9 @@ def level_statistics(period, level):
         representing the number of unvalidated reports for the district """
     entities = {}
     sublevel = 'cscom' if level == 'district' else 'district'
-    unval = [r.entity for r \
-                      in MalariaR.unvalidated.select_related()\
-                                  .filter(period=period,
-                                          entity__type__slug=sublevel)]
+    unval = [r.entity for r in MalariaR.unvalidated.select_related()
+                                       .filter(period=period,
+                                               entity__type__slug=sublevel)]
 
     for e in unval:
         try:
@@ -417,9 +410,9 @@ def level_statistics(period, level):
 def cscom_without_report(period):
     """ list of Entity (cscom) which have not sent report """
     reported = MalariaR.objects.select_related()\
-                                    .filter(period=period,
-                                            entity__type__slug='cscom')\
-                                    .values_list('entity__id', flat=True)
+                               .filter(period=period,
+                                       entity__type__slug='cscom')\
+                               .values_list('entity__id', flat=True)
     return list(Entity.objects.filter(~models.Q(pk__in=reported),
                                       type__slug='cscom'))
 
@@ -470,8 +463,7 @@ class Reminder(Alert):
         # 2. Action period is not over
         # 2. We are in the next period as P
         try:
-            time_is_over = eval('time_%s_over' \
-                                % self.args.level)(period=self.args.period)
+            time_is_over = eval('time_%s_over' % self.args.level)(period=self.args.period)
         except:
             return False
         now = datetime.now()
@@ -521,8 +513,7 @@ class Reminder(Alert):
             if not stat['unval']:
                 continue
 
-            logger.info(u"Sending %s text to %s" \
-                        % (level, contact.phone_number))
+            logger.info(u"Sending %s text to %s" % (level, contact.phone_number))
 
             dom = 15 if level == 'district' else 25
 
@@ -536,7 +527,7 @@ class Reminder(Alert):
             if not contact.email:
                 continue
             sent, sent_message = send_email(recipients=contact.email,
-                       message=message, title=email_title)
+                                            message=message, title=email_title)
 
 
 class EndOfMonth(Alert):
@@ -560,18 +551,16 @@ class EndOfMonth(Alert):
         # 1. Such alert has not been triggered
         # 2. We are in the next period as P (don't trigger is it's too late
         return self.not_triggered \
-               and datetime.now() >= (self.args.period.end_on \
-                                      - timedelta(days=1)) \
-                and self.args.period == current_reporting_period()
+            and datetime.now() >= (self.args.period.end_on - timedelta(days=1)) \
+            and self.args.period == current_reporting_period()
 
     def action(self):
         """ send SMS to HOTLINE """
 
-        message = u"[PNLP] La periode %(period)s va commencer. " \
-                  u"Il faut s'occuper de la surveillance de la collecte " \
-                  u"des donnees primaires." \
-                  % {'period': self.args.period.next()\
-                                               .full_name()}
+        message = (u"[PNLP] La periode %(period)s va commencer. "
+                   u"Il faut s'occuper de la surveillance de la collecte "
+                   u"des donnees primaires."
+                   % {'period': self.args.period.next().full_name()})
 
         send_sms(to=settings.HOTLINE_NUMBER, text=message)
 

@@ -10,7 +10,7 @@ def filter_pilot_cscom(provider):
     """ return True if provider is part of pilot CSCOM """
 
     return provider.first_role().slug == 'cscom' \
-       and provider.first_target().parent.slug in ('nion', 'maci')
+        and provider.first_target().parent.slug in ('nion', 'maci')
 
 
 def filter_none(provider):

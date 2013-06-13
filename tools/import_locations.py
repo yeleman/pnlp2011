@@ -18,8 +18,7 @@ def import_locations(csv_file, use_code=False):
     f = open(csv_file)
     for line in f.readlines():
         # explode CSV line
-        name, code, type_code, \
-        parent_name, parent_address = line.strip().split(',')
+        name, code, type_code, parent_name, parent_address = line.strip().split(',')
 
         # convert name to unicode for django & .title()
         try:
@@ -48,7 +47,7 @@ def import_locations(csv_file, use_code=False):
             type = EntityType.objects.get(slug='cscom')
 
         # create and save object
-        entity = Entity(name=name.title(), type=type, \
+        entity = Entity(name=name.title(), type=type,
                         slug=code.lower(), parent=parent)
         entity.save()
 

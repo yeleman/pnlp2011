@@ -5,9 +5,9 @@
 from django import forms
 
 from snisi_core.models.ChildrenMortalityReport import (ChildrenDeathR,
-                                                        AggChildrenDeathR)
+                                                       AggChildrenDeathR)
 from snisi_core.models.MaternalMortalityReport import (MaternalDeathR,
-                                                        AggMaternalDeathR)
+                                                       AggMaternalDeathR)
 from snisi_core.models.CommoditiesReport import RHProductsR, AggRHProductsR
 from snisi_core.data import COMMON_EXCLUDED_FIELDS
 

@@ -37,24 +37,24 @@ def get_reports_to_validate(entity, period=current_reporting_period()):
     return [(report.entity, report)
             for report
             in MalariaR.unvalidated
-                            .filter(entity__in=entity.get_children(),
-                                    period=period)]
+                       .filter(entity__in=entity.get_children(),
+                               period=period)]
 
 
 def get_validated_reports(entity, period=current_reporting_period()):
     """ List of all Entity which report have been validated """
-    return [(report.entity, report) \
-            for report \
-            in MalariaR.validated\
-                            .filter(entity__in=entity.get_children(),
-                                    period=period)]
+    return [(report.entity, report)
+            for report
+            in MalariaR.validated
+            .filter(entity__in=entity.get_children(),
+                    period=period)]
 
 
 def get_not_received_reports(entity, period=current_reporting_period()):
     """ List of all Entity which have not send in a report """
     units = list(entity.get_children().all())
     reports = MalariaR.objects.filter(entity__in=entity.get_children(),
-                                           period=period)
+                                      period=period)
     for report in reports:
         units.remove(report.entity)
     return units
@@ -63,8 +63,7 @@ def get_not_received_reports(entity, period=current_reporting_period()):
 def time_over_by_delta(delta, period=current_period()):
     """ whether current date + delta is past """
     today = date.today()
-    return date.fromtimestamp(float(period.end_on.strftime('%s'))) \
-                              + delta <= today
+    return date.fromtimestamp(float(period.end_on.strftime('%s'))) + delta <= today
 
 
 def time_cscom_over(period=current_period()):
@@ -112,7 +111,7 @@ def contact_for(entity, recursive=True):
     """ contact person for an entity. first found at level or sup levels """
     ct, oi = Access.target_data(entity)
     providers = Provider.active\
-                        .filter(access__in=Access.objects\
+                        .filter(access__in=Access.objects
                                                  .filter(content_type=ct,
                                                          object_id=oi))
     if providers.count() == 1:
@@ -170,13 +169,13 @@ def provider_can(permission, provider, entity=None):
     for access in provider.access.all():
         if access.role.permissions.filter(slug=permission).count() > 0:
             # provider as access. Not entity was queried.
-            if entity == None:
+            if entity is None:
                 return True
 
             # if entity was queried, we need to find out if entity is
             # within the descendants of provider's one.
-            if entity == access.target \
-            or entity in access.target.get_descendants():
+            if (entity == access.target
+               or entity in access.target.get_descendants()):
                 return True
     return False
 
@@ -189,11 +188,11 @@ def provider_can_or_403(permission, provider, entity):
     else:
         if entity:
             message = _(u"You don't have permission %(perm)s on %(entity)s") \
-                      % {'perm': permission,
-                         'entity': entity.display_full_name()}
+                % {'perm': permission,
+                   'entity': entity.display_full_name()}
         else:
             message = _(u"You don't have permission %(perm)s") \
-                      % {'perm': permission}
+                % {'perm': permission}
         raise Http403(message)
 
 
@@ -211,7 +210,6 @@ def period_from_url_str(period_str):
         prefix = period_str.lower()[0]
         period_str = period_str[1:]
 
-
     parts = period_str.split('-')
     if not len(parts) in (1, 2, 3):
         fail()
@@ -226,7 +224,6 @@ def period_from_url_str(period_str):
 
     except ValueError:
         fail()
-
 
     """
     FORMATS:

@@ -76,8 +76,7 @@ def parse_age_dob(age_or_dob, only_date=False):
 def date_is_old(reporting_date):
 
     if (date.today() - reporting_date).days > 30:
-        raise ValueError(u"Le %s est passé il y a plus 30 jours" \
-                         % reporting_date)
+        raise ValueError(u"Le %s est passé il y a plus 30 jours" % reporting_date)
 
 
 def test(message, **kwargs):

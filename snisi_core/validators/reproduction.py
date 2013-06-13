@@ -20,7 +20,7 @@ class RHProductsRValidator(DataValidator):
         """ Test whether attached data matches PNLP's logic requirements """
 
         from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
+                                     time_district_over, time_region_over)
 
         # PERIOD MONTH
         # range(1, 12)
@@ -65,12 +65,10 @@ class RHProductsRValidator(DataValidator):
                  self.get('fillin_month'), self.get('fillin_day'))
         except ValueError:
             self.errors.add(_(u"The fillin day (%(day)s) is out of range "
-                            "for that month (%(month)s)") \
-                            % {'day':
-                                   self.get('fillin_day').__str__().zfill(2),
-                               'month':
-                                self.get('fillin_month').__str__().zfill(2)},
-                               'fillin')
+                              u"for that month (%(month)s)")
+                            % {'day': self.get('fillin_day').__str__().zfill(2),
+                               'month': self.get('fillin_month').__str__().zfill(2)},
+                            'fillin')
 
         # ENTITY
         try:
@@ -87,25 +85,25 @@ class RHProductsRValidator(DataValidator):
             period = MonthPeriod.find_create_from(year=year,
                                                   month=month)
             if entity \
-            and RHProductsR.objects.filter(entity=entity,
-                                           period=period).count() > 0:
-                report = RHProductsR.objects.get(entity=entity, \
-                                                         period=period)
+               and RHProductsR.objects.filter(entity=entity,
+                                              period=period).count() > 0:
+                report = RHProductsR.objects.get(entity=entity,
+                                                 period=period)
                 self.errors.add(_(u"There is already a report for "
                                   "that HC (%(entity)s) and that "
-                                  "period (%(period)s)") %
-                                  {'entity': entity.display_full_name(),
+                                  "period (%(period)s)")
+                                % {'entity': entity.display_full_name(),
                                    'period': period.name()}
-                                   + u" Recu: %s." % report.receipt, 'period')
+                                + u" Recu: %s." % report.receipt, 'period')
 
         # User can create such report
         if self.options.author:
             if not provider_can('can_submit_report',
                                 self.options.author, entity) \
                and not self.options.bulk_import:
-                self.errors.add(_(u"You don't have permission to send " \
-                                  "a report for that "
-                                  "location (%(loc)s).")
+                self.errors.add(_(u"You don't have permission to send "
+                                  u"a report for that "
+                                  u"location (%(loc)s).")
                                 % {'loc': entity.display_full_name()})
 
 
@@ -117,7 +115,7 @@ class AggRHProductsRValidator(DataValidator):
         """ Test whether attached data matches PNLP's logic requirements """
 
         from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
+                                     time_district_over, time_region_over)
 
         # PERIOD MONTH
         # range(1, 12)
@@ -162,12 +160,10 @@ class AggRHProductsRValidator(DataValidator):
                  self.get('fillin_month'), self.get('fillin_day'))
         except ValueError:
             self.errors.add(_(u"The fillin day (%(day)s) is out of range "
-                            "for that month (%(month)s)") \
-                            % {'day':
-                                   self.get('fillin_day').__str__().zfill(2),
-                               'month':
-                                self.get('fillin_month').__str__().zfill(2)},
-                               'fillin')
+                              u"for that month (%(month)s)")
+                            % {'day': self.get('fillin_day').__str__().zfill(2),
+                               'month': self.get('fillin_month').__str__().zfill(2)},
+                            'fillin')
 
         # ENTITY
         try:
@@ -184,25 +180,25 @@ class AggRHProductsRValidator(DataValidator):
             period = MonthPeriod.find_create_from(year=year,
                                                   month=month)
             if entity \
-            and AggRHProductsR.objects.filter(entity=entity,
-                                           period=period).count() > 0:
-                report = AggRHProductsR.objects.get(entity=entity, \
-                                                         period=period)
+               and AggRHProductsR.objects.filter(entity=entity,
+                                                 period=period).count() > 0:
+                report = AggRHProductsR.objects.get(entity=entity,
+                                                    period=period)
                 self.errors.add(_(u"There is already a report for "
                                   "that HC (%(entity)s) and that "
-                                  "period (%(period)s)") %
-                                  {'entity': entity.display_full_name(),
+                                  "period (%(period)s)")
+                                % {'entity': entity.display_full_name(),
                                    'period': period.name()}
-                                   + u" Recu: %s." % report.receipt, 'period')
+                                + u" Recu: %s." % report.receipt, 'period')
 
         # User can create such report
         if self.options.author:
             if not provider_can('can_submit_report',
                                 self.options.author, entity) \
                and not self.options.bulk_import:
-                self.errors.add(_(u"You don't have permission to send " \
-                                  "a report for that "
-                                  "location (%(loc)s).")
+                self.errors.add(_(u"You don't have permission to send "
+                                  u"a report for that "
+                                  u"location (%(loc)s).")
                                 % {'loc': entity.display_full_name()})
 
 
@@ -218,10 +214,8 @@ class ChildrenDeathRValidator(DataValidator):
         try:
             Entity.objects.get(slug=self.get('reporting_location'))
         except Entity.DoesNotExist:
-            self.errors.add(_(u"The entity code (%(code)s) does not "
-                              "match any HC.") % {'code':
-                                                  self.get('reporting_location')},
-                                                  'period')
+            self.errors.add(_(u"The entity code (%(code)s) does not match any HC.")
+                            % {'code': self.get('reporting_location')}, 'period')
 
         # DOB (YYYY-MM-DD) or age (11a/11m)
         try:
@@ -250,10 +244,8 @@ class ChildrenDeathRValidator(DataValidator):
         try:
             entity = Entity.objects.get(slug=self.get('death_location'))
         except Entity.DoesNotExist:
-            self.errors.add(_(u"The entity code (%(code)s) does not "
-                              "match any HC.") % {'code': \
-                                                  self.get('death_location')},
-                                                  'period')
+            self.errors.add(_(u"The entity code (%(code)s) does not match any HC.")
+                            % {'code': self.get('death_location')}, 'period')
 
         # User can create such report
         if self.options.author:
@@ -278,10 +270,8 @@ class MaternalMortalityReportValidator(DataValidator):
         try:
             Entity.objects.get(slug=self.get('reporting_location'))
         except Entity.DoesNotExist:
-            self.errors.add(_(u"The entity code (%(code)s) does not "
-                              "match any HC.") % {'code':
-                                                  self.get('reporting_location')},
-                                                  'period')
+            self.errors.add(_(u"The entity code (%(code)s) does not match any HC.")
+                            % {'code': self.get('reporting_location')}, 'period')
 
         # DOB (YYYY-MM-DD) or age (11a/11m)
         try:
@@ -310,8 +300,7 @@ class MaternalMortalityReportValidator(DataValidator):
         try:
             int(self.get('dead_children'))
         except:
-            self.errors.add(_(u"le nombre d'enfants morts de la"
-                                   u" personne decedee"))
+            self.errors.add(_(u"le nombre d'enfants morts de la personne decedee"))
 
         # Date of Death, YYYY-MM-DD
         try:
@@ -323,10 +312,8 @@ class MaternalMortalityReportValidator(DataValidator):
         try:
             entity = Entity.objects.get(slug=self.get('death_location'))
         except Entity.DoesNotExist:
-            self.errors.add(_(u"The entity code (%(code)s) does not "
-                              "match any HC.") % {'code':
-                                                  self.get('death_location')},
-                                                  'period')
+            self.errors.add(_(u"The entity code (%(code)s) does not match any HC.")
+                            % {'code': self.get('death_location')}, 'period')
 
         # User can create such report
         if self.options.author:

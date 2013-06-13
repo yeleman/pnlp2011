@@ -38,8 +38,7 @@ class CasPaludismeEnfantsMoins5ans(IndicatorTable, MalariaIndicatorTable):
         return report.u5_total_tested_malaria_cases
 
     @indicator(2, 'u5_total_tested_malaria_cases')
-    @label(u"Nombre de cas suspects testés qui sont confirmés par  GE" \
-           u"ou TDR")
+    @label(u"Nombre de cas suspects testés qui sont confirmés par  GE ou TDR")
     def u5_total_confirmed_malaria_cases(self, period):
         report = get_report_for(self.entity, period)
         return report.u5_total_confirmed_malaria_cases

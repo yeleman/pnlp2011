@@ -28,8 +28,7 @@ def import_users(csv_file):
             first = False
             continue
         # explode CSV line
-        fname, lname, email, \
-        phone_number, phone2, role_code, entity_code, area = line.strip().split(',')
+        fname, lname, email, phone_number, phone2, role_code, entity_code, area = line.strip().split(',')
 
         # convert name to unicode for django & .title()
         try:
@@ -82,8 +81,7 @@ def import_users(csv_file):
             continue
 
         # create Provider
-        provider = Provider.create_provider(username, \
-                                            'xx', access=[access])
+        provider = Provider.create_provider(username, 'xx', access=[access])
         provider.set_password(password)
 
         # we have a valid provider whatever the case. update details

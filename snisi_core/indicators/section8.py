@@ -16,8 +16,8 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable,
 
     name = u"Tableau 19"
     title = u" "
-    caption = u"Pourcentage de structures sans rupture de stock en" \
-                u" MILD, TDR, SP"
+    caption = (u"Pourcentage de structures sans rupture de stock en"
+               u" MILD, TDR, SP")
     type = 'table'
 
     default_options = {'with_percentage': True,
@@ -44,14 +44,14 @@ class PourcentageStructuresRuptureStockMILDTDRSP(IndicatorTable,
         return nb_bednet
 
     @indicator(2, 'total_structures_in_the_district')
-    @label(u"Structures sans rupture de stock de Test de Dépistage " \
+    @label(u"Structures sans rupture de stock de Test de Dépistage "
            u"Rapide (TDR)")
     def stockout_rdt(self, period):
         nb_rdt = nb_stockout(self.entity, period, 'rdt')
         return nb_rdt
 
     @indicator(3, 'total_structures_in_the_district')
-    @label(u"Structures sans rupture de stock en Sulfadoxine "\
+    @label(u"Structures sans rupture de stock en Sulfadoxine "
            u"Pyriméthamine (SP)")
     def stockout_sp(self, period):
         nb_sp = nb_stockout(self.entity, period, 'sp')

@@ -79,7 +79,7 @@ class EvolutionPourcentageStructuresRuptureStockCTA(IndicatorTable,
     @indicator(0)
     def total_structures_in_the_district(self, period):
         return self.entity.get_descendants()\
-                              .filter(type__slug='cscom').count()
+                          .filter(type__slug='cscom').count()
 
     @indicator(1, 'total_structures_in_the_district')
     @label(u"CTA Nourrisson - Enfant")

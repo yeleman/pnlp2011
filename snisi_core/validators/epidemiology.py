@@ -19,10 +19,10 @@ class EpidemiologyReportValidator(DataValidator):
     def validate(self):
         """ Test whether attached data matches PNLP's logic requirements """
         from snisi_core.data import (provider_can, time_cscom_over,
-                            time_district_over, time_region_over)
+                                     time_district_over, time_region_over)
 
         no_more_than_text = _("%(field2)s (%(f2value)d) can't be more "
-                            "than %(field1)s (%(f1value)d)")
+                              "than %(field1)s (%(f1value)d)")
 
         def test_value_under(fieldref, fieldtest):
             try:
@@ -121,12 +121,10 @@ class EpidemiologyReportValidator(DataValidator):
                  self.get('fillin_month'), self.get('fillin_day'))
         except ValueError:
             self.errors.add(_(u"The fillin day (%(day)s) is out of range "
-                            "for that month (%(month)s)")
-                            % {'day':
-                                   self.get('fillin_day').__str__().zfill(2),
-                               'month':
-                                self.get('fillin_month').__str__().zfill(2)},
-                               'fillin')
+                              u"for that month (%(month)s)")
+                            % {'day': self.get('fillin_day').__str__().zfill(2),
+                               'month': self.get('fillin_month').__str__().zfill(2)},
+                            'fillin')
 
         # ENTITY
         try:
@@ -137,22 +135,22 @@ class EpidemiologyReportValidator(DataValidator):
             self.errors.add(_(u"The entity code (%(code)s) does not "
                               "match any HC.") % {'code':
                                                   self.get('location')},
-                                                  'period')
+                            'period')
 
         # NO DUPLICATE
         if not self.options.data_only:
             period = WeekPeriod.find_create_by_weeknum(year, week)
             if entity \
-            and EpidemiologyR.objects.filter(entity=entity,
-                                             period=period).count() > 0:
+               and EpidemiologyR.objects.filter(entity=entity,
+                                                period=period).count() > 0:
                 report = EpidemiologyR.objects.get(entity=entity,
                                                    period=period)
-                self.errors.add(_(u"There is already a report for " \
-                                  "that HC (%(entity)s) and that " \
-                                  "period (%(period)s)") % \
-                                  {'entity': entity.display_full_name(),
+                self.errors.add(_(u"There is already a report for "
+                                  u"that HC (%(entity)s) and that "
+                                  u"period (%(period)s)")
+                                % {'entity': entity.display_full_name(),
                                    'period': period.name()}
-                                   + u" Recu: %s." % report.receipt, 'period')
+                                + u" Recu: %s." % report.receipt, 'period')
 
         # User can create such report
         if self.options.author:
@@ -163,4 +161,3 @@ class EpidemiologyReportValidator(DataValidator):
                                   "a report for that "
                                   "location (%(loc)s).")
                                 % {'loc': entity.display_full_name()})
-

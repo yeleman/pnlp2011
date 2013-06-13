@@ -103,7 +103,7 @@ def data_browser(request, project_slug, entity_code=None, period_str=None):
     if greport.report:
         context.update({'report': greport.report, 'greport': greport})
         form_cls = project.get('agg_form') if greport.is_aggregated \
-                                           else project.get('src_form')
+            else project.get('src_form')
         form = form_cls(instance=greport.report)
         context.update({'form': form})
     else:

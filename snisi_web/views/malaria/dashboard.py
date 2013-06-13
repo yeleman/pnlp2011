@@ -14,7 +14,7 @@ from snisi_core.data import current_reporting_period, contact_for
 
 def nb_reports_for(entity, period):
     nb_rec = MalariaR.objects.filter(entity__parent=entity,
-                                          period=period).count()
+                                     period=period).count()
     next_period = period.next()
     if entity.type.slug == 'district':
         nb_ent = entity.get_children().count()
@@ -25,14 +25,12 @@ def nb_reports_for(entity, period):
         number = contact_for(entity, True).phone_number
         if not number.startswith('+223'):
             number = '+223' + number
-        incoming_sms = Inbox.objects.filter( \
-                                    receivingdatetime__gte=next_period.start_on,
-                                    receivingdatetime__lte=next_period.end_on,
+        incoming_sms = Inbox.objects.filter(receivingdatetime__gte=next_period.start_on,
+                                            receivingdatetime__lte=next_period.end_on,
                                             sendernumber=number)
-        sent_sms = SentItems.objects.filter( \
-                                    sendingdatetime__gte=next_period.start_on,
-                                       sendingdatetime__lte=next_period.end_on,
-                                           destinationnumber=number)
+        sent_sms = SentItems.objects.filter(sendingdatetime__gte=next_period.start_on,
+                                            sendingdatetime__lte=next_period.end_on,
+                                            destinationnumber=number)
         if incoming_sms.count() != sent_sms.count():
             all_sms = list(incoming_sms) + list(sent_sms)
         else:
@@ -52,8 +50,8 @@ def dashboard(request):
 
     from bolibana.models.Entity import Entity
     from snisi_core.data import (current_period, current_stage,
-                                time_cscom_over, time_district_over,
-                                time_region_over)
+                                 time_cscom_over, time_district_over,
+                                 time_region_over)
 
     def sms_received_sent_by_period(period):
         received = Inbox.objects.filter(receivingdatetime__gte=period.start_on,
@@ -72,10 +70,10 @@ def dashboard(request):
         return MalariaR.validated.filter(period=period,
                                          entity__type__slug=type_)
 
-    def reporting_rate(period, entity):
-        return float(MalariaR.validated.filter(period=period,
-                                               entity__parent=entity).count()) \
-        / Entity.objects.filter(parent__slug=entity.slug).count()
+    # def reporting_rate(period, entity):
+    #     return float(MalariaR.validated.filter(period=period,
+    #                                            entity__parent=entity).count()) \
+    #         / Entity.objects.filter(parent__slug=entity.slug).count()
 
     current_period = current_period()
     period = current_reporting_period()
@@ -84,10 +82,8 @@ def dashboard(request):
                     'current_reporting_period': period,
                     'current_stage': current_stage(),
                     'current_sms': sms_received_sent_by_period(current_period),
-                    'current_reporting_sms': \
-                         sms_received_sent_by_period(period),
-                    'total_cscom': Entity.objects\
-                                         .filter(type__slug='cscom').count(),
+                    'current_reporting_sms': sms_received_sent_by_period(period),
+                    'total_cscom': Entity.objects.filter(type__slug='cscom').count(),
                     'time_cscom_over': time_cscom_over(period),
                     'time_district_over': time_district_over(period),
                     'time_region_over': time_region_over(period)})
@@ -109,14 +105,13 @@ def dashboard(request):
     def entities_autoreports(level):
         districts_missed_report = {}
         auto_validated_cscom_reports = \
-            MalariaR.validated\
-                         .filter(entity__type__slug=level,
-                                 modified_by__user__username='autobot')
+            MalariaR.validated.filter(entity__type__slug=level,
+                                      modified_by__user__username='autobot')
         for report in auto_validated_cscom_reports:
             if not report.entity.parent.slug in districts_missed_report:
                 districts_missed_report[report.entity.parent.slug] = \
-                    {'entity': report.entity.parent, \
-                     'nbauto': 0, \
+                    {'entity': report.entity.parent,
+                     'nbauto': 0,
                      'contact': contact_for(report.entity.parent, False)}
             districts_missed_report[report.entity.parent.slug]['nbauto'] += 1
         return districts_missed_report
@@ -125,14 +120,14 @@ def dashboard(request):
     regions_missed_report = entities_autoreports('district')
 
     context.update({'received_cscom_reports': received_cscom_reports.count(),
-                'cscom_reports_validated': cscom_reports_validated.count(),
-              'district_reports_validated': district_reports_validated.count(),
-                'reporting_rate': reporting_rate,
-                'cscom_missed_report_count': cscom_missed_report.count(),
-                'cscom_missed_report': [(e, contact_for(e, True)) \
-                                        for e in cscom_missed_report[:20]],
-                'districts_missed_report': districts_missed_report,
-                'regions_missed_report': regions_missed_report})
+                    'cscom_reports_validated': cscom_reports_validated.count(),
+                    'district_reports_validated': district_reports_validated.count(),
+                    'reporting_rate': reporting_rate,
+                    'cscom_missed_report_count': cscom_missed_report.count(),
+                    'cscom_missed_report': [(e, contact_for(e, True))
+                                            for e in cscom_missed_report[:20]],
+                    'districts_missed_report': districts_missed_report,
+                    'regions_missed_report': regions_missed_report})
 
     return render(request, 'malaria/dashboard.html', context)
 
@@ -150,8 +145,7 @@ def change_date(request):
         form = DateForm(request.POST)
         if form.is_valid():
             import subprocess
-            subprocess.call(['sudo', 'date', form.cleaned_data.get('date') \
-                                                 .strftime('%m%d1200%Y')])
+            subprocess.call(['sudo', 'date', form.cleaned_data.get('date').strftime('%m%d1200%Y')])
             context.update({'success': True})
         else:
             pass

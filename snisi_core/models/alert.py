@@ -51,7 +51,7 @@ class Alert(models.Model):
     def triggered(self):
         """ if this alert has been triggered (exists in DB) """
         return self.__class__.objects.filter(alert_id=self.get_alert_id(),
-                                  content_type=self.content_type).count() > 0
+                                             content_type=self.content_type).count() > 0
 
     @property
     def aid(self):

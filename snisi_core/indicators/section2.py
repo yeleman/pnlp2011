@@ -4,8 +4,7 @@
 
 from bolibana.reporting.indicators import (IndicatorTable, reference,
                                            indicator, label)
-from snisi_core.models.MalariaReport import MalariaR
-from snisi_core.indicators.common import find_report_attr_age, period_is_valid, MalariaIndicatorTable
+from snisi_core.indicators.common import find_report_attr_age, MalariaIndicatorTable
 
 
 class NbreCasSuspectesTestesConfirmes(IndicatorTable, MalariaIndicatorTable):
@@ -30,22 +29,22 @@ class NbreCasSuspectesTestesConfirmes(IndicatorTable, MalariaIndicatorTable):
     @label(u"Cas suspects")
     def total_suspected_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_suspected_malaria_cases',
-                               self.options.age)
+                                    'total_suspected_malaria_cases',
+                                    self.options.age)
 
     @indicator(1, "total_suspected_malaria_cases")
     @label(u"Cas testés")
     def total_tested_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_tested_malaria_cases',
-                               self.options.age)
+                                    'total_tested_malaria_cases',
+                                    self.options.age)
 
     @indicator(2, "total_suspected_malaria_cases")
     @label(u"Cas confirmés")
     def total_confirmed_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_confirmed_malaria_cases',
-                               self.options.age)
+                                    'total_confirmed_malaria_cases',
+                                    self.options.age)
 
 
 class CasSimplesGraves(IndicatorTable, MalariaIndicatorTable):
@@ -66,22 +65,22 @@ class CasSimplesGraves(IndicatorTable, MalariaIndicatorTable):
     @label(u"Cas confirmés")
     def total_confirmed_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_confirmed_malaria_cases',
-                               self.options.age)
+                                    'total_confirmed_malaria_cases',
+                                    self.options.age)
 
     @indicator(1, "total_confirmed_malaria_cases")
     @label(u"Cas simples")
     def total_simple_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_simple_malaria_cases',
-                               self.options.age)
+                                    'total_simple_malaria_cases',
+                                    self.options.age)
 
     @indicator(2, "total_confirmed_malaria_cases")
     @label(u"Cas graves")
     def total_severe_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_severe_malaria_cases',
-                               self.options.age)
+                                    'total_severe_malaria_cases',
+                                    self.options.age)
 
 
 class CasTestes(IndicatorTable, MalariaIndicatorTable):
@@ -104,15 +103,15 @@ class CasTestes(IndicatorTable, MalariaIndicatorTable):
     @label(u"Cas suspects")
     def total_suspected_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_suspected_malaria_cases',
-                               self.options.age)
+                                    'total_suspected_malaria_cases',
+                                    self.options.age)
 
     @indicator(1, "total_suspected_malaria_cases")
     @label(u"Cas testés")
     def total_tested_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_tested_malaria_cases',
-                               self.options.age)
+                                    'total_tested_malaria_cases',
+                                    self.options.age)
 
 
 class CasConfirmes(IndicatorTable, MalariaIndicatorTable):
@@ -135,12 +134,12 @@ class CasConfirmes(IndicatorTable, MalariaIndicatorTable):
     @label(u"Cas suspects")
     def total_suspected_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_suspected_malaria_cases',
-                               self.options.age)
+                                    'total_suspected_malaria_cases',
+                                    self.options.age)
 
     @indicator(1, "total_suspected_malaria_cases")
     @label(u"Cas confirmés")
     def total_confirmed_malaria_cases(self, period):
         return find_report_attr_age(self.entity, period,
-                               'total_confirmed_malaria_cases',
-                               self.options.age)
+                                    'total_confirmed_malaria_cases',
+                                    self.options.age)

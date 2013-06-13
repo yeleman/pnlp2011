@@ -80,7 +80,7 @@ class MalariaDataHolder(object):
 def entity_for(provider):
         entity = None
         for access in provider.access.all():
-            if entity == None or access.target.level > entity.level:
+            if entity is None or access.target.level > entity.level:
                 entity = access.target
         return entity
 
@@ -151,8 +151,7 @@ def palu_help(message, nousername=False):
 def palu_passwd(message):
     error_start = u"Impossible de changer votre mot de passe. "
     try:
-        kw1, kw2, username, \
-        old_password, new_password = message.content.strip().lower().split()
+        kw1, kw2, username, old_password, new_password = message.content.strip().lower().split()
     except ValueError:
         message.respond(error_start + u"Le format du SMS est incorrect.")
         return True
@@ -160,12 +159,12 @@ def palu_passwd(message):
     try:
         provider = Provider.active.get(user__username=username)
     except Provider.DoesNotExist:
-        message.respond(error_start + u"Ce nom d'utilisateur (%s) " \
+        message.respond(error_start + u"Ce nom d'utilisateur (%s) "
                                       u"n'existe pas." % username)
         return True
 
     if not provider.check_password(old_password):
-        message.respond(error_start + u"Votre ancien mot de passe " \
+        message.respond(error_start + u"Votre ancien mot de passe "
                                       u"est incorrect.")
         return True
 
@@ -173,11 +172,11 @@ def palu_passwd(message):
         provider.set_password(new_password)
         provider.save()
     except:
-        message.respond(error_start + u"Essayez un autre nouveau " \
+        message.respond(error_start + u"Essayez un autre nouveau "
                                       u"mot de passe.")
         return True
 
-    message.respond(u"Votre mot de passe a ete change et est " \
+    message.respond(u"Votre mot de passe a ete change et est "
                     u"effectif immediatement. Merci.")
 
     return True
@@ -191,46 +190,46 @@ def palu(message):
     # create variables from text messages.
     try:
         args_names = ['kw1', 'username', 'password', 'month', 'year',
-        'u5_total_consultation_all_causes',
-        'u5_total_suspected_malaria_cases',
-        'u5_total_simple_malaria_cases',
-        'u5_total_severe_malaria_cases',
-        'u5_total_tested_malaria_cases',
-        'u5_total_confirmed_malaria_cases',
-        'u5_total_treated_malaria_cases',
-        'u5_total_inpatient_all_causes',
-        'u5_total_malaria_inpatient',
-        'u5_total_death_all_causes',
-        'u5_total_malaria_death',
-        'u5_total_distributed_bednets',
-        'o5_total_consultation_all_causes',
-        'o5_total_suspected_malaria_cases',
-        'o5_total_simple_malaria_cases',
-        'o5_total_severe_malaria_cases',
-        'o5_total_tested_malaria_cases',
-        'o5_total_confirmed_malaria_cases',
-        'o5_total_treated_malaria_cases',
-        'o5_total_inpatient_all_causes',
-        'o5_total_malaria_inpatient',
-        'o5_total_death_all_causes',
-        'o5_total_malaria_death',
-        'pw_total_consultation_all_causes',
-        'pw_total_suspected_malaria_cases',
-        'pw_total_severe_malaria_cases',
-        'pw_total_tested_malaria_cases',
-        'pw_total_confirmed_malaria_cases',
-        'pw_total_treated_malaria_cases',
-        'pw_total_inpatient_all_causes',
-        'pw_total_malaria_inpatient',
-        'pw_total_death_all_causes',
-        'pw_total_malaria_death',
-        'pw_total_distributed_bednets',
-        'pw_total_anc1',
-        'pw_total_sp1',
-        'pw_total_sp2',
-        'stockout_act_children', 'stockout_act_youth', 'stockout_act_adult',
-        'stockout_artemether', 'stockout_quinine', 'stockout_serum',
-        'stockout_bednet', 'stockout_rdt', 'stockout_sp']
+                      'u5_total_consultation_all_causes',
+                      'u5_total_suspected_malaria_cases',
+                      'u5_total_simple_malaria_cases',
+                      'u5_total_severe_malaria_cases',
+                      'u5_total_tested_malaria_cases',
+                      'u5_total_confirmed_malaria_cases',
+                      'u5_total_treated_malaria_cases',
+                      'u5_total_inpatient_all_causes',
+                      'u5_total_malaria_inpatient',
+                      'u5_total_death_all_causes',
+                      'u5_total_malaria_death',
+                      'u5_total_distributed_bednets',
+                      'o5_total_consultation_all_causes',
+                      'o5_total_suspected_malaria_cases',
+                      'o5_total_simple_malaria_cases',
+                      'o5_total_severe_malaria_cases',
+                      'o5_total_tested_malaria_cases',
+                      'o5_total_confirmed_malaria_cases',
+                      'o5_total_treated_malaria_cases',
+                      'o5_total_inpatient_all_causes',
+                      'o5_total_malaria_inpatient',
+                      'o5_total_death_all_causes',
+                      'o5_total_malaria_death',
+                      'pw_total_consultation_all_causes',
+                      'pw_total_suspected_malaria_cases',
+                      'pw_total_severe_malaria_cases',
+                      'pw_total_tested_malaria_cases',
+                      'pw_total_confirmed_malaria_cases',
+                      'pw_total_treated_malaria_cases',
+                      'pw_total_inpatient_all_causes',
+                      'pw_total_malaria_inpatient',
+                      'pw_total_death_all_causes',
+                      'pw_total_malaria_death',
+                      'pw_total_distributed_bednets',
+                      'pw_total_anc1',
+                      'pw_total_sp1',
+                      'pw_total_sp2',
+                      'stockout_act_children', 'stockout_act_youth', 'stockout_act_adult',
+                      'stockout_artemether', 'stockout_quinine', 'stockout_serum',
+                      'stockout_bednet', 'stockout_rdt', 'stockout_sp']
         args_values = message.content.strip().lower().split()
         arguments = dict(zip(args_names, args_values))
     except ValueError:
@@ -245,8 +244,7 @@ def palu(message):
             if key.split('_')[0] in ('u5', 'o5', 'pw', 'month', 'year'):
                 arguments[key] = int(value)
             if key.split('_')[0] == 'stockout':
-                arguments[key] = MalariaR.YES if bool(int(value)) \
-                                                   else MalariaR.NO
+                arguments[key] = MalariaR.YES if bool(int(value)) else MalariaR.NO
     except:
         raise
         # failure to convert means non-numeric value which we can't process.
@@ -258,7 +256,7 @@ def palu(message):
         provider = Provider.active.get(user__username=arguments['username'])
     except Provider.DoesNotExist:
         message.respond(error_start + u"Ce nom d'utilisateur " +
-                                      u"(%s) n'existe pas." % \
+                                      u"(%s) n'existe pas." %
                                       arguments['username'])
         return True
 
@@ -328,18 +326,18 @@ def palu(message):
             reversion.set_user(provider.user)
 
     except Exception as e:
-        message.respond(error_start + u"Une erreur technique s'est " \
-                        u"produite. Reessayez plus tard et " \
+        message.respond(error_start + u"Une erreur technique s'est "
+                        u"produite. Reessayez plus tard et "
                         u"contactez ANTIM si le probleme persiste.")
-        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
+        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r"
                      % (message.content, e))
         return True
 
     message.respond(u"[SUCCES] Le rapport de %(cscom)s pour %(period)s "
-                    u"a ete enregistre. " \
-                    u"Le No de recu est #%(receipt)s." \
+                    u"a ete enregistre. "
+                    u"Le No de recu est #%(receipt)s."
                     % {'cscom': report.entity.display_full_name(),
-                       'period': report.period, \
+                       'period': report.period,
                        'receipt': report.receipt})
 
     try:
@@ -348,8 +346,8 @@ def palu(message):
         to = None
     if not to:
         return True
-    send_sms(to, u"[ALERTE] Le CSCom %(cscom)s vient d'envoyer le " \
-                 u"rapport #%(receipt)s pour %(period)s." \
+    send_sms(to, u"[ALERTE] Le CSCom %(cscom)s vient d'envoyer le "
+                 u"rapport #%(receipt)s pour %(period)s."
                  % {'cscom': report.entity.display_full_name(),
                     'period': report.period,
                     'receipt': report.receipt})

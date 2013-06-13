@@ -106,30 +106,30 @@ def epidemiology(message, **kwargs):
 
     try:
         args_names = ['kw1', 'reporting_year',
-                    'reporting_week',
-                    'location',
-                    'acute_flaccid_paralysis_case',
-                    'acute_flaccid_paralysis_death',
-                    'influenza_a_h1n1_case',
-                    'influenza_a_h1n1_death',
-                    'cholera_case',
-                    'cholera_death',
-                    'red_diarrhea_case',
-                    'red_diarrhea_death',
-                    'measles_case',
-                    'measles_death',
-                    'yellow_fever_case',
-                    'yellow_fever_death',
-                    'neonatal_tetanus_case',
-                    'neonatal_tetanus_death',
-                    'meningitis_case',
-                    'meningitis_death',
-                    'rabies_case',
-                    'rabies_death',
-                    'acute_measles_diarrhea_case',
-                    'acute_measles_diarrhea_death',
-                    'other_notifiable_disease_case',
-                    'other_notifiable_disease_death']
+                      'reporting_week',
+                      'location',
+                      'acute_flaccid_paralysis_case',
+                      'acute_flaccid_paralysis_death',
+                      'influenza_a_h1n1_case',
+                      'influenza_a_h1n1_death',
+                      'cholera_case',
+                      'cholera_death',
+                      'red_diarrhea_case',
+                      'red_diarrhea_death',
+                      'measles_case',
+                      'measles_death',
+                      'yellow_fever_case',
+                      'yellow_fever_death',
+                      'neonatal_tetanus_case',
+                      'neonatal_tetanus_death',
+                      'meningitis_case',
+                      'meningitis_death',
+                      'rabies_case',
+                      'rabies_death',
+                      'acute_measles_diarrhea_case',
+                      'acute_measles_diarrhea_death',
+                      'other_notifiable_disease_case',
+                      'other_notifiable_disease_death']
         args_values = message.content.strip().lower().split()
         arguments = dict(zip(args_names, args_values))
     except:
@@ -180,9 +180,8 @@ def epidemiology(message, **kwargs):
         return True
 
     try:
-        period = WeekPeriod.find_create_by_weeknum(data_browser \
-                                            .get('reporting_year'),
-                                            data_browser.get('reporting_week'))
+        period = WeekPeriod.find_create_by_weeknum(data_browser.get('reporting_year'),
+                                                   data_browser.get('reporting_week'))
         # is_late = not time_is_prompt(period)
         entity = Entity.objects.get(slug=data_browser.get('location'),
                                     type__slug='cscom')
@@ -195,10 +194,10 @@ def epidemiology(message, **kwargs):
             report.save()
             reversion.set_user(provider.user)
     except Exception as e:
-        message.respond(error_start + u"Une erreur technique s'est " \
-                        u"produite. Reessayez plus tard et " \
+        message.respond(error_start + u"Une erreur technique s'est "
+                        u"produite. Reessayez plus tard et "
                         u"contactez ANTIM si le probleme persiste.")
-        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r" \
+        logger.error(u"Unable to save report to DB. Message: %s | Exp: %r"
                      % (message.content, e))
         return True
 

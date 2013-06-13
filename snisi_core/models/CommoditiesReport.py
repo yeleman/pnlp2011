@@ -95,9 +95,8 @@ class RHProductsR(SNISIReport):
     female_sterilization = models.IntegerField(verbose_name=_(u"Female"
                                                u"sterilization"),
                                                choices=YESNOAVAIL)
-    male_sterilization = models.IntegerField(\
-                                        verbose_name=_(u"Male sterilization"),
-                                        choices=YESNOAVAIL)
+    male_sterilization = models.IntegerField(verbose_name=_(u"Male sterilization"),
+                                             choices=YESNOAVAIL)
 
     # Availability of live-saving maternal/RH medecine
     amoxicillin_ij = models.IntegerField(_(u"Amoxicillin (Injectable). "
@@ -151,12 +150,12 @@ class RHProductsR(SNISIReport):
                                       u"(vials) or -1."))
 
     ceftriaxone_500 = models.IntegerField(_(u"Ceftriaxone 500mg. "
-                                      u"Quantity in hand "
-                                      u"(tablets) or -1."))
+                                            u"Quantity in hand "
+                                            u"(tablets) or -1."))
 
     ceftriaxone_1000 = models.IntegerField(_(u"Ceftriaxone 1g. "
-                                      u"Quantity in hand "
-                                      u"(tablets) or -1."))
+                                             u"Quantity in hand "
+                                             u"(tablets) or -1."))
 
     is_late = models.BooleanField(default=False,
                                   verbose_name=_(u"Is Late?"))
@@ -165,33 +164,33 @@ class RHProductsR(SNISIReport):
     fp_stockout = FPMethodManager()
 
     def add_data(self, family_planning,
-                       delivery_services,
-                       male_condom,
-                       female_condom,
-                       oral_pills,
-                       injectable,
-                       iud,
-                       implants,
-                       female_sterilization,
-                       male_sterilization,
-                       amoxicillin_ij,
-                       amoxicillin_cap_gel,
-                       amoxicillin_suspension,
-                       azithromycine_tab,
-                       azithromycine_suspension,
-                       benzathine_penicillin,
-                       cefexime,
-                       clotrimazole,
-                       ergometrine_tab,
-                       ergometrine_vials,
-                       iron,
-                       folate,
-                       iron_folate,
-                       magnesium_sulfate,
-                       metronidazole,
-                       oxytocine,
-                       ceftriaxone_500,
-                       ceftriaxone_1000):
+                 delivery_services,
+                 male_condom,
+                 female_condom,
+                 oral_pills,
+                 injectable,
+                 iud,
+                 implants,
+                 female_sterilization,
+                 male_sterilization,
+                 amoxicillin_ij,
+                 amoxicillin_cap_gel,
+                 amoxicillin_suspension,
+                 azithromycine_tab,
+                 azithromycine_suspension,
+                 benzathine_penicillin,
+                 cefexime,
+                 clotrimazole,
+                 ergometrine_tab,
+                 ergometrine_vials,
+                 iron,
+                 folate,
+                 iron_folate,
+                 magnesium_sulfate,
+                 metronidazole,
+                 oxytocine,
+                 ceftriaxone_500,
+                 ceftriaxone_1000):
         self.family_planning = family_planning
         self.delivery_services = delivery_services
         self.male_condom = male_condom
@@ -230,7 +229,7 @@ class RHProductsR(SNISIReport):
 
     @classmethod
     def start(cls, period, entity, author,
-               type=SNISIReport.TYPE_SOURCE, is_late=False, *args, **kwargs):
+              type=SNISIReport.TYPE_SOURCE, is_late=False, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
         report = cls(period=period, entity=entity, created_by=author,
                      modified_by=author, _status=cls.STATUS_CREATED,
@@ -529,21 +528,18 @@ class AggRHProductsR(SNISIReport):
                     setattr(report, prov_field,
                             getattr(report, prov_field, 0) + 1)
 
-                    if getattr(instance, field,
-                               instance.SUPPLIES_NOT_PROVIDED) == \
-                        instance.SUPPLIES_AVAILABLE:
+                    if getattr(instance, field, instance.SUPPLIES_NOT_PROVIDED) \
+                       == instance.SUPPLIES_AVAILABLE:
 
                         avail_field = u'%s_available' % field
-                        setattr(report, avail_field,
-                            getattr(report, avail_field, 0) + 1)
+                        setattr(report, avail_field, getattr(report, avail_field, 0) + 1)
             elif field == 'is_late':
                 prompt_field = 'nb_prompt'
                 if not getattr(instance, field):
-                    setattr(report, prompt_field,
-                    getattr(report, prompt_field, 0) + 1)
+                    setattr(report, prompt_field, getattr(report, prompt_field, 0) + 1)
             else:
-                if getattr(instance, field, instance.NOT_PROVIDED) != \
-                    instance.NOT_PROVIDED:
+                if getattr(instance, field, instance.NOT_PROVIDED) \
+                   != instance.NOT_PROVIDED:
 
                     prov_field = u'%s_provided' % field
                     setattr(report, prov_field,
@@ -551,8 +547,7 @@ class AggRHProductsR(SNISIReport):
 
                     if getattr(instance, field, instance.NOT_PROVIDED) > 0:
                         avail_field = u'%s_available' % field
-                        setattr(report, avail_field,
-                            getattr(report, avail_field, 0) + 1)
+                        setattr(report, avail_field, getattr(report, avail_field, 0) + 1)
 
     @classmethod
     def update_instance_with_agg(cls, report, instance):

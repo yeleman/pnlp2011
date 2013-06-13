@@ -70,16 +70,16 @@ class MaternalMortalityDataHolder(object):
 
     def fields_for(self):
         fields = ['name',
-                    'dob',
-                    'dob_auto',
-                    'dod',
-                    'death_location',
-                    'living_children',
-                    'dead_children',
-                    'pregnant',
-                    'pregnancy_weeks',
-                    'pregnancy_related_death',
-                    'cause_of_death']
+                  'dob',
+                  'dob_auto',
+                  'dod',
+                  'death_location',
+                  'living_children',
+                  'dead_children',
+                  'pregnant',
+                  'pregnancy_weeks',
+                  'pregnancy_related_death',
+                  'cause_of_death']
 
         return fields
 
@@ -107,18 +107,18 @@ def unfpa_dead_pregnant_woman(message, args, sub_cmd, **kwargs):
     error_start = u"Impossible d'enregistrer le rapport. "
     try:
         args_names = ['profile',
-        'reccord_date',
-        'reporting_location',
-        'name',
-        'age_or_dob',
-        'dod_text',
-        'death_location',
-        'living_children_text',
-        'dead_children',
-        'pregnant_text',
-        'pregnancy_weeks_text',
-        'pregnancy_related_death_text',
-        'cause_of_death']
+                      'reccord_date',
+                      'reporting_location',
+                      'name',
+                      'age_or_dob',
+                      'dod_text',
+                      'death_location',
+                      'living_children_text',
+                      'dead_children',
+                      'pregnant_text',
+                      'pregnancy_weeks_text',
+                      'pregnancy_related_death_text',
+                      'cause_of_death']
         args_values = args.split()
         arguments = dict(zip(args_names, args_values))
     except:
@@ -131,7 +131,7 @@ def unfpa_dead_pregnant_woman(message, args, sub_cmd, **kwargs):
             arguments[key] = value.replace('_', ' ')
         if key == 'cause_of_death':
             arguments[key] = DEATH_CAUSES_MAT.get(arguments[key],
-                                     MaternalDeathR.CAUSE_OTHER)
+                                                  MaternalDeathR.CAUSE_OTHER)
         if key == 'pregnancy_weeks_text':
             try:
                 arguments[key] = int(value)
@@ -183,14 +183,12 @@ def unfpa_dead_pregnant_woman(message, args, sub_cmd, **kwargs):
         dod = parse_age_dob(arguments['dod_text'], True)
         reporting_location = Entity.objects.get(slug=data_browser
                                            .get('reporting_location'))
-        death_location = Entity.objects.get(slug=data_browser
-                                           .get('death_location'))
+        death_location = Entity.objects.get(slug=data_browser.get('death_location'))
         data_browser.set('dob', dob)
         data_browser.set('dob_auto', dob_auto)
         data_browser.set('dod', dod)
         data_browser.set('living_children', arguments['living_children_text'])
-        report = MaternalDeathR.start(reporting_location, \
-                                               death_location, provider)
+        report = MaternalDeathR.start(reporting_location, death_location, provider)
         report.add_data(*data_browser.data_for_cat())
         with reversion.create_revision():
             report.save()
@@ -223,13 +221,8 @@ class ChildrenMortalityDataHolder(object):
             setattr(self, slug, data)
 
     def fields_for(self):
-        fields = ['name',
-                    'sex',
-                    'dob',
-                    'dob_auto',
-                    'dod',
-                    'death_place',
-                    'cause_of_death']
+        fields = ['name', 'sex', 'dob', 'dob_auto', 'dod',
+                  'death_place', 'cause_of_death']
 
         return fields
 
@@ -254,15 +247,15 @@ def unfpa_dead_children_under5(message, args, sub_cmd, **kwargs):
     error_start = u"Impossible d'enregistrer le rapport. "
     try:
         args_names = ['profile',
-        'reccord_date',
-        'reporting_location',
-        'name',
-        'sex',
-        'age_or_dob',
-        'dod_text',
-        'death_location',
-        'death_place',
-        'cause_of_death']
+                      'reccord_date',
+                      'reporting_location',
+                      'name',
+                      'sex',
+                      'age_or_dob',
+                      'dod_text',
+                      'death_location',
+                      'death_place',
+                      'cause_of_death']
         args_values = args.split()
         arguments = dict(zip(args_names, args_values))
     except:
@@ -276,11 +269,9 @@ def unfpa_dead_children_under5(message, args, sub_cmd, **kwargs):
             arguments[key] = SEX.get(arguments[key],
                                      ChildrenDeathR.MALE)
         if key == 'place_death':
-            arguments[key] = DEATHPLACE.get(arguments[key],
-                                     ChildrenDeathR.OTHER)
+            arguments[key] = DEATHPLACE.get(arguments[key], ChildrenDeathR.OTHER)
         if key == 'cause_of_death_text':
-            arguments[key] = DEATH_CAUSES_U5.get(arguments[key],
-                                     ChildrenDeathR.CAUSE_OTHER)
+            arguments[key] = DEATH_CAUSES_U5.get(arguments[key], ChildrenDeathR.CAUSE_OTHER)
 
     # create a data holder for validator
     data_browser = ChildrenMortalityDataHolder()
@@ -317,8 +308,7 @@ def unfpa_dead_children_under5(message, args, sub_cmd, **kwargs):
         dod = parse_age_dob(arguments['dod_text'], True)
         reporting_location = Entity.objects.get(slug=data_browser
                                            .get('reporting_location'))
-        death_location = Entity.objects.get(slug=data_browser
-                                           .get('death_location'))
+        death_location = Entity.objects.get(slug=data_browser.get('death_location'))
         data_browser.set('dob', dob)
         data_browser.set('dob_auto', dob_auto)
         data_browser.set('dod', dod)

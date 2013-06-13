@@ -12,7 +12,7 @@ def filter_pilot_cscom(provider):
     """ return True if provider is part of pilot CSCOM """
 
     return provider.first_role().slug == 'cscom' \
-       and provider.first_target().parent.slug in ('nion', 'maci')
+        and provider.first_target().parent.slug in ('nion', 'maci')
 
 
 def filter_none(provider):
@@ -48,8 +48,7 @@ def send_login(csv_file, provider_filter=filter_none, dry_run=True):
     f = open(csv_file)
     for line in f.readlines():
         # explode CSV line
-        entname, rolename, fname, lname, \
-        username, password, password_enc = line.strip().split(',')
+        entname, rolename, fname, lname, username, password, password_enc = line.strip().split(',')
 
         username = username.strip()
         password = password.strip()

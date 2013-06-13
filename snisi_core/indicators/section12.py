@@ -30,34 +30,30 @@ class PromptitudeRapportageSegouBamako(IndicatorTable):
     @label(u"Structures à Bamako")
     def total_structures_in_bamako(self, period):
         entity = Entity.objects.get(slug='bamako')
-        return entity.get_descendants()\
-                                 .filter(type__slug='cscom').count()
+        return entity.get_descendants().filter(type__slug='cscom').count()
 
     @indicator(1, 'total_structures_in_bamako')
     @label(u"Bamako")
     def number_tautovalide_bamako(self, period):
         entity = Entity.objects.get(slug='bamako')
-        descendants = entity.get_descendants()\
-                                 .filter(type__slug='cscom')
+        descendants = entity.get_descendants().filter(type__slug='cscom')
         return MalariaR.objects.filter(period=period,
-                                            entity__in=descendants).count()
+                                       entity__in=descendants).count()
 
     @reference
     @indicator(2, 'total_structures_in_segou')
     @label(u"Structures à Ségou")
     def total_structures_in_segou(self, period):
         entity = Entity.objects.get(slug='segou')
-        return entity.get_descendants()\
-                                 .filter(type__slug='cscom').count()
+        return entity.get_descendants().filter(type__slug='cscom').count()
 
     @indicator(3, 'total_structures_in_segou')
     @label(u"Ségou")
     def number_tautovalide_segou(self, period):
         entity = Entity.objects.get(slug='segou')
-        descendants = entity.get_descendants()\
-                                 .filter(type__slug='cscom')
+        descendants = entity.get_descendants().filter(type__slug='cscom')
         return MalariaR.objects.filter(period=period,
-                                            entity__in=descendants).count()
+                                       entity__in=descendants).count()
 
 
 class FigurePromptitudeRapportageSegouBamako(PromptitudeRapportageSegouBamako):
@@ -110,18 +106,16 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
     def total_structures_in_niono(self, period):
         entity = Entity.objects.get(slug='nion')
 
-        return entity.get_descendants()\
-                                 .filter(type__slug='cscom').count()
+        return entity.get_descendants().filter(type__slug='cscom').count()
 
     @indicator(1, 'total_structures_in_niono')
     @label(u"structures ayant transmis à Niono")
     def number_tautovalide_niono(self, period):
         entity = Entity.objects.get(slug='nion')
-        descendants = entity.get_descendants()\
-                                 .filter(type__slug='cscom')
+        descendants = entity.get_descendants().filter(type__slug='cscom')
 
         return MalariaR.objects.filter(period=period,
-                                            entity__in=descendants).count()
+                                       entity__in=descendants).count()
 
     @reference
     @indicator(2, 'total_structures_in_macina')
@@ -129,25 +123,23 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
     def total_structures_in_macina(self, period):
         entity = Entity.objects.get(slug='maci')
 
-        return entity.get_descendants()\
-                                 .filter(type__slug='cscom').count()
+        return entity.get_descendants().filter(type__slug='cscom').count()
 
     @indicator(3, 'total_structures_in_macina')
     @label(u"structures ayant transmis à Macina")
     def number_tautovalide_macina(self, period):
         entity = Entity.objects.get(slug='maci')
-        descendants = entity.get_descendants()\
-                                 .filter(type__slug='cscom')
+        descendants = entity.get_descendants().filter(type__slug='cscom')
 
         return MalariaR.objects.filter(period=period,
-                                            entity__in=descendants).count()
+                                       entity__in=descendants).count()
 
     @reference
     @indicator(4, 'other_structures')
     @label(u"Les 8 autres districts")
     def other_structures(self, period):
         markala = Entity.objects.get(slug='mark').get_descendants()\
-                                 .filter(type__slug='cscom').count()
+                                .filter(type__slug='cscom').count()
         baroueli = Entity.objects.get(slug='baro').get_descendants()\
                                  .filter(type__slug='cscom').count()
         commune4 = Entity.objects.get(slug='com4').get_descendants()\
@@ -155,23 +147,22 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
         commune5 = Entity.objects.get(slug='com5').get_descendants()\
                                  .filter(type__slug='cscom').count()
         bla = Entity.objects.get(slug='bla').get_descendants()\
-                                 .filter(type__slug='cscom').count()
+                            .filter(type__slug='cscom').count()
         san = Entity.objects.get(slug='san').get_descendants()\
-                                 .filter(type__slug='cscom').count()
+                            .filter(type__slug='cscom').count()
         tominian = Entity.objects.get(slug='tomi').get_descendants()\
                                  .filter(type__slug='cscom').count()
         segou = Entity.objects.get(slug='sego2').get_descendants()\
-                                 .filter(type__slug='cscom').count()
+                              .filter(type__slug='cscom').count()
 
-        return markala + baroueli + commune4 + commune5 + bla + san + \
-                tominian + segou
+        return markala + baroueli + commune4 + commune5 + bla + san + tominian + segou
 
     @indicator(5, 'other_structures')
     @label(u"structures ayant transmis dans les 8 autres districts")
     def other_structures1(self, period):
         descendants = []
         markala = Entity.objects.get(slug='mark').get_descendants()\
-                                 .filter(type__slug='cscom')
+                                .filter(type__slug='cscom')
         descendants.append(markala)
         baroueli = Entity.objects.get(slug='baro').get_descendants()\
                                  .filter(type__slug='cscom')
@@ -183,22 +174,22 @@ class PromptitudeNionoMacinaAutres(IndicatorTable):
                                  .filter(type__slug='cscom')
         descendants.append(commune5)
         bla = Entity.objects.get(slug='bla').get_descendants()\
-                                 .filter(type__slug='cscom')
+                            .filter(type__slug='cscom')
         descendants.append(bla)
         san = Entity.objects.get(slug='san').get_descendants()\
-                                 .filter(type__slug='cscom')
+                            .filter(type__slug='cscom')
         descendants.append(san)
         tominian = Entity.objects.get(slug='tomi').get_descendants()\
                                  .filter(type__slug='cscom')
         descendants.append(tominian)
         segou = Entity.objects.get(slug='sego2').get_descendants()\
-                                 .filter(type__slug='cscom')
+                              .filter(type__slug='cscom')
         descendants.append(segou)
         nb = 0
 
         for descendant in descendants:
             nb += MalariaR.objects.filter(period=period,
-                                            entity__in=descendant).count()
+                                          entity__in=descendant).count()
 
         return nb
 

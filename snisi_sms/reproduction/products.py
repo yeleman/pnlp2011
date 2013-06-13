@@ -101,37 +101,37 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
         # -1 represente le non disponible
         args = args.replace("-", "-1")
         args_names = ['reporting_year',
-        'reporting_month',
-        'location_of_sdp',
-        'family_planning',
-        'delivery_services',
-        'male_condom',
-        'female_condom',
-        'oral_pills',
-        'injectable',
-        'iud',
-        'implants',
-        'female_sterilization',
-        'male_sterilization',
-        'amoxicillin_ij',
-        'amoxicillin_cap_gel',
-        'amoxicillin_suspension',
-        'azithromycine_tab',
-        'azithromycine_suspension',
-        'benzathine_penicillin',
-        'cefexime',
-        'clotrimazole',
-        'ergometrine_tab',
-        'ergometrine_vials',
-        'iron',
-        'folate',
-        'iron_folate',
-        'magnesium_sulfate',
-        'metronidazole',
-        'oxytocine',
-        'ceftriaxone_500',
-        'ceftriaxone_1000',
-        'comment']
+                      'reporting_month',
+                      'location_of_sdp',
+                      'family_planning',
+                      'delivery_services',
+                      'male_condom',
+                      'female_condom',
+                      'oral_pills',
+                      'injectable',
+                      'iud',
+                      'implants',
+                      'female_sterilization',
+                      'male_sterilization',
+                      'amoxicillin_ij',
+                      'amoxicillin_cap_gel',
+                      'amoxicillin_suspension',
+                      'azithromycine_tab',
+                      'azithromycine_suspension',
+                      'benzathine_penicillin',
+                      'cefexime',
+                      'clotrimazole',
+                      'ergometrine_tab',
+                      'ergometrine_vials',
+                      'iron',
+                      'folate',
+                      'iron_folate',
+                      'magnesium_sulfate',
+                      'metronidazole',
+                      'oxytocine',
+                      'ceftriaxone_500',
+                      'ceftriaxone_1000',
+                      'comment']
         args_values = args.split()
         arguments = dict(zip(args_names, args_values))
     except:
@@ -196,10 +196,8 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
     from snisi_core.data import time_is_prompt
 
     try:
-        period = MonthPeriod.find_create_from(year=int(data_browser
-                                            .get('reporting_year')),
-                                              month=int(data_browser
-                                            .get('reporting_month')))
+        period = MonthPeriod.find_create_from(year=int(data_browser.get('reporting_year')),
+                                              month=int(data_browser.get('reporting_month')))
         is_late = not time_is_prompt(period)
         entity = Entity.objects.get(slug=data_browser.get('location_of_sdp'),
                                     type__slug='cscom')

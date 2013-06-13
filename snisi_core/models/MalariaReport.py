@@ -33,8 +33,7 @@ class MalariaRIface(object):
     @property
     def total_simple_malaria_cases(self):
         # no value for pregnant_women
-        return self.u5_total_simple_malaria_cases \
-               + self.o5_total_simple_malaria_cases
+        return self.u5_total_simple_malaria_cases + self.o5_total_simple_malaria_cases
 
     @property
     def total_severe_malaria_cases(self):
@@ -97,7 +96,7 @@ class MalariaRIface(object):
 
     @classmethod
     def start(cls, period, entity, author,
-               type=SNISIReport.TYPE_SOURCE, is_late=False, *args, **kwargs):
+              type=SNISIReport.TYPE_SOURCE, is_late=False, *args, **kwargs):
         """ creates a report object with meta data only. Object not saved """
         report = cls(period=period, entity=entity, created_by=author,
                      modified_by=author, _status=cls.STATUS_CREATED,
@@ -112,17 +111,17 @@ class MalariaRIface(object):
         return report
 
     def add_underfive_data(self, total_consultation_all_causes,
-                                 total_suspected_malaria_cases,
-                                 total_simple_malaria_cases,
-                                 total_severe_malaria_cases,
-                                 total_tested_malaria_cases,
-                                 total_confirmed_malaria_cases,
-                                 total_treated_malaria_cases,
-                                 total_inpatient_all_causes,
-                                 total_malaria_inpatient,
-                                 total_death_all_causes,
-                                 total_malaria_death,
-                                 total_distributed_bednets):
+                           total_suspected_malaria_cases,
+                           total_simple_malaria_cases,
+                           total_severe_malaria_cases,
+                           total_tested_malaria_cases,
+                           total_confirmed_malaria_cases,
+                           total_treated_malaria_cases,
+                           total_inpatient_all_causes,
+                           total_malaria_inpatient,
+                           total_death_all_causes,
+                           total_malaria_death,
+                           total_distributed_bednets):
         self.u5_total_consultation_all_causes = total_consultation_all_causes
         self.u5_total_suspected_malaria_cases = total_suspected_malaria_cases
         self.u5_total_simple_malaria_cases = total_simple_malaria_cases
@@ -137,16 +136,16 @@ class MalariaRIface(object):
         self.u5_total_distributed_bednets = total_distributed_bednets
 
     def add_overfive_data(self, total_consultation_all_causes,
-                                 total_suspected_malaria_cases,
-                                 total_simple_malaria_cases,
-                                 total_severe_malaria_cases,
-                                 total_tested_malaria_cases,
-                                 total_confirmed_malaria_cases,
-                                 total_treated_malaria_cases,
-                                 total_inpatient_all_causes,
-                                 total_malaria_inpatient,
-                                 total_death_all_causes,
-                                 total_malaria_death):
+                          total_suspected_malaria_cases,
+                          total_simple_malaria_cases,
+                          total_severe_malaria_cases,
+                          total_tested_malaria_cases,
+                          total_confirmed_malaria_cases,
+                          total_treated_malaria_cases,
+                          total_inpatient_all_causes,
+                          total_malaria_inpatient,
+                          total_death_all_causes,
+                          total_malaria_death):
         self.o5_total_consultation_all_causes = total_consultation_all_causes
         self.o5_total_suspected_malaria_cases = total_suspected_malaria_cases
         self.o5_total_simple_malaria_cases = total_simple_malaria_cases
@@ -160,19 +159,19 @@ class MalariaRIface(object):
         self.o5_total_malaria_death = total_malaria_death
 
     def add_pregnantwomen_data(self, total_consultation_all_causes,
-                                 total_suspected_malaria_cases,
-                                 total_severe_malaria_cases,
-                                 total_tested_malaria_cases,
-                                 total_confirmed_malaria_cases,
-                                 total_treated_malaria_cases,
-                                 total_inpatient_all_causes,
-                                 total_malaria_inpatient,
-                                 total_death_all_causes,
-                                 total_malaria_death,
-                                 total_distributed_bednets,
-                                 total_anc1,
-                                 total_sp1,
-                                 total_sp2):
+                               total_suspected_malaria_cases,
+                               total_severe_malaria_cases,
+                               total_tested_malaria_cases,
+                               total_confirmed_malaria_cases,
+                               total_treated_malaria_cases,
+                               total_inpatient_all_causes,
+                               total_malaria_inpatient,
+                               total_death_all_causes,
+                               total_malaria_death,
+                               total_distributed_bednets,
+                               total_anc1,
+                               total_sp1,
+                               total_sp2):
         self.pw_total_consultation_all_causes = total_consultation_all_causes
         self.pw_total_suspected_malaria_cases = total_suspected_malaria_cases
         self.pw_total_severe_malaria_cases = total_severe_malaria_cases
@@ -189,14 +188,14 @@ class MalariaRIface(object):
         self.pw_total_sp2 = total_sp2
 
     def add_stockout_data(self, stockout_act_children,
-                                stockout_act_youth,
-                                stockout_act_adult,
-                                stockout_artemether,
-                                stockout_quinine,
-                                stockout_serum,
-                                stockout_bednet,
-                                stockout_rdt,
-                                stockout_sp):
+                          stockout_act_youth,
+                          stockout_act_adult,
+                          stockout_artemether,
+                          stockout_quinine,
+                          stockout_serum,
+                          stockout_bednet,
+                          stockout_rdt,
+                          stockout_sp):
         self.stockout_act_children = stockout_act_children
         self.stockout_act_youth = stockout_act_youth
         self.stockout_act_adult = stockout_act_adult
@@ -257,76 +256,42 @@ class MalariaR(MalariaRIface, SNISIReport):
         verbose_name_plural = _(u"Malaria Reports")
         unique_together = ('period', 'entity', 'type')
 
-    u5_total_consultation_all_causes = models.PositiveIntegerField( \
-                                           _(u"Total Consultation All Causes"))
-    u5_total_suspected_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Suspected Malaria Cases"))
-    u5_total_simple_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Simple Malaria Cases"))
-    u5_total_severe_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Severe Malaria Cases"))
-    u5_total_tested_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Tested Malaria Cases"))
-    u5_total_confirmed_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Confirmed Malaria Cases"))
-    u5_total_treated_malaria_cases = models.PositiveIntegerField( \
-                                             _(u"Total Treated Malaria Cases"))
-    u5_total_inpatient_all_causes = models.PositiveIntegerField( \
-                                              _(u"Total Inpatient All Causes"))
-    u5_total_malaria_inpatient = models.PositiveIntegerField( \
-                                                 _(u"Total Malaria Inpatient"))
-    u5_total_death_all_causes = models.PositiveIntegerField( \
-                                                  _(u"Total Death All Causes"))
-    u5_total_malaria_death = models.PositiveIntegerField( \
-                                                     _(u"Total Malaria Death"))
-    u5_total_distributed_bednets = models.PositiveIntegerField( \
-                                               _(u"Total Distributed Bednets"))
+    u5_total_consultation_all_causes = models.PositiveIntegerField(_(u"Total Consultation All Causes"))
+    u5_total_suspected_malaria_cases = models.PositiveIntegerField(_(u"Total Suspected Malaria Cases"))
+    u5_total_simple_malaria_cases = models.PositiveIntegerField(_(u"Total Simple Malaria Cases"))
+    u5_total_severe_malaria_cases = models.PositiveIntegerField(_(u"Total Severe Malaria Cases"))
+    u5_total_tested_malaria_cases = models.PositiveIntegerField(_(u"Total Tested Malaria Cases"))
+    u5_total_confirmed_malaria_cases = models.PositiveIntegerField(_(u"Total Confirmed Malaria Cases"))
+    u5_total_treated_malaria_cases = models.PositiveIntegerField(_(u"Total Treated Malaria Cases"))
+    u5_total_inpatient_all_causes = models.PositiveIntegerField(_(u"Total Inpatient All Causes"))
+    u5_total_malaria_inpatient = models.PositiveIntegerField(_(u"Total Malaria Inpatient"))
+    u5_total_death_all_causes = models.PositiveIntegerField(_(u"Total Death All Causes"))
+    u5_total_malaria_death = models.PositiveIntegerField(_(u"Total Malaria Death"))
+    u5_total_distributed_bednets = models.PositiveIntegerField(_(u"Total Distributed Bednets"))
 
-    o5_total_consultation_all_causes = models.PositiveIntegerField( \
-                                           _(u"Total Consultation All Causes"))
-    o5_total_suspected_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Suspected Malaria Cases"))
-    o5_total_simple_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Simple Malaria Cases"))
-    o5_total_severe_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Severe Malaria Cases"))
-    o5_total_tested_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Tested Malaria Cases"))
-    o5_total_confirmed_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Confirmed Malaria Cases"))
-    o5_total_treated_malaria_cases = models.PositiveIntegerField( \
-                                             _(u"Total Treated Malaria Cases"))
-    o5_total_inpatient_all_causes = models.PositiveIntegerField( \
-                                              _(u"Total Inpatient All Causes"))
-    o5_total_malaria_inpatient = models.PositiveIntegerField( \
-                                                 _(u"Total Malaria Inpatient"))
-    o5_total_death_all_causes = models.PositiveIntegerField( \
-                                                  _(u"Total Death All Causes"))
-    o5_total_malaria_death = models.PositiveIntegerField( \
-                                                     _(u"Total Malaria Death"))
+    o5_total_consultation_all_causes = models.PositiveIntegerField(_(u"Total Consultation All Causes"))
+    o5_total_suspected_malaria_cases = models.PositiveIntegerField(_(u"Total Suspected Malaria Cases"))
+    o5_total_simple_malaria_cases = models.PositiveIntegerField(_(u"Total Simple Malaria Cases"))
+    o5_total_severe_malaria_cases = models.PositiveIntegerField(_(u"Total Severe Malaria Cases"))
+    o5_total_tested_malaria_cases = models.PositiveIntegerField(_(u"Total Tested Malaria Cases"))
+    o5_total_confirmed_malaria_cases = models.PositiveIntegerField(_(u"Total Confirmed Malaria Cases"))
+    o5_total_treated_malaria_cases = models.PositiveIntegerField(_(u"Total Treated Malaria Cases"))
+    o5_total_inpatient_all_causes = models.PositiveIntegerField(_(u"Total Inpatient All Causes"))
+    o5_total_malaria_inpatient = models.PositiveIntegerField(_(u"Total Malaria Inpatient"))
+    o5_total_death_all_causes = models.PositiveIntegerField(_(u"Total Death All Causes"))
+    o5_total_malaria_death = models.PositiveIntegerField(_(u"Total Malaria Death"))
 
-    pw_total_consultation_all_causes = models.PositiveIntegerField( \
-                                           _(u"Total Consultation All Causes"))
-    pw_total_suspected_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Suspected Malaria Cases"))
-    pw_total_severe_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Severe Malaria Cases"))
-    pw_total_tested_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Tested Malaria Cases"))
-    pw_total_confirmed_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Confirmed Malaria Cases"))
-    pw_total_treated_malaria_cases = models.PositiveIntegerField( \
-                                             _(u"Total Treated Malaria Cases"))
-    pw_total_inpatient_all_causes = models.PositiveIntegerField( \
-                                              _(u"Total Inpatient All Causes"))
-    pw_total_malaria_inpatient = models.PositiveIntegerField( \
-                                                 _(u"Total Malaria Inpatient"))
-    pw_total_death_all_causes = models.PositiveIntegerField( \
-                                                  _(u"Total Death All Causes"))
-    pw_total_malaria_death = models.PositiveIntegerField( \
-                                                     _(u"Total Malaria Death"))
-    pw_total_distributed_bednets = models.PositiveIntegerField( \
-                                               _(u"Total Distributed Bednets"))
+    pw_total_consultation_all_causes = models.PositiveIntegerField(_(u"Total Consultation All Causes"))
+    pw_total_suspected_malaria_cases = models.PositiveIntegerField(_(u"Total Suspected Malaria Cases"))
+    pw_total_severe_malaria_cases = models.PositiveIntegerField(_(u"Total Severe Malaria Cases"))
+    pw_total_tested_malaria_cases = models.PositiveIntegerField(_(u"Total Tested Malaria Cases"))
+    pw_total_confirmed_malaria_cases = models.PositiveIntegerField(_(u"Total Confirmed Malaria Cases"))
+    pw_total_treated_malaria_cases = models.PositiveIntegerField(_(u"Total Treated Malaria Cases"))
+    pw_total_inpatient_all_causes = models.PositiveIntegerField(_(u"Total Inpatient All Causes"))
+    pw_total_malaria_inpatient = models.PositiveIntegerField(_(u"Total Malaria Inpatient"))
+    pw_total_death_all_causes = models.PositiveIntegerField(_(u"Total Death All Causes"))
+    pw_total_malaria_death = models.PositiveIntegerField(_(u"Total Malaria Death"))
+    pw_total_distributed_bednets = models.PositiveIntegerField(_(u"Total Distributed Bednets"))
     pw_total_anc1 = models.PositiveIntegerField(_(u"Total ANC1 Visits"))
     pw_total_sp1 = models.PositiveIntegerField(_(u"Total SP1 given"))
     pw_total_sp2 = models.PositiveIntegerField(_(u"Total SP2 given"))
@@ -396,7 +361,7 @@ class MalariaR(MalariaRIface, SNISIReport):
     @classmethod
     def create_aggregated(cls, period, entity, author, *args, **kwargs):
         agg_report = cls.start(period, entity, author,
-               type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs)
+                               type=SNISIReport.TYPE_AGGREGATED, *args, **kwargs)
 
         sources = MalariaR.validated.filter(period=period,
                                             entity__in=entity.get_children())
@@ -445,76 +410,42 @@ class AggMalariaR(MalariaRIface, SNISIReport):
         verbose_name_plural = _(u"Aggregated Malaria Reports")
         unique_together = ('period', 'entity', 'type')
 
-    u5_total_consultation_all_causes = models.PositiveIntegerField( \
-                                           _(u"Total Consultation All Causes"))
-    u5_total_suspected_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Suspected Malaria Cases"))
-    u5_total_simple_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Simple Malaria Cases"))
-    u5_total_severe_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Severe Malaria Cases"))
-    u5_total_tested_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Tested Malaria Cases"))
-    u5_total_confirmed_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Confirmed Malaria Cases"))
-    u5_total_treated_malaria_cases = models.PositiveIntegerField( \
-                                             _(u"Total Treated Malaria Cases"))
-    u5_total_inpatient_all_causes = models.PositiveIntegerField( \
-                                              _(u"Total Inpatient All Causes"))
-    u5_total_malaria_inpatient = models.PositiveIntegerField( \
-                                                 _(u"Total Malaria Inpatient"))
-    u5_total_death_all_causes = models.PositiveIntegerField( \
-                                                  _(u"Total Death All Causes"))
-    u5_total_malaria_death = models.PositiveIntegerField( \
-                                                     _(u"Total Malaria Death"))
-    u5_total_distributed_bednets = models.PositiveIntegerField( \
-                                               _(u"Total Distributed Bednets"))
+    u5_total_consultation_all_causes = models.PositiveIntegerField(_(u"Total Consultation All Causes"))
+    u5_total_suspected_malaria_cases = models.PositiveIntegerField(_(u"Total Suspected Malaria Cases"))
+    u5_total_simple_malaria_cases = models.PositiveIntegerField(_(u"Total Simple Malaria Cases"))
+    u5_total_severe_malaria_cases = models.PositiveIntegerField(_(u"Total Severe Malaria Cases"))
+    u5_total_tested_malaria_cases = models.PositiveIntegerField(_(u"Total Tested Malaria Cases"))
+    u5_total_confirmed_malaria_cases = models.PositiveIntegerField(_(u"Total Confirmed Malaria Cases"))
+    u5_total_treated_malaria_cases = models.PositiveIntegerField(_(u"Total Treated Malaria Cases"))
+    u5_total_inpatient_all_causes = models.PositiveIntegerField(_(u"Total Inpatient All Causes"))
+    u5_total_malaria_inpatient = models.PositiveIntegerField(_(u"Total Malaria Inpatient"))
+    u5_total_death_all_causes = models.PositiveIntegerField(_(u"Total Death All Causes"))
+    u5_total_malaria_death = models.PositiveIntegerField(_(u"Total Malaria Death"))
+    u5_total_distributed_bednets = models.PositiveIntegerField(_(u"Total Distributed Bednets"))
 
-    o5_total_consultation_all_causes = models.PositiveIntegerField( \
-                                           _(u"Total Consultation All Causes"))
-    o5_total_suspected_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Suspected Malaria Cases"))
-    o5_total_simple_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Simple Malaria Cases"))
-    o5_total_severe_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Severe Malaria Cases"))
-    o5_total_tested_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Tested Malaria Cases"))
-    o5_total_confirmed_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Confirmed Malaria Cases"))
-    o5_total_treated_malaria_cases = models.PositiveIntegerField( \
-                                             _(u"Total Treated Malaria Cases"))
-    o5_total_inpatient_all_causes = models.PositiveIntegerField( \
-                                              _(u"Total Inpatient All Causes"))
-    o5_total_malaria_inpatient = models.PositiveIntegerField( \
-                                                 _(u"Total Malaria Inpatient"))
-    o5_total_death_all_causes = models.PositiveIntegerField( \
-                                                  _(u"Total Death All Causes"))
-    o5_total_malaria_death = models.PositiveIntegerField( \
-                                                     _(u"Total Malaria Death"))
+    o5_total_consultation_all_causes = models.PositiveIntegerField(_(u"Total Consultation All Causes"))
+    o5_total_suspected_malaria_cases = models.PositiveIntegerField(_(u"Total Suspected Malaria Cases"))
+    o5_total_simple_malaria_cases = models.PositiveIntegerField(_(u"Total Simple Malaria Cases"))
+    o5_total_severe_malaria_cases = models.PositiveIntegerField(_(u"Total Severe Malaria Cases"))
+    o5_total_tested_malaria_cases = models.PositiveIntegerField(_(u"Total Tested Malaria Cases"))
+    o5_total_confirmed_malaria_cases = models.PositiveIntegerField(_(u"Total Confirmed Malaria Cases"))
+    o5_total_treated_malaria_cases = models.PositiveIntegerField(_(u"Total Treated Malaria Cases"))
+    o5_total_inpatient_all_causes = models.PositiveIntegerField(_(u"Total Inpatient All Causes"))
+    o5_total_malaria_inpatient = models.PositiveIntegerField(_(u"Total Malaria Inpatient"))
+    o5_total_death_all_causes = models.PositiveIntegerField(_(u"Total Death All Causes"))
+    o5_total_malaria_death = models.PositiveIntegerField(_(u"Total Malaria Death"))
 
-    pw_total_consultation_all_causes = models.PositiveIntegerField( \
-                                           _(u"Total Consultation All Causes"))
-    pw_total_suspected_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Suspected Malaria Cases"))
-    pw_total_severe_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Severe Malaria Cases"))
-    pw_total_tested_malaria_cases = models.PositiveIntegerField( \
-                                              _(u"Total Tested Malaria Cases"))
-    pw_total_confirmed_malaria_cases = models.PositiveIntegerField( \
-                                           _(u"Total Confirmed Malaria Cases"))
-    pw_total_treated_malaria_cases = models.PositiveIntegerField( \
-                                             _(u"Total Treated Malaria Cases"))
-    pw_total_inpatient_all_causes = models.PositiveIntegerField( \
-                                              _(u"Total Inpatient All Causes"))
-    pw_total_malaria_inpatient = models.PositiveIntegerField( \
-                                                 _(u"Total Malaria Inpatient"))
-    pw_total_death_all_causes = models.PositiveIntegerField( \
-                                                  _(u"Total Death All Causes"))
-    pw_total_malaria_death = models.PositiveIntegerField( \
-                                                     _(u"Total Malaria Death"))
-    pw_total_distributed_bednets = models.PositiveIntegerField( \
-                                               _(u"Total Distributed Bednets"))
+    pw_total_consultation_all_causes = models.PositiveIntegerField(_(u"Total Consultation All Causes"))
+    pw_total_suspected_malaria_cases = models.PositiveIntegerField(_(u"Total Suspected Malaria Cases"))
+    pw_total_severe_malaria_cases = models.PositiveIntegerField(_(u"Total Severe Malaria Cases"))
+    pw_total_tested_malaria_cases = models.PositiveIntegerField(_(u"Total Tested Malaria Cases"))
+    pw_total_confirmed_malaria_cases = models.PositiveIntegerField(_(u"Total Confirmed Malaria Cases"))
+    pw_total_treated_malaria_cases = models.PositiveIntegerField(_(u"Total Treated Malaria Cases"))
+    pw_total_inpatient_all_causes = models.PositiveIntegerField(_(u"Total Inpatient All Causes"))
+    pw_total_malaria_inpatient = models.PositiveIntegerField(_(u"Total Malaria Inpatient"))
+    pw_total_death_all_causes = models.PositiveIntegerField(_(u"Total Death All Causes"))
+    pw_total_malaria_death = models.PositiveIntegerField(_(u"Total Malaria Death"))
+    pw_total_distributed_bednets = models.PositiveIntegerField(_(u"Total Distributed Bednets"))
     pw_total_anc1 = models.PositiveIntegerField(_(u"Total ANC1 Visits"))
     pw_total_sp1 = models.PositiveIntegerField(_(u"Total SP1 given"))
     pw_total_sp2 = models.PositiveIntegerField(_(u"Total SP2 given"))
@@ -534,12 +465,12 @@ class AggMalariaR(MalariaRIface, SNISIReport):
     indiv_sources = models.ManyToManyField('MalariaR',
                                            verbose_name=_(u"Indiv. Sources"),
                                            blank=True, null=True,
-                                       related_name='indiv_agg_malaria_reports')
+                                           related_name='indiv_agg_malaria_reports')
 
     agg_sources = models.ManyToManyField('AggMalariaR',
-                                verbose_name=_(u"Aggr. Sources"),
-                                blank=True, null=True,
-                                related_name='aggregated_agg_malaria_reports')
+                                         verbose_name=_(u"Aggr. Sources"),
+                                         blank=True, null=True,
+                                         related_name='aggregated_agg_malaria_reports')
 
     def sources(self):
         return list(self.indiv_sources.all()) + list(self.agg_sources.all())
@@ -563,17 +494,13 @@ class AggMalariaR(MalariaRIface, SNISIReport):
 
             if field.startswith('stockout'):
                 if getattr(instance, field) == instance.YES:
-                    setattr(report, field,
-                    getattr(report, field, 0) + 1)
+                    setattr(report, field, getattr(report, field, 0) + 1)
             elif field == 'is_late':
                 prompt_field = 'nb_prompt'
                 if not getattr(instance, field):
-                    setattr(report, prompt_field,
-                    getattr(report, prompt_field, 0) + 1)
+                    setattr(report, prompt_field, getattr(report, prompt_field, 0) + 1)
             else:
-                setattr(report, field,
-                        getattr(report, field, 0)
-                        + getattr(instance, field, 0))
+                setattr(report, field, getattr(report, field, 0) + getattr(instance, field, 0))
 
     @classmethod
     def update_instance_with_agg(cls, report, instance):

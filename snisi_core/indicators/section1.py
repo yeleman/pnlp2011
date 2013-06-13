@@ -32,7 +32,7 @@ class TableauPromptitudeRapportage(IndicatorTable):
                               .filter(type__slug='cscom').count()
 
     @indicator(1)
-    @label(u"Nombre de structures ayant transmis leurs formulaires " \
+    @label(u"Nombre de structures ayant transmis leurs formulaires "
            u"de collecte dans les délais prévus")
     def number_tautovalide(self, period):
         if self.entity.type.slug == 'cscom':
@@ -43,7 +43,7 @@ class TableauPromptitudeRapportage(IndicatorTable):
                 return 1
         else:
             return AggMalariaR.objects.get(period=period,
-                                            entity=self.entity).nb_prompt
+                                           entity=self.entity).nb_prompt
 
 
 class FigurePromptitudeRapportage(IndicatorTable):
@@ -55,10 +55,10 @@ class FigurePromptitudeRapportage(IndicatorTable):
     graph_type = 'spline'
 
     default_options = {'with_percentage': True,
-                   'with_total': False,
-                   'with_reference': False,
-                   'with_data': False,
-                   'only_percent': True}
+                       'with_total': False,
+                       'with_reference': False,
+                       'with_data': False,
+                       'only_percent': True}
 
     def period_is_valid(self, period):
         return True
@@ -74,13 +74,13 @@ class FigurePromptitudeRapportage(IndicatorTable):
                               .filter(type__slug='cscom').count()
 
     @indicator(1)
-    @label(u"% de structures ayant tranmis le formulaire de collecte " \
+    @label(u"% de structures ayant tranmis le formulaire de collecte "
            u"dans les délais prévus")
     def number_tautovalide(self, period):
         if self.entity.type.slug == 'cscom':
             descendants = [self.entity]
             return MalariaR.objects.filter(period=period,
-                                            entity__in=descendants).count()
+                                           entity__in=descendants).count()
         else:
             descendants = self.entity.get_descendants()\
                                      .filter(type__slug='cscom')
