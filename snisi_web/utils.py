@@ -39,7 +39,7 @@ def get_level_for(provider):
     # finds best access
     # based on number of descendants
     # in the entities hierarchy
-    best_access = provider.first_access() or Access.objects.get(
+    best_access = provider.access() or Access.objects.get(
         role=Role.objects.get(slug='guest'), object_id=1,
         content_type=ContentType.objects.get(app_label='bolibana', model='entity'))
 

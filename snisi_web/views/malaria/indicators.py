@@ -30,9 +30,9 @@ def import_path(name):
 def indicator_browser(request, entity_code=None, period_str=None,
                       section_index='1', sub_section=None):
     context = {'category': 'malaria', 'location': 'indicator_data'}
-    web_provider = request.user.get_profile()
+    web_provider = request.user
 
-    root = web_provider.first_target()
+    root = web_provider.target()
 
     periods = []
     speriod = eperiod = None
@@ -45,7 +45,7 @@ def indicator_browser(request, entity_code=None, period_str=None,
         entity = get_object_or_404(Entity, slug=entity_code)
 
     if not entity:
-        entity = web_provider.first_target()
+        entity = web_provider.target()
     context.update({'entity': entity})
 
     # define a list of all possible periods.

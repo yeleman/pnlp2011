@@ -78,11 +78,10 @@ class MalariaDataHolder(object):
 
 
 def entity_for(provider):
-        entity = None
-        for access in provider.access.all():
-            if entity is None or access.target.level > entity.level:
-                entity = access.target
-        return entity
+    entity = None
+    if entity is None or provider.access.target.level > entity.level:
+        entity = provider.access.target
+    return entity
 
 
 def malaria_handler(message):
@@ -128,7 +127,7 @@ def palu_help(message, nousername=False):
     provider = None
     if username:
         try:
-            provider = Provider.objects.get(user__username=username)
+            provider = Provider.objects.get(username=username)
         except Provider.DoesNotExist:
             pass
 
@@ -157,7 +156,7 @@ def palu_passwd(message):
         return True
 
     try:
-        provider = Provider.active.get(user__username=username)
+        provider = Provider.active.get(username=username)
     except Provider.DoesNotExist:
         message.respond(error_start + u"Ce nom d'utilisateur (%s) "
                                       u"n'existe pas." % username)
@@ -253,7 +252,7 @@ def palu(message):
 
     # check credentials
     try:
-        provider = Provider.active.get(user__username=arguments['username'])
+        provider = Provider.active.get(username=arguments['username'])
     except Provider.DoesNotExist:
         message.respond(error_start + u"Ce nom d'utilisateur " +
                                       u"(%s) n'existe pas." %
@@ -323,7 +322,7 @@ def palu(message):
         #report.save()
         with reversion.create_revision():
             report.save()
-            reversion.set_user(provider.user)
+            reversion.set_user(provider)
 
     except Exception as e:
         message.respond(error_start + u"Une erreur technique s'est "

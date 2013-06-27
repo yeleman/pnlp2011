@@ -11,3 +11,4 @@ django-mptt==0.5.5
 nosmsd
 python-memcached
 wsgiref==0.1.2
+iso8601

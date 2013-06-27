@@ -95,7 +95,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -105,18 +105,17 @@ SECRET_KEY = '-w7%yno2dw@ix50u7@bve$rx0%!n+_5b^+^vyjv(zc=3(oa_44'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'babeldjango.middleware.LocaleMiddleware',
     'bolibana.web.middleware.Http500Middleware',
     'bolibana.web.middleware.Http404Middleware',
     'bolibana.web.middleware.Http403Middleware',
@@ -143,7 +142,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # SNISI specific apps
     'django.contrib.humanize',
-    'babeldjango',
     'mptt',
     'nosmsd',
     'bolibana',
@@ -257,7 +255,8 @@ USE_HTTPS = False
 
 SYSTEM_CLOSED = False
 
-TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
@@ -266,9 +265,20 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     "bolibana.web.context_processors.add_provider",
     "bolibana.web.context_processors.add_level")
 
-AUTH_PROFILE_MODULE = 'bolibana.Provider'
+# AUTH_PROFILE_MODULE = 'bolibana.Provider'
+AUTH_USER_MODEL = 'bolibana.Provider'
 
 DATABASE_ROUTERS = ['nosmsd.django_routers.NoSMSdRouter']
+
+ADMIN_PASSWORD = 'admin'
+
+ALLOWED_HOSTS = ['pnlp.sante.gov.ml',
+                 'snsi.sante.gov.ml',
+                 'pnlp.yeleman.com',
+                 'pnlp2.yeleman.com']
+
+# paths to non-app specific locale folders
+# LOCALE_PATHS = []
 
 # loads custom settings from a separate file
 try:

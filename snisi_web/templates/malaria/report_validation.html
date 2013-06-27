@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load babel %}
 {% load bolibana %}
 
 {% block title %}Validation du rapport {{ report.receipt }}{% endblock %}
-{% block pagetitle %}<h1 class="pagetitle">rapport de {{ report.entity.display_full_name }}, {{ report.period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">rapport de {{ report.entity.display_full_name }}, {{ report.period.full_name }}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 
 {% block submenu %}{% include "malaria/submenu.html" %}{% endblock %}
@@ -38,7 +37,7 @@
     {% endfor %}
     {% endif %}
 {% endif %}
-<form method="POST" action="{% url 'report_validation' report.receipt %}" id="report_form">
+<form method="POST" action="{% url 'report_validation' report.receipt %}" id="report_form" enctype="application/x-www-form-urlencoded">
 {% csrf_token %}
 <button class="formbutt" id="reset_button" title="Ré-initialise les valeurs du formulaire à celles de départ.">Annuler modifications</button>
 <button class="formbutt important confirm" id="validate_form" title="Valide le rapport tel qu'enregistré.">Valider le rapport</button>

@@ -36,7 +36,7 @@
         <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"></field>
     </object>
     <object pk="supervisor" model="bolibana.role">
-        <field type="CharField" name="name">Supervisor</field>
+        <field type="CharField" name="name">Superviseur</field>
         <field type="CharField" name="level">national</field>
         <field to="bolibana.permission" name="permissions" rel="ManyToManyRel"><object pk="can_monitor_transmission"></object><object pk="can_view_indicator_data"></object><object pk="can_view_raw_data"></object></field>
     </object>

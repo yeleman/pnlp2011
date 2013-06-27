@@ -250,7 +250,7 @@ class AggChildrenDeathR(SNISIReport):
 
         with reversion.create_revision():
             agg_report.save()
-            reversion.set_user(author.user)
+            reversion.set_user(author)
 
         return agg_report
 

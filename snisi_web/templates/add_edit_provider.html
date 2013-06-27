@@ -10,7 +10,7 @@
 <h2>{% if user_id %}Modifier{% else %}Saisir{% endif %} les informations</h2>
 
 {% if form.errors %}<p>Votre demande comporte des erreurs. Merci de les corriger et de reéssayer.</p>{% endif %}
-<form method="POST" action="{% if user_id %}{% url 'edit_user' user_id=user_id %}{% else %}{% url 'add_user' %}{% endif %}" name="profile">
+<form method="POST" action="{% if user_id %}{% url 'edit_user' user_id=user_id %}{% else %}{% url 'add_user' %}{% endif %}" name="profile" enctype="application/x-www-form-urlencoded">
 {% csrf_token %}
 <table>
 {% if user_id %}

@@ -70,7 +70,7 @@ def dashboard(request):
         districts_missed_report = {}
         auto_validated_cscom_reports = \
             MalariaR.validated.filter(entity__type__slug=level,
-                                      modified_by__user__username='autobot')
+                                      modified_by__username='autobot')
         for report in auto_validated_cscom_reports:
             if not report.entity.parent.slug in districts_missed_report:
                 districts_missed_report[report.entity.parent.slug] = \

@@ -209,7 +209,7 @@ def unfpa_monthly_product_stockouts(message, args, sub_cmd, **kwargs):
         report.add_data(*data_browser.data_for_cat())
         with reversion.create_revision():
             report.save()
-            reversion.set_user(provider.user)
+            reversion.set_user(provider)
     except Exception as e:
         message.respond(error_start + u"Une erreur technique s'est "
                         u"produite. Reessayez plus tard et "

@@ -72,6 +72,6 @@ def report_create_from(cls, period, entity, author, indiv_cls=None):
 
     with reversion.create_revision():
         agg_report.save()
-        reversion.set_user(author.user)
+        reversion.set_user(author)
 
     return agg_report

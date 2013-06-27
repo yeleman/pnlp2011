@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load babel %}
 {% load bolibana %}
 
 {% block title %}Indicateurs{% endblock %}
-{% block pagetitle %}<h1 class="pagetitle">Données de {{ entity.display_full_name }}, {% if speriod == eperiod %}{{ speriod.middle|datefmt:"MMMM yyyy" }}{% else %}{{ speriod.middle|datefmt:"MMMM yyyy" }} à {{ eperiod.middle|datefmt:"MMMM yyyy" }}{% endif %}</h1>{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Données de {{ entity.display_full_name }}, {% if speriod == eperiod %}{{ speriod.full_name }}{% else %}{{ speriod.full_name }} à {{ eperiod.full_name }}{% endif %}</h1>{% endblock %}
 {% block page-name %}context{% endblock %}
 {% block content-class %}withsidebar{% endblock %}
 
 {% block submenu %}{% include "malaria/submenu.html" %}
-{% include "malaria/subsubmenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url="malaria_indicator_data"|url:"0" %}{% endblock %}
+{% include "malaria/subsubmenu.html" with content="data_browser" report=report entity=web_provider.role paths=paths base_url="malaria_indicator_data"|url:"0" %}{% endblock %}
 
 {% block jqueryonload %}addJQEventsSubMenu("{% url 'malaria_indicator_data' %}", "{% url 'malaria_indicator_data' 0 %}", "{{ period_str }}", "{{ section.id }}"{% if sub_section %}, "{{ sub_section }}"{% endif %});
 addJQEventPeriodsChange("{% url 'malaria_indicator_data' 'ent_code' '111111-222222' %}", "{{ entity.slug }}", "{{ section.id }}"{% if sub_section %}, "{{ sub_section }}"{% endif %});

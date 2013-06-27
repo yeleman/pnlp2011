@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load babel %}
 {% load bolibana %}
 
 {% block title %}
@@ -12,7 +11,7 @@
 <h1 class="pagetitle">{% if no_report %}Rapport indisponible{% else %}Rapport de {{ report.entity.display_full_name }}, {{ period.full_name }}{% endif %}</h1>
 {% endblock %}
 
-{% block subsubmenu %}{% include "raw_data_subsubmenu.html" with content="data_browser" report=report entity=web_provider.first_role paths=paths base_url='raw_data'|url0:project %}{% endblock %}
+{% block subsubmenu %}{% include "raw_data_subsubmenu.html" with content="data_browser" report=report entity=web_provider.role paths=paths base_url='raw_data'|url0:project %}{% endblock %}
 
 {% block page-name %}context{% endblock %}
 
@@ -46,8 +45,8 @@ addJQEventToggleSources();
         <p>Rapport de {{ report.entity.display_name }} pour la période {{ report.period.full_name }}</p>
         <p><strong>Nº de reçu</strong>: {{ report.receipt }}</p>
         <p><strong>Auteur</strong>: {{ report.created_by.name_access }}</p>
-        <p><strong>Créé le</strong>: {{ report.created_on|datetimefmt }}</p>
-        <p><strong>Modifié par</strong>: {{ report.modified_by.name_access }} le {{ report.modified_on|datetimefmt }}</p>
+        <p><strong>Créé le</strong>: {{ report.created_on|date:"DATETIME_FORMAT" }}</p>
+        <p><strong>Modifié par</strong>: {{ report.modified_by.name_access }} le {{ report.modified_on|date:"DATETIME_FORMAT" }}</p>
         <p><strong>Type de rapport</strong>: {{ report.type|reporttype }}</p>
         {% if report.type == 0 %}
         	<p><strong>En retard </strong>: {% if report.is_late %} OUI {% else %} NON {% endif %}</p>

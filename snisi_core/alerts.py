@@ -112,7 +112,7 @@ class MalariaReportCreated(Alert):
                 report._status = MalariaR.STATUS_VALIDATED
                 with reversion.create_revision():
                     report.save()
-                    reversion.set_user(get_autobot().user)
+                    reversion.set_user(get_autobot())
                     #report.save()
 
                 # send emails
@@ -120,9 +120,9 @@ class MalariaReportCreated(Alert):
                 nat_access = list(Access.objects.filter(content_type=ct,
                                                         object_id=oi))
                 providers = list(Provider.active.select_related()
-                                         .filter(user__email__isnull=False,
+                                         .filter(email__isnull=False,
                                                  access__in=nat_access)
-                                         .values_list('user__email', flat=True))
+                                         .values_list('email', flat=True))
 
                 rurl = full_url(path=reverse('raw_data',
                                              kwargs={'entity_code': report.entity.slug,
@@ -306,7 +306,7 @@ class EndOfDistrictPeriod(Alert):
 
         # retrieve autobot provider if possible
         try:
-            author = Provider.active.get(user__username='autobot')
+            author = Provider.active.get(username='autobot')
         except:
             author = None
 
@@ -328,9 +328,9 @@ class EndOfDistrictPeriod(Alert):
             with reversion.create_revision():
                 report.save()
                 if author:
-                    reversion.set_user(author.user)
+                    reversion.set_user(author)
                 else:
-                    reversion.set_user(get_autobot().user)
+                    reversion.set_user(get_autobot())
                 #report.save()
 
         # create aggregated reports
@@ -347,7 +347,7 @@ class EndOfDistrictPeriod(Alert):
                 #report.save()
                 with reversion.create_revision():
                     report.save()
-                    reversion.set_user(rauthor.user)
+                    reversion.set_user(rauthor)
 
         # region-only section
         # create national report

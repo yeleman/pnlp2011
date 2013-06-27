@@ -63,7 +63,7 @@ def contact(request):
     context = {'category': 'contact'}
 
     try:
-        web_provider = request.user.get_profile()
+        web_provider = request.user
     except:
         web_provider = None
 

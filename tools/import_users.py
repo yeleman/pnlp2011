@@ -98,7 +98,7 @@ def import_users(csv_file):
 
         provider.save()
 
-        line = u"%(ent)s,%(role)s,%(fname)s,%(lname)s,%(user)s,%(pass)s,%(passenc)s\n" % {'ent': entity, 'role': role, 'fname': provider.first_name, 'lname': provider.last_name, 'user': username, 'pass': password, 'passenc': provider.user.password}
+        line = u"%(ent)s,%(role)s,%(fname)s,%(lname)s,%(user)s,%(pass)s,%(passenc)s\n" % {'ent': entity, 'role': role, 'fname': provider.first_name, 'lname': provider.last_name, 'user': username, 'pass': password, 'passenc': provider.password}
         succ.write(line.encode('utf-8'))
         print(provider.name_access())
     f.close()

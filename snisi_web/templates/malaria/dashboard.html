@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load babel %}
 {% load bolibana %}
 
 {% block title %}Accueil{% endblock %}
@@ -16,11 +15,11 @@
 <p>Ce tableau de bord vous donne un aperçu de l'état d'avancement de la collecte et de la transmission des données.</p>
 
 <table class="center">
-<tr><th>Mois en cours</th><td>{{ current_period.middle|datefmt:"MMMM yyyy" }}</td></tr>
-<tr><th>Période de collecte en cours</th><td>{{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</td></tr>
+<tr><th>Mois en cours</th><td>{{ current_period.full_name }}</td></tr>
+<tr><th>Période de collecte en cours</th><td>{{ current_reporting_period.full_name }}</td></tr>
 <tr><th>Étape en cours</th><td>{{ current_stage|stage }}</td></tr>
-<tr><th>SMS reçus / envoyés en {{ current_period.middle|datefmt:"MMMM yyyy" }}</th><td>{{ current_sms.0 }} / {{ current_sms.1 }}</td></tr>
-<tr><th>SMS reçus / envoyés en {{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</th><td>{{ current_reporting_sms.0 }} / {{ current_reporting_sms.1 }}</td></tr>
+<tr><th>SMS reçus / envoyés en {{ current_period.full_name }}</th><td>{{ current_sms.0 }} / {{ current_sms.1 }}</td></tr>
+<tr><th>SMS reçus / envoyés en {{ current_reporting_period.full_name }}</th><td>{{ current_reporting_sms.0 }} / {{ current_reporting_sms.1 }}</td></tr>
 <tr><th>Établissement enregistrés dans le système</th><td>{{ total_cscom }}</td></tr>
 </table>
 

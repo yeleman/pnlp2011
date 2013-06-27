@@ -9,7 +9,7 @@
 <p>Si vous ne trouvez pas de solution dans la rubrique d'aide ou que vous rencontrez un problème technique, remplissez le formulaire ci-dessous. Un membre du PNLP ou de l'ANTIM prendra contact avec vous.</p>
 <h2>Contactez-nous</h2>
 {% if form.errors %}<p>Votre demande comporte des erreurs. Merci de les corriger et de reéssayer.</p>{% endif %}
-<form method="POST" action="{% url 'support' %}">
+<form method="POST" action="{% url 'support' %}" enctype="application/x-www-form-urlencoded">
 {% csrf_token %}
 <table>
 {% for field in form %}

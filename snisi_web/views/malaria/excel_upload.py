@@ -6,7 +6,7 @@ from datetime import datetime
 
 from django.shortcuts import render
 
-from bolibana.reporting.excel import IncorrectReportData
+from bolibana.reporting.errors import IncorrectReportData
 from snisi_core.excels.malaria import MalariaExcelForm
 from bolibana.web.decorators import provider_permission
 
@@ -24,7 +24,7 @@ def handle_uploaded_file(f):
 @provider_permission('can_submit_report_via_excel')
 def upload_form(request):
     context = {'category': 'malaria', 'location': 'upload'}
-    web_provider = request.user.get_profile()
+    web_provider = request.user
 
     if request.method == 'POST':
         if 'excel_form' in request.FILES:

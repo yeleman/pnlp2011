@@ -29,7 +29,7 @@ from snisi_core.data import provider_can_or_403
 @provider_permission('can_validate_report')
 def validation_list(request):
     context = {'category': 'malaria', 'location': 'validation'}
-    web_provider = request.user.get_profile()
+    web_provider = request.user
 
     entity = provider_entity(web_provider)
     period = current_reporting_period()
@@ -65,7 +65,7 @@ def validation_list(request):
 @provider_permission('can_validate_report')
 def report_validation(request, report_receipt):
     context = {'category': 'malaria', 'location': 'validation'}
-    web_provider = request.user.get_profile()
+    web_provider = request.user
     type_report = 'MalariaR'
     try:
         report = get_object_or_404(MalariaR, receipt=report_receipt)
@@ -103,7 +103,7 @@ def report_validation(request, report_receipt):
             # create validator and fire
             validator = MalariaRValidator(data_browser, data_only=True,
                                           is_editing=True,
-                                          level=web_provider.first_role().slug)
+                                          level=web_provider.role().slug)
             validator.errors.reset()
             try:
                 validator.validate()
@@ -143,7 +143,7 @@ def report_validation(request, report_receipt):
 @provider_permission('can_validate_report')
 def report_do_validation(request, report_receipt):
     context = {'category': 'malaria', 'location': 'validation'}
-    web_provider = request.user.get_profile()
+    web_provider = request.user
 
     try:
         report = get_object_or_404(MalariaR, receipt=report_receipt)
@@ -158,7 +158,7 @@ def report_do_validation(request, report_receipt):
     report.modified_on = datetime.now()
     with reversion.create_revision():
         report.save()
-        reversion.set_user(web_provider.user)
+        reversion.set_user(web_provider)
     context.update({'report': report})
 
     messages.info(request, u"Le rapport %(receipt)s de %(entity)s "

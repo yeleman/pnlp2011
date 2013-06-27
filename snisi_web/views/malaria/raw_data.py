@@ -25,9 +25,9 @@ from snisi_core.exports import report_as_excel
 @provider_permission('can_view_raw_data')
 def data_browser(request, entity_code=None, period_str=None):
     context = {'category': 'malaria', 'location': 'raw_data'}
-    web_provider = request.user.get_profile()
+    web_provider = request.user
 
-    root = web_provider.first_target()
+    root = web_provider.target()
 
     period = None
     entity = None
@@ -49,7 +49,7 @@ def data_browser(request, entity_code=None, period_str=None):
         entity = get_object_or_404(Entity, slug=entity_code)
 
     if not entity:
-        entity = web_provider.first_target()
+        entity = web_provider.target()
     context.update({'entity': entity})
 
     # check permissions on this entity and raise 403
@@ -101,7 +101,7 @@ def data_browser(request, entity_code=None, period_str=None):
 @provider_required
 def excel_export(request, report_receipt):
     context = {'category': 'malaria'}
-    web_provider = request.user.get_profile()
+    web_provider = request.user
 
     try:
         report = get_object_or_404(MalariaR, receipt=report_receipt)

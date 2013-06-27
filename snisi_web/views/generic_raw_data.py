@@ -31,9 +31,9 @@ def data_browser(request, project_slug, entity_code=None, period_str=None):
                'location': 'raw_data',
                'project': project_slug}
 
-    web_provider = request.user.get_profile()
+    web_provider = request.user
 
-    root = web_provider.first_target()
+    root = web_provider.target()
 
     period = None
     entity = None
@@ -59,7 +59,7 @@ def data_browser(request, project_slug, entity_code=None, period_str=None):
         entity = get_object_or_404(Entity, slug=entity_code)
 
     if not entity:
-        entity = web_provider.first_target()
+        entity = web_provider.target()
     context.update({'entity': entity})
 
     # check permissions on this entity and raise 403
@@ -120,7 +120,7 @@ def excel_export(request, project_slug, report_receipt):
         raise Http404(_(u"Incorrect URL: Project Not Found."))
 
     context = {'category': project.get('slug')}
-    web_provider = request.user.get_profile()
+    web_provider = request.user
 
     try:
         report = get_object_or_404(MalariaR, receipt=report_receipt)

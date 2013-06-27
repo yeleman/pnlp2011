@@ -29,7 +29,7 @@ def current_reporting_period():
 
 def provider_entity(provider):
     """ Entity a Provider is attached to """
-    return provider.first_access().target
+    return provider.target()
 
 
 def get_reports_to_validate(entity, period=current_reporting_period()):
@@ -166,17 +166,16 @@ def entity_children(entity):
 def provider_can(permission, provider, entity=None):
     """ bolean if(not) provider has permission on entity or descendants """
 
-    for access in provider.access.all():
-        if access.role.permissions.filter(slug=permission).count() > 0:
-            # provider as access. Not entity was queried.
-            if entity is None:
-                return True
+    if provider.access.role.permissions.filter(slug=permission).count() > 0:
+        # provider as access. Not entity was queried.
+        if entity is None:
+            return True
 
-            # if entity was queried, we need to find out if entity is
-            # within the descendants of provider's one.
-            if (entity == access.target
-               or entity in access.target.get_descendants()):
-                return True
+        # if entity was queried, we need to find out if entity is
+        # within the descendants of provider's one.
+        if (entity == provider.access.target
+           or entity in provider.access.target.get_descendants()):
+            return True
     return False
 
 

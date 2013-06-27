@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load babel %}
 {% load bolibana %}
 
 {% block title %}Messages{% endblock %}
@@ -26,7 +25,7 @@ function toggleme(num) {
             </td>
         </tr>
         <tr>
-            <form action="" method="post">{% csrf_token %}
+            <form action="" method="post" enctype="application/x-www-form-urlencoded">{% csrf_token %}
             <td>{{form.number.label}}</td>
             <td id="dest_num">{{form.number}}</td>
         </tr>

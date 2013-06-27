@@ -6,11 +6,11 @@
 
 {% block content %}
 <h2>{% trans "My personnal informations" %}</h2>
-<form method="POST" action="{% url 'profile' %}" name="profile">
+<form method="POST" action="{% url 'profile' %}" name="profile" enctype="application/x-www-form-urlencoded">
 {% csrf_token %}
 <table>
 <tr><th>Identifiant</th><td>{{ provider.username }}</td></tr>
-<tr><th>Accès</th><td>{{ provider.first_access }}</td></tr>
+<tr><th>Accès</th><td>{{ provider.access }}</td></tr>
 {{ form.as_table }}
 </table>
 <button class="formbutt default">Enregistrer les modifications</button>
@@ -18,7 +18,7 @@
 
 <h2>{% trans "Change password" %}</h2>
 
-<form method="POST" action="{% url 'profile' %}" name="passwd">
+<form method="POST" action="{% url 'profile' %}" name="passwd" enctype="application/x-www-form-urlencoded">
 {% csrf_token %}
 <table>
 {{ passwd_form.as_table }}

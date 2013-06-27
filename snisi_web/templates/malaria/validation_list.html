@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load babel %}
 {% load humanize %}
 {% load bolibana %}
 
 {% block title %}Rapports en attente de validation{% endblock %}
-{% block pagetitle %}<h1 class="pagetitle">Rapports à valider pour la période de {{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</h1>{% endblock %}
+{% block pagetitle %}<h1 class="pagetitle">Rapports à valider pour la période de {{ current_reporting_period.full_name }}</h1>{% endblock %}
 {% block content-class %}{% if validated %}context withsidebar{% endif %}{% endblock %}
 
 {% block submenu %}{% include "malaria/submenu.html" %}{% endblock %}
@@ -15,7 +14,7 @@
 {% block content %}
 {% if validation_over %}
     <h2>Délai de validation expiré</h2>
-    <p>La période de validation pour le mois de <strong>{{ current_reporting_period.middle|datefmt:"MMMM yyyy" }}</strong> est expirée.</p>
+    <p>La période de validation pour le mois de <strong>{{ current_reporting_period.full_name }}</strong> est expirée.</p>
     {% if level = 'district' %}
     <p>Vous pouvez valider les rapports des Établissement entre le 1<sup>er</sup> et le 5 du mois suivant.</p>
     {% else %}
@@ -28,7 +27,7 @@
         <h2>Rapports validés</h2>
         <ul>
         {% for entity, report in validated %}
-        <li><strong>{{ entity.name }}</strong><br />{{ report.modified_on|datefmt:"dd MMMM YYYY" }}</li>
+        <li><strong>{{ entity.name }}</strong><br />{{ report.modified_on|date:"d F Y" }}</li>
         {% endfor %}
         </ul>
     </div>

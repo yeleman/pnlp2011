@@ -306,7 +306,7 @@ class MalariaExcelForm(ExcelForm):
         report.add_stockout_data(*self.data_for_cat('so'))
         with reversion.create_revision():
             report.save()
-            reversion.set_user(author.user)
+            reversion.set_user(author)
             #report.save()
 
         return report

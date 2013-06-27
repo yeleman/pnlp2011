@@ -16,7 +16,7 @@
 <p>L'accès à cet outil est limité aux partenaires du programme.</p>
 <p>Vous trouverez plus d'informations dans la section <a href="{% url 'about' %}">à propos</a>.</p>
 
-<form method="post" action="{% url 'login' %}">
+<form method="post" action="{% url 'login' %}" enctype="application/x-www-form-urlencoded">
 {% csrf_token %}
 <table>
 <tr><th>{% trans "Username" %}</th><td>{{ form.username }}</td>

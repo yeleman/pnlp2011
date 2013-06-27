@@ -192,7 +192,7 @@ def unfpa_dead_pregnant_woman(message, args, sub_cmd, **kwargs):
         report.add_data(*data_browser.data_for_cat())
         with reversion.create_revision():
             report.save()
-            reversion.set_user(provider.user)
+            reversion.set_user(provider)
 
     except Exception as e:
         message.respond(error_start + u"Une erreur technique s'est "
@@ -318,7 +318,7 @@ def unfpa_dead_children_under5(message, args, sub_cmd, **kwargs):
         report.add_data(*data_browser.data_for_cat())
         with reversion.create_revision():
             report.save()
-            reversion.set_user(provider.user)
+            reversion.set_user(provider)
 
     except Exception as e:
         message.respond(error_start + u"Une erreur technique s'est "

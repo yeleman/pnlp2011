@@ -11,8 +11,8 @@ from nosmsd.utils import send_sms
 def filter_pilot_cscom(provider):
     """ return True if provider is part of pilot CSCOM """
 
-    return provider.first_role().slug == 'cscom' \
-        and provider.first_target().parent.slug in ('nion', 'maci')
+    return provider.role().slug == 'cscom' \
+        and provider.target().parent.slug in ('nion', 'maci')
 
 
 def filter_none(provider):
@@ -22,13 +22,13 @@ def filter_none(provider):
 def filter_district(provider):
     """ return True if district role """
 
-    return provider.first_role().slug == 'district'
+    return provider.role().slug == 'district'
 
 
 def filter_region(provider):
     """ return True if district role """
 
-    return provider.first_role().slug == 'region'
+    return provider.role().slug == 'region'
 
 
 def filter_district_region(provider):
@@ -54,7 +54,7 @@ def send_login(csv_file, provider_filter=filter_none, dry_run=True):
         password = password.strip()
 
         try:
-            provider = Provider.objects.get(user__username=username)
+            provider = Provider.objects.get(username=username)
         except:
             print("ERROR: can't find user: %s" % username)
             continue

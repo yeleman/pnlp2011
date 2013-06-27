@@ -75,7 +75,7 @@ def messages_log(request):
         else:
             phone = sms.identity.split('+223')[0]
 
-        provider = Provider.objects.filter(user__provider__phone_number__contains=phone)
+        provider = Provider.objects.filter(phone_number__contains=phone)
         return provider
 
     all_sms = sms_for_period(current_period())
@@ -151,10 +151,10 @@ def bulk_messaging(request):
     providers = Provider.objects.filter(phone_number__isnull=False)
     all_providers = []
     for pr in providers:
-        all_providers.append(("%s %s %s" % (pr.name(), pr.first_access(),
+        all_providers.append(("%s %s %s" % (pr.name(), pr.access(),
                                             pr.phone_number), pr.phone_number))
         if pr.phone_number_extra:
-            all_providers.append(("%s %s %s" % (pr.name(), pr.first_access(),
+            all_providers.append(("%s %s %s" % (pr.name(), pr.access(),
                                   pr.phone_number_extra), pr.phone_number_extra))
 
     if request.method == "POST":

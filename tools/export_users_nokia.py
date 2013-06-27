@@ -8,8 +8,8 @@ from bolibana.models.Provider import Provider
 def filter_pilot_cscom(provider):
     """ return True if provider is part of pilot CSCOM """
 
-    return provider.first_role().slug == 'cscom' \
-       and provider.first_target().parent.slug in ('nion', 'maci')
+    return provider.role().slug == 'cscom' \
+        and provider.target().parent.slug in ('nion', 'maci')
 
 
 def filter_none(provider):
@@ -19,13 +19,13 @@ def filter_none(provider):
 def filter_district(provider):
     """ return True if district role """
 
-    return provider.first_role().slug == 'district'
+    return provider.role().slug == 'district'
 
 
 def filter_region(provider):
     """ return True if district role """
 
-    return provider.first_role().slug == 'region'
+    return provider.role().slug == 'region'
 
 
 def filter_district_region(provider):
@@ -53,8 +53,8 @@ def export_users(csv_file, provider_filter=filter_none):
 
         line = tpl % {'fname': provider.first_name,
                       'lname': provider.last_name,
-                      'role': provider.first_role(),
-                      'target': provider.first_target(),
+                      'role': provider.role(),
+                      'target': provider.target(),
                       'phone': provider.phone_number,
                       'phone2': provider.phone_number_extra}
 

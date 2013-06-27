@@ -8,7 +8,7 @@
         tooltip: {formatter: function() { return ''+ this.series.name +': '+ this.y +PERCENT;} },
         plotOptions: {line: {animation: false, dataLabels: {enabled: true}, enableMouseTracking: false },
                       column: {animation: false, enableMouseTracking: false, dataLabels: {enabled: true, formatter: function() {if (this.y === null) { return "n/a" } else { return '' + this.y.toString().replace('.', ',') + PERCENT;} }} }},
-        exporting: {enabled: true}, credits: {enabled: true, text: "© PNLP – {{ eperiod.middle|datefmt:"MMMM yyyy" }}", href: null},
+        exporting: {enabled: true}, credits: {enabled: true, text: "© PNLP – {{ eperiod.full_name }}", href: null},
       });
 {% if graph.options.only_percent %}
 adjustMaxValueFor({{ id }});

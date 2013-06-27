@@ -8,7 +8,7 @@
 {% block content %}
     <table>
         <tr>
-        <form action="" method="post">{% csrf_token %}
+        <form action="" method="post" enctype="application/x-www-form-urlencoded">{% csrf_token %}
             <td>{{form.role.label}} {{form.role}}</td>
             <td>{{form.entity.label}} {{form.entity}}</td>
             <td><input class= "buttons" type="submit" value="ok"/></td>
@@ -19,14 +19,14 @@
         <table>
         <tr><th>nom</th><th>Prénom</th><th>email</th><th>Téléphone</th><th>Accès</th></tr>
         {% for contact in contacts %}
-        <tr><td>{{contact.get_last_name}}</td><td>{{contact.get_first_name}}</td><td>{{contact.get_email}}</td><td>{{contact.phone_number|phone}}{% if contact.phone_number_extra %}<br />{{contact.phone_number_extra|phone}}{% endif %}</td><td>{{contact.first_access}}</td></tr>
+        <tr><td>{{contact.get_last_name}}</td><td>{{contact.get_first_name}}</td><td>{{contact.get_email}}</td><td>{{contact.phone_number|phone}}{% if contact.phone_number_extra %}<br />{{contact.phone_number_extra|phone}}{% endif %}</td><td>{{contact.access}}</td></tr>
         {% endfor %}
         </table>
 
         <table>
             <tr><th >Envoi SMS</th></tr>
             <tr>
-            <form action="/adressbook_send_sms/" method="post">{% csrf_token %}
+            <form action="/adressbook_send_sms/" method="post" enctype="application/x-www-form-urlencoded">{% csrf_token %}
                 <input type="hidden" name='role' value={{form.role.value}}></input>
                 <input  type="hidden" name='entity' value={{form.entity.value}}></input>
                 <td><p>{{form_msg.text.label}}</p><p>{{form_msg.text}}</p><p><input class= "buttons" type="submit" value="Envoyer" onclick="javascript:return confirm('Vous allez envoyer {{ contacts.count }} SMS');"></p></td>

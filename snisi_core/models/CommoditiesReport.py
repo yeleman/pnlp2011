@@ -11,7 +11,7 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
 from bolibana.models.Period import MonthPeriod
-from bolibana.models.Report import ValidationMixin
+from bolibana.models.BaseReport import ValidationMixin
 from bolibana.tools.utils import generate_receipt
 
 from common import (pre_save_report, post_save_report, report_create_from,
