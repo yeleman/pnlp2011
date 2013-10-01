@@ -106,8 +106,8 @@ def report_as_excel(report):
             return value
         else:
             for v, name in report.YESNO:
-                if v.__str__() == value:
-                    return name.__unicode__()
+                if str(v) == value:
+                    return name
             return value
 
     def is_aggregated(report):

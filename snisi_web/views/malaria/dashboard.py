@@ -15,7 +15,7 @@ from snisi_core.data import current_reporting_period, contact_for
 def nb_reports_for(entity, period):
     nb_rec = MalariaR.objects.filter(entity__parent=entity,
                                      period=period).count()
-    next_period = period.next()
+    next_period = period.following()
     if entity.type.slug == 'district':
         nb_ent = entity.get_children().count()
         incoming_sms = None

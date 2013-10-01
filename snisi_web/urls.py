@@ -14,7 +14,10 @@ from views import monitoring as monitoring
 from views import malaria as malaria
 # from views import epidemiology as epidemiology
 # from views import reproduction as reproduction
-from bolibana.web import views as bolibana
+from bolibana.web.views.profile import edit_profile
+from bolibana.web.views.providers import ProvidersListView, add_edit_user, enable_disable_user, password_user
+from bolibana.web.views.entities import EntitiesListView, add_edit_entity
+from bolibana.web.views.addressbook import addressbook, adressbook_send_sms
 from bolibana.web.decorators import provider_permission
 from snisi.settings import STATIC_ROOT, MEDIA_ROOT
 
@@ -37,24 +40,23 @@ DAY:        01-01-2013                          [0-9]{2}-[0-9]{2}-[0-9]{4}
 """
 RGXP_PERIOD = r'(?P<period_str>[0-9]{4}|[0-9]{2}\-[0-9]{4}|Q[1-3]\-[0-9]{4}|W[0-9]{1,2}\-[0-9]{4}|[0-9]{2}\-[0-9]{2}\-[0-9]{4})/?$'
 
-urlpatterns = patterns('',
-
+urlpatterns = patterns(
+    '',
     url(r'^/?$', main_index, name='index'),
-    url(r'^profile/$', bolibana.profile.edit_profile, name='profile'),
+    url(r'^profile/$', edit_profile, name='profile'),
 
     # login
     url(r'^login/$', 'django.contrib.auth.views.login',
-         {'template_name': 'login_django.html'}, name='login'),
+        {'template_name': 'login_django.html'}, name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout',
-         {'template_name': 'logout_django.html'}, name='logout'),
+        {'template_name': 'logout_django.html'}, name='logout'),
 
     # SNISI
     url(r'^snisi/dashboard/?$', views.generic_dashboard,
         {'project_slug': 'snisi'}, name='snisi_dashboard'),
 
     # Malaria
-    url(r'^malaria/dashboard/?$', malaria.dashboard.dashboard,
-        name='malaria_dashboard'),
+    url(r'^malaria/dashboard/?$', malaria.dashboard.dashboard, name='malaria_dashboard'),
     url(r'^malaria/upload/?$', malaria.excel_upload.upload_form, name='upload'),
 
     # district, region
@@ -91,14 +93,10 @@ urlpatterns = patterns('',
         name='malaria_indicator_data'),
 
     # ANTIM : Transmission
-    url(r'^monitoring/source_data/?$', monitoring.source_data,
-        name='monitoring_source_data'),
-    url(r'^monitoring/messages_log/?$', monitoring.messages_log,
-        name='monitoring_messages_log'),
-    url(r'^monitoring/validation/?$', monitoring.validation,
-        name='monitoring_validation'),
-    url(r'^monitoring/bulk_messaging/?$', monitoring.bulk_messaging,
-        name='monitoring_messaging'),
+    url(r'^monitoring/source_data/?$', monitoring.source_data, name='monitoring_source_data'),
+    url(r'^monitoring/messages_log/?$', monitoring.messages_log, name='monitoring_messages_log'),
+    url(r'^monitoring/validation/?$', monitoring.validation, name='monitoring_validation'),
+    url(r'^monitoring/bulk_messaging/?$', monitoring.bulk_messaging, name='monitoring_messaging'),
 
     # Reproduction
     url(r'^reproduction/dashboard/?$', views.generic_dashboard,
@@ -114,41 +112,34 @@ urlpatterns = patterns('',
 
     # ANTIM : USERS
     url(r'^users/?$',
-        provider_permission('can_manage_users')(bolibana.providers.
-                                                ProvidersListView.as_view()),
+        provider_permission('can_manage_users')(ProvidersListView.as_view()),
         name='list_users'),
-    url(r'^users/add$', bolibana.providers.add_edit_user, name='add_user'),
-    url(r'^users/edit/(?P<user_id>[0-9]+)$',
-        bolibana.providers.add_edit_user, name='edit_user'),
+    url(r'^users/add$', add_edit_user, name='add_user'),
+    url(r'^users/edit/(?P<user_id>[0-9]+)$', add_edit_user, name='edit_user'),
     url(r'^users/disable/(?P<user_id>[0-9]+)$',
-        bolibana.providers.enable_disable_user, name='disable_user',
+        enable_disable_user, name='disable_user',
         kwargs={'activate': False}),
     url(r'^users/enable/(?P<user_id>[0-9]+)$',
-        bolibana.providers.enable_disable_user, name='enable_user',
+        enable_disable_user, name='enable_user',
         kwargs={'activate': True}),
     url(r'^users/new_password/(?P<user_id>[0-9]+)/(?P<pwd_id>[0-9]+)$',
-        bolibana.providers.password_user, name='password_user'),
+        password_user, name='password_user'),
 
     # ANTIM : ENTITIES
     url(r'^entities/?$',
-        provider_permission('can_manage_entities')(bolibana.entities.
-                                                EntitiesListView.as_view()),
+        provider_permission('can_manage_entities')(EntitiesListView.as_view()),
         name='list_entities'),
-    url(r'^entities/add$', bolibana.entities.add_edit_entity, name='add_entity'),
-    url(r'^entities/edit/(?P<entity_id>[0-9]+)$',
-        bolibana.entities.add_edit_entity, name='edit_entity'),
+    url(r'^entities/add$', add_edit_entity, name='add_entity'),
+    url(r'^entities/edit/(?P<entity_id>[0-9]+)$', add_edit_entity, name='edit_entity'),
 
     # static web pages
 
-    url(r'^help/$', TemplateView.as_view(template_name='help.html'),
-        name='help'),
-    url(r'^about/$', TemplateView.as_view(template_name='about.html'),
-        name='about'),
+    url(r'^help/$', TemplateView.as_view(template_name='help.html'), name='help'),
+    url(r'^about/$', TemplateView.as_view(template_name='about.html'), name='about'),
 
     url(r'^support/$', views.contact, name='support'),
-    url(r'^annuaire/$', bolibana.addressbook.addressbook, name='addressbook'),
-    url(r'^adressbook_send_sms/$', bolibana.addressbook.adressbook_send_sms,
-                                   name='sms'),
+    url(r'^annuaire/$', addressbook, name='addressbook'),
+    url(r'^adressbook_send_sms/$', adressbook_send_sms, name='sms'),
 
     # development only
     url(r'^static/admin/(?P<path>.*)$',

@@ -560,7 +560,7 @@ class EndOfMonth(Alert):
         message = (u"[PNLP] La periode %(period)s va commencer. "
                    u"Il faut s'occuper de la surveillance de la collecte "
                    u"des donnees primaires."
-                   % {'period': self.args.period.next().full_name()})
+                   % {'period': self.args.period.following().full_name()})
 
         send_sms(to=settings.HOTLINE_NUMBER, text=message)
 

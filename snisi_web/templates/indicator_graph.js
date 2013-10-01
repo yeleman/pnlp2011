@@ -1,4 +1,4 @@
-{% load babel %}{% load bolibana %}PERCENT = {% if graph.options.only_percent %}'%'{% else %}''{% endif %};
+{% load bolibana %}PERCENT = {% if graph.options.only_percent %}'%'{% else %}''{% endif %};
 {{ id }} = new Highcharts.Chart(
         {chart: {renderTo: '{{ id }}', defaultSeriesType: '{{ graph.graph_type }}', backgroundColor: '#ebebeb', },
         legend: {}, title: {text: null},

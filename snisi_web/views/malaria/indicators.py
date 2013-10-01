@@ -74,11 +74,11 @@ def indicator_browser(request, entity_code=None, period_str=None,
                                                    month=int(eperiod_str[:2]),
                                                    dont_create=True)
 
-            # loop on Period.next() from start one to end one.
+            # loop on Period.following() from start one to end one.
             period = speriod
             while period.middle() <= eperiod.middle():
                 periods.append(period)
-                period = period.next()
+                period = period.following()
         except:
             raise Http404(_(u"Requested period interval (%(period_str)s) "
                             u"includes inexistant periods.")
