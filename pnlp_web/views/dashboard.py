@@ -26,7 +26,7 @@ def nb_reports_for(entity, period):
     else:
         nb_ent = 1
         number = contact_for(entity, True).phone_number
-        if not number.startswith('+223'):
+        if not number is None and number.startswith('+223'):
             number = '+223' + number
         incoming_sms = Inbox.objects.filter(receivingdatetime__gte=next_period.start_on,
                                             receivingdatetime__lte=next_period.end_on,
