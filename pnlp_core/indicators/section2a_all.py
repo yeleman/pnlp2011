@@ -128,7 +128,7 @@ class NbreCasSuspectesTestesConfirmes(CasSimplesGraves):
 
         confirmés) tout âge confondu. """
 
-    name = u"Figure 5"
+    name = u"Figure 5.a"
     caption = u"Nombre de cas de paludisme par mois  (cas confirmés," \
               u" cas simples, cas graves) tout âge confondu."
 
@@ -139,5 +139,51 @@ class NbreCasSuspectesTestesConfirmes(CasSimplesGraves):
                        'only_percent': False, \
                        'age': 'all'}
 
-WIDGETS = [TousCasPaludismeNotifies, ProportionsPaludismeConsultationsTTC, \
-           NbreCasSuspectesTestesConfirmesALL, NbreCasSuspectesTestesConfirmes]
+class ProportionCasSuspectsTestes(IndicatorTable):
+    """ Graphe: Proportion de cas suspects testés parmi les cas suspects et proportion de cas
+
+        confirmés parmi les cas testés chez les enfants de moins de 5 ans. """
+
+    name = u"Figure 5.b"
+    title = u""
+    caption = u"Proportion de cas suspects testés parmi les cas suspects" \
+              u" et proportion de cas confirmés parmi les cas testés chez" \
+              u" les enfants de moins de 5 ans"
+    type = 'graph'
+
+    default_options = {'with_percentage': True, \
+                       'with_total': False, \
+                       'with_reference': False, \
+                       'with_data': False,
+                       'only_percent': True,
+                       'age': 'u5'}
+
+    def period_is_valid(self, period):
+        return MalariaReport.validated.filter(entity=self.entity, \
+                                              period=period).count() > 0
+
+    @reference
+    @indicator(0, 'u5_total_suspected_malaria_cases')
+    @label(u"Total des suspects chez les moins de 5 ans")
+    def u5_total_suspected_malaria_cases(self, period):
+        report = get_report_for(self.entity, period)
+        return report.u5_total_suspected_malaria_cases
+
+    @indicator(1, 'u5_total_suspected_malaria_cases')
+    @label(u"% de cas suspects testés")
+    def u5_total_tested_malaria_cases(self, period):
+        report = get_report_for(self.entity, period)
+        return report.u5_total_tested_malaria_cases
+
+    @indicator(2, 'u5_total_tested_malaria_cases')
+    @label(u"% de cas confirmés")
+    def u5_total_confirmed_malaria_cases(self, period):
+        report = get_report_for(self.entity, period)
+        return report.u5_total_confirmed_malaria_cases
+
+WIDGETS = [TousCasPaludismeNotifies, ProportionsPaludismeConsultationsTTC,
+           NbreCasSuspectesTestesConfirmesALL, NbreCasSuspectesTestesConfirmes,
+           ProportionCasSuspectsTestes]
+
+
+
